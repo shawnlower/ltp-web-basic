@@ -26,7 +26,10 @@
               "./src/assets/css/styles.css",
               "./src/assets/css/sticky-footer.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./src/assets/js/packery.pkgd.js",
+              "./src/assets/js/draggabilly.pkgd.js"
+            ]
           },
           "configurations": {
             "production": {

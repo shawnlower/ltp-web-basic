@@ -1,12 +1,16 @@
 import {
+  AfterViewInit,
   Component,
   Output,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import { Item } from '../item';
 import { ItemService } from '../item.service';
 
+declare var Draggabilly: any; // drag+drop
+declare var Packery: any;    // grid layout library
 
 /**
  * @ItemsList: A component for displaying items
@@ -17,12 +21,32 @@ import { ItemService } from '../item.service';
   templateUrl: './items-list.component.html',
   styleUrls: ['./items-list.component.css']
 })
-export class ItemsListComponent implements OnInit {
+export class ItemsListComponent implements OnInit, AfterViewInit {
 
   items: Item[];
   currentItem: Item;
+  private pckry: any;
+
+  @ViewChild('grid') grid;
 
   constructor(private itemService: ItemService) {
+  }
+
+  ngAfterViewInit(){
+    var elem = document.querySelector('.grid');
+    var pckry = new Packery( elem, {
+
+      itemSelector: '.grid-item',
+      gutter: 10
+    });
+
+    // Enable dragging
+    console.log(pckry.items);
+    pckry.getItemElements().forEach( (gridItem) => {
+      var draggie = new Draggabilly( gridItem );
+      pckry.bindDraggabillyEvents( draggie )
+    });
+
   }
 
   getItems(){
