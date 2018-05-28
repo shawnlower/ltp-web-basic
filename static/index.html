@@ -1,32 +1,44 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Web UI for LTP">
+    <meta name="author" content="Shawn Lower">
+
+    <!-- For mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="css/sticky-footer.css">
   </head>
   <body>
     <header>
-      <nav>
-        <a href="#">Fixed navbar</a>
-        <ul>
-          <li>First link</li>
-          <li>Second link</li>
-          <li>Third link</li>
-        </ul>
+      <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a class="navbar-brand" href="#">LTP Basic UI</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav">
+            <li class="nav-item nav-link active">First link</li>
+            <li class="nav-item nav-link">Second link</li>
+            <li class="nav-item nav-link disabled">Third link</li>
+          </ul>
+        </div>
       </nav>
-      <main>
-        <h1>Main content</h1>
-        <p>And a lead paragraph
-      </main>
-      <footer>
-        &copy; 2018 Shawn Lower
-      </footer>
     </header>
-
-    <!-- Load bootstrap and its dependencies -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+    <main role="main" class="container">
+      <div class="jumbotron">
+        <h1>Main content</h1>
+        <p>And a lead paragraph</p>
+      </div>
+    </main>
+    <footer class="footer">
+      <div>
+        <span>&copy; 2018 Shawn Lower</span>
+      </div>
+      <!-- Load bootstrap and its dependencies -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </footer>
   </body>
 </html>
