@@ -2,10 +2,14 @@
   <nav class="navbar navbar-dark bg-dark navbar-expand-md">
     <a class="navbar-brand" href="#">LTP Basic UI</a>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item nav-link active"><a class="nav-link" routerLink='/items'>Items</a></li>
         <li class="nav-item nav-link disabled"><a class="nav-link" routerLink='/activities'>Activities</a></li>
       </ul>
+      <form class="form-inline my-2 my-lg-0">
+      <input #searchBox class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
     </div>
   </nav>
 </header>
