@@ -1,6 +1,5 @@
 import {
   Component,
-  Input,
   Output,
   OnInit
 } from '@angular/core';
@@ -20,9 +19,8 @@ import { ItemService } from '../item.service';
 })
 export class ItemsListComponent implements OnInit {
 
-  @Input() itemList: Item[];
-
   items: Item[];
+  currentItem: Item;
 
   constructor(private itemService: ItemService) {
   }
@@ -30,6 +28,19 @@ export class ItemsListComponent implements OnInit {
   getItems(){
     this.items = this.itemService.getItems();
     console.log(`Loaded ${this.items.length.toString()} items.`);
+  }
+
+  selectItem(item: Item): void {
+    if(this.currentItem === item){
+      this.currentItem = null;
+    } else {
+      this.currentItem = item;
+    }
+
+  }
+
+  isSelected(item: Item): boolean {
+    return this.currentItem === item;
   }
 
   ngOnInit() {

@@ -1,8 +1,9 @@
 <div class="card-columns mt-2">
   <div class="col-sm-6 mb-2"
        *ngFor="let item of this.items">
-    <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card" style="width: 18rem;"
+      [class.bg-secondary]="isSelected(item)"
+      (click)='selectItem(item)'>
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text">{{ item.url }}</p>
