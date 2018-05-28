@@ -1,21 +1,39 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<header>
+  <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+    <a class="navbar-brand" href="#">LTP Basic UI</a>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav">
+        <li class="nav-item nav-link active">First link</li>
+        <li class="nav-item nav-link">Second link</li>
+        <li class="nav-item nav-link disabled">Third link</li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>LTP Basic Web UI</h1>
+    <hr />
+    <h2>Tasks</h2>
+    <ul>
+      <li><s>Create basic bootstrap template</s></li>
+      <li>Create ng app</li>
+      <li>Replace main container with ng router</li>
+      <li>Create angular service for items</li>
+      <li>Create UI for displaying items</li>
+      <li>Create UI for creating a new item</li>
+      <li>Create UI for search</li>
+      <li>Wire up real backend :)</li>
+    </ul>
+  </div>
+</main>
+<footer class="footer">
+  <div>
+    <span>&copy; 2018 Shawn Lower</span>
+  </div>
+  <!-- Load bootstrap and its dependencies -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</footer>
 <router-outlet></router-outlet>
