@@ -1,4 +1,6 @@
-import { Item } from './item';
+import { Action } from '@ngrx/store';
+
+import { Item } from '../models/item.model';
 
 export const ITEMS: Item[] = [
   new Item(

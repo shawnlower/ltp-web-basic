@@ -9,10 +9,12 @@ import {
 import { Action, Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 
-import { Item } from '../item';
-import * as itemActions from '../item.actions';
-import { ItemService } from '../item.service';
-import { AppState } from '../app.state';
+import * as appActions from '../actions/app.actions';
+import * as itemActions from '../actions/item.actions';
+
+import { Item } from '../models/item.model';
+import * as fromRoot from '../reducers';
+import { ItemService } from '../services/item.service';
 
 declare var Draggabilly: any; // drag+drop
 declare var Packery: any;    // grid layout library
@@ -31,15 +33,13 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   items: Item[];
   currentItem: Item;
 
-  state: AppState;
-
   private pckry: any;
 
   @ViewChild('grid') grid;
 
-  constructor(private itemService: ItemService, public store: Store<AppState>) {
+  constructor(private itemService: ItemService, public store: Store<fromRoot.State>) {
     this.getItems();
-    store.subscribe(state => this.updateMessage(state));
+    store.subscribe(state => console.log('state: ', state));
   }
 
   ngAfterViewInit() {
@@ -62,15 +62,13 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   updateMessage(state) {
     // this.state.forEach(m => this.message = m.dataType);
     console.log('updateMessage: updating with', state);
-    console.log('updateMessage: this.state: ', this.state);
   }
 
   getItems() {
     // Fetch all items from the service
 
     this.items = this.itemService.getItems();
-    this.items.map(item => this.store.dispatch({ type: itemActions.ADD_ITEM,
-      payload: item}));
+    this.items.map(item => this.store.dispatch(new itemActions.ItemLoaded(item)));
     console.log(`Loaded ${this.items.length.toString()} items.`);
   }
 
@@ -78,12 +76,9 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     // Sets focused property on an item
 
     if (this.currentItem && this.currentItem === item) {
-      this.store.dispatch({ type: itemActions.DESELECT_ITEM, payload: item });
       this.currentItem = null;
     } else {
       this.currentItem = item;
-      this.store.dispatch({ type: itemActions.SELECT_ITEM,
-                                   payload: item });
     }
   }
 

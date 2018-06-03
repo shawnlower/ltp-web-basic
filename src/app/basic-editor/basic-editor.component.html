@@ -1,0 +1,13 @@
+<form [formGroup]="form">
+  <label for='url'>URL: </label><input formControlName="url" placeholder="Your name"><br>
+  <label for='dataType'>dataType: </label><input formControlName="url" placeholder="Your name">
+</form>
+
+<div *ngIf="testitem">
+the testitem div
+{{ testitem }}
+</div>
+<div *ngIf="item">
+This is the div.
+{{ item }}
+</div>

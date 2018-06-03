@@ -6,14 +6,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ItemsListComponent } from './items-list/items-list.component';
 import { ModalEditorComponent } from './modal-editor/modal-editor.component';
-import { itemReducer } from './item';
 import { BasicEditorComponent } from './basic-editor/basic-editor.component';
+import { reducer } from './reducers';
+// import { reducer } from './reducers/item.reducer';
 
 @NgModule({
   declarations: [
@@ -29,9 +32,20 @@ import { BasicEditorComponent } from './basic-editor/basic-editor.component';
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot({ item: itemReducer })
+    /**
+     * StoreModule.provideStore is imported once in the root module, accepting a reducer
+     * function or object map of reducer functions. If passed an object of
+     * reducers, combineReducers will be run creating your application
+     * meta-reducer. This returns all providers for an @ngrx/store
+     * based application.
+    StoreModule.forRoot(reducer),
+     */
+    StoreModule.forRoot({ item: reducer }),
+    StoreDevtoolsModule.instrument(),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() { }
+}

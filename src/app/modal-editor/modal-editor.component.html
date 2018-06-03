@@ -1,0 +1,8 @@
+<div [@modal-editor] *ngIf="visible" class="modal-editor">
+	<button *ngIf="closable" (click)="close()" aria-label="Close" class="modal-editor__close-btn">X</button>
+	<app-basic-editor
+	   [testitem]="this.testitem"
+	   [item]="item$ | async"
+	></app-basic-editor>
+</div>
+<div *ngIf="visible" class="overlay" (click)="close()"></div>
