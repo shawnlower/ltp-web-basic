@@ -1,12 +1,25 @@
+<div>
+  <button text="pop" #pop (click)="this.items.pop()">POP</button>
+  <button text="next" (click)="select('next')">NEXT</button>
+  <button text="prev" (click)="select('prev')">PREV</button>
+</div>
+<div>
+  <span *ngIf="this.state">{{ this.state }}</span><br>
+  <span *ngIf="this.currentItem">{{ this.currentItem.url }}</span><br>
+  <span *ngIf="this.message">{{ this.message }}</span>
+</div>
 <div class="grid">
   <div class="grid-item"
       [class.bg-secondary]="isSelected(item)"
       (click)='selectItem(item)'
-       *ngFor="let item of this.items">
+       *ngFor="let item of items; let i=index">
     <div class="card-body">
-      <h5 class="card-title">Card title</h5>
+      <h5 class="card-title">Card number {{ i }}</h5>
       <p class="card-text">{{ item.url }}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <a href="#" class="btn btn-primary"
+                  (click)="showDialog = !showDialog"
+      >Edit</a>
+
     </div>
   </div>
 </div>
