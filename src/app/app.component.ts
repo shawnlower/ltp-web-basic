@@ -36,11 +36,15 @@ export class AppComponent {
     } else if ( event.key === 'e' ) {
       // Toggle the editor
       console.log(this.showEditor$.pipe(v => v));
-      this.store.dispatch(new appActions.ToggleEditor());
+      this.toggleEditor();
     } else if ( event.key === 'n' ) {
       // Toggle the editor
-      this.store.dispatch(new appActions.ToggleEditor());
+      this.toggleEditor();
     }
+  }
+
+  toggleEditor() {
+      this.store.dispatch(new appActions.ToggleEditor());
   }
 
   filterSearch() {
