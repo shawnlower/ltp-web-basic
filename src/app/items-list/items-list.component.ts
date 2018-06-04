@@ -8,7 +8,6 @@ import {
   QueryList,
   Renderer2,
   /* Not using Renderer2 because https://github.com/angular/angular/issues/19554 */
-  ViewChild,
   ViewChildren
 } from '@angular/core';
 
@@ -25,7 +24,6 @@ import { Item } from '../models/item.model';
 import * as fromRoot from '../reducers';
 import { ItemService } from '../services/item.service';
 
-declare var Draggabilly: any; // drag+drop
 declare var Packery: any;    // grid layout library
 
 /**
@@ -48,7 +46,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   private pckry: any;
 
   @Input('about') about;
-  @ViewChild('grid') grid;
 
   @ViewChildren(CardComponent) cards: QueryList<CardComponent>;
 
@@ -82,9 +79,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   getItems() {
     // Fetch all items from the service
 
-    // this.items = this.itemService.getItems();
-    // this.items = this.itemService.getItems();
-    // this.items.map(item => this.store.dispatch(new itemActions.ItemLoaded(item)));
     const items = this.itemService.getItems();
     items.map(item => this.store.dispatch(new itemActions.ItemLoaded(item)));
     console.log(`Loaded ${items.length.toString()} items.`);
@@ -97,8 +91,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
   selectItem(item: Item): void {
     // Sets focused property on an item
+
+    // Get the currently selected card (returned as array)
     const selectedCard = this.cards.filter(card => card.selected);
-    if (selectedCard) {
+    if (selectedCard.length > 0) {
       selectedCard.pop().selected = false;
     }
 
@@ -125,7 +121,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
     if (this.cards.length === 1) {
       this.cards.first.selected = true;
-      return
+      return;
     }
 
 
@@ -138,8 +134,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
       return;
     } else {
       selectedCard.selected = false;
-      // const url = this.currentItem.url;
-      // const element = this.renderer.selectRootElement(`[about="${url}"]`);
     }
 
     switch (action) {
@@ -153,7 +147,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
         break;
 
       case 'prev':
-        console.log('Selecting previous item');
+        console.log('Selecting previous item', cardIdx);
         if (cardIdx > 0) {
           this.cards.toArray()[cardIdx - 1].selected = true;
         } else {
@@ -162,7 +156,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
         break;
 
       default:
-        console.log('Selecting with no option?');
         break;
     }
   }
@@ -172,7 +165,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     if (this.currentItem) {
       return this.currentItem.url === item.url;
     } else {
-      return false
+      return false;
     }
   }
 
