@@ -23,7 +23,7 @@ export interface State {
   item: fromItem.State;
 }
 
-const reducers = {
+export const reducers = {
   app: fromApp.reducer,
   item: fromItem.reducer
 };

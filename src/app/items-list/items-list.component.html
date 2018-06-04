@@ -3,23 +3,11 @@
   <button text="next" (click)="select('next')">NEXT</button>
   <button text="prev" (click)="select('prev')">PREV</button>
 </div>
-<div>
-  <span *ngIf="this.state">{{ this.state }}</span><br>
-  <span *ngIf="this.currentItem">{{ this.currentItem.url }}</span><br>
-  <span *ngIf="this.message">{{ this.message }}</span>
-</div>
-<div class="grid">
+<div #grid class="grid">
   <div class="grid-item"
-      [class.bg-secondary]="isSelected(item)"
+       *ngFor="let item of items$ | async; let i=index">
+    <app-card [item]="item" [selected]="isSelected(item)"
       (click)='selectItem(item)'
-       *ngFor="let item of items; let i=index">
-    <div class="card-body">
-      <h5 class="card-title">Card number {{ i }}</h5>
-      <p class="card-text">{{ item.url }}</p>
-      <a href="#" class="btn btn-primary"
-                  (click)="showDialog = !showDialog"
-      >Edit</a>
-
-    </div>
+      ></app-card>
   </div>
 </div>

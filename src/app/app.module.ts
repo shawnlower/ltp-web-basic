@@ -16,7 +16,8 @@ import { ItemsListComponent } from './items-list/items-list.component';
 import { ModalEditorComponent } from './modal-editor/modal-editor.component';
 import { BasicEditorComponent } from './basic-editor/basic-editor.component';
 import { reducer } from './reducers';
-// import { reducer } from './reducers/item.reducer';
+import { reducers } from './reducers';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { reducer } from './reducers';
     HomeComponent,
     ItemsListComponent,
     ModalEditorComponent,
-    BasicEditorComponent
+    BasicEditorComponent,
+    CardComponent
   ],
   imports: [
     AppRoutingModule,
@@ -40,7 +42,7 @@ import { reducer } from './reducers';
      * based application.
     StoreModule.forRoot(reducer),
      */
-    StoreModule.forRoot({ item: reducer }),
+    StoreModule.forRoot({... reducers }),
     StoreDevtoolsModule.instrument(),
   ],
   providers: [],

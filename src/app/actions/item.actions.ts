@@ -18,5 +18,16 @@ export class ItemLoaded implements Action {
   }
 }
 
+/*
+ * Remove an item from the current view
+ */
+export class RemoveItem implements Action {
+  readonly type = REMOVE_ITEM;
+
+  constructor(public payload: Item) {
+  }
+}
+
 export type Actions
-  = ItemLoaded;
+  = ItemLoaded
+  | ItemLoaded;

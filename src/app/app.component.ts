@@ -5,6 +5,7 @@ import {
   ViewChildren
 } from '@angular/core';
 
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from './reducers';
@@ -18,9 +19,10 @@ import * as appActions from './actions/app.actions';
 export class AppComponent {
   @ViewChildren('searchBox') vc;
 
-    showEditor: boolean;
+  showEditor$: Observable<boolean>;
 
   constructor(public store: Store<fromRoot.State>) {
+    this.showEditor$ = store.select(state => state.app.showEditor);
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -32,20 +34,21 @@ export class AppComponent {
     } else if ( event.key === '?' ) {
       alert('HELP');
     } else if ( event.key === 'e' ) {
-      this.store.dispatch(new appActions.ToggleEditorAction());
-      // this.toggleEditor();
+      // Toggle the editor
+      console.log(this.showEditor$.pipe(v => v));
+      this.store.dispatch(new appActions.ToggleEditor());
     } else if ( event.key === 'n' ) {
-      this.toggleEditor();
+      // Toggle the editor
+      this.store.dispatch(new appActions.ToggleEditor());
     }
   }
 
+  filterSearch() {
+    console.log('filter search');
+  }
 
-    toggleEditor() {
-      this.showEditor = !this.showEditor;
-      if ( this.showEditor ) {
-            console.log( 'Editor modal visible.' );
-      } else {
-            console.log( 'Editor modal hidden.' );
-      }
-    }
+  doSearch() {
+    console.log('SEARCHING!!!');
+  }
+
 }

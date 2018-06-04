@@ -1,48 +1,45 @@
 import { Item } from '../models/item.model';
-
 import * as actions from '../actions/item.actions';
-
-export const initialState: State = {
-  loaded: false,
-  data: [],
-};
 
 export interface State {
   loaded: boolean;
   data: Item[];
 }
 
+export const initialState: State = {
+  loaded: false,
+  data: [],
+};
+
 export function reducer(state: State = initialState, action) {
 
-  console.log('Received action', action.type);
-  console.log('Received state: ', state);
   switch (action.type) {
     case actions.LOADED_ITEM: {
-      console.log('Adding item');
+      console.log(action.type);
       const data = [...state.data, action.payload];
       return { ...state, data };
     }
 
     case actions.REMOVE_ITEM: {
-      console.log('Removing item');
+      console.log(action.type);
       const data = state.data.filter(
         item => item !== action.payload
       );
+      console.log('data', data);
+      console.log('payload', action.payload);
       return { ...state, data };
     }
 
     case actions.SELECT_ITEM:
-      console.log('Selected item: ' + JSON.stringify(action.payload));
+      console.log(action.type);
       return state;
 
     case actions.DESELECT_ITEM:
-      console.log('De-selected item: ' + JSON.stringify(action.payload));
+      console.log(action.type);
       return state;
 
     default:
-      console.log('itemReducer: default action');
       return state;
 
   }
 }
-
