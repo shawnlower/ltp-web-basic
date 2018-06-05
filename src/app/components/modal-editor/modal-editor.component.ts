@@ -8,12 +8,12 @@ import {
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { Action, Store, select } from '@ngrx/store';
-import * as fromRoot from '../reducers';
-import * as appActions from '../actions/app.actions';
+import * as fromRoot from '../../reducers';
+import * as appActions from '../../actions/app.actions';
 
 import { Subject, Observable } from 'rxjs';
 
-import { Item } from '../models/item.model';
+import { Item } from '../../models/item.model';
 
 @Component({
   selector: 'app-modal-editor',

@@ -8,8 +8,8 @@ import {
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from './reducers';
-import * as appActions from './actions/app.actions';
+import * as fromRoot from '../../reducers';
+import * as appActions from '../../actions/app.actions';
 
 @Component({
   selector: 'app-root',

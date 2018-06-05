@@ -1,23 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {
-         BrowserAnimationsModule
-} from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { ItemsListComponent } from './items-list/items-list.component';
-import { ModalEditorComponent } from './modal-editor/modal-editor.component';
+import { AppComponent } from './components/app/app.component';
 import { BasicEditorComponent } from './basic-editor/basic-editor.component';
+import { CardComponent } from './components/card/card.component';
+import { HomeComponent } from './components/home/home.component';
+import { ItemsListComponent } from './components/items-list/items-list.component';
+import { ModalEditorComponent } from './components/modal-editor/modal-editor.component';
+
 import { reducer } from './reducers';
 import { reducers } from './reducers';
-import { CardComponent } from './card/card.component';
 
 @NgModule({
   declarations: [

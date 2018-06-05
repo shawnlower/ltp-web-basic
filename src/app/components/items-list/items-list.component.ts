@@ -17,12 +17,12 @@ import { last } from 'rxjs/operators';
 
 import { CardComponent } from '../card/card.component';
 
-import * as appActions from '../actions/app.actions';
-import * as itemActions from '../actions/item.actions';
+import * as appActions from '../../actions/app.actions';
+import * as itemActions from '../../actions/item.actions';
 
-import { Item } from '../models/item.model';
-import * as fromRoot from '../reducers';
-import { ItemService } from '../services/item.service';
+import { Item } from '../../models/item.model';
+import * as fromRoot from '../../reducers';
+import { ItemService } from '../../services/item.service';
 
 declare var Packery: any;    // grid layout library
 
