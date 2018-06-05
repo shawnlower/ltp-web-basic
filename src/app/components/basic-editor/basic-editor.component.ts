@@ -10,7 +10,7 @@ import { Action, Store } from '@ngrx/store';
 
 import { Subject, Observable } from 'rxjs';
 
-import { Item } from '../models/item.model';
+import { Item } from '../../models/item.model';
 
 // TODO: Move interface outside
 interface AppState {

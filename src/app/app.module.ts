@@ -8,7 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
-import { BasicEditorComponent } from './basic-editor/basic-editor.component';
+import { BasicEditorComponent } from './components/basic-editor/basic-editor.component';
 import { CardComponent } from './components/card/card.component';
 import { HomeComponent } from './components/home/home.component';
 import { ItemsListComponent } from './components/items-list/items-list.component';
