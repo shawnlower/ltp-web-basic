@@ -11,7 +11,7 @@ import {
   ViewChildren
 } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
+import { Action, ActionsSubject, Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { last } from 'rxjs/operators';
 
@@ -40,6 +40,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   items$: Observable<Item[]>;
   currentItem: Item;
 
+  actionSub: any;
   message$: Observable<string>;
   visible$: Observable<boolean>;
 
@@ -51,8 +52,17 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
   constructor(private itemService: ItemService,
               public store: Store<fromRoot.State>,
+              private actions$: ActionsSubject,
               private renderer: Renderer2) {
 
+    actions$.subscribe(data => {
+      if (data.type === appActions.SELECT_NEXT_ITEM) {
+        this.select('next');
+      }
+      if (data.type === appActions.SELECT_PREV_ITEM) {
+        this.select('prev');
+      }
+    });
     this.getItems();
     this.items$ = store.select(state => state.item.data);
     this.message$ = store.select(state => JSON.stringify(state.app.showEditor));
@@ -108,6 +118,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   select(action: string): void {
     /*
     /* Moves the current selection based on 'action'
+     * action can be one of 'next', or 'prev'
      */
 
 
@@ -170,6 +181,11 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from our subscription to the store
+    this.actionSub.unsubscribe();
   }
 
 }

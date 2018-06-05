@@ -33,6 +33,12 @@ export class AppComponent {
       this.vc.first.nativeElement.focus();
     } else if ( event.key === '?' ) {
       alert('HELP');
+    } else if ( event.key === 'j' ) {
+      // j: Select next item
+      this.store.dispatch(new appActions.SelectNextItem());
+    } else if ( event.key === 'k' ) {
+      // k: Select previous item
+      this.store.dispatch(new appActions.SelectPrevItem());
     } else if ( event.key === 'e' ) {
       // Toggle the editor
       console.log(this.showEditor$.pipe(v => v));
