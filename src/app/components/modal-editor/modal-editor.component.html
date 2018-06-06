@@ -1,7 +1,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
      [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': 1}"
   >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -10,6 +10,7 @@
         </button>
       </div>
 	<app-basic-editor
+      [typeUrl]="'http://'"
 	></app-basic-editor>
       <div class="modal-footer">
         <button type="button" (click)="this.toggleEditor()" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -1,24 +1,22 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Type URL</span>
       </div>
-      <div class="modal-body">
-        <form [formGroup]="form">
-          <label for='url'>URL: </label><input formControlName="url" placeholder="Your name"><br>
-          <label for='dataType'>dataType: </label><input formControlName="url" placeholder="Your name">
-        </form>
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <input title=""
+             class="form-control custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input"
+             autocomplete="off"
+             formControlName="typeUrl"
+             autofocus
+      >
     </div>
-  </div>
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Next</span>
+      </div>
+      <input type="text" class="form-control" aria-label="typeUrl" aria-describedby="inputGroup-sizing-sm"
+           formControlName="typeUrl" placeholder="Your name">
+    </div>
+  </form>
 </div>
-
