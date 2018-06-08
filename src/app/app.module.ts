@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -30,8 +32,9 @@ import { reducers } from './reducers';
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    ReactiveFormsModule,
     FormsModule,
+    NgbModule.forRoot(),
+    ReactiveFormsModule,
     /**
      * StoreModule.provideStore is imported once in the root module, accepting a reducer
      * function or object map of reducer functions. If passed an object of
