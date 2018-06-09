@@ -38,6 +38,7 @@ export class ModalEditorComponent implements OnInit {
   @Input() visible: boolean;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   item$: Observable<Item>;
+  @Input() item: Item;
 
   constructor(public store: Store<fromRoot.State>) { }
 
@@ -45,6 +46,6 @@ export class ModalEditorComponent implements OnInit {
   }
 
   toggleEditor() {
-      this.store.dispatch(new appActions.ToggleEditor());
+    this.store.dispatch(new appActions.ToggleEditor());
   }
 }

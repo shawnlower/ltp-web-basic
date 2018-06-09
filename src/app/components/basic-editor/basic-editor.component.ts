@@ -31,9 +31,11 @@ interface AppState {
 export class BasicEditorComponent implements OnInit {
 
   @Input() item: Item;
-  @Input() typeUrl: Item;
+  @Input() typeUrl: string;
   @Input() testitem: Item;
   form: FormGroup;
+
+  currentItem$: Observable<Item>;
 
   private resultOptionsSubject: Subject<any> = new Subject<any>();
 
@@ -46,44 +48,46 @@ export class BasicEditorComponent implements OnInit {
   keyEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       // close modal
+      console.log('can close?');
       this.store.dispatch(new appActions.ToggleEditor());
     }
   }
 
   constructor(private formBuilder: FormBuilder,
               public store: Store<fromRoot.State>) {
-    this.form = new FormGroup({
-      typeUrl: new FormControl(),
-      dataType: new FormControl()
-    });
+    this.currentItem$ = store.select(state => state.editor.item);
 
+    this.setupForm();
     this.searchResults = of([
       'http://schema.org/Restaurant',
       'http://schema.org/Person',
       'http://schema.org/Thing',
     ]);
-    /*
-    this.form = this.formBuilder.group({
-      typeUrl: '',
-      dataType: 'default dataType'
+
+    this.form.controls['typeUrl'].valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged())
+      .subscribe(v => {
+        console.log('typeUrl updated to', v);
     });
-     */
-
-    this.form.controls['typeUrl'].valueChanges.subscribe(v => console.log('typeUrl', v));
-  }
-
-  onChanges(): void {
-    console.log('this', this);
   }
 
   ngOnInit() {
+  }
+
+  setupForm(): void {
+    this.form = this.formBuilder.group({
+      typeUrl: new FormControl(),
+      dataType: new FormControl()
+    });
   }
 
   doSearch(term) {
     // Case-insensitive mock search
     return this.searchResults.pipe(
       map(results =>
-        results.filter(result => result.toLowerCase().indexOf(term.toLowerCase()) > -1)
+        results.filter(result => result.toLowerCase()
+                                       .indexOf(term.toLowerCase()) > -1)
       )
     );
   }

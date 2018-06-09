@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map, flatMap, tap, take, last } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
@@ -33,7 +33,8 @@ export class AppComponent {
     const searchHasFocus =
       document.activeElement === document.getElementsByName('search')[0];
 
-    this.showEditor$.subscribe(showEditor => {
+    this.showEditor$.pipe(debounceTime(100))
+      .subscribe(showEditor => {
       // ignore inputs if editor modal is shown or search focused
       if (showEditor || searchHasFocus) {
         // Skip
@@ -45,6 +46,8 @@ export class AppComponent {
 
 
   keyEventHandler(event) {
+
+    console.log('keyEventHandler: ', event);
 
     if ( event.key === '/' ) {
       this.vc.first.nativeElement.focus();
@@ -61,14 +64,29 @@ export class AppComponent {
       this.toggleEditor();
     } else if ( event.key === 'n' ) {
       // Toggle the editor
-      this.toggleEditor();
+      this.store.dispatch(new editorActions.ResetEditor());
+      // this.newItem();
     } else {
       console.log('keyEvent: no handler for key: ', event.key);
     }
   }
 
+  newItem() {
+    /*
+     * Create a new item
+     */
+
+    // Reset the editor to the default state
+    this.store.dispatch(new editorActions.ResetEditor());
+
+    // Make editor visible
+    this.toggleEditor();
+
+  }
+
+
   toggleEditor() {
-      this.store.dispatch(new appActions.ToggleEditor());
+    this.store.dispatch(new appActions.ToggleEditor());
   }
 
   filterSearch() {
