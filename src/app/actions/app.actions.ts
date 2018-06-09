@@ -18,6 +18,7 @@ export class ToggleEditor implements Action {
   }
 }
 
+
 /**
  * Select Next Item (e.g. in component list)
  */
@@ -51,4 +52,5 @@ export class ActivateItem implements Action {
 export type Actions
   = ToggleEditor
   | SelectNextItem
-  | SelectPrevItem;
+  | SelectPrevItem
+  | ActivateItem;

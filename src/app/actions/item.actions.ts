@@ -19,6 +19,16 @@ export class ItemLoaded implements Action {
 }
 
 /*
+ * Updates the currently selected item
+ */
+export class SelectItem implements Action {
+  readonly type = SELECT_ITEM;
+
+  constructor(public payload: Item) {
+  }
+}
+
+/*
  * Remove an item from the current view
  */
 export class RemoveItem implements Action {

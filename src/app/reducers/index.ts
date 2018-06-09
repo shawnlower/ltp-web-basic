@@ -16,15 +16,18 @@ import { storeFreeze } from 'ngrx-store-freeze';
  * - https://github.com/ngrx/example-app/blob/master/src/app/reducers/index.ts
  */
 import * as fromApp from './app.reducer';
+import * as fromEditor from './editor.reducer';
 import * as fromItem from './item.reducer';
 
 export interface State {
   app: fromApp.State;
+  editor: fromEditor.State;
   item: fromItem.State;
 }
 
 export const reducers = {
   app: fromApp.reducer,
+  editor: fromEditor.reducer,
   item: fromItem.reducer
 };
 

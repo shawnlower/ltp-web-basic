@@ -4,11 +4,13 @@ import * as actions from '../actions/item.actions';
 export interface State {
   loaded: boolean;
   data: Item[];
+  selectedItem: Item;
 }
 
 export const initialState: State = {
   loaded: false,
   data: [],
+  selectedItem: null
 };
 
 export function reducer(state: State = initialState, action) {
@@ -31,8 +33,8 @@ export function reducer(state: State = initialState, action) {
     }
 
     case actions.SELECT_ITEM:
-      console.log(action.type);
-      return state;
+      console.log(action.type, action.payload);
+      return {...state, selectedItem: action.payload};
 
     case actions.DESELECT_ITEM:
       console.log(action.type);

@@ -13,7 +13,7 @@ import {
 
 import { Action, ActionsSubject, Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { last } from 'rxjs/operators';
+import { last, map } from 'rxjs/operators';
 
 import { CardComponent } from '../card/card.component';
 
@@ -103,15 +103,24 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     // Sets focused property on an item
 
     // Get the currently selected card (returned as array)
-    const selectedCard = this.cards.filter(card => card.selected);
-    if (selectedCard.length > 0) {
-      selectedCard.pop().selected = false;
+    const cards = this.cards.filter(card => card.selected);
+    let selectedCard = null;
+
+
+    if (cards.length > 0) {
+      selectedCard = cards.pop();
+      selectedCard.selected = false;
     }
 
     if (this.currentItem && this.currentItem === item) {
+      // Clicking a selected item will unselect it
       this.currentItem = null;
+      this.store.dispatch(new itemActions.SelectItem(null));
     } else {
       this.currentItem = item;
+      // Get index of item in cards
+      const cardIdx = this.cards.toArray().indexOf(selectedCard);
+      this.store.dispatch(new itemActions.SelectItem(item));
     }
   }
 
@@ -130,40 +139,47 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (this.cards.length === 1) {
-      this.cards.first.selected = true;
-      return;
-    }
-
-
     // Get the first card that is selected
     const selectedCard = this.cards.filter(card => card.selected).pop();
     const cardIdx = this.cards.toArray().indexOf(selectedCard);
 
-    if (!selectedCard) {
-      this.cards.first.selected = true;
-      return;
-    } else {
+    if (selectedCard) {
       selectedCard.selected = false;
     }
 
     switch (action) {
       case 'next':
+        let index = 0;
         console.log('Selecting next item', cardIdx);
         if (cardIdx < this.cards.length - 1) {
-          this.cards.toArray()[cardIdx + 1].selected = true;
+          index = cardIdx + 1;
         } else {
-          this.cards.first.selected = true;
+          index = 0;
         }
+
+        // Set selected property and send message
+        this.cards.toArray()[index].selected = true;
+        this.items$.forEach(items =>
+          this.store.dispatch(new itemActions.SelectItem(
+            items[index])
+        ));
         break;
 
       case 'prev':
+        index = this.cards.length - 1;
         console.log('Selecting previous item', cardIdx);
         if (cardIdx > 0) {
-          this.cards.toArray()[cardIdx - 1].selected = true;
+          index = cardIdx - 1;
         } else {
-          this.cards.last.selected = true;
+          index = this.cards.length - 1;
         }
+
+        // Set selected property and send message
+        this.cards.toArray()[index].selected = true;
+        this.items$.forEach(items =>
+          this.store.dispatch(new itemActions.SelectItem(
+            items[index])
+        ));
         break;
 
       default:
@@ -181,11 +197,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-  }
-
-  ngOnDestroy() {
-    // Unsubscribe from our subscription to the store
-    this.actionSub.unsubscribe();
   }
 
 }
