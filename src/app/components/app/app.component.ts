@@ -6,10 +6,12 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map, flatMap, tap, take, last } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
+import * as editorActions from '../../actions/editor.actions';
 
 @Component({
   selector: 'app-root',
@@ -20,29 +22,29 @@ export class AppComponent {
   @ViewChildren('searchBox') vc;
 
   showEditor$: Observable<boolean>;
-  showEditor: boolean;
 
   constructor(public store: Store<fromRoot.State>) {
-    // store.select(state => this.showEditor = state.app.showEditor);
-
-    this.showEditor$ = store.select(state => {
-      this.showEditor = state.app.showEditor;
-      return state.app.showEditor;
-    });
+    this.showEditor$ = store.select(state => state.app.showEditor);
   }
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    // Handle keyboard events
-
-
-    // ignore inputs if editor modal is shown or search focused
-    const searchFocused =
+    // Handle keyboard events only if editor not visible
+    const searchHasFocus =
       document.activeElement === document.getElementsByName('search')[0];
 
-    if (this.showEditor || searchFocused) {
-      return;
-    }
+    this.showEditor$.subscribe(showEditor => {
+      // ignore inputs if editor modal is shown or search focused
+      if (showEditor || searchHasFocus) {
+        // Skip
+        return;
+      }
+      this.keyEventHandler(event);
+    });
+  }
+
+
+  keyEventHandler(event) {
 
     if ( event.key === '/' ) {
       this.vc.first.nativeElement.focus();
