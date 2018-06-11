@@ -1,0 +1,115 @@
+{
+    "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "image": {
+            "@id": "http://schema.org/image",
+            "@type": "@id"
+        }
+    },
+    "@graph": [
+        {
+            "@id": "_:N6659c86ff3e3471f92d5194cda7e301f",
+            "@type": "http://schema.org/MusicEvent",
+            "http://schema.org/location": {
+                "@id": "_:N3c0bff985636474cb0d8818f3a0804db"
+            },
+            "http://schema.org/name": "Shostakovich Leningrad",
+            "http://schema.org/offers": {
+                "@id": "_:N966106e0ab194ed79f1e030cd6662477"
+            },
+            "http://schema.org/performer": [
+                {
+                    "@id": "_:N0956925cd90042038c65f854817477c7"
+                },
+                {
+                    "@id": "_:N6260c53b5e634e068c93cf56d0fb7fbc"
+                }
+            ],
+            "http://schema.org/startDate": "2014-05-23T20:00",
+            "http://schema.org/workPerformed": [
+                {
+                    "@id": "_:N9d94c13005354bc4b6eb094c8b1aee4a"
+                },
+                {
+                    "@id": "_:N7b11651fe6944789b8dbcf99eae2871f"
+                }
+            ]
+        },
+        {
+            "@id": "_:N0956925cd90042038c65f854817477c7",
+            "@type": "http://schema.org/MusicGroup",
+            "http://schema.org/name": {
+                "@id": "examples/Performer?id=4434"
+            },
+            "http://schema.org/sameAs": [
+                {
+                    "@id": "http://cso.org/"
+                },
+                {
+                    "@id": "http://en.wikipedia.org/wiki/Chicago_Symphony_Orchestra"
+                }
+            ]
+        },
+        {
+            "@id": "",
+            "http://www.w3.org/ns/rdfa#usesVocabulary": {
+                "@id": "http://schema.org/"
+            }
+        },
+        {
+            "@id": "_:N966106e0ab194ed79f1e030cd6662477",
+            "@type": "http://schema.org/Offer",
+            "http://schema.org/availability": {
+                "@id": "http://schema.org/InStock"
+            },
+            "http://schema.org/price": "40",
+            "http://schema.org/priceCurrency": "USD",
+            "http://schema.org/url": {
+                "@id": "/examples/ticket/12341234"
+            }
+        },
+        {
+            "@id": "_:N9d94c13005354bc4b6eb094c8b1aee4a",
+            "@type": "http://schema.org/CreativeWork",
+            "http://schema.org/name": [
+                "Britten Four Sea Interludes and Passacaglia from Peter Grimes",
+                "Peter Grimes"
+            ],
+            "http://schema.org/sameAs": {
+                "@id": "http://en.wikipedia.org/wiki/Peter_Grimes"
+            }
+        },
+        {
+            "@id": "_:N7b11651fe6944789b8dbcf99eae2871f",
+            "@type": "http://schema.org/CreativeWork",
+            "http://schema.org/name": "Shostakovich Symphony No. 7 (Leningrad)",
+            "http://schema.org/sameAs": {
+                "@id": "http://en.wikipedia.org/wiki/Symphony_No._7_(Shostakovich)"
+            }
+        },
+        {
+            "@id": "_:N6260c53b5e634e068c93cf56d0fb7fbc",
+            "@type": "http://schema.org/Person",
+            "http://schema.org/image": {
+                "@id": "/examples/jvanzweden_s.jpg"
+            },
+            "http://schema.org/name": {
+                "@id": "/examples/Performer.aspx?id=11324"
+            },
+            "http://schema.org/sameAs": {
+                "@id": "http://www.jaapvanzweden.com/"
+            }
+        },
+        {
+            "@id": "_:N3c0bff985636474cb0d8818f3a0804db",
+            "@type": "http://schema.org/MusicVenue",
+            "http://schema.org/address": "220 S. Michigan Ave, Chicago, Illinois, USA",
+            "http://schema.org/name": "Chicago Symphony Center",
+            "http://schema.org/sameAs": {
+                "@id": "http://en.wikipedia.org/wiki/Symphony_Center"
+            }
+        }
+    ]
+}

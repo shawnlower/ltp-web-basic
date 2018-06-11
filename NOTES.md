@@ -27,7 +27,7 @@ Reqs:
 3) Set the type
 4) Alter the view based on type
 
-Workflow:
+Interaction workflow:
 - init (via hotkey / button)
 - text box appears, input focused
 
@@ -43,7 +43,6 @@ Workflow:
 |----------------------------------------------------------------------------|
 | (L)inks:                                                                   |
 |----------------------------------------------------------------------------|
-
 - user enters some text
 - Suggest content types
 - User optionally selects a more specific type using hotkey (e.g. M-a)
@@ -56,3 +55,127 @@ Workflow:
 - Item added to activity
 - Item selected within activity, for next action (e.g.: 'l' to link, 'e' to
   re-open editor modal, '!' to execute shell command, etc)
+
+Implementation
+
+- We have 3 things:
+    - The data source (may be empty initially), or:
+        - JSON-LD source, (e.g. from LTP API)
+        - RDFa from a website
+    - The view
+        - Can be HTML/RDFa, but must be editable
+- Once we have a semantic type (e.g. http://schema.org/Restaurant)
+
+
+JSON-LD -> RDFa (dynamically generated view)
+
+- For each key:
+    - If scalar (string/number)
+        - Generate span: <span property="{{ key }}"><input type="text">
+
+
+Schema handling
+Using example from http://schema.org/Car
+
+The SKU is defined:
+1) In the JSON document content as { sku: 'xxxxx' }
+2) In the schema with:
+    - rangeIncludes: schema:text
+
+- JSON-LD has a set of properties:
+    - Property key: SKU
+
+- Start with the ID: blank node, filename, url, etc
+  - We need a type:
+
+
+=== Notes
+
+- We need to parse such that we preserve order, e.g.:
+ { '@context': ...,
+   '@id': "http://example.org/cars/for-sale#tesla",
+   '@type': 'gr:offering',
+   'gr:includes': { // vehicle // }
+ }
+
+is not the same as flattened():
+
+ @graph": [
+    { "@id": "_:b0", "gr:hasCurrency": "USD", "gr:hasCurrencyValue": "85000" },
+    { "@id": "_:b1", "@type": [ "gr:Individual", "pto:Vehicle" ],
+  ]
+
+As we certainly don't want the price at the top of the page, we want the item with the price nested
+
+Flattened:
+
+  - First get the context and graph
+    - Types of context
+      - IRI,         "@context":  "http://schema.org/",
+      - Object k/v:  "@context":  "gr":  "http://purl.org/goodrelations/v1#",
+      - Object,      "@context":  {      "name": "http://schema.org/name",
+                                         "description": "http://schema.org/description",
+                                         "image": { "@id": "http://schema.org/image", "@type": "@id" } }
+      - Mix of Object + Object k/v
+    },
+
+
+
+for item in graph:
+  elType = getType(item) // ['string', 'number', 'url', 'image']
+  dataType = ..
+
+
+getType(item) {
+  if (item['@type']) {
+    // At this point, we're either a literal or a complex type
+    t = item('@type');
+    switch typeof(t) {
+      case 'string':
+        console.log(`Item ${t} is a string.`);
+        break;
+        
+      case 'number':
+        console.log(`Item ${t} is a number.`);
+        break;
+        
+      case 'boolean':
+        console.log(`Item ${t} is a boolean.`);
+        break;
+        
+  } else if (item['type'] {
+  /*
+   * Example with type 
+   *     {
+   *       "@context": "http://schema.org/",
+   *       "@graph": [
+   *         {
+   *           "id": "_:b0",
+   *           "type": "Person",
+   *           "name": "Jane Doe",
+   *         }
+   *       ]
+   *     }
+   */
+
+
+  } else {
+  /*
+   * Example with neither
+   *
+   *  "@context": {
+   *       "ical": "http://www.w3.org/2002/12/cal/ical#",
+   *   },
+   *   "@graph": [
+   *     {
+   *       "@id": "_:b0",
+   *       "ical:summary": "Lady Gaga Concert"
+   *       "ical:location": "New Orleans Arena, New Orleans, Louisiana, USA",
+   *     }
+   *
+   * We should probably just fail, but could infer and
+   *   1) If predicates are fragments, then check that w/o is a valid resource type?
+   */
+    
+
+  }
