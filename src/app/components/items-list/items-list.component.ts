@@ -40,13 +40,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   items$: Observable<Item[]>;
   currentItem: Item;
 
-  actionSub: any;
-  message$: Observable<string>;
   visible$: Observable<boolean>;
-
-  private pckry: any;
-
-  @Input('about') about;
 
   @ViewChildren(CardComponent) cards: QueryList<CardComponent>;
 
@@ -63,29 +57,13 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
         this.select('prev');
       }
     });
+
     this.getItems();
     this.items$ = store.select(state => state.item.data);
-    this.message$ = store.select(state => JSON.stringify(state.app.showEditor));
     this.visible$ = store.select(state => state.app.showEditor);
   }
 
   ngAfterViewInit() {
-    this.cards.forEach(cardInstance => console.log(cardInstance));
-    /* 
-      const elem = document.querySelector('.grid');
-    const pckry = new Packery( elem, {
-
-      itemSelector: '.grid-item',
-      gutter: 10
-
-    });
-    */
-
-  }
-
-  updateMessage(state) {
-    // this.state.forEach(m => this.message = m.dataType);
-    console.log('updateMessage: updating with', state);
   }
 
   getItems() {
