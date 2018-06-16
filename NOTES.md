@@ -13,7 +13,7 @@ $ cd app; npm audit
 
 # Design notes
 
-## Modals
+## Modal Editor
 
 We want a modal for creating a new item and editing existing.
 
@@ -31,6 +31,7 @@ Interaction workflow:
 - init (via hotkey / button)
 - text box appears, input focused
 
+```bash
 |----------------------------------------------------------------------------|
 | (T)ype: text snippet <http://schema.org/Note>                              |
 |----------------------------------------------------------------------------|
@@ -43,6 +44,7 @@ Interaction workflow:
 |----------------------------------------------------------------------------|
 | (L)inks:                                                                   |
 |----------------------------------------------------------------------------|
+```
 - user enters some text
 - Suggest content types
 - User optionally selects a more specific type using hotkey (e.g. M-a)
@@ -56,7 +58,7 @@ Interaction workflow:
 - Item selected within activity, for next action (e.g.: 'l' to link, 'e' to
   re-open editor modal, '!' to execute shell command, etc)
 
-Implementation
+## Implementation
 
 - We have 3 things:
     - The data source (may be empty initially), or:
@@ -67,12 +69,11 @@ Implementation
 - Once we have a semantic type (e.g. http://schema.org/Restaurant)
 
 
-JSON-LD -> RDFa (dynamically generated view)
+## JSON-LD -> RDFa (dynamically generated view)
 
-- For each key:
+- For each key in our JSON-LD document:
     - If scalar (string/number)
         - Generate span: <span property="{{ key }}"><input type="text">
-
 
 Schema handling
 Using example from http://schema.org/Car
@@ -176,6 +177,5 @@ getType(item) {
    * We should probably just fail, but could infer and
    *   1) If predicates are fragments, then check that w/o is a valid resource type?
    */
-    
-
   }
+

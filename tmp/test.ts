@@ -285,7 +285,6 @@ function parseNotGraph(data: JsonLD, $, parentSection: string = null): any {
     }
     // wrapped for .. in
   }
-  // Ensure we have a typeUrl set
   return $;
 }
 

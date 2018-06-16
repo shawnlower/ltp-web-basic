@@ -64,84 +64,85 @@ function error(msg) {
     console.log(colors.bold(colors.red(msg)));
 }
 function initDoc(data) {
-    /*
-     * Pass in a JSON-LD document, and initialize the document with it
-     *
-     */
-    const DEFAULT_TYPE = 'http://schema.org/Thing';
-    console.log(colors.red('Document sections: '));
-    for (const key in data) {
-        if (key) {
-            console.log(colors.red('\t' + key));
-        }
-    }
-    // Create a new, empty document/DOM tree
-    const $ = cheerio.load(`<div id="content">`);
-    // First, we need an ID for our document
-    let docID;
-    if (data['@id']) {
-        docID = data['@id'];
-    }
-    else {
-        docID = 'http://shawnlower.net/_id/123';
-    }
-    $('content').attr('about', docID);
-    // Get the context (one or more URLs) for the document
-    const ctx = data['@context'];
-    // For cases where there's a single context, e.g.:
-    //
-    // {
-    //   "@context": "http://schema.org/",
-    //   "@type": "Person",
-    //   "name": "Jane Doe",
-    //   "jobTitle": "Professor",
-    //   "telephone": "(425) 123-4567",
-    //   "url": "http://www.janedoe.com"
-    // }
-    //
-    // we should be able to just set the vocab for our document
-    // on the body itself
-    if (typeof ctx === 'string') {
-        $('body').attr('vocab', ctx);
-    }
-    else if (Array.isArray(ctx)) {
-        // TODO
-        warn('Doing nothing with an array of context items');
-    }
-    else {
-        // If our context contains CURIEs, then we can add them as namespaces
-        // in the document
-        // e.g. <html xmlns="http://www.w3.org/1999/xhtml"
-        //            xmlns:foaf=http://xmlns.com/foaf/0.1/">
-        $('html').attr('xmlns', 'http://www.w3.org/1999/xhtml');
-        for (const curie in ctx) {
-            // Skip non-string, e.g.   @context: { "image": { @id: ... } }
-            if (curie && typeof ctx[curie] === 'string') {
-                console.log('Adding', curie);
-                $('html').attr(`xmlns:${curie}`, ctx[curie]);
+    return __awaiter(this, void 0, void 0, function* () {
+        /*
+         * Pass in a JSON-LD document, and initialize the document with it
+         *
+         */
+        const DEFAULT_TYPE = 'http://schema.org/Thing';
+        console.log(colors.red('Document sections: '));
+        for (const key in data) {
+            if (key) {
+                console.log(colors.red('\t' + key));
             }
-            // for .. in wrapper
         }
-    }
-    // We also need a top-level type. JSON doesn't require this, but if we get
-    // some random @graph or collection of nodes, then we'll just call it a
-    // Thing, and let the user sort it out later
-    let docType = data['@type'];
-    if (!data['@type']) {
-        warn(`No type definition found in document. Inspecting...`);
-        // const subject = getSubjectForGraph(<JsonLD>data).then(() => { ugh });
-        const subject = findGraphSubject(data);
-        if (subject && subject['@type']) {
-            docType = subject['@type'];
-            console.log(`Assuming ${docType} from subject ${subject['@id']}`);
+        // Create a new, empty document/DOM tree
+        const $ = cheerio.load(`<div id="content">`);
+        // First, we need an ID for our document
+        let docID;
+        if (data['@id']) {
+            docID = data['@id'];
         }
         else {
-            warn(`Unable to find type definition. Using ${DEFAULT_TYPE}`);
-            docType = DEFAULT_TYPE;
+            docID = 'http://shawnlower.net/_id/123';
         }
-    }
-    $('#content').attr('typeof', docType);
-    return $;
+        $('content').attr('about', docID);
+        // Get the context (one or more URLs) for the document
+        const ctx = data['@context'];
+        // For cases where there's a single context, e.g.:
+        //
+        // {
+        //   "@context": "http://schema.org/",
+        //   "@type": "Person",
+        //   "name": "Jane Doe",
+        //   "jobTitle": "Professor",
+        //   "telephone": "(425) 123-4567",
+        //   "url": "http://www.janedoe.com"
+        // }
+        //
+        // we should be able to just set the vocab for our document
+        // on the body itself
+        if (typeof ctx === 'string') {
+            $('body').attr('vocab', ctx);
+        }
+        else if (Array.isArray(ctx)) {
+            // TODO
+            warn('Doing nothing with an array of context items');
+        }
+        else {
+            // If our context contains CURIEs, then we can add them as namespaces
+            // in the document
+            // e.g. <html xmlns="http://www.w3.org/1999/xhtml"
+            //            xmlns:foaf=http://xmlns.com/foaf/0.1/">
+            $('html').attr('xmlns', 'http://www.w3.org/1999/xhtml');
+            for (const curie in ctx) {
+                // Skip non-string, e.g.   @context: { "image": { @id: ... } }
+                if (curie && typeof ctx[curie] === 'string') {
+                    console.log('Adding', curie);
+                    $('html').attr(`xmlns:${curie}`, ctx[curie]);
+                }
+                // for .. in wrapper
+            }
+        }
+        // We also need a top-level type. JSON doesn't require this, but if we get
+        // some random @graph or collection of nodes, then we'll just call it a
+        // Thing, and let the user sort it out later
+        let docType = data['@type'];
+        if (!data['@type']) {
+            warn(`No type definition found in document. Inspecting...`);
+            const subject = yield getSubjectForGraph(data);
+            if (subject && subject['@type']) {
+                docType = subject['@type'];
+                console.log(`Assuming ${docType} from subject ${subject['@id']}`);
+            }
+            else {
+                warn(`Unable to find type definition. Using ${DEFAULT_TYPE}`);
+                docType = DEFAULT_TYPE;
+            }
+        }
+        $('#content').attr('typeof', docType);
+        return $;
+    });
 }
 function jsonld2rdfa(data, $) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -178,12 +179,7 @@ function parseGraph(data, $) {
     }
     return $;
 }
-function parseNotGraph(data, $, parentSection = null) {
-    /*
-     * Parent section refers to the container to create items in.
-     * Default is '#content'
-     */
-    const DEFAULT_SECTION = '#content';
+function parseNotGraph(data, $) {
     console.log(colors.red('Parsing non-graph'), data);
     /*
      *
@@ -193,17 +189,11 @@ function parseNotGraph(data, $, parentSection = null) {
      * - text: <span>
      */
     // We're not a graph, so we expect a type and some values
-    let section; // $('section')
-    if (!parentSection) {
-        section = $(DEFAULT_SECTION);
-    }
-    else {
-        const sectionName = data['@id'];
-        if (!sectionName) {
-            console.log('todo: no section name');
-        }
-        section = $(parentSection).append(`<div id="${sectionName}">`);
-    }
+    const content = $('.content');
+    const currentSection = {
+        elements: [null],
+        sections: [null]
+    };
     let typeUrl;
     for (const key in data) {
         // Handle any additional JSON-LD keys
@@ -216,20 +206,7 @@ function parseNotGraph(data, $, parentSection = null) {
                 console.log('skipping', key);
             }
             else {
-                console.log('adding', key);
-                if (Array.isArray(data[key])) {
-                    // Create span for each
-                    data[key].forEach(k => {
-                        section.append(`<span property="${key}">${k}`);
-                    });
-                }
-                else if (typeof data[key] === 'object') {
-                    console.log('Creating new div for', data[key]);
-                    parseNotGraph(data[key], $);
-                }
-                else {
-                    section.append(`<span property="${key}">${data[key]}`);
-                }
+                content.append(`<span>${data[key]}`);
             }
         }
         // wrapped for .. in
@@ -250,11 +227,11 @@ function getSubjectForGraph(doc) {
             let newdoc;
             try {
                 newdoc = yield jsonld.flatten(doc);
-                return findGraphSubject(newdoc);
             }
             catch (rejectedValue) {
                 console.log('Unable to flatten doc');
             }
+            return findGraphSubject(newdoc);
         }
     });
 }
