@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   Input,
   OnInit
 } from '@angular/core';
@@ -43,15 +42,6 @@ export class BasicEditorComponent implements OnInit {
   searchResults: Observable<string[]>;
 
   public model: any;
-
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      // close modal
-      console.log('can close?');
-      this.store.dispatch(new appActions.ToggleEditor());
-    }
-  }
 
   constructor(private formBuilder: FormBuilder,
               public store: Store<fromRoot.State>) {
