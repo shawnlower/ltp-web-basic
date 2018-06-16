@@ -15,7 +15,7 @@
              autofocus
              >
     </div>
-      <span>Model: {{ model | json }}</span>
+      <span>Item: {{ this.currentItem$ | async | json }}</span>
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">With textarea</span>

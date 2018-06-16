@@ -13,6 +13,9 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
 import * as editorActions from '../../actions/editor.actions';
+import * as itemActions from '../../actions/item.actions';
+
+import { Item } from '../../models/item.model';
 
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 import { Unlisten } from '../../services/keyboard-shortcuts.service';
@@ -56,6 +59,7 @@ export class AppComponent implements OnInit {
      * Clear the existing editor. Set defaults for editing a new item.
      */
     console.log('Clearing editor modal.');
+    this.store.dispatch(new itemActions.SelectItem(null));
   }
 
   toggleEditor(msg = '') {
@@ -120,19 +124,13 @@ export class AppComponent implements OnInit {
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
 
-          if (searchHasFocus) {
-            return;
-          }
-
           this.newEditor();
 
-          this.showEditor$.subscribe(showEditor => {
-            // ignore inputs if editor modal is shown or search focused
-            if (showEditor || searchHasFocus) {
-              return;
-            }
+          if (searchHasFocus) {
+            return;
+          } else {
             this.toggleEditor();
-          });
+          }
 
           // Since this is a native browser action, we want to cancel the
           // default behavior and isolate it as a local action.

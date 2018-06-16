@@ -44,4 +44,10 @@ export function reducer(state: State = initialState, action) {
       return state;
 
   }
+
+
 }
+
+export const getSelected = (state: State) => state.selectedItem;
+
+

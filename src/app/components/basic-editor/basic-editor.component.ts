@@ -10,7 +10,9 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import { Action, Store } from '@ngrx/store';
 
 import { Subject, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, merge, concat, flatMap, mergeMap, filter, last, map, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, merge, concat,
+         flatMap, mergeMap, filter, last, map, switchMap
+       } from 'rxjs/operators';
 
 import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
@@ -44,13 +46,13 @@ export class BasicEditorComponent implements OnInit {
   public model: any;
 
   constructor(private formBuilder: FormBuilder,
-              public store: Store<fromRoot.State>) {
-    this.currentItem$ = store.select(state => state.editor.item);
+              private store: Store<fromRoot.State>) {
 
     this.setupForm();
     this.searchResults = of([
-      'http://schema.org/Restaurant',
+      'https://schema.org/NoteDigitalDocument',
       'http://schema.org/Person',
+      'http://schema.org/Restaurant',
       'http://schema.org/Thing',
     ]);
 
@@ -60,9 +62,16 @@ export class BasicEditorComponent implements OnInit {
       .subscribe(v => {
         console.log('typeUrl updated to', v);
     });
+
   }
 
   ngOnInit() {
+    this.currentItem$ = this.store.select( state => state.item.selectedItem);
+    this.currentItem$.subscribe(this.reloadItem);
+  }
+
+  reloadItem(item: Item): void {
+    console.log('reloading', item);
   }
 
   setupForm(): void {

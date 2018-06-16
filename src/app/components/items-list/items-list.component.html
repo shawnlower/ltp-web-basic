@@ -3,12 +3,12 @@
   <button text="next" (click)="select('next')">NEXT</button>
   <button text="prev" (click)="select('prev')">PREV</button>
 </div>
-<div #grid class="grid">
-  <div class="grid-item"
-       *ngFor="let item of items$ | async; let i=index">
-    <app-card [item]="item"
-              [selected]="isSelected(item)"
-              (click)='selectItem(item)'
-    ></app-card>
+  <div #grid class="card-deck">
+    <div class="card"
+         *ngFor="let item of items$ | async; let i=index">
+      <app-card [item]="item"
+                [selected]="isSelected(item)"
+                (click)='selectItem(item)'
+      ></app-card>
+    </div>
   </div>
-</div>

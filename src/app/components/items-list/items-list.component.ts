@@ -71,13 +71,15 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.cards.forEach(cardInstance => console.log(cardInstance));
-    const elem = document.querySelector('.grid');
+    /* 
+      const elem = document.querySelector('.grid');
     const pckry = new Packery( elem, {
 
       itemSelector: '.grid-item',
       gutter: 10
 
     });
+    */
 
   }
 

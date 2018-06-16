@@ -11,6 +11,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Action, Store, select } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
+import * as itemActions from '../../actions/item.actions';
 
 import { Subject, Observable } from 'rxjs';
 
@@ -41,15 +42,22 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
   @Input() closable = true;
   @Input() visible: boolean;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  item$: Observable<Item>;
   @Input() item: Item;
 
   public unlisten: Unlisten;
   public unlistenInput: Unlisten;
 
+  currentItem: Item;
+  currentItem$: Observable<Item>;
+
   constructor(public store: Store<fromRoot.State>,
               public keyboardShortcuts: KeyboardShortcutsService) {
     this.keyboardShortcuts = keyboardShortcuts;
+
+    store.select(state => state.item.selectedItem).subscribe(item => {
+      this.currentItem = item;
+    });
+
   }
 
   keyHandlerInput(): Unlisten {
@@ -68,7 +76,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       },
       'Escape': ( event: KeyboardEvent ): void => {
 
-        console.log( 'Handler[ 0 ]: ', event );
+        console.log( 'Handler[ 0 ]: ', this, event );
         this.toggleEditor();
 
         event.preventDefault();
@@ -134,6 +142,19 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
     }
 
 
+  }
+
+  saveChanges(json: string, typeUrl: string): void {
+    console.log('save', this.currentItem, this.item, json);
+    const jsonld = JSON.parse(json);
+    const item: Item = {
+      url:  'http://ltp.shawnlower.net/i/TestUrl/',
+      dataType: typeUrl,
+      json: jsonld
+    };
+
+    this.store.dispatch(new itemActions.ItemLoaded(item));
+    this.toggleEditor();
   }
 
   toggleEditor() {

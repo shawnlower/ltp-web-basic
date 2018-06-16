@@ -10,13 +10,16 @@
         </button>
       </div>
 	<app-basic-editor
-      [typeUrl]="'http://'"
-      [item]="item"
+      [typeUrl]="this.curentItem"
+      [item]="this.item$"
+      #editor
 	></app-basic-editor>
       <div class="modal-footer">
         <button type="button" (click)="this.toggleEditor()" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button"
-          class="btn btn-primary">Save changes</button>
+          class="btn btn-primary"
+          (click)="this.saveChanges(editor.json, editor.typeUrl)"
+          >Save changes</button>
       </div>
     </div>
   </div>
