@@ -1,0 +1,19 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc",
+    "watch-ts": "tsc -w"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "jsonld": "^1.0.2",
+    "jsonld-cli": "^0.2.0",
+    "typescript": "^2.9.1",
+    "vkbeautify": "^0.99.3"
+  },
+  "devDependencies": {
+    "ts-node": "*",
+    "tslint": "*"
+  }
+}
