@@ -4,12 +4,11 @@ const fs = require('fs');
 const jsonld = require('jsonld');
 const vkbeautify = require('vkbeautify');
 
-
-export const defContexts = {
+exports.defContexts = {
     schema: 'http://schema.org/'
 };
 
-export const exDoc = `
+exports.exDoc = `
   {
     "@context": {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -98,7 +97,7 @@ function initDoc(data: JsonLD) {
    *
    */
 
-  const DEFAULT_TYPE = 'http://schema.org/Thing';
+  const DEFAULT_TYPE = 'http://schema.org/NoteDigitalDocument';
 
   console.log(colors.red('Document sections: '));
   for (const key in data) {
@@ -109,6 +108,7 @@ function initDoc(data: JsonLD) {
 
   // Create a new, empty document/DOM tree
   const $ = cheerio.load(`<div id="content">`);
+  $('#content').append('<form class="form-horizontal" id="contentForm">');
 
   // First, we need an ID for our document
   let docID: string;
@@ -117,7 +117,17 @@ function initDoc(data: JsonLD) {
   } else {
     docID = 'http://shawnlower.net/_id/123';
   }
-  $('content').attr('about', docID);
+  $('#content').attr('about', docID);
+  $('#content').attr('class', 'form-group');
+
+    /*
+     * Pull in basic CSS styling
+     */
+    const bootstrap_theme_url = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css';
+    const bootstrap_url = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
+
+    $('head').append(`<link rel="stylesheet" href="${bootstrap_url}">`);
+    $('head').append(`<link rel="stylesheet" href="${bootstrap_theme_url}">`);
 
   // Get the context (one or more URLs) for the document
   const ctx: [string] = data['@context'];
@@ -132,10 +142,8 @@ function initDoc(data: JsonLD) {
   //   "telephone": "(425) 123-4567",
   //   "url": "http://www.janedoe.com"
   // }
-  //
-  // we should be able to just set the vocab for our document
-  // on the body itself
 
+  // If we only have a single context URL, set it on the document itself
   if (typeof ctx === 'string') {
     $('body').attr('vocab', ctx);
   } else if (Array.isArray(ctx)) {
@@ -157,6 +165,7 @@ function initDoc(data: JsonLD) {
       }
       // for .. in wrapper
     }
+
   }
 
   // We also need a top-level type. JSON doesn't require this, but if we get
@@ -182,6 +191,40 @@ function initDoc(data: JsonLD) {
   return $;
 }
 
+function writeSection(
+  $, section, key: string, value: string) {
+
+  // getKeyLabel();  // map e.g. dateCreated -> 'Creation Date'
+  const keyLabel = getLabelForProperty(key);
+
+  // getHelpText();  // Description of the field
+  const helpText = 'Description of ' + key;
+
+  /*
+   * Give each control a unique 'id', so we can address them
+   */
+  const path = `${section.attr('id')}_${key}`;
+
+  /*
+   * Create the outer div for our group of key=value form elements
+   */
+  section.append(`<div id="${path}" class="form-group">`);
+
+  /*
+   * Get an object representing the div
+   * (todo: why doesn't append() return that?)
+   */
+  const div = $(`#${path}`);
+
+  // Append our label
+  div.append(`<label for=${path} class="col-sm-2 control-label">${keyLabel}`);
+
+  // Create the div + input control
+  div.append(`<div class="col-sm-10"><input id="${path}" class="form-control" property="${key}" value="${value}"></div>`);
+
+  return section;
+
+}
 
 async function jsonld2rdfa (data: JsonLD, $) {
   /*
@@ -225,18 +268,18 @@ function parseGraph(data: JsonLD, $: Object): any {
   return $;
 }
 
-function parseNotGraph(data: JsonLD, $, parentSection: string = null): any {
+function parseNotGraph(data: JsonLD, $, parentSection: string = null,
+                       currentPath: string = null): any {
   /*
    * Parent section refers to the container to create items in.
    * Default is '#content'
    */
 
-  const DEFAULT_SECTION = '#content';
+  const DEFAULT_SECTION = '#contentForm';
 
   console.log(colors.red('Parsing non-graph'), data);
 
   /*
-   *
    * We want to handle the following types:
    * - Image -> <img>
    * - URL: -> <a>
@@ -254,31 +297,48 @@ function parseNotGraph(data: JsonLD, $, parentSection: string = null): any {
     section = $(parentSection).append(`<div id="${sectionName}">`);
   }
 
-
-
   let typeUrl: string;
+  if (data['@type'] || data['type']) {
+    typeUrl = data['@type'] ? data['@type'] : data['type'];
+  }
+
   for (const key in data) {
     // Handle any additional JSON-LD keys
     if (key) {
 
       // Handle types
-      if (key === '@type' || key === 'type') {
-        typeUrl = data[key] ? data[key] : data[key];
-
-      } else if (key.startsWith('@')) {
+      if (key.startsWith('@')) {
         console.log('skipping', key);
       } else {
-        console.log('adding', key);
-      if (Array.isArray(data[key])) {
-        // Create span for each
-        data[key].forEach(k => {
-          section.append(`<span property="${key}">${k}`);
-        });
-      } else if (typeof data[key] === 'object') {
+        /*
+         * Arrays are nested at most once
+         */
+        if (Array.isArray(data[key])) {
+          data[key].forEach(value => {
+            if (typeof [key] === 'object') {
+              console.log('Creating new div for', data[key]);
+              if (currentPath) {
+                currentPath = `${currentPath}.${key}`;
+              } else {
+                currentPath = key;
+              }
+              parseNotGraph(data[key], $, section);
+            } else {
+              writeSection($, section, key, value);
+            }
+          });
+        } else if (typeof data[key] === 'object') {
           console.log('Creating new div for', data[key]);
+
+          // Item IDs include the full path, e.g. person.address
+          if (currentPath) {
+            currentPath = `${currentPath}.${key}`;
+          } else {
+            currentPath = key;
+          }
           parseNotGraph(data[key], $);
         } else {
-          section.append(`<span property="${key}">${data[key]}`);
+          writeSection($, section, key, data[key]);
         }
       }
 
@@ -287,6 +347,11 @@ function parseNotGraph(data: JsonLD, $, parentSection: string = null): any {
   }
   return $;
 }
+
+function getLabelForProperty(key: string): string {
+  return key;
+}
+
 
 async function getSubjectForGraph(doc) {
   /*
@@ -387,7 +452,7 @@ function findGraphSubject(source: JsonLD) {
     console.log('Parsing ', filename);
     data = JSON.parse(file);
   } else {
-    data = JSON.parse(exDoc);
+    data = JSON.parse(this.exDoc);
   }
   const $ = initDoc(data); // cheerio doc
   jsonld2rdfa(data, $).then(doc => {
