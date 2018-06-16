@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { last, map, switchMap, debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
@@ -31,11 +31,15 @@ export class AppComponent implements OnInit {
 
   showEditor$: Observable<boolean>;
 
+  selectedItem$: Observable<Item>;
+  selectedItem: Item;
+
   public unlisten: Unlisten;
 
   constructor(public keyboardShortcuts: KeyboardShortcutsService,
               public store: Store<fromRoot.State>) {
     this.showEditor$ = store.select(state => state.app.showEditor);
+    this.selectedItem$ = store.select(state => state.item.selectedItem);
 
     this.keyboardShortcuts = keyboardShortcuts;
     this.unlisten = null;
@@ -77,6 +81,9 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.unlisten = this.keyHandler();
+
+  this.store.select(state => state.item.selectedItem)
+    .subscribe(item => this.selectedItem = item);
   }
 
   keyHandler(): Unlisten {
@@ -171,6 +178,17 @@ export class AppComponent implements OnInit {
           event.preventDefault();
 
         },
+        'd': ( event: KeyboardEvent ): void => {
+          /*
+           * Remove currently selected item
+           */
+
+          console.log( 'Handler ', this, event);
+          this.removeItem();
+
+          event.preventDefault();
+
+        },
       },
       {
         // Priority should be lower than our modal
@@ -178,6 +196,10 @@ export class AppComponent implements OnInit {
         terminal: false
       }
     );
+  }
+
+  removeItem(): void {
+    this.store.dispatch(new itemActions.RemoveItem(this.selectedItem));
   }
 
   public onDestroy(): void {

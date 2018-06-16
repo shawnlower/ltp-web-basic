@@ -24,8 +24,6 @@ import { Item } from '../../models/item.model';
 import * as fromRoot from '../../reducers';
 import { ItemService } from '../../services/item.service';
 
-declare var Packery: any;    // grid layout library
-
 /**
  * @ItemsList: A component for displaying items
  * and navigating/selecting between items
@@ -74,9 +72,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     console.log(`Loaded ${items.length.toString()} items.`);
   }
 
-  removeItem(item: Item): void {
-    this.store.dispatch(new itemActions.RemoveItem(item));
-  }
 
 
   selectItem(item: Item): void {
@@ -103,15 +98,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  select(action: string): void {
+  select(action: string): boolean {
     /*
     /* Moves the current selection based on 'action'
      * action can be one of 'next', or 'prev'
-     */
-
-
-    /*
-     * Handle a couple easy cases up-front
      */
 
     if (!this.cards) {
