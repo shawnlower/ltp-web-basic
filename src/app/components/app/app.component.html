@@ -22,7 +22,8 @@
 <main role="main" class="container">
 <router-outlet></router-outlet>
 </main>
-<app-modal-editor [visible]="showEditor$ | async"
+<app-modal-editor *ngIf="showEditor$ | async"
+                  [visible]="showEditor$ | async"
 				  (init)="initEditor()"
 ></app-modal-editor>
 <footer class="footer">

@@ -1,6 +1,7 @@
 import {
   Component,
   HostListener,
+  OnInit,
   Output,
   ViewChildren
 } from '@angular/core';
@@ -13,62 +14,28 @@ import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
 import * as editorActions from '../../actions/editor.actions';
 
+import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
+import { Unlisten } from '../../services/keyboard-shortcuts.service';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChildren('searchBox') vc;
 
   showEditor$: Observable<boolean>;
 
-  constructor(public store: Store<fromRoot.State>) {
+  public unlisten: Unlisten;
+
+  constructor(public keyboardShortcuts: KeyboardShortcutsService,
+              public store: Store<fromRoot.State>) {
     this.showEditor$ = store.select(state => state.app.showEditor);
-  }
 
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    // Handle keyboard events only if editor not visible
-    const searchHasFocus =
-      document.activeElement === document.getElementsByName('search')[0];
-
-    this.showEditor$.pipe(debounceTime(100))
-      .subscribe(showEditor => {
-      // ignore inputs if editor modal is shown or search focused
-      if (showEditor || searchHasFocus) {
-        // Skip
-        return;
-      }
-      this.keyEventHandler(event);
-    });
-  }
-
-
-  keyEventHandler(event) {
-
-    console.log('keyEventHandler: ', event);
-
-    if ( event.key === '/' ) {
-      this.vc.first.nativeElement.focus();
-    } else if ( event.key === '?' ) {
-      alert('HELP');
-    } else if ( event.key === 'j' ) {
-      // j: Select next item
-      this.store.dispatch(new appActions.SelectNextItem());
-    } else if ( event.key === 'k' ) {
-      // k: Select previous item
-      this.store.dispatch(new appActions.SelectPrevItem());
-    } else if ( event.key === 'e' ) {
-      // Toggle the editor
-      this.toggleEditor();
-    } else if ( event.key === 'n' ) {
-      // Toggle the editor
-      this.store.dispatch(new editorActions.ResetEditor());
-      // this.newItem();
-    } else {
-      console.log('keyEvent: no handler for key: ', event.key);
-    }
+    this.keyboardShortcuts = keyboardShortcuts;
+    this.unlisten = null;
   }
 
   newItem() {
@@ -84,8 +51,15 @@ export class AppComponent {
 
   }
 
+  newEditor() {
+    /*
+     * Clear the existing editor. Set defaults for editing a new item.
+     */
+    console.log('Clearing editor modal.');
+  }
 
-  toggleEditor() {
+  toggleEditor(msg = '') {
+    console.log('toggling editor', msg);
     this.store.dispatch(new appActions.ToggleEditor());
   }
 
@@ -96,5 +70,121 @@ export class AppComponent {
   doSearch() {
     console.log('SEARCHING!!!');
   }
+
+  public ngOnInit(): void {
+
+    console.log('Initalizing keyboard shortcuts');
+
+
+    this.unlisten = this.keyboardShortcuts.listen(
+      {
+        'Shift.?': ( event: KeyboardEvent ): void => {
+          /*
+           * Show help dialog
+           */
+
+          console.log( 'Handler [app-component][ 0 ]: ', event);
+          alert('Halp.');
+          event.preventDefault();
+
+        },
+        'e': ( event: KeyboardEvent ): void => {
+          /*
+           * Edit currently selected item
+           */
+
+          console.log( 'Handler [app-component][ 0 ]: ', event);
+
+          const searchHasFocus = document.activeElement ===
+            document.getElementsByName('search')[0];
+
+            if (searchHasFocus) {
+              return;
+            } else {
+              this.toggleEditor();
+            }
+
+          // Since this is a native browser action, we want to cancel the
+          // default behavior and isolate it as a local action.
+          event.preventDefault();
+
+        },
+        'n': ( event: KeyboardEvent ): void => {
+          /*
+           * Show empty editor modal
+           */
+
+          console.log( 'Handler [app-component][ 0 ]: ', event);
+
+          const searchHasFocus = document.activeElement ===
+            document.getElementsByName('search')[0];
+
+          if (searchHasFocus) {
+            return;
+          }
+
+          this.newEditor();
+
+          this.showEditor$.subscribe(showEditor => {
+            // ignore inputs if editor modal is shown or search focused
+            if (showEditor || searchHasFocus) {
+              return;
+            }
+            this.toggleEditor();
+          });
+
+          // Since this is a native browser action, we want to cancel the
+          // default behavior and isolate it as a local action.
+          event.preventDefault();
+
+        },
+        'j': ( event: KeyboardEvent ): void => {
+          /*
+           * Select next item
+           */
+
+          console.log( 'Handler [app-component][ 0 ]: ', event);
+
+          const searchHasFocus = document.activeElement ===
+            document.getElementsByName('search')[0];
+
+          if (!searchHasFocus) {
+            this.store.dispatch(new appActions.SelectNextItem());
+          }
+
+          event.preventDefault();
+
+        },
+        'k': ( event: KeyboardEvent ): void => {
+          /*
+           * Select previous item
+           */
+
+          console.log( 'Handler [app-component][ 0 ]: ', event);
+
+          const searchHasFocus = document.activeElement ===
+            document.getElementsByName('search')[0];
+
+          if (!searchHasFocus) {
+            this.store.dispatch(new appActions.SelectPrevItem());
+          }
+
+          event.preventDefault();
+
+        },
+      },
+      {
+        // Priority should be lower than our modal
+        priority: 0,
+        terminal: false
+      }
+    );
+
+  }
+
+  public onDestroy(): void {
+    if ( this.unlisten ) { this.unlisten(); }
+  }
+
 
 }

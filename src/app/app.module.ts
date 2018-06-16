@@ -19,14 +19,17 @@ import { ModalEditorComponent } from './components/modal-editor/modal-editor.com
 import { reducer } from './reducers';
 import { reducers } from './reducers';
 
+// import { KeyboardShortcutsService } from './services/keyboard-shortcuts.service';
+
 @NgModule({
   declarations: [
     AppComponent,
+    BasicEditorComponent,
+    CardComponent,
     HomeComponent,
     ItemsListComponent,
+//    KeyboardShortcutsService,
     ModalEditorComponent,
-    BasicEditorComponent,
-    CardComponent
   ],
   imports: [
     AppRoutingModule,

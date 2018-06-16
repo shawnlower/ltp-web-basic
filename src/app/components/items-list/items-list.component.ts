@@ -103,10 +103,9 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     // Sets focused property on an item
 
     // Get the currently selected card (returned as array)
-    const cards = this.cards.filter(card => card.selected);
     let selectedCard = null;
 
-
+    const cards = this.cards.filter(card => card.selected);
     if (cards.length > 0) {
       selectedCard = cards.pop();
       selectedCard.selected = false;
@@ -147,9 +146,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
       selectedCard.selected = false;
     }
 
+    let index = 0;
     switch (action) {
       case 'next':
-        let index = 0;
+        index = 0;
         console.log('Selecting next item', cardIdx);
         if (cardIdx < this.cards.length - 1) {
           index = cardIdx + 1;
