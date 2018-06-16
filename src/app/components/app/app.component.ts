@@ -72,11 +72,12 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.unlisten = this.keyHandler();
+  }
 
+  keyHandler(): Unlisten {
     console.log('Initalizing keyboard shortcuts');
-
-
-    this.unlisten = this.keyboardShortcuts.listen(
+    return this.keyboardShortcuts.listen(
       {
         'Shift.?': ( event: KeyboardEvent ): void => {
           /*
@@ -179,7 +180,6 @@ export class AppComponent implements OnInit {
         terminal: false
       }
     );
-
   }
 
   public onDestroy(): void {
