@@ -76,7 +76,8 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       }
     }, {
       // Priority should be lower than our modal
-      priority: 150
+      priority: 150,
+      inputs: true
     });
   }
 
