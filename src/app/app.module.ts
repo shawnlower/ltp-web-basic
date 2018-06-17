@@ -14,7 +14,12 @@ import { BasicEditorComponent } from './components/basic-editor/basic-editor.com
 import { CardComponent } from './components/card/card.component';
 import { HomeComponent } from './components/home/home.component';
 import { ItemsListComponent } from './components/items-list/items-list.component';
+import { ItemHeaderComponent } from './components/item-header/item-header.component';
+import { ItemSectionComponent } from './components/item-section/item-section.component';
 import { ModalEditorComponent } from './components/modal-editor/modal-editor.component';
+import { RdfaEditorComponent } from './components/rdfa-editor/rdfa-editor.component';
+
+import { ItemDirective } from './directives/item.directive';
 
 import { reducer } from './reducers';
 import { reducers } from './reducers';
@@ -25,11 +30,18 @@ import { reducers } from './reducers';
   declarations: [
     AppComponent,
     BasicEditorComponent,
+    RdfaEditorComponent,
     CardComponent,
     HomeComponent,
+    ItemHeaderComponent,
+    ItemSectionComponent,
     ItemsListComponent,
-//    KeyboardShortcutsService,
     ModalEditorComponent,
+    ItemDirective,
+  ],
+  entryComponents: [
+    ItemHeaderComponent,
+    ItemSectionComponent
   ],
   imports: [
     AppRoutingModule,
