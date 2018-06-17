@@ -27,8 +27,7 @@
               "./src/assets/css/sticky-footer.css"
             ],
             "scripts": [
-              "./src/assets/js/packery.pkgd.js",
-              "./src/assets/js/draggabilly.pkgd.js"
+              "./src/assets/js/jsonld.js"
             ]
           },
           "configurations": {

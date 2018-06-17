@@ -133,6 +133,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
 
+    console.log('Modal dyinggg...');
     if (this.unlisten) {
       this.unlisten();
     }

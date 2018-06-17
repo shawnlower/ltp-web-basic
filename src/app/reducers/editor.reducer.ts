@@ -15,8 +15,13 @@ export const initialState: State = {
 export function reducer(state: State = initialState, action) {
 
   switch (action.type) {
+    case actions.LOAD_ITEM: {
+      console.log(action.type, action.payload);
+      return { ...state, item: action.payload };
+    }
+
     case actions.RESET_EDITOR: {
-      console.log('Resetting editor');
+      console.log(action.type, action.payload);
       return state;
     }
 

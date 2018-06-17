@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreModule } from '@ngrx/store';
@@ -23,8 +25,6 @@ import { ItemDirective } from './directives/item.directive';
 
 import { reducer } from './reducers';
 import { reducers } from './reducers';
-
-// import { KeyboardShortcutsService } from './services/keyboard-shortcuts.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +48,7 @@ import { reducers } from './reducers';
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     NgbModule.forRoot(),
     ReactiveFormsModule,
     /**

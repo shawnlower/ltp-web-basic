@@ -16,10 +16,12 @@ import { FormArray, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
 import { Action, Store } from '@ngrx/store';
+import { Actions } from '@ngrx/effects';
 
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, merge, concat,
-         flatMap, mergeMap, filter, last, map, switchMap
+         flatMap, mergeMap, filter, last, map, switchMap,
+         take
        } from 'rxjs/operators';
 
 import * as fromRoot from '../../reducers';
@@ -31,6 +33,7 @@ import { ItemSectionComponent } from '../item-section/item-section.component';
 
 import { Item } from '../../models/item.model';
 
+import { DynamicContentService } from '../../services/dynamic-content-service.service';
 
 interface AdItem {
   new (component: Type<any>, data: any): any;
@@ -47,7 +50,9 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   @Input() typeUrl: string;
   form: FormGroup;
 
+  // A viewchild bound to the 'selector' property of our directive
   @ViewChild(ItemDirective) itemHost: ItemDirective;
+  private containerRefs: Array<any>;
 
   private resultOptionsSubject: Subject<any> = new Subject<any>();
 
@@ -58,7 +63,11 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder,
     private store: Store<fromRoot.State>,
-    private componentFactoryResolver: ComponentFactoryResolver) {
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private dynamicContentService: DynamicContentService
+  ) {
+
+    this.containerRefs = [];
 
     this.setupForm();
     this.searchResults = of([
@@ -78,75 +87,50 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('itemHost', this.itemHost);
-    this.reloadItem(this.item);
+    // Load any item set in the store
+    /*
+    this.store.subscribe(state => {
+      const item = state.editor.item;
+      if (item.json) {
+        console.log('Found item to load', item);
+        this.reloadItem(item);
+      }
+    });
+    */
+    this.store.select(state => state.editor.item).pipe(
+      take(1))
+      .subscribe(item => {
+        if (item.json) {
+          this.reloadItem(item);
+        }
+      });
+
+
   }
 
   ngAfterViewInit() {
   }
 
   getItemComponent(item) {
-    const sectionData: object = {
-      headline: 'test headline',
-      body: 'test body'
-    };
-
-    // Build a item header component
-    const itemHeaderComponent = new ItemComponent(
-      ItemSectionComponent, sectionData);
-    const headerComponentFactory = this.componentFactoryResolver
-      .resolveComponentFactory(itemHeaderComponent.component);
+    /*
+     * Use the dynamic content service to render a modal editor, based on
+     * a JSON-LD payload
+     * TODO:
+     *  - Allow customized layouts
+     *  - For 'new' items, pre-fill with defaults, search
+     *  - Semantic enrichment / upgrade from Thing -> Note -> Todo, etc
+     */
 
     const viewContainerRef = this.itemHost.viewContainerRef;
-    viewContainerRef.clear();
-
-    // Build item section components
-    for (const id in [0, 1]) {
-      if (id) {
-        const sectionData: object = {
-          headline: 'section headline',
-          body: 'test body',
-          json: this.item,
-          id: id,
-        };
-
-        const itemSectionComponent = new ItemComponent(
-          ItemSectionComponent, sectionData);
-
-        const sectionComponentFactory = this.componentFactoryResolver
-          .resolveComponentFactory(itemSectionComponent.component);
-
-        let componentRef = viewContainerRef.createComponent(
-          headerComponentFactory);
-
-        (<ItemComponent>componentRef.instance).data = sectionData;
-
-        componentRef = viewContainerRef.createComponent(
-          sectionComponentFactory);
-
-        (<ItemComponent>componentRef.instance).data = sectionData;
-      }
-    }
-
-
+    this.dynamicContentService.setRootViewContainerRef(viewContainerRef);
+    this.containerRefs = this.dynamicContentService.renderItem(this.item);
   }
 
   reloadItem(item: Item): void {
+    // Spinner-time
     console.log('reloading', item);
 
-    /*
-    const itemComponent = new ItemComponent(ItemSectionComponent, sectionData);
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(itemComponent.component);
-
-    const viewContainerRef = this.itemHost.viewContainerRef;
-
-    viewContainerRef.clear();
-
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-
-    (<ItemComponent>componentRef.instance).data = sectionData;
-     */
-
+    this.containerRefs.forEach(containerRef => containerRef.destroy());
     this.getItemComponent(item);
   }
 
