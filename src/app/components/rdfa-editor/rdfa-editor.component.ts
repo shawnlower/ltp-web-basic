@@ -116,7 +116,12 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
         const sectionComponentFactory = this.componentFactoryResolver
           .resolveComponentFactory(itemSectionComponent.component);
 
-        const componentRef = viewContainerRef.createComponent(
+        let componentRef = viewContainerRef.createComponent(
+          headerComponentFactory);
+
+        (<ItemComponent>componentRef.instance).data = sectionData;
+
+        componentRef = viewContainerRef.createComponent(
           sectionComponentFactory);
 
         (<ItemComponent>componentRef.instance).data = sectionData;
