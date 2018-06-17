@@ -45,25 +45,14 @@ export class AppComponent implements OnInit {
     this.unlisten = null;
   }
 
-  newItem() {
-    /*
-     * Create a new item
-     */
-
-    // Reset the editor to the default state
-    this.store.dispatch(new editorActions.ResetEditor());
-
-    // Make editor visible
-    this.toggleEditor();
-
-  }
-
   newEditor() {
     /*
      * Clear the existing editor. Set defaults for editing a new item.
      */
-    console.log('Clearing editor modal.');
+    this.store.dispatch(new editorActions.ResetEditor()); // TODO: Currently NO-OP
     this.store.dispatch(new itemActions.SelectItem(null));
+    this.store.dispatch(new editorActions.LoadItem(null));
+    setTimeout(() => this.toggleEditor(), 0);
   }
 
   toggleEditor(msg = '') {
@@ -133,13 +122,11 @@ export class AppComponent implements OnInit {
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
 
-          this.newEditor();
-
           if (searchHasFocus) {
             return;
-          } else {
-            this.toggleEditor();
           }
+
+          this.newEditor();
 
           // Since this is a native browser action, we want to cancel the
           // default behavior and isolate it as a local action.

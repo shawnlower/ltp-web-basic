@@ -74,9 +74,12 @@ export class DynamicContentService {
     (componentRef.instance).data = data;
   }
 
-  public renderItem(item: Item) {
+  public renderItem(item: Item): object[] {
 
-    console.log('*************** RENDER ITEM ************');
+    if (!item) {
+      return [];
+    }
+    console.log('*************** RENDER ITEM ************', item);
     // Render outer div
     jsonld.expand(item.json).then(expanded => {
       // At this point, we should have either a single '@type',

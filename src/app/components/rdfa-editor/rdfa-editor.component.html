@@ -15,6 +15,13 @@
              autofocus
              >
     </div>
+    <!-- Temporary text input box for pasting raw JSON -->
+    <div *ngIf="this.showRawInputBox">
+      <textarea
+        formControlName="json"
+        [(ngModel)]="json"
+        ></textarea>
+    </div>
     <ng-template appItemDirective></ng-template>
     
   </form>

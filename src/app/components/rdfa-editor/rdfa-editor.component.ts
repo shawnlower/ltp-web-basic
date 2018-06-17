@@ -61,6 +61,8 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   public model: any;
 
+  showRawInputBox: boolean;
+
   constructor(private formBuilder: FormBuilder,
     private store: Store<fromRoot.State>,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -68,6 +70,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   ) {
 
     this.containerRefs = [];
+    this.showRawInputBox = false;
 
     this.setupForm();
     this.searchResults = of([
@@ -84,30 +87,34 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
         console.log('typeUrl updated to', v);
     });
 
+    this.form.controls['json'].valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged())
+      .subscribe(v => {
+        console.log('json updated to', v);
+    });
+
   }
 
   ngOnInit() {
-    // Load any item set in the store
-    /*
-    this.store.subscribe(state => {
-      const item = state.editor.item;
-      if (item.json) {
-        console.log('Found item to load', item);
-        this.reloadItem(item);
-      }
-    });
-    */
+
     this.store.select(state => state.editor.item).pipe(
       take(1))
       .subscribe(item => {
-        if (item.json) {
+        if (item) {
           this.reloadItem(item);
+        } else {
+          console.log('nothing suitable in the store', item);
+          this.resetEditor();
         }
       });
 
 
   }
 
+  resetEditor() {
+    this.showRawInputBox = true;
+  }
   ngAfterViewInit() {
   }
 
@@ -128,8 +135,6 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   reloadItem(item: Item): void {
     // Spinner-time
-    console.log('reloading', item);
-
     this.containerRefs.forEach(containerRef => containerRef.destroy());
     this.getItemComponent(item);
   }
@@ -137,7 +142,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   setupForm(): void {
     this.form = this.formBuilder.group({
       typeUrl: new FormControl(),
-      dataType: new FormControl()
+      json: new FormControl()
     });
   }
 

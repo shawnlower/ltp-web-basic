@@ -154,7 +154,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       json: jsonld
     };
 
-    this.store.dispatch(new itemActions.ItemLoaded(item));
+    this.store.dispatch(new itemActions.ItemLoaded(<Item>JSON.parse(json)));
     this.toggleEditor();
   }
 
