@@ -4,6 +4,15 @@ import { Item } from '../models/item.model';
 
 export const ITEMS: Item[] = [
   new Item(
+    'http://ltp.shawnlower.net/i/0',
+    'http://schema.org/NoteDigitalDocument',
+    {
+      '@context': 'https://schema.org/',
+      '@type': 'NoteDigitalDocument',
+      'text': 'This is a simple note',
+      'dateCreated': '2015-01-25T12:34:56Z'
+    }),
+  new Item(
     'http://www.ticketfly.com/event/309433',
     'http://schema.org/Event',
     {
@@ -31,21 +40,14 @@ export const ITEMS: Item[] = [
       'startDate': '2013-09-14T21:30'
     }),
   new Item(
-    'http://ltp.shawnlower.net/i/1234',
-    'http://www.w3.org/ns/activitystreams/Note',
+    'https://www.janedoe.com',
+    'https://schema.org/Person',
     {
-      'content': 'This is a simple note',
-      'published': '2015-01-25T12:34:56Z'
-    }),
-  new Item(
-    'http://www.janedoe.com',
-    'http://schema.org/Person',
-    {
-      '@context': 'http://schema.org/',
+      '@context': 'https://schema.org/',
       '@type': 'Person',
       'name': 'Jane Doe',
       'jobTitle': 'Professor',
       'telephone': '(425) 123-4567',
-      'url': 'http://www.janedoe.com'
+      'url': 'https://www.janedoe.com'
     })
 ];

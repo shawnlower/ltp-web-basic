@@ -2,10 +2,12 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   template: `
-    <div>
-      <h4>{{data.headline}}: {{ data.id }}</h4>
-      <textarea width="100%">{{ data.json | json}}</textarea>
+  <div id="{{ data.elem_id }}" class="form-group">
+    <label for="content_key" class="col-sm-2 control-label">{{data.key}}</label>
+    <div class="col-sm-10">
+      <input id="content_key" class="form-control" property="" value="{{ data.value | json }}">
     </div>
+  </div>
   `
 })
 

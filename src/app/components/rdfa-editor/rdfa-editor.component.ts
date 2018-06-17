@@ -31,6 +31,7 @@ import { ItemSectionComponent } from '../item-section/item-section.component';
 
 import { Item } from '../../models/item.model';
 
+import { DynamicContentService } from '../../services/dynamic-content-service.service';
 
 interface AdItem {
   new (component: Type<any>, data: any): any;
@@ -47,6 +48,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   @Input() typeUrl: string;
   form: FormGroup;
 
+  // A viewchild bound to the 'selector' property of our directive
   @ViewChild(ItemDirective) itemHost: ItemDirective;
 
   private resultOptionsSubject: Subject<any> = new Subject<any>();
@@ -58,7 +60,9 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder,
     private store: Store<fromRoot.State>,
-    private componentFactoryResolver: ComponentFactoryResolver) {
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private dynamicContentService: DynamicContentService
+  ) {
 
     this.setupForm();
     this.searchResults = of([
@@ -87,65 +91,19 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   getItemComponent(item) {
     const sectionData: object = {
-      headline: 'test headline',
-      body: 'test body'
+      headline: 'section headline',
+      body: 'test body',
+      json: this.item,
+      id: 0,
     };
 
-    // Build a item header component
-    const itemHeaderComponent = new ItemComponent(
-      ItemSectionComponent, sectionData);
-    const headerComponentFactory = this.componentFactoryResolver
-      .resolveComponentFactory(itemHeaderComponent.component);
-
     const viewContainerRef = this.itemHost.viewContainerRef;
-    viewContainerRef.clear();
-
-    // Build item section components
-    for (const id in [0, 1]) {
-      if (id) {
-        const sectionData: object = {
-          headline: 'section headline',
-          body: 'test body',
-          json: this.item,
-          id: id,
-        };
-
-        const itemSectionComponent = new ItemComponent(
-          ItemSectionComponent, sectionData);
-
-        const sectionComponentFactory = this.componentFactoryResolver
-          .resolveComponentFactory(itemSectionComponent.component);
-
-        let componentRef = viewContainerRef.createComponent(
-          headerComponentFactory);
-
-        (<ItemComponent>componentRef.instance).data = sectionData;
-
-        componentRef = viewContainerRef.createComponent(
-          sectionComponentFactory);
-
-        (<ItemComponent>componentRef.instance).data = sectionData;
-      }
-    }
-
-
+    this.dynamicContentService.setRootViewContainerRef(viewContainerRef);
+    this.dynamicContentService.renderItem(this.item);
   }
 
   reloadItem(item: Item): void {
     console.log('reloading', item);
-
-    /*
-    const itemComponent = new ItemComponent(ItemSectionComponent, sectionData);
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(itemComponent.component);
-
-    const viewContainerRef = this.itemHost.viewContainerRef;
-
-    viewContainerRef.clear();
-
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-
-    (<ItemComponent>componentRef.instance).data = sectionData;
-     */
 
     this.getItemComponent(item);
   }
