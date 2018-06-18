@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -7,7 +6,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio = require('cheerio');
 const colors = require('colors');
 const fs = require('fs');
@@ -64,85 +62,115 @@ function error(msg) {
     console.log(colors.bold(colors.red(msg)));
 }
 function initDoc(data) {
-    return __awaiter(this, void 0, void 0, function* () {
-        /*
-         * Pass in a JSON-LD document, and initialize the document with it
-         *
-         */
-        const DEFAULT_TYPE = 'http://schema.org/Thing';
-        console.log(colors.red('Document sections: '));
-        for (const key in data) {
-            if (key) {
-                console.log(colors.red('\t' + key));
-            }
+    /*
+     * Pass in a JSON-LD document, and initialize the document with it
+     *
+     */
+    const DEFAULT_TYPE = 'http://schema.org/NoteDigitalDocument';
+    console.log(colors.red('Document sections: '));
+    for (const key in data) {
+        if (key) {
+            console.log(colors.red('\t' + key));
         }
-        // Create a new, empty document/DOM tree
-        const $ = cheerio.load(`<div id="content">`);
-        // First, we need an ID for our document
-        let docID;
-        if (data['@id']) {
-            docID = data['@id'];
+    }
+    // Create a new, empty document/DOM tree
+    const $ = cheerio.load(`<div id="content">`);
+    $('#content').append('<form class="form-horizontal" id="contentForm">');
+    // First, we need an ID for our document
+    let docID;
+    if (data['@id']) {
+        docID = data['@id'];
+    }
+    else {
+        docID = 'http://shawnlower.net/_id/123';
+    }
+    $('#content').attr('about', docID);
+    $('#content').attr('class', 'form-group');
+    /*
+     * Pull in basic CSS styling
+     */
+    const bootstrap_theme_url = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css';
+    const bootstrap_url = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
+    $('head').append(`<link rel="stylesheet" href="${bootstrap_url}">`);
+    $('head').append(`<link rel="stylesheet" href="${bootstrap_theme_url}">`);
+    // Get the context (one or more URLs) for the document
+    const ctx = data['@context'];
+    // For cases where there's a single context, e.g.:
+    //
+    // {
+    //   "@context": "http://schema.org/",
+    //   "@type": "Person",
+    //   "name": "Jane Doe",
+    //   "jobTitle": "Professor",
+    //   "telephone": "(425) 123-4567",
+    //   "url": "http://www.janedoe.com"
+    // }
+    // If we only have a single context URL, set it on the document itself
+    if (typeof ctx === 'string') {
+        $('body').attr('vocab', ctx);
+    }
+    else if (Array.isArray(ctx)) {
+        // TODO
+        warn('Doing nothing with an array of context items');
+    }
+    else {
+        // If our context contains CURIEs, then we can add them as namespaces
+        // in the document
+        // e.g. <html xmlns="http://www.w3.org/1999/xhtml"
+        //            xmlns:foaf=http://xmlns.com/foaf/0.1/">
+        $('html').attr('xmlns', 'http://www.w3.org/1999/xhtml');
+        for (const curie in ctx) {
+            // Skip non-string, e.g.   @context: { "image": { @id: ... } }
+            if (curie && typeof ctx[curie] === 'string') {
+                console.log('Adding', curie);
+                $('html').attr(`xmlns:${curie}`, ctx[curie]);
+            }
+            // for .. in wrapper
+        }
+    }
+    // We also need a top-level type. JSON doesn't require this, but if we get
+    // some random @graph or collection of nodes, then we'll just call it a
+    // Thing, and let the user sort it out later
+    let docType = data['@type'];
+    if (!data['@type']) {
+        warn(`No type definition found in document. Inspecting...`);
+        // const subject = getSubjectForGraph(<JsonLD>data).then(() => { ugh });
+        const subject = findGraphSubject(data);
+        if (subject && subject['@type']) {
+            docType = subject['@type'];
+            console.log(`Assuming ${docType} from subject ${subject['@id']}`);
         }
         else {
-            docID = 'http://shawnlower.net/_id/123';
+            warn(`Unable to find type definition. Using ${DEFAULT_TYPE}`);
+            docType = DEFAULT_TYPE;
         }
-        $('content').attr('about', docID);
-        // Get the context (one or more URLs) for the document
-        const ctx = data['@context'];
-        // For cases where there's a single context, e.g.:
-        //
-        // {
-        //   "@context": "http://schema.org/",
-        //   "@type": "Person",
-        //   "name": "Jane Doe",
-        //   "jobTitle": "Professor",
-        //   "telephone": "(425) 123-4567",
-        //   "url": "http://www.janedoe.com"
-        // }
-        //
-        // we should be able to just set the vocab for our document
-        // on the body itself
-        if (typeof ctx === 'string') {
-            $('body').attr('vocab', ctx);
-        }
-        else if (Array.isArray(ctx)) {
-            // TODO
-            warn('Doing nothing with an array of context items');
-        }
-        else {
-            // If our context contains CURIEs, then we can add them as namespaces
-            // in the document
-            // e.g. <html xmlns="http://www.w3.org/1999/xhtml"
-            //            xmlns:foaf=http://xmlns.com/foaf/0.1/">
-            $('html').attr('xmlns', 'http://www.w3.org/1999/xhtml');
-            for (const curie in ctx) {
-                // Skip non-string, e.g.   @context: { "image": { @id: ... } }
-                if (curie && typeof ctx[curie] === 'string') {
-                    console.log('Adding', curie);
-                    $('html').attr(`xmlns:${curie}`, ctx[curie]);
-                }
-                // for .. in wrapper
-            }
-        }
-        // We also need a top-level type. JSON doesn't require this, but if we get
-        // some random @graph or collection of nodes, then we'll just call it a
-        // Thing, and let the user sort it out later
-        let docType = data['@type'];
-        if (!data['@type']) {
-            warn(`No type definition found in document. Inspecting...`);
-            const subject = yield getSubjectForGraph(data);
-            if (subject && subject['@type']) {
-                docType = subject['@type'];
-                console.log(`Assuming ${docType} from subject ${subject['@id']}`);
-            }
-            else {
-                warn(`Unable to find type definition. Using ${DEFAULT_TYPE}`);
-                docType = DEFAULT_TYPE;
-            }
-        }
-        $('#content').attr('typeof', docType);
-        return $;
-    });
+    }
+    $('#content').attr('typeof', docType);
+    return $;
+}
+function writeSection($, section, key, value) {
+    // getKeyLabel();  // map e.g. dateCreated -> 'Creation Date'
+    const keyLabel = getLabelForProperty(key);
+    // getHelpText();  // Description of the field
+    const helpText = 'Description of ' + key;
+    /*
+     * Give each control a unique 'id', so we can address them
+     */
+    const path = `${section.attr('id')}_${key}`;
+    /*
+     * Create the outer div for our group of key=value form elements
+     */
+    section.append(`<div id="${path}" class="form-group">`);
+    /*
+     * Get an object representing the div
+     * (todo: why doesn't append() return that?)
+     */
+    const div = $(`#${path}`);
+    // Append our label
+    div.append(`<label for=${path} class="col-sm-2 control-label">${keyLabel}`);
+    // Create the div + input control
+    div.append(`<div class="col-sm-10"><input id="${path}" class="form-control" property="${key}" value="${value}"></div>`);
+    return section;
 }
 function jsonld2rdfa(data, $) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -179,40 +207,85 @@ function parseGraph(data, $) {
     }
     return $;
 }
-function parseNotGraph(data, $) {
+function parseNotGraph(data, $, parentSection = null, currentPath = null) {
+    /*
+     * Parent section refers to the container to create items in.
+     * Default is '#content'
+     */
+    const DEFAULT_SECTION = '#contentForm';
     console.log(colors.red('Parsing non-graph'), data);
     /*
-     *
      * We want to handle the following types:
      * - Image -> <img>
      * - URL: -> <a>
      * - text: <span>
      */
     // We're not a graph, so we expect a type and some values
-    const content = $('.content');
-    const currentSection = {
-        elements: [null],
-        sections: [null]
-    };
+    let section; // $('section')
+    if (!parentSection) {
+        section = $(DEFAULT_SECTION);
+    }
+    else {
+        const sectionName = data['@id'];
+        if (!sectionName) {
+            console.log('todo: no section name');
+        }
+        section = $(parentSection).append(`<div id="${sectionName}">`);
+    }
     let typeUrl;
+    if (data['@type'] || data['type']) {
+        typeUrl = data['@type'] ? data['@type'] : data['type'];
+    }
     for (const key in data) {
         // Handle any additional JSON-LD keys
         if (key) {
             // Handle types
-            if (key === '@type' || key === 'type') {
-                typeUrl = data[key] ? data[key] : data[key];
-            }
-            else if (key.startsWith('@')) {
+            if (key.startsWith('@')) {
                 console.log('skipping', key);
             }
             else {
-                content.append(`<span>${data[key]}`);
+                /*
+                 * Arrays are nested at most once
+                 */
+                if (Array.isArray(data[key])) {
+                    data[key].forEach(value => {
+                        if (typeof [key] === 'object') {
+                            console.log('Creating new div for', data[key]);
+                            if (currentPath) {
+                                currentPath = `${currentPath}.${key}`;
+                            }
+                            else {
+                                currentPath = key;
+                            }
+                            parseNotGraph(data[key], $, section);
+                        }
+                        else {
+                            writeSection($, section, key, value);
+                        }
+                    });
+                }
+                else if (typeof data[key] === 'object') {
+                    console.log('Creating new div for', data[key]);
+                    // Item IDs include the full path, e.g. person.address
+                    if (currentPath) {
+                        currentPath = `${currentPath}.${key}`;
+                    }
+                    else {
+                        currentPath = key;
+                    }
+                    parseNotGraph(data[key], $);
+                }
+                else {
+                    writeSection($, section, key, data[key]);
+                }
             }
         }
         // wrapped for .. in
     }
-    // Ensure we have a typeUrl set
     return $;
+}
+function getLabelForProperty(key) {
+    return key;
 }
 function getSubjectForGraph(doc) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -227,11 +300,11 @@ function getSubjectForGraph(doc) {
             let newdoc;
             try {
                 newdoc = yield jsonld.flatten(doc);
+                return findGraphSubject(newdoc);
             }
             catch (rejectedValue) {
                 console.log('Unable to flatten doc');
             }
-            return findGraphSubject(newdoc);
         }
     });
 }
@@ -301,7 +374,7 @@ function findGraphSubject(source) {
         data = JSON.parse(file);
     }
     else {
-        data = JSON.parse(exports.exDoc);
+        data = JSON.parse(this.exDoc);
     }
     const $ = initDoc(data); // cheerio doc
     jsonld2rdfa(data, $).then(doc => {
