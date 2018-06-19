@@ -1,0 +1,89 @@
+{
+  "configVersion": 1,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main.1933311554c411dbd110.js",
+        "/polyfills.e3633a42d1123afc5fc9.js",
+        "/runtime.a66f828dca56eeb90e02.js",
+        "/scripts.e7b80cbeaf137718b474.js",
+        "/styles.be63d1b49588c14639ec.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/css/bootstrap.min.css",
+        "/assets/css/sticky-footer.css",
+        "/assets/css/styles.css",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/js/draggabilly.pkgd.js",
+        "/assets/js/draggabilly.pkgd.min.js",
+        "/assets/js/jsonld.js",
+        "/assets/js/packery.pkgd.js",
+        "/assets/js/packery.pkgd.min.js"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/css/bootstrap.min.css": "895125a4522a3b10ee7ada06ee6503587cbf95c5",
+    "/assets/css/sticky-footer.css": "013eccbd86a198a6e00e8d7f9b29f257e752f4b0",
+    "/assets/css/styles.css": "b1c7c15ab0aacde563cdd006b112f71c2a601448",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/js/draggabilly.pkgd.js": "8fb97fcdb5fc70e1fce4f38ccd4216f3e881ceae",
+    "/assets/js/draggabilly.pkgd.min.js": "16674a2a165f8d22eb49eaddf9bdd9bf0955bfac",
+    "/assets/js/jsonld.js": "467b3be53b9c3d67111fb40719e47db489981fe9",
+    "/assets/js/packery.pkgd.js": "d1a6e30c2a5ec25872c5c25bc867393ae383422a",
+    "/assets/js/packery.pkgd.min.js": "a56e5c18ef8a72ae81f9cd1d7c9606cd36849ce8",
+    "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/index.html": "c231b7dd3028291a5daee435cb3be30411064bef",
+    "/main.1933311554c411dbd110.js": "da65de878a8bc4bc09b2ee07ae4e8941af448a9b",
+    "/polyfills.e3633a42d1123afc5fc9.js": "256822d250817434a0694eba4e2c42309f5acfa9",
+    "/runtime.a66f828dca56eeb90e02.js": "078e320cc6fdaf355836c3b1c52b059cdd33fc7e",
+    "/scripts.e7b80cbeaf137718b474.js": "c50a00959c603001f67581f0a9010ae68d955d58",
+    "/styles.be63d1b49588c14639ec.css": "408c1e1c76bcff958696431ed198030f4f21ed57"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*\\.[^\\/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*__[^\\/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*__[^\\/]*\\/.*$"
+    }
+  ]
+}
