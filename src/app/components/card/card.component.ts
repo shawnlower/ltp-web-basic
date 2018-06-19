@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
+import * as appActions from '../../actions/app.actions';
 import * as itemActions from '../../actions/item.actions';
 
 import * as fromRoot from '../../reducers';
@@ -27,6 +28,10 @@ export class CardComponent implements OnInit {
   ngOnInit() {
   }
 
+  editItem() {
+    this.store.dispatch(new appActions.ToggleEditor());
+    return false;
+  }
   removeItem(): boolean {
     this.store.dispatch(new itemActions.RemoveItem(this.selectedItem));
     return false;
