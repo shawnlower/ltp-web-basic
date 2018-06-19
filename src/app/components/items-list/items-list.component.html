@@ -1,8 +1,3 @@
-<div>
-  <button text="pop" #pop (click)="this.items.pop()">POP</button>
-  <button text="next" (click)="select('next')">NEXT</button>
-  <button text="prev" (click)="select('prev')">PREV</button>
-</div>
   <div #grid class="card-deck">
     <div class="card"
          *ngFor="let item of items$ | async; let i=index">
