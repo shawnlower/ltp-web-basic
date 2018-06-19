@@ -39,7 +39,6 @@ interface SectionData {
  */
 import { ItemSectionComponent } from '../components/item-section/item-section.component';
 import { ItemHeaderComponent } from '../components/item-header/item-header.component';
-import { ItemComponent } from '../components/item/item.component';
 
 @Injectable({
   providedIn: 'root'
