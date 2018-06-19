@@ -25,6 +25,8 @@ import { ItemDirective } from './directives/item.directive';
 
 import { reducer } from './reducers';
 import { reducers } from './reducers';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { reducers } from './reducers';
      */
     StoreModule.forRoot({... reducers }),
     StoreDevtoolsModule.instrument(),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
