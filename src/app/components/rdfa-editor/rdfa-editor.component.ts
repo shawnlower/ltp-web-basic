@@ -28,7 +28,6 @@ import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
 
 import { ItemDirective } from '../../directives/item.directive';
-import { ItemComponent } from '../item/item.component';
 import { ItemSectionComponent } from '../item-section/item-section.component';
 
 import { Item } from '../../models/item.model';
