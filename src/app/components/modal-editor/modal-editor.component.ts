@@ -133,6 +133,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
 
+    console.log('Modal dyinggg...');
     if (this.unlisten) {
       this.unlisten();
     }
@@ -153,7 +154,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       json: jsonld
     };
 
-    this.store.dispatch(new itemActions.ItemLoaded(item));
+    this.store.dispatch(new itemActions.ItemLoaded(<Item>JSON.parse(json)));
     this.toggleEditor();
   }
 

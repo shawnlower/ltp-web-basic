@@ -9,11 +9,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<app-basic-editor
+	<app-rdfa-editor
       [typeUrl]="this.curentItem"
-      [item]="this.item$"
+      [item]="this.currentItem"
       #editor
-	></app-basic-editor>
+	></app-rdfa-editor>
       <div class="modal-footer">
         <button type="button" (click)="this.toggleEditor()" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button"

@@ -23,12 +23,12 @@
               "src/assets"
             ],
             "styles": [
+              "./src/assets/css/bootstrap.min.css",
               "./src/assets/css/styles.css",
               "./src/assets/css/sticky-footer.css"
             ],
             "scripts": [
-              "./src/assets/js/packery.pkgd.js",
-              "./src/assets/js/draggabilly.pkgd.js"
+              "./src/assets/js/jsonld.js"
             ]
           },
           "configurations": {

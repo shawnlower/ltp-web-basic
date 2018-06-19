@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreModule } from '@ngrx/store';
@@ -14,28 +16,39 @@ import { BasicEditorComponent } from './components/basic-editor/basic-editor.com
 import { CardComponent } from './components/card/card.component';
 import { HomeComponent } from './components/home/home.component';
 import { ItemsListComponent } from './components/items-list/items-list.component';
+import { ItemHeaderComponent } from './components/item-header/item-header.component';
+import { ItemSectionComponent } from './components/item-section/item-section.component';
 import { ModalEditorComponent } from './components/modal-editor/modal-editor.component';
+import { RdfaEditorComponent } from './components/rdfa-editor/rdfa-editor.component';
+
+import { ItemDirective } from './directives/item.directive';
 
 import { reducer } from './reducers';
 import { reducers } from './reducers';
-
-// import { KeyboardShortcutsService } from './services/keyboard-shortcuts.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     BasicEditorComponent,
+    RdfaEditorComponent,
     CardComponent,
     HomeComponent,
+    ItemHeaderComponent,
+    ItemSectionComponent,
     ItemsListComponent,
-//    KeyboardShortcutsService,
     ModalEditorComponent,
+    ItemDirective,
+  ],
+  entryComponents: [
+    ItemHeaderComponent,
+    ItemSectionComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     NgbModule.forRoot(),
     ReactiveFormsModule,
     /**

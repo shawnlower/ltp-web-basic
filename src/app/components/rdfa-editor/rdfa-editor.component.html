@@ -1,0 +1,28 @@
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Type URL</span>
+      </div>
+      <input title=""
+             class="form-control custom-combobox-input ui-widget
+                    ui-widget-content ui-state-default ui-corner-left
+                    ui-autocomplete-input"
+             autocomplete="off"
+             [ngbTypeahead]="search"
+             [(ngModel)]="typeUrl"
+             formControlName="typeUrl"
+             autofocus
+             >
+    </div>
+    <!-- Temporary text input box for pasting raw JSON -->
+    <div *ngIf="this.showRawInputBox">
+      <textarea
+        formControlName="json"
+        [(ngModel)]="json"
+        ></textarea>
+    </div>
+    <ng-template appItemDirective></ng-template>
+    
+  </form>
+</div>

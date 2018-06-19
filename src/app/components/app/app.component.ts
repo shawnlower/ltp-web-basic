@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { last, map, switchMap, debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
@@ -31,35 +31,28 @@ export class AppComponent implements OnInit {
 
   showEditor$: Observable<boolean>;
 
+  selectedItem$: Observable<Item>;
+  selectedItem: Item;
+
   public unlisten: Unlisten;
 
   constructor(public keyboardShortcuts: KeyboardShortcutsService,
               public store: Store<fromRoot.State>) {
     this.showEditor$ = store.select(state => state.app.showEditor);
+    this.selectedItem$ = store.select(state => state.item.selectedItem);
 
     this.keyboardShortcuts = keyboardShortcuts;
     this.unlisten = null;
-  }
-
-  newItem() {
-    /*
-     * Create a new item
-     */
-
-    // Reset the editor to the default state
-    this.store.dispatch(new editorActions.ResetEditor());
-
-    // Make editor visible
-    this.toggleEditor();
-
   }
 
   newEditor() {
     /*
      * Clear the existing editor. Set defaults for editing a new item.
      */
-    console.log('Clearing editor modal.');
+    this.store.dispatch(new editorActions.ResetEditor()); // TODO: Currently NO-OP
     this.store.dispatch(new itemActions.SelectItem(null));
+    this.store.dispatch(new editorActions.LoadItem(null));
+    setTimeout(() => this.toggleEditor(), 0);
   }
 
   toggleEditor(msg = '') {
@@ -77,6 +70,9 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.unlisten = this.keyHandler();
+
+  this.store.select(state => state.item.selectedItem)
+    .subscribe(item => this.selectedItem = item);
   }
 
   keyHandler(): Unlisten {
@@ -98,16 +94,18 @@ export class AppComponent implements OnInit {
            * Edit currently selected item
            */
 
-          console.log( 'Handler [app-component][ 0 ]: ', event);
+          console.log('Handler [app-component][ 0 ]: ', event);
 
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
 
-            if (searchHasFocus) {
-              return;
-            } else {
-              this.toggleEditor();
-            }
+          if (searchHasFocus) {
+            return;
+          }
+          this.toggleEditor();
+          setTimeout(() => {
+            this.store.dispatch(new editorActions.LoadItem(this.selectedItem));
+          }, 0);
 
           // Since this is a native browser action, we want to cancel the
           // default behavior and isolate it as a local action.
@@ -124,13 +122,11 @@ export class AppComponent implements OnInit {
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
 
-          this.newEditor();
-
           if (searchHasFocus) {
             return;
-          } else {
-            this.toggleEditor();
           }
+
+          this.newEditor();
 
           // Since this is a native browser action, we want to cancel the
           // default behavior and isolate it as a local action.
@@ -171,6 +167,17 @@ export class AppComponent implements OnInit {
           event.preventDefault();
 
         },
+        'd': ( event: KeyboardEvent ): void => {
+          /*
+           * Remove currently selected item
+           */
+
+          console.log( 'Handler ', this, event);
+          this.removeItem();
+
+          event.preventDefault();
+
+        },
       },
       {
         // Priority should be lower than our modal
@@ -178,6 +185,10 @@ export class AppComponent implements OnInit {
         terminal: false
       }
     );
+  }
+
+  removeItem(): void {
+    this.store.dispatch(new itemActions.RemoveItem(this.selectedItem));
   }
 
   public onDestroy(): void {

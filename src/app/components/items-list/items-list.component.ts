@@ -24,8 +24,6 @@ import { Item } from '../../models/item.model';
 import * as fromRoot from '../../reducers';
 import { ItemService } from '../../services/item.service';
 
-declare var Packery: any;    // grid layout library
-
 /**
  * @ItemsList: A component for displaying items
  * and navigating/selecting between items
@@ -40,13 +38,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   items$: Observable<Item[]>;
   currentItem: Item;
 
-  actionSub: any;
-  message$: Observable<string>;
   visible$: Observable<boolean>;
-
-  private pckry: any;
-
-  @Input('about') about;
 
   @ViewChildren(CardComponent) cards: QueryList<CardComponent>;
 
@@ -63,29 +55,13 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
         this.select('prev');
       }
     });
+
     this.getItems();
     this.items$ = store.select(state => state.item.data);
-    this.message$ = store.select(state => JSON.stringify(state.app.showEditor));
     this.visible$ = store.select(state => state.app.showEditor);
   }
 
   ngAfterViewInit() {
-    this.cards.forEach(cardInstance => console.log(cardInstance));
-    /* 
-      const elem = document.querySelector('.grid');
-    const pckry = new Packery( elem, {
-
-      itemSelector: '.grid-item',
-      gutter: 10
-
-    });
-    */
-
-  }
-
-  updateMessage(state) {
-    // this.state.forEach(m => this.message = m.dataType);
-    console.log('updateMessage: updating with', state);
   }
 
   getItems() {
@@ -96,9 +72,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     console.log(`Loaded ${items.length.toString()} items.`);
   }
 
-  removeItem(item: Item): void {
-    this.store.dispatch(new itemActions.RemoveItem(item));
-  }
 
 
   selectItem(item: Item): void {
@@ -125,15 +98,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  select(action: string): void {
+  select(action: string): boolean {
     /*
     /* Moves the current selection based on 'action'
      * action can be one of 'next', or 'prev'
-     */
-
-
-    /*
-     * Handle a couple easy cases up-front
      */
 
     if (!this.cards) {
