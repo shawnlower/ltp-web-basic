@@ -29,6 +29,7 @@
     "npm": "^6.1.0",
     "rxjs": "^6.0.0",
     "tsc": "^1.20150623.0",
+    "workbox-cli": "^3.3.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
