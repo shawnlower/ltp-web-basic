@@ -11,10 +11,10 @@ if (environment.production) {
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     console.log('Registering service worker');
-    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.register('sw.js', { scope: '/' });
   }
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .then(registerServiceWorker)
-  .catch(err => console.log(err));
+  .catch(err => console.log('Error registering service worker', err));
