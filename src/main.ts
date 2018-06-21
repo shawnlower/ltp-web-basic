@@ -10,7 +10,7 @@ if (environment.production) {
 
 function registerServiceWorker() {
   if (environment.production && 'serviceWorker' in navigator) {
-    console.log('Registering servie worker');
+    console.log('Registering service worker');
     navigator.serviceWorker.register('sw.js');
   }
 }

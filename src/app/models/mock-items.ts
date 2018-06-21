@@ -14,9 +14,9 @@ export const ITEMS: Item[] = [
     }),
   new Item(
     'http://www.ticketfly.com/event/309433',
-    'http://schema.org/Event',
+    'https://schema.org/Event',
     {
-      '@context': 'http://schema.org',
+      '@context': 'https://schema.org',
       '@type': 'Event',
       'eventStatus': 'http://schema.org/EventCancelled',
       'location': {

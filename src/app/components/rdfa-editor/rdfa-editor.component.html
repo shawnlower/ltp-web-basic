@@ -10,7 +10,6 @@
                     ui-autocomplete-input"
              autocomplete="off"
              [ngbTypeahead]="search"
-             [(ngModel)]="typeUrl"
              formControlName="typeUrl"
              autofocus
              >
@@ -19,7 +18,6 @@
     <div *ngIf="this.showRawInputBox">
       <textarea
         formControlName="json"
-        [(ngModel)]="json"
         ></textarea>
     </div>
     <ng-template appItemDirective></ng-template>

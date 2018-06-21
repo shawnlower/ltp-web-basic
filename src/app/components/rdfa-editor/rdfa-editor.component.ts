@@ -51,7 +51,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   // A viewchild bound to the 'selector' property of our directive
   @ViewChild(ItemDirective) itemHost: ItemDirective;
-  private containerRefs: Array<any>;
+  private componentRefs: Array<any>;
 
   private resultOptionsSubject: Subject<any> = new Subject<any>();
 
@@ -68,7 +68,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
     private dynamicContentService: DynamicContentService
   ) {
 
-    this.containerRefs = [];
+    this.componentRefs = [];
     this.showRawInputBox = false;
 
     this.setupForm();
@@ -129,13 +129,15 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
     const viewContainerRef = this.itemHost.viewContainerRef;
     this.dynamicContentService.setRootViewContainerRef(viewContainerRef);
-    this.containerRefs = this.dynamicContentService.renderItem(this.item);
+    this.componentRefs = this.dynamicContentService.renderItem(this.item);
   }
 
   reloadItem(item: Item): void {
     // Spinner-time
-    this.containerRefs.forEach(containerRef => containerRef.destroy());
+    this.componentRefs.forEach(containerRef => containerRef.destroy());
     this.getItemComponent(item);
+    // Update the item type field
+    this.form.controls.typeUrl.setValue(this.item.dataType);
   }
 
   setupForm(): void {

@@ -78,7 +78,6 @@ export class DynamicContentService {
     if (!item) {
       return [];
     }
-    console.log('*************** RENDER ITEM ************', item);
     // Render outer div
     jsonld.expand(item.json).then(expanded => {
       // At this point, we should have either a single '@type',
@@ -92,14 +91,13 @@ export class DynamicContentService {
               this.parseDocument(subitem);
             }
           }
-        } else {
-          console.log('Error: I really expected an array.');
-        }
-      }
+        }      }
     }).catch(error => {
       alert('Error: ' + error);
-    });
-    return this.componentRefs;
+    })
+      .then(() => {
+        return this.componentRefs;
+      });
   }
 
   parseGraph(data: JsonLD): any {
@@ -162,10 +160,12 @@ export class DynamicContentService {
     }
     // const schema = this.getSchema(item.url);
 
+    /*
     const header: HeaderSectionData = {
       itemType: typeUrl ? typeUrl : DEFAULT_TYPE
     };
     this.renderSection(header, ItemHeaderComponent);
+     */
 
     // now iterate through each item, writing sections for each
     for (const key in data) {
