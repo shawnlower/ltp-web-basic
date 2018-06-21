@@ -49,6 +49,8 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   @Input() typeUrl: string;
   form: FormGroup;
 
+  contentLoaded: boolean; // controls spinner/loader
+
   // A viewchild bound to the 'selector' property of our directive
   @ViewChild(ItemDirective) itemHost: ItemDirective;
   private componentRefs: Array<any>;
@@ -68,6 +70,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
     private dynamicContentService: DynamicContentService
   ) {
 
+    this.contentLoaded = false;
     this.componentRefs = [];
     this.showRawInputBox = false;
 
@@ -129,12 +132,19 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
     const viewContainerRef = this.itemHost.viewContainerRef;
     this.dynamicContentService.setRootViewContainerRef(viewContainerRef);
-    this.componentRefs = this.dynamicContentService.renderItem(this.item);
+    // Fetch the items from our service
+    this.dynamicContentService.renderItem(this.item).then(refs => {
+      this.componentRefs = refs;
+      this.contentLoaded = true;
+    });
   }
 
   reloadItem(item: Item): void {
-    // Spinner-time
     this.componentRefs.forEach(containerRef => containerRef.destroy());
+
+    // Spinner-time
+    this.contentLoaded = false;
+
     this.getItemComponent(item);
     // Update the item type field
     this.form.controls.typeUrl.setValue(this.item.dataType);

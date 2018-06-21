@@ -7,6 +7,8 @@ import {
   Type,
 } from '@angular/core';
 
+import { Subject, Observable, of } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 
 import { Item } from '../models/item.model';
@@ -73,31 +75,33 @@ export class DynamicContentService {
     (componentRef.instance).data = data;
   }
 
-  public renderItem(item: Item): object[] {
+  public renderItem(item: Item): any {
 
     if (!item) {
-      return [];
+      return of([]);
     }
     // Render outer div
-    jsonld.expand(item.json).then(expanded => {
-      // At this point, we should have either a single '@type',
-      // or a graph containing multiple types.
-      if ('@graph' in expanded) {
-        alert('@graph objects not supported yet.');
-      } else {
-        if (Array.isArray(expanded)) {
-          for (const subitem of expanded) {
-            if (subitem) { // lint
-              this.parseDocument(subitem);
+    return jsonld.expand(item.json).then(
+      expanded => {
+        // At this point, we should have either a single '@type',
+        // or a graph containing multiple types.
+        if ('@graph' in expanded) {
+          alert('@graph objects not supported yet.');
+        } else {
+          if (Array.isArray(expanded)) {
+            for (const subitem of expanded) {
+              if (subitem) { // lint
+                this.parseDocument(subitem);
+              }
             }
           }
-        }      }
-    }).catch(error => {
+        }
+      }).then(() => this.componentRefs)
+    .catch(error => {
       alert('Error: ' + error);
-    })
-      .then(() => {
-        return this.componentRefs;
-      });
+    });
+
+
   }
 
   parseGraph(data: JsonLD): any {
@@ -114,7 +118,7 @@ export class DynamicContentService {
     }
   }
 
-  parseDocument(data: JsonLD): any {
+  parseDocument(data: JsonLD): Observable<any> {
 
     // TODO: get from store/infer, etc
     const DEFAULT_TYPE = 'http://schema.org/Thing';
@@ -178,6 +182,7 @@ export class DynamicContentService {
       }
     }
 
+    return of(this.componentRefs);
 
   }
 
