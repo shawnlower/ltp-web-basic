@@ -26,8 +26,8 @@ if (workbox) {
    */
   workbox.routing.registerRoute(
     /.*/,
-    workbox.strategies.staleWhileRevalidate()
-    // workbox.strategies.networkFirst()
+    // workbox.strategies.staleWhileRevalidate()
+    workbox.strategies.networkFirst()
   );
 
 } else {
