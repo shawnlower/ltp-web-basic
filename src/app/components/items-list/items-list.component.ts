@@ -13,11 +13,12 @@ import {
 
 import { Action, ActionsSubject, Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { last, map } from 'rxjs/operators';
+import { filter, last, map, take, takeLast, tap } from 'rxjs/operators';
 
 import { CardComponent } from '../card/card.component';
 
 import * as appActions from '../../actions/app.actions';
+import * as editorActions from '../../actions/editor.actions';
 import * as itemActions from '../../actions/item.actions';
 
 import { Item } from '../../models/item.model';
@@ -54,6 +55,9 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
       if (data.type === appActions.SELECT_PREV_ITEM) {
         this.select('prev');
       }
+      if (data.type === editorActions.EDITOR_CLOSED) {
+        this.select('current');
+      }
     });
 
     this.getItems();
@@ -76,14 +80,14 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
   selectItem(item: Item): void {
     // Sets focused property on an item
+    console.log('[selectItem]', item);
 
     // Get the currently selected card (returned as array)
-    let selectedCard = null;
-
     const cards = this.cards.filter(card => card.selected);
-    if (cards.length > 0) {
-      selectedCard = cards.pop();
-      selectedCard.selected = false;
+    for (const card of cards) {
+      if (card) {
+        card.selected = false;
+      }
     }
 
     if (this.currentItem && this.currentItem === item) {
@@ -93,7 +97,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     } else {
       this.currentItem = item;
       // Get index of item in cards
-      const cardIdx = this.cards.toArray().indexOf(selectedCard);
       this.store.dispatch(new itemActions.SelectItem(item));
     }
   }
@@ -101,7 +104,8 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   select(action: string): boolean {
     /*
     /* Moves the current selection based on 'action'
-     * action can be one of 'next', or 'prev'
+     * action can be one of 'next', 'prev', or 'current'
+     * to ensure the item for the current card is loaded
      */
 
     if (!this.cards) {
@@ -112,49 +116,53 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     const selectedCard = this.cards.filter(card => card.selected).pop();
     const cardIdx = this.cards.toArray().indexOf(selectedCard);
 
-    if (selectedCard) {
-      selectedCard.selected = false;
-    }
-
     let index = 0;
     switch (action) {
       case 'next':
-        index = 0;
-        console.log('Selecting next item', cardIdx);
-        if (cardIdx < this.cards.length - 1) {
+        if (cardIdx === -1) {
+          index = 0;
+        } else if (cardIdx < this.cards.length - 1) {
           index = cardIdx + 1;
         } else {
           index = 0;
         }
-
-        // Set selected property and send message
-        this.cards.toArray()[index].selected = true;
-        this.items$.forEach(items =>
-          this.store.dispatch(new itemActions.SelectItem(
-            items[index])
-        ));
         break;
 
       case 'prev':
-        index = this.cards.length - 1;
-        console.log('Selecting previous item', cardIdx);
-        if (cardIdx > 0) {
+        const lastIndex = this.cards.length - 1;
+        if (cardIdx === -1) {
+          index = lastIndex;
+        } else if (cardIdx > 0) {
           index = cardIdx - 1;
         } else {
-          index = this.cards.length - 1;
+          index = lastIndex;
         }
+        break;
 
-        // Set selected property and send message
-        this.cards.toArray()[index].selected = true;
-        this.items$.forEach(items =>
-          this.store.dispatch(new itemActions.SelectItem(
-            items[index])
-        ));
+      case 'current':
+        index = cardIdx;
+        console.log('Reselecting current item', index);
         break;
 
       default:
         break;
+
     }
+
+    console.log(`[select] ${cardIdx} -> ${index}`);
+
+    // Unselect current
+    if (selectedCard) {
+      selectedCard.selected = false;
+    }
+
+    // Select desired card, and dispatch action
+    const card = this.cards.toArray()[index];
+    if (card) {
+      card.selected = true;
+      this.store.dispatch(new itemActions.SelectItem(card.item));
+    }
+
   }
 
   isSelected(item: Item): boolean {

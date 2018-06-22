@@ -11,6 +11,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Action, Store, select } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
+import * as editorActions from '../../actions/editor.actions';
 import * as itemActions from '../../actions/item.actions';
 
 import { Subject, Observable } from 'rxjs';
@@ -134,6 +135,8 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
 
     console.log('Modal dyinggg...');
+    this.store.dispatch(new editorActions.EditorClosed());
+
     if (this.unlisten) {
       this.unlisten();
     }

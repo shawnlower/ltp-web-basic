@@ -103,9 +103,7 @@ export class AppComponent implements OnInit {
             return;
           }
           this.toggleEditor();
-          setTimeout(() => {
-            this.store.dispatch(new editorActions.LoadItem(this.selectedItem));
-          }, 0);
+          this.store.dispatch(new editorActions.LoadItem(this.selectedItem));
 
           // Since this is a native browser action, we want to cancel the
           // default behavior and isolate it as a local action.
@@ -137,8 +135,6 @@ export class AppComponent implements OnInit {
           /*
            * Select next item
            */
-
-          console.log( 'Handler [app-component][ 0 ]: ', event);
 
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
