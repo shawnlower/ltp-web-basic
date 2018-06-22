@@ -25,6 +25,11 @@ export function reducer(state: State = initialState, action) {
       return state;
     }
 
+    case actions.EDITOR_CLOSED: {
+      console.log(action.type);
+      return state;
+    }
+
     default: {
       return state;
     }
