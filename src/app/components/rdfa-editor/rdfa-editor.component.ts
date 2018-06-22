@@ -1,17 +1,24 @@
 import {
-  AfterViewInit,
-  Component,
-  ComponentFactoryResolver,
-  Directive,
-  Input,
-  OnInit,
-  QueryList,
-  Type,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
+         AfterViewInit,
+         Component,
+         ComponentFactoryResolver,
+         Directive,
+         Input,
+         OnInit,
+         QueryList,
+         Type,
+         ViewChild,
+         ViewChildren,
+       } from '@angular/core';
 
-import { FormArray, FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray,
+         FormControl,
+         FormBuilder,
+         FormGroup,
+         Validators
+       } from '@angular/forms';
+
+import { jsonValidator } from '../../directives/form-validator.directive';
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
@@ -25,6 +32,7 @@ import { debounceTime, distinctUntilChanged, merge, concat,
        } from 'rxjs/operators';
 
 import * as fromRoot from '../../reducers';
+import * as editorActions from '../../actions/editor.actions';
 import * as appActions from '../../actions/app.actions';
 
 import { ItemDirective } from '../../directives/item.directive';
@@ -93,7 +101,32 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
       debounceTime(200),
       distinctUntilChanged())
       .subscribe(v => {
-        console.log('json updated to', v);
+        if ( !this.form.controls.json.errors ) {
+          /*
+           * Create 'item' from JSON
+           */
+          let data: Item;
+          const id = 'http://shawnlower.net/i/918348';
+
+          const  json = JSON.parse(v);
+          let typeUrl: string;
+          if ('@type' in json) {
+            typeUrl = json['@type'];
+          } else {
+            // TODO: app config
+            typeUrl = 'https://schema.org/Thing';
+            console.log(`No @type specified. Using ${typeUrl}`);
+          }
+
+          data = {
+            url: id,
+            dataType: typeUrl,
+            json: json
+          };
+
+          this.store.dispatch(new editorActions.LoadItem(data));
+          console.log('Creating item', data);
+        }
     });
 
   }
@@ -155,8 +188,11 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   setupForm(): void {
     this.form = this.formBuilder.group({
-      typeUrl: new FormControl(),
-      json: new FormControl()
+      typeUrl: new FormControl('', [jsonValidator]),
+      json: new FormControl('', [
+        Validators.required,
+        jsonValidator
+      ])
     });
   }
 

@@ -18,6 +18,12 @@
     <div class="loader" *ngIf="!contentLoaded">Loading...</div>
 
     <!-- Temporary text input box for pasting raw JSON -->
+    <!-- and ngModel issues :-/ -->
+    <div *ngIf="this.form.controls.json?.invalid && (this.form.controls.json?.dirty || this.form.controls.json?.touched)"
+     class="alert alert-danger">
+      Invalid JSON document
+    </div>
+
     <div *ngIf="this.showRawInputBox">
       <textarea
         class="rawInput"

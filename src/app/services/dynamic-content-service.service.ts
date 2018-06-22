@@ -98,6 +98,7 @@ export class DynamicContentService {
         }
       }).then(() => this.componentRefs)
     .catch(error => {
+      console.log('Failed to parse JSON-LD', item);
       alert('Error: ' + error);
     });
 

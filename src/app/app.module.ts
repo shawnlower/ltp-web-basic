@@ -25,6 +25,7 @@ import { ItemDirective } from './directives/item.directive';
 
 import { reducer } from './reducers';
 import { reducers } from './reducers';
+import { FormValidatorDirective } from './directives/form-validator.directive';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { reducers } from './reducers';
     ItemsListComponent,
     ModalEditorComponent,
     ItemDirective,
+    FormValidatorDirective,
   ],
   entryComponents: [
     ItemHeaderComponent,

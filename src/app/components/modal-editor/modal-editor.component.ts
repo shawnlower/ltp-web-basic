@@ -148,16 +148,12 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
 
   }
 
-  saveChanges(json: string, typeUrl: string): void {
-    console.log('save', this.currentItem, this.item, json);
-    const jsonld = JSON.parse(json);
-    const item: Item = {
-      url:  'http://ltp.shawnlower.net/i/TestUrl/',
-      dataType: typeUrl,
-      json: jsonld
-    };
-
-    this.store.dispatch(new itemActions.ItemLoaded(<Item>JSON.parse(json)));
+  saveChanges(): void {
+    this.store.select(state => state.editor.item).subscribe(item => {
+      this.currentItem = item;
+      console.log('save', this.currentItem, this.item);
+    });
+    this.store.dispatch(new itemActions.ItemLoaded(this.currentItem));
     this.toggleEditor();
   }
 
