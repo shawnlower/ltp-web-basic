@@ -116,6 +116,9 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   resetEditor() {
     this.showRawInputBox = true;
+    this.contentLoaded = true;
+    // todo: pending application configuration store
+    this.typeUrl = 'https://schema.org/NoteDigitalDocument';
   }
   ngAfterViewInit() {
   }

@@ -1,3 +1,7 @@
+.rawInput {
+    width: 100%
+}
+
 /* CSS spinner from https://projects.lukehaas.me/css-loaders/ */
 .loader {
   color: #000000;
