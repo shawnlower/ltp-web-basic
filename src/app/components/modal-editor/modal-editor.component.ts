@@ -6,7 +6,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 import { Action, Store, select } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
@@ -63,7 +63,6 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
 
   keyHandlerInput(): Unlisten {
     // Handle shortcuts within an input dialog
-    console.log('Initalizing inputbox shortcuts');
 
     return this.keyboardShortcuts.listen({
       'Control.Enter': ( event: KeyboardEvent ): void => {
@@ -91,7 +90,6 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
   }
 
   keyHandler(): Unlisten {
-    console.log('Initalizing keyboard shortcuts');
 
     return this.keyboardShortcuts.listen({
       'Shift.?': ( event: KeyboardEvent ): void => {
@@ -134,17 +132,10 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
 
-    console.log('Modal dyinggg...');
     this.store.dispatch(new editorActions.EditorClosed());
 
-    if (this.unlisten) {
-      this.unlisten();
-    }
-
-    if (this.unlistenInput) {
-      this.unlistenInput();
-    }
-
+    if (this.unlisten) { this.unlisten(); }
+    if (this.unlistenInput) { this.unlistenInput(); }
 
   }
 
