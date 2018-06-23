@@ -53,7 +53,7 @@ interface AdItem {
   templateUrl: './rdfa-editor.component.html',
   styleUrls: ['./rdfa-editor.component.css'],
 })
-export class RdfaEditorComponent implements OnInit, AfterViewInit {
+export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   @Input() item: Item;
   @Input() typeUrl: string;
@@ -77,10 +77,10 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   showRawInputBox: boolean;
 
   constructor(private formBuilder: FormBuilder,
-    private renderer: Renderer,
-    private store: Store<fromRoot.State>,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private dynamicContentService: DynamicContentService
+    private dynamicContentService: DynamicContentService,
+    private store: Store<fromRoot.State>,
+    private renderer: Renderer
   ) {
 
     this.contentLoaded = false;
@@ -141,25 +141,29 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
     this.store.select(state => state.editor)
       .subscribe(editorState => this.initEditor(editorState));
 
+    this.store.select(state => state.editor.item)
+      .pipe(take(1))
+      .subscribe(item => this.updateItem(item));
+  }
+
+  ngAfterViewInit() {
+  }
+
+  updateItem(item) {
+    // If our editor has an item, load the content
+    if (item) {
+      this.reloadItem(item);
+    } else {
+      // Otherwise, show a raw input box
+      this.showRawInputBox = true;
+
+    }
   }
 
   initEditor(editorState) {
     this.contentLoaded = true;
     // todo: pending application configuration store
     this.typeUrl = 'https://schema.org/NoteDigitalDocument';
-
-    // If our editor has an item, load the content
-    if (editorState.item) {
-      this.reloadItem(editorState.item);
-    } else {
-    // Otherwise, show a raw input box
-      this.showRawInputBox = true;
-    }
-  }
-  ngAfterViewInit() {
-    this.renderer.invokeElementMethod(this.rawInput.nativeElement,
-      'focus');
-
   }
 
   getItemComponent(item) {
