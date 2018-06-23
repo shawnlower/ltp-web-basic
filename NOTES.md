@@ -179,3 +179,7 @@ getType(item) {
    */
   }
 
+# References
+## Distillers
+- http://rdf.greggkellogg.net/distiller?command=serialize&format=jsonld&output_format=rdfa&raw
+- https://www.w3.org/2012/pyRdfa/
