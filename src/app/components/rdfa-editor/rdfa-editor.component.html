@@ -26,7 +26,8 @@
 
     <div *ngIf="this.showRawInputBox">
       <textarea
-        class="rawInput"
+        autofocus
+        #rawInput
         formControlName="json"
         ></textarea>
     </div>

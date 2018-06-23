@@ -3,9 +3,11 @@ import {
          Component,
          ComponentFactoryResolver,
          Directive,
+         ElementRef,
          Input,
          OnInit,
          QueryList,
+         Renderer,
          Type,
          ViewChild,
          ViewChildren,
@@ -22,7 +24,7 @@ import { jsonValidator } from '../../directives/form-validator.directive';
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
-import { Action, Store } from '@ngrx/store';
+import { Action, State, Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
 
 import { Subject, Observable, of } from 'rxjs';
@@ -55,6 +57,8 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
 
   @Input() item: Item;
   @Input() typeUrl: string;
+  @ViewChild('rawInput') rawInput: ElementRef;
+
   form: FormGroup;
 
   contentLoaded: boolean; // controls spinner/loader
@@ -73,6 +77,7 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   showRawInputBox: boolean;
 
   constructor(private formBuilder: FormBuilder,
+    private renderer: Renderer,
     private store: Store<fromRoot.State>,
     private componentFactoryResolver: ComponentFactoryResolver,
     private dynamicContentService: DynamicContentService
@@ -132,28 +137,29 @@ export class RdfaEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
-    this.store.select(state => state.editor.item).pipe(
-      take(1))
-      .subscribe(item => {
-        if (item) {
-          this.reloadItem(item);
-        } else {
-          console.log('nothing suitable in the store', item);
-          this.resetEditor();
-        }
-      });
-
+    // Perform initialization steps for editor modal
+    this.store.select(state => state.editor)
+      .subscribe(editorState => this.initEditor(editorState));
 
   }
 
-  resetEditor() {
-    this.showRawInputBox = true;
+  initEditor(editorState) {
     this.contentLoaded = true;
     // todo: pending application configuration store
     this.typeUrl = 'https://schema.org/NoteDigitalDocument';
+
+    // If our editor has an item, load the content
+    if (editorState.item) {
+      this.reloadItem(editorState.item);
+    } else {
+    // Otherwise, show a raw input box
+      this.showRawInputBox = true;
+    }
   }
   ngAfterViewInit() {
+    this.renderer.invokeElementMethod(this.rawInput.nativeElement,
+      'focus');
+
   }
 
   getItemComponent(item) {
