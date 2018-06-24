@@ -75,13 +75,6 @@ export class DynamicContentService {
       return of([]);
     }
 
-
-    const header: HeaderSectionData = {
-      itemType: item.data['@type'],
-      headingSize: 1
-    };
-    this.renderSection(header, ItemHeaderComponent, viewContainerRef);
-
     return jsonld.expand(item.data)
       .then(expanded => {
         // At this point, we should have either a single '@type',
@@ -93,16 +86,12 @@ export class DynamicContentService {
         for (const subitem of expanded) {
           console.log('[renderItem] subitem', subitem);
 
-          for (const key in subitem) {
-            // Handle any additional JSON-LD keys
-            if ( key.startsWith('@') ) { continue; }
-
-            if (key) {
-              const propertyName = key;
-              const value = subitem[propertyName];
-              this.parseSection(propertyName, value, viewContainerRef);
-            }
+          let typeUrl = subitem['@type'];
+          if (Array.isArray(typeUrl)) {
+            typeUrl = typeUrl[0];
           }
+
+          this.parseSection(typeUrl, subitem, viewContainerRef, 2, true);
 
           return of(this.componentRefs);
         }
@@ -130,161 +119,111 @@ export class DynamicContentService {
     }
   }
 
-  parseSection(propertyName, value, viewContainerRef, headingSize = 1) {
-    console.log('[parseSection]', arguments);
-    /*
-     * Since we've ensured that we have an expanded JSON-LD
-     * document, with an explicit '@type', all of the subsequent
-     * keys must be URLs, in order to be valid
-     */
+  getType(node: Object): string {
+    // Returns the URL of a node
+    if (!('@type' in node)) {
+      console.log('[WARNING] getType: no type found', node);
+      return null;
 
-    if (Array.isArray(value)) {
-      // iterate through subkeys
-      value.forEach(propertyValue => {
-        console.log('[propertyValue]', propertyValue);
-        /* At this point, our value should be either
-         *    a) { @value: 'http://www.w3.org/2002/12/cal/ical#dtstart' }
-         *       In this case, our value can be anything ([], {}, '', 0-9)
-         *    b) { @id: 'http://xxxx/' }
-         *    c) { @type: xxxx, @value: yyyy }
-         */
-        if ('@value' in propertyValue) {
-          // Literal
-          const literalValue = propertyValue['@value'];
-          console.log('[propertyValue] - LITERAL ', literalValue,
-            viewContainerRef);
+    } else if (Array.isArray(node['@type'])) {
+      return node['@type'][0];
 
-          /*
-           * Construct the data for the section
-           */
-          const sectionData: SectionData = {
-            label: propertyName,
-            key: propertyName,
-            value: literalValue
-          };
-          this.renderSection(sectionData, ItemSectionComponent,
-            viewContainerRef);
-
-
-        } else if ('@id' in propertyValue) {
-          // Link to another resource
-          // e.g. image, audio, webpage
-          const id = propertyValue['@id'];
-          console.log('[propertyValue] - ID ', id);
-          /*
-           * FIXME: This will vary based on the property type
-           */
-          const sectionData: SectionData = {
-            label: propertyName,
-            key: propertyName,
-            value: id
-          };
-          this.renderSection(sectionData, ItemSectionComponent,
-            viewContainerRef);
-
-
-        } else if ('@type' in propertyValue) {
-          // Nested type: Recurse
-          const typeUrl = propertyValue['@type'];
-          console.log('[propertyValue] - NESTED TYPE ', typeUrl,
-           propertyName, propertyValue, viewContainerRef);
-
-          // Write another header
-          const header: HeaderSectionData = {
-            itemType: typeUrl,
-            headingSize: headingSize >= 5 ? 5 : headingSize + 1
-          };
-          const vcr = this.renderSection(
-            header, ItemHeaderComponent, viewContainerRef);
-
-          console.log('[renderSection] recurse with', propertyValue);
-          this.parseSection(propertyName, propertyValue, viewContainerRef);
-          /*
-          jsonld.expand(propertyValue).then( expanded => {
-            // this.parseSection(propertyName, expanded, viewContainerRef);
-            console.log('in cb', expanded);
-          });
-          */
-        } else {
-          // Should never get here
-          console.log('[propertyValue] - *** ERROR ***');
-      }
-
-
-        /*
-         * At this point, we'd like to construct a data object
-         * that we can populate a section component template from.
-         *
-         * Before we do that, however, we need the following:
-         *
-         */
-      });
     } else {
-      console.log('*** not an array', value);
-
+      return node['@type'];
     }
   }
 
-  parseNonGraph(data: object, context: string|string[] = null): any {
+  parseSection(nodeName, nodeObject, viewContainerRef, headingSize = 3,
+               topContext = false) {
 
-    // Normalize our context
-    if (!context) {
-      context = data['@type'];
-    } else if (!Array.isArray(context)) {
-      context = [context];
+    console.log('[parseSection]', arguments);
+
+    // Get our semantic type
+    // If we don't have a '@type', and the nodeName is a URL, then that
+    // becomes our type
+    // FIXME: @id?
+    let typeUrl = this.getType(nodeObject);
+    if (!typeUrl) {
+      typeUrl = nodeName;
+    }
+    if (!nodeName.startsWith('http:')) {
+      throw new Error('no type specified');
     }
 
-    // Not a JSON-LD value? No context passed?
-    if (!context) {
-      console.log('ERROR: NO CONTEXT'); // pun intended? sorry.
+    // Write header for section
+    // skip top-level, as that's displayed elsewhere
+    if (!topContext) {
+      const header: HeaderSectionData = {
+        itemType: typeUrl,
+        headingSize: headingSize
+      };
+      const vcr = this.renderSection(
+        header, ItemHeaderComponent, viewContainerRef);
     }
 
-    console.log('parseNonGraph with', data, 'context=', context);
     /*
-     * First, iterate through each key in our Object
+     * Next, iterate through our children, which should have the form:
+     *
+     *    a) { @value: 'http://www.w3.org/2002/12/cal/ical#dtstart' }
+     *       In this case, our value can be anything ([], {}, '', 0-9)
+     *    b) { @id: 'http://xxxx/' }
+     *    c) { @type: xxxx, ... }
+     *
      */
-    for (const key in data) {
-      // Handle any additional JSON-LD keys
-      if ( key.startsWith('@') ) { continue; }
-      if (key) {
-        /*
-         * Main loop
-         */
-        let value = data[key];
-        if (Array.isArray(value)) {
-          if (value.length === 1) {
-            // unpack arrays with a single item
-            value = value[0];
-          }
-        } else {
-          // iterate through subkeys
-          value.forEach(v => this.parseNonGraph(v));
-          continue;
-        }
-        console.log('Writing section with', key, value);
-        /* At this point, our value should be either
-         *    a) { @value: 'http://www.w3.org/2002/12/cal/ical#dtstart' }
-         *       In this case, our value can be anything ([], {}, '', 0-9)
-         *    b) { @id: 'http://xxxx/' }
-         *    c) { @type: xxxx, @value: yyyy }
-         */
-        let recurse = false;
-        if ( '@value' in value ) {
-          // Is this a literal, or a typed object?
-          if (Array.isArray(value['@value']) ||
-            typeof value['@value'] === 'object') {
-            recurse = true;
-          }
-          if (recurse) {
-            console.log('Recursing');
+
+    for (const nodeChild of Object.keys(nodeObject)) {
+      /*
+       * Example with
+       * typeUrl = 'http://schema.org/address';
+       * nodeChild = {
+            "@type": [
+              "http://schema.org/PostalAddress"
+            ],
+       *    "addressLocality": [
+       *      "@value": "Denver"
+       *    ]
+       *  }
+       */
+
+      if (nodeChild.startsWith('@')) {
+        console.log('[parseSection] skipping', nodeChild);
+        continue;
+      }
+      for (const key of nodeObject[nodeChild]) {
+        if (key) {
+          if ('@value' in key) {
+            const value =  key['@value'];
+            console.log('[parseSection] value', value);
+            const sectionData: SectionData = {
+              label: nodeChild,
+              key: nodeChild,
+              value: value
+            };
+            this.renderSection(sectionData, ItemSectionComponent,
+              viewContainerRef);
+
+          } else if ('@id' in key) {
+            const id =  key['@id'];
+            console.log('[parseSection] id', id);
+            const sectionData: SectionData = {
+              label: nodeChild,
+              key: nodeChild,
+              value: id
+            };
+            this.renderSection(sectionData, ItemSectionComponent,
+              viewContainerRef);
+
+          } else if ('@type' in key) {
+            console.log('[parseSection] RECURSE', key);
+            this.parseSection(typeUrl, key, viewContainerRef, headingSize + 1);
+
           } else {
-            // this.handleSection(key, value['@value'], <string[]>context);
+            console.log('[parseSection] unknown', key);
           }
         }
-
-
       }
     }
+
   }
 
   getSchema(typeUrl: string) {
