@@ -9,6 +9,9 @@
     "cheerio": "^1.0.0-rc.2",
     "jsonld": "^1.0.2",
     "jsonld-cli": "^0.2.0",
+    "mocha": "^5.2.0",
+    "rdf-serializer-jsonld": "^1.1.2",
+    "rdfs-context": "^1.3.0",
     "typescript": "^2.9.1",
     "vkbeautify": "^0.99.3"
   },
