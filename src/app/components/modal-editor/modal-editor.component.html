@@ -10,7 +10,6 @@
         </button>
       </div>
 	<app-rdfa-editor
-      [typeUrl]="this.currentItem"
       [item]="this.currentItem"
       #editor
 	></app-rdfa-editor>
@@ -19,6 +18,8 @@
         <button type="button"
           class="btn btn-primary"
           (click)="this.saveChanges(editor.json, editor.typeUrl)"
+          [disabled]="!!this.currentItem$"
+          
           >Save changes</button>
       </div>
     </div>

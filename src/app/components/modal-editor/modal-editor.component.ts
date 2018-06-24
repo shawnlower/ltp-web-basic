@@ -9,12 +9,13 @@ import {
 import { trigger, style, animate, transition } from '@angular/animations';
 
 import { Action, Store, select } from '@ngrx/store';
+import { Subject, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+
 import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
 import * as editorActions from '../../actions/editor.actions';
 import * as itemActions from '../../actions/item.actions';
-
-import { Subject, Observable } from 'rxjs';
 
 import { Item } from '../../models/item.model';
 
@@ -140,12 +141,23 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
   }
 
   saveChanges(): void {
+
+    this.store.select(state => state.editor.item).pipe(
+      take(1),
+      map(item => {
+        this.store.dispatch(new itemActions.ItemLoaded(item));
+      })).subscribe(item => {
+        console.log('[saveChanges]', this.item);
+        this.toggleEditor();
+      });
+    /*
     this.store.select(state => state.editor.item).subscribe(item => {
       this.currentItem = item;
       console.log('save', this.currentItem, this.item);
     });
     this.store.dispatch(new itemActions.ItemLoaded(this.currentItem));
     this.toggleEditor();
+    */
   }
 
   toggleEditor() {

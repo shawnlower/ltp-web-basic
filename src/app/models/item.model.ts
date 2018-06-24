@@ -29,7 +29,6 @@ export class Item {
                        // of a resource, and thus define multiple sameAs
                        // relationships.
                        //
-                       //
     data: JsonLD;      // The actual object
                        //
     observed: string;  // The datetime when the item was initially encountered.

@@ -11,6 +11,14 @@ export class FormValidatorDirective {
 
 }
 
+export function typePresentValidator(control: AbstractControl): ValidationErrors {
+  if (control.dirty) {
+    console.log('[typePresentValidator]', this, control);
+    return { jsonValidationError: 'oh no' };
+  }
+  return null;
+}
+
 export function jsonValidator(control: AbstractControl): ValidationErrors {
   try {
     JSON.parse(control.value);

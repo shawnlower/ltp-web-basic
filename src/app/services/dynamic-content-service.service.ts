@@ -11,22 +11,15 @@ import { Subject, Observable, of } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 
-import { Item } from '../models/item.model';
+import { Item, JsonLD } from '../models/item.model';
 
 import * as jsonld from '../../assets/js/jsonld.js';
-
-interface JsonLD {
-  '@context'?: any;
-  '@graph'?: any;
-  '@type'?: string;
-  '@id'?: string;
-  // @ts-ignore
-  [any];
-}
+import * as _ from 'lodash';
 
 // Data passed to the header section
 interface HeaderSectionData {
   itemType: string;
+  headingSize: number; // 1..5
 }
 
 // Data passed to each section
@@ -57,52 +50,68 @@ export class DynamicContentService {
     this.factoryResolver = factoryResolver;
   }
 
-  public setRootViewContainerRef(viewContainerRef) {
-    this.rootViewContainer = viewContainerRef;
-  }
+  public renderSection(data: SectionData|HeaderSectionData,
+                       component = ItemSectionComponent,
+                       viewContainerRef) {
 
-  public renderSection(data: SectionData, component = ItemSectionComponent) {
     const componentFactory = this.factoryResolver
       .resolveComponentFactory(component);
 
     // Reference to the new component (note: this is what we'll need to
     // destroy() when clearing our modal)
-    const componentRef = this.rootViewContainer.createComponent(
+    const componentRef = viewContainerRef.createComponent(
       componentFactory);
 
     this.componentRefs.push(componentRef);
 
     (componentRef.instance).data = data;
+
+    return componentRef;
   }
 
-  public renderItem(item: Item): any {
+  public renderItem(item: Item, viewContainerRef: ViewContainerRef): any {
 
     if (!item) {
       return of([]);
     }
 
-    // Render outer div
 
-    return jsonld.expand(item.data).then(
-      expanded => {
+    const header: HeaderSectionData = {
+      itemType: item.data['@type'],
+      headingSize: 1
+    };
+    this.renderSection(header, ItemHeaderComponent, viewContainerRef);
+
+    return jsonld.expand(item.data)
+      .then(expanded => {
         // At this point, we should have either a single '@type',
         // or a graph containing multiple types.
         if ('@graph' in expanded) {
-          alert('@graph objects not supported yet.');
-        } else {
-          if (Array.isArray(expanded)) {
-            for (const subitem of expanded) {
-              if (subitem) { // lint
-                this.parseDocument(subitem);
-              }
+          throw new Error('@graph objects not supported yet.');
+        }
+
+        for (const subitem of expanded) {
+          console.log('[renderItem] subitem', subitem);
+
+          for (const key in subitem) {
+            // Handle any additional JSON-LD keys
+            if ( key.startsWith('@') ) { continue; }
+
+            if (key) {
+              const propertyName = key;
+              const value = subitem[propertyName];
+              this.parseSection(propertyName, value, viewContainerRef);
             }
           }
+
+          return of(this.componentRefs);
         }
       }).then(() => this.componentRefs)
     .catch(error => {
-      console.log('Failed to parse JSON-LD', item);
+      console.log('Failed to parse JSON-LD', item, error);
       alert('Error: ' + error);
     });
+
 
 
   }
@@ -121,93 +130,99 @@ export class DynamicContentService {
     }
   }
 
-  jsonldToItem(json: JsonLD|string): Item {
+  parseSection(propertyName, value, viewContainerRef, headingSize = 1) {
+    console.log('[parseSection]', arguments);
     /*
-     * Take an input JsonLD Object, and normalize it into an Item Object
-     * This guarantees us a type that has:
-     * - A URL for the primary @type of our item.
+     * Since we've ensured that we have an expanded JSON-LD
+     * document, with an explicit '@type', all of the subsequent
+     * keys must be URLs, in order to be valid
      */
-    let json_obj: Object;
 
-    if (typeof(json) === 'string') {
-      json_obj = JSON.parse(json);
+    if (Array.isArray(value)) {
+      // iterate through subkeys
+      value.forEach(propertyValue => {
+        console.log('[propertyValue]', propertyValue);
+        /* At this point, our value should be either
+         *    a) { @value: 'http://www.w3.org/2002/12/cal/ical#dtstart' }
+         *       In this case, our value can be anything ([], {}, '', 0-9)
+         *    b) { @id: 'http://xxxx/' }
+         *    c) { @type: xxxx, @value: yyyy }
+         */
+        if ('@value' in propertyValue) {
+          // Literal
+          const literalValue = propertyValue['@value'];
+          console.log('[propertyValue] - LITERAL ', literalValue,
+            viewContainerRef);
+
+          /*
+           * Construct the data for the section
+           */
+          const sectionData: SectionData = {
+            label: propertyName,
+            key: propertyName,
+            value: literalValue
+          };
+          this.renderSection(sectionData, ItemSectionComponent,
+            viewContainerRef);
+
+
+        } else if ('@id' in propertyValue) {
+          // Link to another resource
+          // e.g. image, audio, webpage
+          const id = propertyValue['@id'];
+          console.log('[propertyValue] - ID ', id);
+          /*
+           * FIXME: This will vary based on the property type
+           */
+          const sectionData: SectionData = {
+            label: propertyName,
+            key: propertyName,
+            value: id
+          };
+          this.renderSection(sectionData, ItemSectionComponent,
+            viewContainerRef);
+
+
+        } else if ('@type' in propertyValue) {
+          // Nested type: Recurse
+          const typeUrl = propertyValue['@type'];
+          console.log('[propertyValue] - NESTED TYPE ', typeUrl,
+           propertyName, propertyValue, viewContainerRef);
+
+          // Write another header
+          const header: HeaderSectionData = {
+            itemType: typeUrl,
+            headingSize: headingSize >= 5 ? 5 : headingSize + 1
+          };
+          const vcr = this.renderSection(
+            header, ItemHeaderComponent, viewContainerRef);
+
+          console.log('[renderSection] recurse with', propertyValue);
+          this.parseSection(propertyName, propertyValue, viewContainerRef);
+          /*
+          jsonld.expand(propertyValue).then( expanded => {
+            // this.parseSection(propertyName, expanded, viewContainerRef);
+            console.log('in cb', expanded);
+          });
+          */
+        } else {
+          // Should never get here
+          console.log('[propertyValue] - *** ERROR ***');
+      }
+
+
+        /*
+         * At this point, we'd like to construct a data object
+         * that we can populate a section component template from.
+         *
+         * Before we do that, however, we need the following:
+         *
+         */
+      });
     } else {
-      json_obj = json;
+      console.log('*** not an array', value);
+
     }
-
-    let item: Item;
-    return item;
-
-  }
-
-  parseDocument(data: JsonLD): Observable<any> {
-
-    const item = this.jsonldToItem(data);
-
-    // TODO: get from store/infer, etc
-    const DEFAULT_TYPE = 'http://schema.org/Thing';
-
-    /*
-     * We want to handle the following types:
-     * - Image -> <img>
-     * - URL: -> <a>
-     * - text: <span>
-     */
-
-    let typeUrl: string;
-    if ('@type' in data) {
-      if (Array.isArray(data['@type'])) {
-        console.log('WARNING: array found for ');
-        typeUrl = data['@type'][0];
-      } else {
-        typeUrl = data['@type'];
-      }
-    }
-    if (! typeUrl ) {
-      /* No type key found. That may happen in items such as:
-       *    {
-       *      "@context": {
-       *          "ical": "http://www.w3.org/2002/12/cal/ical#",
-       *          "xsd": "http://www.w3.org/2001/XMLSchema#",
-       *          "ical:dtstart": {
-       *            "@type": "xsd:dateTime"
-       *          }
-       *      },
-       *      "ical:summary": "Lady Gaga Concert",
-       *      "ical:location": "New Orleans Arena, New Orleans, Louisiana, USA",
-       *      "ical:dtstart": "2011-04-09T20:00Z"
-       *    }
-       *
-       * Here, an item without a specific type, has several attributes, which
-       * themselves happen to be from the same uri prefix (ical:)
-       *
-       * The decision here would be to either reject the item, or apply some
-       * default type (e.g. schema.org/Thing)
-       */
-      alert('WARNING: No type found. Applying default of ' + DEFAULT_TYPE);
-    }
-    // const schema = this.getSchema(item.typeUrl);
-
-    /*
-    const header: HeaderSectionData = {
-      itemType: typeUrl ? typeUrl : DEFAULT_TYPE
-    };
-    this.renderSection(header, ItemHeaderComponent);
-     */
-
-    // now iterate through each item, writing sections for each
-    for (const key in data) {
-      // Handle any additional JSON-LD keys
-      if ( key.startsWith('@') ) { continue; }
-
-      if (key) { // for linting purposes
-        console.log('Processing item', key, data[key]);
-        this.parseNonGraph({[key]: data[key]}, typeUrl);
-      }
-    }
-
-    return of(this.componentRefs);
-
   }
 
   parseNonGraph(data: object, context: string|string[] = null): any {
@@ -263,27 +278,13 @@ export class DynamicContentService {
           if (recurse) {
             console.log('Recursing');
           } else {
-            this.handleSection(key, value['@value'], <string[]>context);
+            // this.handleSection(key, value['@value'], <string[]>context);
           }
         }
 
 
       }
     }
-  }
-
-  public handleSection(key: string, value: string, context: string[]) {
-    /*
-     * A section should have a simple key + value
-     */
-
-    const data: SectionData = {
-      label: key,
-      key,
-      value
-    };
-
-    this.renderSection(data, ItemSectionComponent);
   }
 
   getSchema(typeUrl: string) {

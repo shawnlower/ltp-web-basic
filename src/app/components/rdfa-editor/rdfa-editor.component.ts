@@ -22,7 +22,9 @@ import { FormArray,
          Validators
        } from '@angular/forms';
 
-import { jsonValidator } from '../../directives/form-validator.directive';
+import { typePresentValidator,
+         jsonValidator
+       } from '../../directives/form-validator.directive';
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
@@ -58,7 +60,6 @@ interface AdItem {
 export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   @Input() item: Item;
-  @Input() typeUrl: string;
   @ViewChild('rawInput') rawInput: ElementRef;
 
   form: FormGroup;
@@ -116,11 +117,35 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
           const  json = JSON.parse(v);
 
           const item    = new Item(json);
-          item.observed = '2018-06-21 00:00:15';
+          item.observed = new Date(Date.now()).toUTCString();
           item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
 
-          console.log('Creating item', item);
-          this.store.dispatch(new editorActions.LoadItem(item));
+          // No type key found. See below for potential reasons
+          if ('@type' in item.data) {
+            this.store.dispatch(new editorActions.LoadItem(item));
+          }
+
+          /*
+          *{
+          *  "@context": {
+          *      "ical": "http://www.w3.org/2002/12/cal/ical#",
+          *      "xsd": "http://www.w3.org/2001/XMLSchema#",
+          *      "ical:dtstart": {
+          *        "@type": "xsd:dateTime"
+          *      }
+          *  },
+          *  "ical:summary": "Lady Gaga Concert",
+          *  "ical:location": "New Orleans Arena, New Orleans, Louisiana, USA",
+          *  "ical:dtstart": "2011-04-09T20:00Z"
+          *}
+          *
+          * Here, an item without a specific type, has several attributes, which
+          * themselves happen to be from the same uri prefix (ical:)
+          *
+          * The decision here would be to either reject the item, or apply some
+          * default type (e.g. schema.org/Thing)
+          */
+
         }
     });
 
@@ -152,8 +177,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   initEditor(editorState) {
     this.contentLoaded = true;
-    // todo: pending application configuration store
-    this.typeUrl = 'https://schema.org/NoteDigitalDocument';
   }
 
   getItemComponent(item) {
@@ -167,9 +190,8 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
      */
 
     const viewContainerRef = this.itemHost.viewContainerRef;
-    this.dynamicContentService.setRootViewContainerRef(viewContainerRef);
     // Fetch the items from our service
-    this.dynamicContentService.renderItem(this.item).then(refs => {
+    this.dynamicContentService.renderItem(this.item, viewContainerRef).then(refs => {
       this.componentRefs = refs;
       this.contentLoaded = true;
     });
@@ -188,7 +210,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   setupForm(): void {
     this.form = this.formBuilder.group({
-      typeUrl: new FormControl('', [jsonValidator]),
+      typeUrl: new FormControl('', [
+        Validators.required
+      ]),
       json: new FormControl('', [
         Validators.required,
         jsonValidator

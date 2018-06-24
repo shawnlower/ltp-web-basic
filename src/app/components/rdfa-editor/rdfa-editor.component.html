@@ -10,9 +10,13 @@
                     ui-autocomplete-input"
              autocomplete="off"
              [ngbTypeahead]="search"
+             [class.alert-danger]="!!this.form.controls.typeUrl.errors"
              formControlName="typeUrl"
              autofocus
              >
+    </div>
+    <div *ngIf="form.errors"
+           class="alert alert-danger">
     </div>
     <!-- Loader animation -->
     <div class="loader" *ngIf="!contentLoaded">Loading...</div>

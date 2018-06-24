@@ -6,6 +6,7 @@ import { Item } from '../models/item.model';
 
 export const ITEMS = [];
 
+// A static list of JsonLdObjects
 export const JLOs = [
   {  '@type': 'NoteDigitalDocument',
      '@context': 'https://schema.org/',
@@ -63,6 +64,7 @@ export const JLOs = [
      'url': 'nba-miami-philidelphia-game3.html'
   }
 ];
+
 for (const item of JLOs) {
   ITEMS.push({
     uri: 'http://ltp.shawnlower.net/i/' + uuid.v1(),
