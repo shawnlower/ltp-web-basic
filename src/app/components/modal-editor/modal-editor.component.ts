@@ -57,6 +57,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
     this.keyboardShortcuts = keyboardShortcuts;
 
     store.select(state => state.item.selectedItem).subscribe(item => {
+      console.log('[modalEditor] item updated', item);
       this.currentItem = item;
     });
 

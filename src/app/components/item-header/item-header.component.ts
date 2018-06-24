@@ -14,7 +14,7 @@ import { Component, Input } from '@angular/core';
       <h3 *ngSwitchCase="3">
         {{ data.itemType }}
       </h3>
-      <h4 *ngSwitchCase="3">
+      <h4 *ngSwitchCase="4">
         {{ data.itemType }}
       </h4>
       <h5 *ngSwitchDefault

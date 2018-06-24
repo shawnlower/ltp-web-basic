@@ -154,24 +154,30 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     // Perform initialization steps for editor modal
     this.store.select(state => state.editor)
-      .subscribe(editorState => this.initEditor(editorState));
+      .pipe(take(1))
+        .subscribe(editorState => this.initEditor(editorState))
+        .unsubscribe();
 
     this.store.select(state => state.editor.item)
-      .pipe(take(1))
       .subscribe(item => this.updateItem(item));
   }
 
   ngAfterViewInit() {
   }
 
-  updateItem(item) {
+  updateItem(item: Item) {
+    console.log('[rdfEditor:updateItem]', item);
     // If our editor has an item, load the content
     if (item) {
       this.reloadItem(item);
+      // Update the item type field
+      const itemType = item.data['@type'];
+      if (itemType && itemType.startsWith('http:')) {
+        this.form.controls.typeUrl.setValue(itemType);
+      }
     } else {
       // Otherwise, show a raw input box
       this.showRawInputBox = true;
-
     }
   }
 
@@ -191,10 +197,11 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
     const viewContainerRef = this.itemHost.viewContainerRef;
     // Fetch the items from our service
-    this.dynamicContentService.renderItem(this.item, viewContainerRef).then(refs => {
-      this.componentRefs = refs;
-      this.contentLoaded = true;
-    });
+    this.dynamicContentService.renderItem(item, viewContainerRef)
+      .then(refs => {
+        this.componentRefs = refs;
+        this.contentLoaded = true;
+      });
   }
 
   reloadItem(item: Item): void {
@@ -204,8 +211,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     this.contentLoaded = false;
 
     this.getItemComponent(item);
-    // Update the item type field
-    this.form.controls.typeUrl.setValue(this.item['@type']);
   }
 
   setupForm(): void {

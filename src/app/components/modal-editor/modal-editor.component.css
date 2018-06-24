@@ -12,18 +12,18 @@
     top: auto;
     bottom: auto;
     overflow: visible;
+    position: absolute;
 }
 
 .modal-editor {
   z-index: 1000;
-  position: fixed;
   right: 0;
   left: 0;
   margin-right: auto;
   margin-left: auto;
   min-height: 200px;
-  width: 90%;
-  max-width: 520px;
+  width: 50%;
+  max-width: 90%;
   background-color: #fff;
   padding: 12px;
   box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
