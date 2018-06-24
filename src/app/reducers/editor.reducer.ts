@@ -8,8 +8,7 @@ export interface State {
 
 export const initialState: State = {
   dirty: false,
-  // url, dataType, json
-  item: new Item('', 'http://schema.org/Thing', {})
+  item: null
 };
 
 export function reducer(state: State = initialState, action) {

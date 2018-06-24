@@ -13,6 +13,8 @@ import {
          ViewChildren,
        } from '@angular/core';
 
+import * as uuid from 'uuid';
+
 import { FormArray,
          FormControl,
          FormBuilder,
@@ -110,27 +112,15 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
           /*
            * Create 'item' from JSON
            */
-          let data: Item;
-          const id = 'http://shawnlower.net/i/918348';
 
           const  json = JSON.parse(v);
-          let typeUrl: string;
-          if ('@type' in json) {
-            typeUrl = json['@type'];
-          } else {
-            // TODO: app config
-            typeUrl = 'https://schema.org/Thing';
-            console.log(`No @type specified. Using ${typeUrl}`);
-          }
 
-          data = {
-            url: id,
-            dataType: typeUrl,
-            json: json
-          };
+          const item    = new Item(json);
+          item.observed = '2018-06-21 00:00:15';
+          item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
 
-          this.store.dispatch(new editorActions.LoadItem(data));
-          console.log('Creating item', data);
+          console.log('Creating item', item);
+          this.store.dispatch(new editorActions.LoadItem(item));
         }
     });
 
@@ -193,7 +183,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
     this.getItemComponent(item);
     // Update the item type field
-    this.form.controls.typeUrl.setValue(this.item.dataType);
+    this.form.controls.typeUrl.setValue(this.item['@type']);
   }
 
   setupForm(): void {

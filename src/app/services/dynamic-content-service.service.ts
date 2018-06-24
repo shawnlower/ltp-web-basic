@@ -61,7 +61,7 @@ export class DynamicContentService {
     this.rootViewContainer = viewContainerRef;
   }
 
-  public renderSection(data, component = ItemSectionComponent) {
+  public renderSection(data: SectionData, component = ItemSectionComponent) {
     const componentFactory = this.factoryResolver
       .resolveComponentFactory(component);
 
@@ -80,8 +80,10 @@ export class DynamicContentService {
     if (!item) {
       return of([]);
     }
+
     // Render outer div
-    return jsonld.expand(item.json).then(
+
+    return jsonld.expand(item.data).then(
       expanded => {
         // At this point, we should have either a single '@type',
         // or a graph containing multiple types.
@@ -119,7 +121,28 @@ export class DynamicContentService {
     }
   }
 
+  jsonldToItem(json: JsonLD|string): Item {
+    /*
+     * Take an input JsonLD Object, and normalize it into an Item Object
+     * This guarantees us a type that has:
+     * - A URL for the primary @type of our item.
+     */
+    let json_obj: Object;
+
+    if (typeof(json) === 'string') {
+      json_obj = JSON.parse(json);
+    } else {
+      json_obj = json;
+    }
+
+    let item: Item;
+    return item;
+
+  }
+
   parseDocument(data: JsonLD): Observable<any> {
+
+    const item = this.jsonldToItem(data);
 
     // TODO: get from store/infer, etc
     const DEFAULT_TYPE = 'http://schema.org/Thing';
@@ -163,7 +186,7 @@ export class DynamicContentService {
        */
       alert('WARNING: No type found. Applying default of ' + DEFAULT_TYPE);
     }
-    // const schema = this.getSchema(item.url);
+    // const schema = this.getSchema(item.typeUrl);
 
     /*
     const header: HeaderSectionData = {

@@ -168,7 +168,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   isSelected(item: Item): boolean {
     // Return whether an item is the currently focused item
     if (this.currentItem) {
-      return this.currentItem.url === item.url;
+      return this.currentItem.data['@type'] === item['@type'];
     } else {
       return false;
     }

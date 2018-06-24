@@ -183,3 +183,98 @@ getType(item) {
 ## Distillers
 - http://rdf.greggkellogg.net/distiller?command=serialize&format=jsonld&output_format=rdfa&raw
 - https://www.w3.org/2012/pyRdfa/
+
+# Item definition
+
+For everything that we'd like to store, we need to define what the 'thing'
+actually is.
+
+Example: There's an NBA game today feat the Miami Heat v Phil 76ers.
+
+The primary subject is the game, however the teams themselves, as well
+as the game's location are also subjects. Simply flattening the item
+into a list of new items is not always useful.
+
+Instead, an Item defines what the primary topic will be.
+
+class Item {
+    uri: string;       // A URI that identifies the item; generally this will
+                       // take the form of a dereferenceable URL. Knowledge
+                       // solely of the URL would then allow one to completely
+                       // reconstruct the item.
+                       //
+    subjectOf: string  // A URI that refers to the actual resource
+                       //
+    observed: string   // The datetime when the item was initially encountered.
+                       // This is often distinct from the creation time,
+                       // modification time, etc.
+}
+
+
+Inputs:
+    - Text note
+        - # Pseudocode:
+          ```javascript
+          makeItemFromString(content: string) {
+            timestamp Timestamp = now();
+            const jlo: JsonLdObject = makeJLO('schema:NoteDigitalDocument',
+                { dateCreated: timestamp, keywords=[], text=content });
+            objStore = new fakeObjstore();
+            uri = objStore.post(jlo).response.location;
+            item = makeItem(subject: string = uri, observed = timestamp);
+          ```
+    - URL
+        - # Pseudocode:
+          ```javascript
+             makeItemFromUrl(url) {
+               // Extract human and/or computer-readable content from URL
+               // This is being done interactively, so at a minimum, we can
+               // expect the URL to be dereferenceable to something.
+               for (let contentType in [ 'text/html', 'application/ld+json' ]) {
+                 http.get(url, content_type).then()..
+               const jlo: JsonLdObject = makeJLO('schema:',
+          ```
+        -
+
+Tests:
+    - Person
+    - Place
+    - Creative Works
+        - Book
+        - Movie
+        - Photo
+    - To Do Item
+    - Goal
+    
+    
+    
+
+
+# Dereferencing schemas
+
+URI
+    - Context
+        - schema.org
+        - FOAF
+
+Process:
+
+const uri = 'http://dbpedia.org/page/Walt_Disney'
+
+/*
+ * Fetching with curl and no special args, we get:
+ * Content-Type: text/html
+ * Link: ... lots of links to alternate machine readable formats, e.g.
+ * ld+json, sparql endpoints, rdf/xml, etc
+ */
+
+const mime_types = [
+  'application/ld+json',
+  'application/rdf+xml'
+];
+
+for (let mime in mime_types) {
+    const resp = get_mime(mime, url);
+}
+
+

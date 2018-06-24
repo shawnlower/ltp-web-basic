@@ -1,9 +1,9 @@
   <div class="card-body"
       [class.bg-secondary]="selected"
       [class.active]="selected"
-      [attr.about]="item.url">
+      [attr.about]="item.data['@type']">
     <h5 class="card-title">Card number</h5>
-    <p class="card-text">{{ item.url }}</p>
+    <p class="card-text">{{ item.data['@type'] }}</p>
     <a href="#" class="btn btn-primary"
                 (click)="editItem()"
     >Edit</a>
