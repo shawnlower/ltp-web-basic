@@ -4,9 +4,14 @@ import { Component, Input } from '@angular/core';
   template: `
   <div id="{{ data.elem_id }}" class="form-group"
   >
-    <label for="content_key" class="col-sm-2 control-label">{{data.key}}</label>
+    <label for="content_key" class="col-sm-2 control-label">{{ data.label }}</label>
     <div class="col-sm-10">
-      <input id="content_key" class="form-control" property="" value="{{ data.value | json }}">
+      <input
+        [attr.property]="data.key"
+        id="content_key"
+        class="form-control"
+        value="{{ data.value | json }}
+      ">
     </div>
   </div>
   `

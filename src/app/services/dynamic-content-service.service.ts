@@ -7,9 +7,10 @@ import {
   Type,
 } from '@angular/core';
 
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, from, pipe } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Item, JsonLD } from '../models/item.model';
 
@@ -18,6 +19,7 @@ import * as _ from 'lodash';
 
 // Data passed to the header section
 interface HeaderSectionData {
+  label: string;
   itemType: string;
   headingSize: number; // 1..5
 }
@@ -75,6 +77,7 @@ export class DynamicContentService {
       return of([]);
     }
 
+    console.log('[renderItem] args', arguments);
     return jsonld.expand(item.data)
       .then(expanded => {
         // At this point, we should have either a single '@type',
@@ -134,7 +137,7 @@ export class DynamicContentService {
   }
 
   parseSection(nodeName, nodeObject, viewContainerRef, headingSize = 3,
-               topContext = false) {
+    topContext = false) {
 
     console.log('[parseSection]', arguments);
 
@@ -152,90 +155,135 @@ export class DynamicContentService {
 
     // Write header for section
     // skip top-level, as that's displayed elsewhere
-    if (!topContext) {
-      const header: HeaderSectionData = {
-        itemType: typeUrl,
-        headingSize: headingSize
-      };
-      const vcr = this.renderSection(
-        header, ItemHeaderComponent, viewContainerRef);
-    }
 
-    /*
-     * Next, iterate through our children, which should have the form:
-     *
-     *    a) { @value: 'http://www.w3.org/2002/12/cal/ical#dtstart' }
-     *       In this case, our value can be anything ([], {}, '', 0-9)
-     *    b) { @id: 'http://xxxx/' }
-     *    c) { @type: xxxx, ... }
-     *
-     */
+    this.getLabelForType(typeUrl)
+      .then(label => {
+        if (!topContext) {
+          if (!label) {
+            console.log('[parseSection] no label');
+            label = typeUrl;
+          }
+          const header: HeaderSectionData = {
+            label: label,
+            itemType: typeUrl,
+            headingSize: headingSize
+          };
+          const vcr = this.renderSection(
+            header, ItemHeaderComponent, viewContainerRef);
+          console.log('[parseSection] header', header);
+        }
 
-    for (const nodeChild of Object.keys(nodeObject)) {
-      /*
-       * Example with
-       * typeUrl = 'http://schema.org/address';
-       * nodeChild = {
+        /*
+         * Next, iterate through our children, which should have the form:
+         *
+         *    a) { @value: 'http://www.w3.org/2002/12/cal/ical#dtstart' }
+         *       In this case, our value can be anything ([], {}, '', 0-9)
+         *    b) { @id: 'http://xxxx/' }
+         *    c) { @type: xxxx, ... }
+         *
+         */
+
+        for (const nodeChild of Object.keys(nodeObject)) {
+          /*
+           * Example with
+           * typeUrl = 'http://schema.org/address';
+           * nodeChild = {
             "@type": [
               "http://schema.org/PostalAddress"
             ],
-       *    "addressLocality": [
-       *      "@value": "Denver"
-       *    ]
-       *  }
-       */
+           *    "addressLocality": [
+           *      "@value": "Denver"
+           *    ]
+           *  }
+           */
 
-      if (nodeChild.startsWith('@')) {
-        console.log('[parseSection] skipping', nodeChild);
-        continue;
-      }
-      for (const key of nodeObject[nodeChild]) {
-        if (key) {
-          if ('@value' in key) {
-            const value =  key['@value'];
-            console.log('[parseSection] value', value);
-            const sectionData: SectionData = {
-              label: nodeChild,
-              key: nodeChild,
-              value: value
-            };
-            this.renderSection(sectionData, ItemSectionComponent,
-              viewContainerRef);
+          if (nodeChild.startsWith('@')) {
+            console.log('[parseSection] skipping', nodeChild);
+            continue;
+          }
+          for (const key of nodeObject[nodeChild]) {
+            if (key) {
+              if ('@value' in key) {
+                const value =  key['@value'];
+                console.log('[parseSection] value', value);
+                const sectionData: SectionData = {
+                  label: nodeChild,
+                  key: nodeChild,
+                  value: value
+                };
+                this.renderSection(sectionData, ItemSectionComponent,
+                  viewContainerRef);
 
-          } else if ('@id' in key) {
-            const id =  key['@id'];
-            console.log('[parseSection] id', id);
-            const sectionData: SectionData = {
-              label: nodeChild,
-              key: nodeChild,
-              value: id
-            };
-            this.renderSection(sectionData, ItemSectionComponent,
-              viewContainerRef);
+              } else if ('@id' in key) {
+                const id =  key['@id'];
+                console.log('[parseSection] id', id);
+                const sectionData: SectionData = {
+                  label: nodeChild,
+                  key: nodeChild,
+                  value: id
+                };
+                this.renderSection(sectionData, ItemSectionComponent,
+                  viewContainerRef);
 
-          } else if ('@type' in key) {
-            console.log('[parseSection] RECURSE', key);
-            this.parseSection(typeUrl, key, viewContainerRef, headingSize + 1);
+              } else if ('@type' in key) {
+                console.log('[parseSection] RECURSE', key);
+                this.parseSection(typeUrl, key, viewContainerRef, headingSize + 1);
 
-          } else {
-            console.log('[parseSection] unknown', key);
+              } else {
+                console.log('[parseSection] unknown', key);
+              }
+            }
           }
         }
-      }
-    }
+      });
 
   }
 
-  getSchema(typeUrl: string) {
+  getLabelForType(typeUrl: string): Promise<any>|null {
+    const p = new Promise((resolve, reject) => {
+                        resolve('hi there');
+    });
+
+    // Fetch our schema first
+    const resp = this.getSchema(typeUrl);
+
+    // jsonld still
+    return resp.toPromise().then(
+      schema => {
+        return jsonld.flatten(schema)
+          .then(flat => {
+            /*
+             *
+             */
+            const typeSchema = flat.filter(o => o['@id'] === typeUrl)[0];
+            const rdfsLabel = 'http://www.w3.org/2000/01/rdf-schema#label';
+            console.log('[getLabelForType] label', typeUrl);
+            if (typeSchema) {
+              // Use the RDFS class information to build an appropriate
+              // label
+              const label = typeSchema[rdfsLabel];
+              return label[0]['@value'];
+            }
+          });
+      });
+
+    /*
+     catchError(err => {
+        console.log('[getLabelForType]', 'Error', err);
+        return of(null);
+        }
+     */
+  }
+
+  getSchema(typeUrl: string): Observable<HttpResponse<any>> {
     /*
      * Fetch the schema for a given type
      *
      * Example:
      *  getSchema('http://schema.org/Person')
      */
-    const mockUrl = 'http://localhost:8000/person.schema.json';
-    return this.http.get(mockUrl)
-      .subscribe(data => console.log('schema', data));
+    const req = this.http.get<any>(typeUrl + '.jsonld');
+    return req;
   }
 }
 

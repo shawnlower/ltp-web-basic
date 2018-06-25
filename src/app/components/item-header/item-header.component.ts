@@ -2,24 +2,26 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   template: `
-    <div id="content" about="" class="form-group" typeof=""
-         [ngSwitch]="data.headingSize"
+    <div id="content"
+      class="form-group"
+      typeof=""
+      [ngSwitch]="data.headingSize"
     >
       <h1 *ngSwitchCase="1">
-        {{ data.itemType }}
+        {{ data.label }}
       </h1>
       <h2 *ngSwitchCase="2">
-        {{ data.itemType }}
+        {{ data.label }}
       </h2>
       <h3 *ngSwitchCase="3">
-        {{ data.itemType }}
+        {{ data.label }}
       </h3>
       <h4 *ngSwitchCase="4">
-        {{ data.itemType }}
+        {{ data.label }}
       </h4>
       <h5 *ngSwitchDefault
           class="text-warning">
-        {{ data.itemType }}
+        {{ data.label }}
       </h5>
     </div>
   `

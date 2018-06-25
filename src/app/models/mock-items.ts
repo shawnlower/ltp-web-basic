@@ -22,7 +22,7 @@ export const JLOs = [
   },
   {  '@type': 'Event',
      '@context': 'https://schema.org',
-     'eventStatus': 'http://schema.org/EventCancelled',
+     'eventStatus': 'https://schema.org/EventCancelled',
      'location': {
        '@type': 'Place',
        'address': {
@@ -39,7 +39,7 @@ export const JLOs = [
        '@type': 'Offer',
        'price': '13.00',
        'priceCurrency': 'USD',
-       'url': 'http://www.ticketfly.com/purchase/309433'
+       'url': 'https://www.ticketfly.com/purchase/309433'
      },
      'startDate': '2013-09-14T21:30'
   },
@@ -67,8 +67,8 @@ export const JLOs = [
 
 for (const item of JLOs) {
   ITEMS.push({
-    uri: 'http://ltp.shawnlower.net/i/' + uuid.v1(),
-    sameAs: 'http://ltp.shawnlower.net/o/' + uuid.v1(),
+    uri: 'https://ltp.shawnlower.net/i/' + uuid.v1(),
+    sameAs: 'https://ltp.shawnlower.net/o/' + uuid.v1(),
     data: item,
     observed: new Date(Date.now())
   });
