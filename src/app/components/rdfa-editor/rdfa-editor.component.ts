@@ -44,7 +44,8 @@ import * as appActions from '../../actions/app.actions';
 import { ItemDirective } from '../../directives/item.directive';
 import { ItemSectionComponent } from '../item-section/item-section.component';
 
-import { Item } from '../../models/item.model';
+import { Item, JsonLD } from '../../models/item.model';
+import { SchemaService } from '../../services/schema.service';
 
 import { DynamicContentService } from '../../services/dynamic-content-service.service';
 
@@ -60,6 +61,7 @@ interface AdItem {
 export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   @Input() item: Item;
+  @ViewChild('typeUrl') typeUrl: ElementRef;
   @ViewChild('rawInput') rawInput: ElementRef;
 
   form: FormGroup;
@@ -82,6 +84,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
   constructor(private formBuilder: FormBuilder,
     private componentFactoryResolver: ComponentFactoryResolver,
     private dynamicContentService: DynamicContentService,
+    private schema: SchemaService,
     private store: Store<fromRoot.State>,
     private renderer: Renderer
   ) {
@@ -92,7 +95,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
     this.setupForm();
     this.searchResults = of([
-      'https://schema.org/NoteDigitalDocument',
+      'http://schema.org/NoteDigitalDocument',
       'http://schema.org/Person',
       'http://schema.org/Restaurant',
       'http://schema.org/Thing',
@@ -177,15 +180,72 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       }
     } else {
       // Otherwise, show a raw input box
-      this.showRawInputBox = true;
+      // this.showRawInputBox = true;
     }
   }
 
-  initEditor(editorState) {
-    this.contentLoaded = true;
+  handleTypeChange(typeUrl: string): void {
+    this.schema.getLabelForType(typeUrl).then(label => {
+
+      console.log('[handleTypeChange]', typeUrl, label);
+      /*
+       * Currently, we won't allow changing the type after it's been
+       * selected. In the future, we'll allow it, prompt to clear the form
+       * or handle conversions between compatible classes, etc.
+       * For now, just close and re-open :-/
+       */
+      this.form.controls['typeUrl'].setValue(label);
+      this.form.controls['typeUrl'].disable();
+
+      /*
+       * Next, populate the inputs for this type.
+       *
+       * 1) Get, for the set of vocabularies we are using (schema, etc):
+       *     { "@id": "xxx:some_type",
+       *       "schema:rangeIncludes": {
+       *       "@id": "${typeUrl}" }
+       *
+       */
+
+      /*
+       * Attach an input
+       */
+
+      /*
+       * mock impl
+       */
+
+      const data = {
+          '@type': 'NoteDigitalDocument',
+          '@context': 'https://schema.org/',
+          'text': '',
+          'dateCreated': ''
+      };
+      const item    = new Item(data);
+      item.observed = new Date(Date.now()).toUTCString();
+      item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
+      this.store.dispatch(new editorActions.LoadItem(item));
+
+      /*
+       * Attach our new item to the dom
+       */
+      const viewContainerRef = this.itemHost.viewContainerRef;
+      // Fetch the items from our service
+      this.dynamicContentService.renderItem(item, viewContainerRef)
+      .then(refs => {
+        this.componentRefs = refs;
+        this.contentLoaded = true;
+      });
+    });
   }
 
-  getItemComponent(item) {
+  initEditor(editorState) {
+    this.typeUrl.nativeElement.focus();
+    this.contentLoaded = true;
+
+  }
+
+  getItemComponent(item: Item) {
     /*
      * Use the dynamic content service to render a modal editor, based on
      * a JSON-LD payload

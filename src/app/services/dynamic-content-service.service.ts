@@ -12,6 +12,8 @@ import { catchError, map, take } from 'rxjs/operators';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
+import { SchemaService } from './schema.service';
+
 import { Item, JsonLD } from '../models/item.model';
 
 import * as jsonld from '../../assets/js/jsonld.js';
@@ -46,6 +48,7 @@ export class DynamicContentService {
   componentRefs: Array<any>;
 
   constructor(private factoryResolver: ComponentFactoryResolver,
+              private schema: SchemaService,
               private http: HttpClient,
               ) {
     this.componentRefs = [];
@@ -156,7 +159,7 @@ export class DynamicContentService {
     // Write header for section
     // skip top-level, as that's displayed elsewhere
 
-    this.getLabelForType(typeUrl)
+    this.schema.getLabelForType(typeUrl)
       .then(label => {
         if (!topContext) {
           if (!label) {
@@ -239,51 +242,5 @@ export class DynamicContentService {
 
   }
 
-  getLabelForType(typeUrl: string): Promise<any>|null {
-    const p = new Promise((resolve, reject) => {
-                        resolve('hi there');
-    });
-
-    // Fetch our schema first
-    const resp = this.getSchema(typeUrl);
-
-    // jsonld still
-    return resp.toPromise().then(
-      schema => {
-        return jsonld.flatten(schema)
-          .then(flat => {
-            /*
-             *
-             */
-            const typeSchema = flat.filter(o => o['@id'] === typeUrl)[0];
-            const rdfsLabel = 'http://www.w3.org/2000/01/rdf-schema#label';
-            console.log('[getLabelForType] label', typeUrl);
-            if (typeSchema) {
-              // Use the RDFS class information to build an appropriate
-              // label
-              const label = typeSchema[rdfsLabel];
-              return label[0]['@value'];
-            }
-          });
-      });
-
-    /*
-     catchError(err => {
-        console.log('[getLabelForType]', 'Error', err);
-        return of(null);
-        }
-     */
-  }
-
-  getSchema(typeUrl: string): Observable<HttpResponse<any>> {
-    /*
-     * Fetch the schema for a given type
-     *
-     * Example:
-     *  getSchema('http://schema.org/Person')
-     */
-    const req = this.http.get<any>(typeUrl + '.jsonld');
-    return req;
-  }
 }
 

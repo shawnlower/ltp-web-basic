@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
         [attr.property]="data.key"
         id="content_key"
         class="form-control"
-        value="{{ data.value | json }}
+        value="{{ data.value }}
       ">
     </div>
   </div>
