@@ -257,7 +257,18 @@ URI
         - schema.org
         - FOAF
 
-Process:
+Workflow/Process:
+
+Input
+- Start with a URL
+    - Get an item object
+    - Validate/parse item
+    - Store item JSONLD somewhere (expanded/original?)
+
+Display
+- Start with a URI
+    - Look up URI in store
+    
 
 const uri = 'http://dbpedia.org/page/Walt_Disney'
 
