@@ -42,12 +42,11 @@ import * as editorActions from '../../actions/editor.actions';
 import * as appActions from '../../actions/app.actions';
 
 import { ItemDirective } from '../../directives/item.directive';
-import { ItemSectionComponent } from '../item-section/item-section.component';
 
 import { Item, JsonLD } from '../../models/item.model';
 import { SchemaService } from '../../services/schema.service';
 
-import { DynamicContentService } from '../../services/dynamic-content-service.service';
+import * as jsonld from '../../../assets/js/jsonld.js';
 
 interface AdItem {
   new (component: Type<any>, data: any): any;
@@ -77,13 +76,14 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
   staticSearchResults: string[];
   searchResults: Observable<string[]>;
 
+  expandedJson: any;
+
   public model: any;
 
   showRawInputBox: boolean;
 
   constructor(private formBuilder: FormBuilder,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private dynamicContentService: DynamicContentService,
     private schema: SchemaService,
     private store: Store<fromRoot.State>,
     private renderer: Renderer
@@ -117,7 +117,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
            * Create 'item' from JSON
            */
 
-          const  json = JSON.parse(v);
+          const json = JSON.parse(v);
 
           const item    = new Item(json);
           item.observed = new Date(Date.now()).toUTCString();
@@ -162,7 +162,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
         .unsubscribe();
 
     this.store.select(state => state.editor.item)
-      .subscribe(item => this.updateItem(item));
+      .subscribe(item => {
+        this.updateItem(item);
+      });
   }
 
   ngAfterViewInit() {
@@ -172,22 +174,24 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     console.log('[rdfEditor:updateItem]', item);
     // If our editor has an item, load the content
     if (item) {
-      this.reloadItem(item);
-      // Update the item type field
-      const itemType = item.data['@type'];
-      if (itemType && itemType.startsWith('http:')) {
-        this.form.controls.typeUrl.setValue(itemType);
-      }
-    } else {
-      // Otherwise, show a raw input box
-      // this.showRawInputBox = true;
+      // Set expandedJson which is used by the item-section component,
+      // then update the type field
+      jsonld.expand(item.data).then(expanded => {
+        this.expandedJson = expanded;
+        const typeUrl = expanded[0]['@type'][0];
+        console.log('[updateItem]', item, typeUrl);
+        this.handleTypeChange(typeUrl);
+      });
     }
   }
 
   handleTypeChange(typeUrl: string): void {
+    if (!typeUrl.startsWith('http')) {
+      return;
+    }
     this.schema.getLabelForType(typeUrl).then(label => {
 
-      console.log('[handleTypeChange]', typeUrl, label);
+      console.log('[handleTypeChange] got label', typeUrl, label);
       /*
        * Currently, we won't allow changing the type after it's been
        * selected. In the future, we'll allow it, prompt to clear the form
@@ -208,13 +212,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
        */
 
       /*
-       * Attach an input
-       */
-
-      /*
-       * mock impl
-       */
-
       const data = {
           '@type': 'NoteDigitalDocument',
           '@context': 'https://schema.org/',
@@ -225,17 +222,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       item.observed = new Date(Date.now()).toUTCString();
       item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
       this.store.dispatch(new editorActions.LoadItem(item));
-
-      /*
-       * Attach our new item to the dom
        */
-      const viewContainerRef = this.itemHost.viewContainerRef;
-      // Fetch the items from our service
-      this.dynamicContentService.renderItem(item, viewContainerRef)
-      .then(refs => {
-        this.componentRefs = refs;
-        this.contentLoaded = true;
-      });
     });
   }
 
@@ -243,34 +230,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     this.typeUrl.nativeElement.focus();
     this.contentLoaded = true;
 
-  }
-
-  getItemComponent(item: Item) {
-    /*
-     * Use the dynamic content service to render a modal editor, based on
-     * a JSON-LD payload
-     * TODO:
-     *  - Allow customized layouts
-     *  - For 'new' items, pre-fill with defaults, search
-     *  - Semantic enrichment / upgrade from Thing -> Note -> Todo, etc
-     */
-
-    const viewContainerRef = this.itemHost.viewContainerRef;
-    // Fetch the items from our service
-    this.dynamicContentService.renderItem(item, viewContainerRef)
-      .then(refs => {
-        this.componentRefs = refs;
-        this.contentLoaded = true;
-      });
-  }
-
-  reloadItem(item: Item): void {
-    this.componentRefs.forEach(containerRef => containerRef.destroy());
-
-    // Spinner-time
-    this.contentLoaded = false;
-
-    this.getItemComponent(item);
   }
 
   setupForm(): void {

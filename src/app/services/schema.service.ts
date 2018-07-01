@@ -18,10 +18,11 @@ export class SchemaService {
 
   public getLabelForType(typeUrl: string): Promise<any>|null {
 
+    console.log('[getLabelForType]', typeUrl);
+
     // Fetch our schema first
     const resp = this.getSchema(typeUrl);
 
-    // jsonld still
     return resp.toPromise().then(
       schema => {
         return jsonld.flatten(schema)
@@ -64,6 +65,10 @@ export class SchemaService {
     // FIXME: schema.org sends 303 See Other, which results in us not caching
     // the response. Hack it by just requesting the JSON directly
     // See Other: https://stackoverflow.com/questions/47019571
+    // console.log('[getSchema]', typeUrl);
+    if (!typeUrl.startsWith('http')) {
+      throw new Error('invalid URL: ' + typeUrl);
+    }
     if (typeUrl.match(/schema.org/)) {
       return this.http.get<any>(typeUrl + '.jsonld', httpOptions);
     } else {

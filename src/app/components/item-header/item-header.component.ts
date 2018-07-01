@@ -1,11 +1,18 @@
 import { Component, Input } from '@angular/core';
 
+// Data passed to the header section
+export class HeaderSectionData {
+  label: string;
+  headerSize = 4; // 1..5
+}
+
 @Component({
+  selector: 'app-item-header',
   template: `
     <div id="content"
       class="form-group"
       typeof=""
-      [ngSwitch]="data.headingSize"
+      [ngSwitch]="data.headerSize"
     >
       <h1 *ngSwitchCase="1">
         {{ data.label }}
@@ -29,7 +36,11 @@ import { Component, Input } from '@angular/core';
 
 export class ItemHeaderComponent {
 
-  @Input() data: any;
+  @Input() data: HeaderSectionData;
+
+  constructor() {
+    console.log('[ItemHeaderComponent]', this.data);
+  }
 
 }
 

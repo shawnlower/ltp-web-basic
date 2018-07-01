@@ -10,7 +10,7 @@
                     ui-widget-content ui-state-default ui-corner-left
                     ui-autocomplete-input"
              autocomplete="off"
-             (blur)="handleTypeChange(typeUrl.value)"
+             (blur)="handleTypeChange(typeUrl)"
              [ngbTypeahead]="search"
              [class.alert-danger]="!!this.form.controls.typeUrl.errors"
              formControlName="typeUrl"
@@ -27,19 +27,29 @@
     <!-- and ngModel issues :-/ -->
     <div *ngIf="this.form.controls.json?.invalid && (this.form.controls.json?.dirty || this.form.controls.json?.touched)"
      class="alert alert-danger">
-      Invalid JSON document
+      Invalid JSON document:
     </div>
+
+    <app-item-section
+      [data]="this.expandedJson[0]"
+      [showHeader]="false"
+      *ngIf="this.expandedJson">
+    </app-item-section>
 
     <div *ngIf="this.showRawInputBox">
       <textarea
         class="container"
+        rows=10
         autofocus
+        value="{{ this.expandedJson | json }}"
         #rawInput
         formControlName="json"
         ></textarea>
     </div>
-    
-    <ng-template appItemDirective></ng-template>
-    
+    <div>
+      <button type="button" class="btn btn-primary"
+       (click)="showRawInputBox = !showRawInputBox">Show raw JSON-LD</button>
+    </div>
+
   </form>
 </div>
