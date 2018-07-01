@@ -56,7 +56,6 @@ export class AppComponent implements OnInit {
   }
 
   toggleEditor(msg = '') {
-    console.log('toggling editor', msg);
     this.store.dispatch(new appActions.ToggleEditor());
   }
 
@@ -76,7 +75,6 @@ export class AppComponent implements OnInit {
   }
 
   keyHandler(): Unlisten {
-    console.log('Initalizing keyboard shortcuts');
     return this.keyboardShortcuts.listen(
       {
         'Shift.?': ( event: KeyboardEvent ): void => {
@@ -93,8 +91,6 @@ export class AppComponent implements OnInit {
           /*
            * Edit currently selected item
            */
-
-          console.log('Handler [app-component][ 0 ]: ', event);
 
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
@@ -151,8 +147,6 @@ export class AppComponent implements OnInit {
            * Select previous item
            */
 
-          console.log( 'Handler [app-component][ 0 ]: ', event);
-
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];
 
@@ -168,7 +162,6 @@ export class AppComponent implements OnInit {
            * Remove currently selected item
            */
 
-          console.log( 'Handler ', this, event);
           this.removeItem();
 
           event.preventDefault();

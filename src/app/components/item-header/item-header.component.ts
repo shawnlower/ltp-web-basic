@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+         AfterViewInit,
+         Component,
+         Input,
+         OnInit,
+       } from '@angular/core';
+
 
 // Data passed to the header section
 export class HeaderSectionData {
@@ -26,19 +32,24 @@ export class HeaderSectionData {
       <h4 *ngSwitchCase="4">
         {{ data.label }}
       </h4>
-      <h5 *ngSwitchDefault
+      <h5 *ngSwitchDefault>
+          <!--
           class="text-warning">
+          -->
         {{ data.label }}
       </h5>
     </div>
   `
 })
 
-export class ItemHeaderComponent {
+export class ItemHeaderComponent implements OnInit {
 
   @Input() data: HeaderSectionData;
 
   constructor() {
+  }
+
+  ngOnInit() {
     console.log('[ItemHeaderComponent]', this.data);
   }
 

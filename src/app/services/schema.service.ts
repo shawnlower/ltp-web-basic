@@ -18,7 +18,7 @@ export class SchemaService {
 
   public getLabelForType(typeUrl: string): Promise<any>|null {
 
-    console.log('[getLabelForType]', typeUrl);
+    // console.log('[getLabelForType]', typeUrl);
 
     // Fetch our schema first
     const resp = this.getSchema(typeUrl);
@@ -36,10 +36,10 @@ export class SchemaService {
               // Use the RDFS class information to build an appropriate
               // label
               const label = typeSchema[rdfsLabel];
-              console.log('[getLabelForType] label', typeUrl, label);
+              // console.log('[getLabelForType] label', typeUrl, label);
               return label[0]['@value'];
             } else {
-              console.log('[getLabelForType] flat', flat, typeUrl);
+              // console.log('[getLabelForType] flat', flat, typeUrl);
             }})
           .catch(err => {
             console.log('[getLabelForType]', 'Error', err);

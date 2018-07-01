@@ -28,6 +28,10 @@ export class CardComponent implements OnInit {
   ngOnInit() {
   }
 
+  selectItem() {
+    this.store.dispatch(new itemActions.SelectItem(this.item));
+    return false;
+  }
   editItem() {
     this.store.dispatch(new appActions.ToggleEditor());
     return false;

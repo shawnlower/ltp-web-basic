@@ -105,7 +105,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       debounceTime(200),
       distinctUntilChanged())
       .subscribe(v => {
-        console.log('typeUrl updated to', v);
+        // console.log('typeUrl updated to', v);
     });
 
     this.form.controls['json'].valueChanges.pipe(
@@ -179,19 +179,22 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       jsonld.expand(item.data).then(expanded => {
         this.expandedJson = expanded;
         const typeUrl = expanded[0]['@type'][0];
-        console.log('[updateItem]', item, typeUrl);
-        this.handleTypeChange(typeUrl);
+        this.schema.getLabelForType(typeUrl).then(label => {
+          this.form.controls['typeUrl'].setValue(label);
+          this.form.controls['typeUrl'].disable();
+        });
       });
     }
   }
 
   handleTypeChange(typeUrl: string): void {
-    if (!typeUrl.startsWith('http')) {
+    // console.log('[handleTypeChange] called w/', arguments);
+    if (!typeUrl.startsWith('http')) { // ignore already labels
       return;
     }
+
     this.schema.getLabelForType(typeUrl).then(label => {
 
-      console.log('[handleTypeChange] got label', typeUrl, label);
       /*
        * Currently, we won't allow changing the type after it's been
        * selected. In the future, we'll allow it, prompt to clear the form
@@ -211,7 +214,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
        *
        */
 
-      /*
       const data = {
           '@type': 'NoteDigitalDocument',
           '@context': 'https://schema.org/',
@@ -222,7 +224,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       item.observed = new Date(Date.now()).toUTCString();
       item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
       this.store.dispatch(new editorActions.LoadItem(item));
-       */
     });
   }
 

@@ -10,6 +10,9 @@ import {
 import { Subject, Observable, of, from, pipe } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 
+import { ItemSectionComponent } from '../components/item-section/item-section.component';
+import { ItemHeaderComponent } from '../components/item-header/item-header.component';
+
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { SchemaService } from './schema.service';
@@ -19,25 +22,33 @@ import { Item, JsonLD } from '../models/item.model';
 import * as jsonld from '../../assets/js/jsonld.js';
 import * as _ from 'lodash';
 
+// Container for headers and subsections
+// Note: nesting is supported
+class Section {
+  header: HeaderSectionData;
+  subsections: SectionData[] | null;
+}
+
 // Data passed to the header section
-interface HeaderSectionData {
+class HeaderSectionData {
   label: string;
   itemType: string;
   headingSize: number; // 1..5
 }
 
 // Data passed to each section
-interface SectionData {
+class SectionData {
   label: string;
   key: string;
   value: string;
+  constructor(label, key, value) {
+    this.label = label;
+    this.key = key;
+    this.value = value;
+  }
+
 }
 
-/*
- * Temp component to use
- */
-import { ItemSectionComponent } from '../components/item-section/item-section.component';
-import { ItemHeaderComponent } from '../components/item-header/item-header.component';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +56,7 @@ import { ItemHeaderComponent } from '../components/item-header/item-header.compo
 export class DynamicContentService {
 
   rootViewContainer: ViewContainerRef;
-  componentRefs: Array<any>;
+  componentRefs: Array<ItemSectionComponent>;
 
   constructor(private factoryResolver: ComponentFactoryResolver,
               private schema: SchemaService,
@@ -74,41 +85,92 @@ export class DynamicContentService {
     return componentRef;
   }
 
+  public getComponentForItem(item: Item): any {
+    /*
+     * Map a given item to the component that's best suited to display it
+     * e.g. date / string / image, etc
+     */
+
+    /*
+     * A JSON-LD value is a string, a number, true or false, a typed value,
+     * or a language-tagged string.
+     * <https://json-ld.org/spec/latest/json-ld/#dfn-json-ld-values>
+     */
+    return ItemSectionComponent;
+  }
+
   public renderItem(item: Item, viewContainerRef: ViewContainerRef): any {
+    /*
+     * Take an item
+     *   - render it in the viewContainer
+     *   - return a list of components, which can be used later
+     */
 
     if (!item) {
       return of([]);
     }
 
     console.log('[renderItem] args', arguments);
-    return jsonld.expand(item.data)
+    const viewContainerRefs: Observable<ItemSectionComponent>
+      = jsonld.expand(item.data)
       .then(expanded => {
-        // At this point, we should have either a single '@type',
-        // or a graph containing multiple types.
+        /*
+         * In order to render an item of a given type, we need to lookup the
+         * correct component for a given item. The component will be
+         * responsible for any transforming/reshaping of the item's data that
+         * is necessary.
+         *
+         * It's important also that the order of the components is preserved,
+         * so that they are not rendered out-of-order.
+         */
+
         if ('@graph' in expanded) {
           throw new Error('@graph objects not supported yet.');
         }
 
+        const sections: Section[] = [];
         for (const subitem of expanded) {
           console.log('[renderItem] subitem', subitem);
+          const component = this.getComponentForItem(subitem);
 
+          /*
+
+          @type
+           |-- <uri>
+           |    |-- @type
+           |    |-- @value
+           |-- <uri>
+           |    |-- @type
+           |    |-- @value
+
+           */
+
+
+          /*
           let typeUrl = subitem['@type'];
           if (Array.isArray(typeUrl)) {
             typeUrl = typeUrl[0];
           }
+          */
 
-          this.parseSection(typeUrl, subitem, viewContainerRef, 2, true);
+          // sections.push(this.getSectionFromItem(subitem));
+          // const sectionDataList: SectionData[] | HeaderSectionData[] =
+          //  this.parseSection(typeUrl, subitem, viewContainerRef, 2, true);
 
-          return of(this.componentRefs);
         }
-      }).then(() => this.componentRefs)
-    .catch(error => {
-      console.log('Failed to parse JSON-LD', item, error);
-      alert('Error: ' + error);
-    });
+        const componentRefs = [];
+        for (const section in sections) {
+          // if header
+          // if body
+        }
 
+        return of(componentRefs);
 
-
+      })
+      .catch(error => {
+        console.log('Failed to parse JSON-LD', item, error);
+        alert('Error: ' + error);
+      });
   }
 
   parseGraph(data: JsonLD): any {
@@ -140,8 +202,9 @@ export class DynamicContentService {
   }
 
   parseSection(nodeName, nodeObject, viewContainerRef, headingSize = 3,
-    topContext = false) {
+    topContext = false): SectionData[] | HeaderSectionData[] {
 
+    const sectionDataList = [];
     console.log('[parseSection]', arguments);
 
     // Get our semantic type
@@ -171,8 +234,11 @@ export class DynamicContentService {
             itemType: typeUrl,
             headingSize: headingSize
           };
+          /*
           const vcr = this.renderSection(
             header, ItemHeaderComponent, viewContainerRef);
+           */
+          sectionDataList.push(header);
           console.log('[parseSection] header', header);
         }
 
@@ -209,38 +275,84 @@ export class DynamicContentService {
               if ('@value' in key) {
                 const value =  key['@value'];
                 console.log('[parseSection] value', value);
-                const sectionData: SectionData = {
-                  label: nodeChild,
-                  key: nodeChild,
-                  value: value
-                };
-                this.renderSection(sectionData, ItemSectionComponent,
-                  viewContainerRef);
+                const sectionData = new SectionData(
+                  nodeChild,
+                  nodeChild,
+                  value
+                );
+                sectionDataList.push(sectionData);
 
               } else if ('@id' in key) {
                 const id =  key['@id'];
                 console.log('[parseSection] id', id);
-                const sectionData: SectionData = {
-                  label: nodeChild,
-                  key: nodeChild,
-                  value: id
-                };
-                this.renderSection(sectionData, ItemSectionComponent,
-                  viewContainerRef);
+                const sectionData = new SectionData(
+                  nodeChild,
+                  nodeChild,
+                  id
+                );
+                sectionDataList.push(sectionData);
 
               } else if ('@type' in key) {
                 console.log('[parseSection] RECURSE', key);
-                this.parseSection(typeUrl, key, viewContainerRef, headingSize + 1);
+                const sectionData = this.parseSection(
+                  typeUrl, key, viewContainerRef, headingSize + 1);
+                sectionDataList.concat(sectionData);
 
               } else {
                 console.log('[parseSection] unknown', key);
               }
             }
           }
+          console.log('[getLabelForType] exited with', sectionDataList);
+        }
+      });
+      return sectionDataList;
+  }
+
+  getSectionFromItem(item: Item, topContext = false, headingSize = 3): Promise<Section> {
+    /*
+     * Return a single section, consisting of a HeaderSectionData, and
+     * possibly nested subsections
+     */
+
+    const typeUrl = this.getType(item);
+
+    if (!typeUrl) {
+      throw new Error('no type specified');
+    }
+
+    return this.schema.getLabelForType(typeUrl)
+      .then(label => {
+
+        // const sectionDataList: Section[] = [];
+        let section: Section;
+
+        if (!label) {
+          console.log('[parseSection] no label');
+          label = typeUrl;
+        }
+        const header: HeaderSectionData = {
+          label: label,
+          itemType: typeUrl,
+          headingSize: headingSize
+        };
+        console.log('[parseSection] header', header);
+
+        section = {
+          header: header,
+          subsections: null
+        };
+        for (const subitem of []) {
+        // Iterate through item
+
+          // TODO
+        return section;
         }
       });
 
+
   }
+
 
 }
 

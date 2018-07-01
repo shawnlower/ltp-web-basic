@@ -1,4 +1,6 @@
   <div class="card-body"
+      id="elCard"
+      (click)="selectItem()"
       [class.bg-secondary]="selected"
       [class.active]="selected"
       [attr.about]="item.data['@type']">

@@ -149,8 +149,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
     }
 
-    console.log(`[select] ${cardIdx} -> ${index}`);
-
     // Unselect current
     if (selectedCard) {
       selectedCard.selected = false;

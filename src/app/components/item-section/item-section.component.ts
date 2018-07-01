@@ -15,8 +15,8 @@ import { SchemaService } from '../../services/schema.service';
   selector: 'app-item-section',
   template: `
   <app-item-header
-    [data]="header"
-    *ngIf="this.showHeader && header">
+    [data]="this.header"
+    *ngIf="this.showHeader && this.header">
   </app-item-header>
 
   <div *ngFor="let subitem of subitems">
@@ -76,14 +76,9 @@ export class ItemSectionComponent implements OnInit {
   typeLabel: string;
 
   constructor(private schema: SchemaService) {
-    if (this.headerSize) {
-      this.headerSize = 3;
-    }
   }
 
   ngOnInit() {
-    console.log('[ItemSectionComponent]', this.data);
-
     let typeUrl: string;
 
     if (this.data) {
@@ -176,20 +171,3 @@ export class ItemSectionComponent implements OnInit {
     return this.headerSize <= 5 ? this.headerSize++ : 5;
   }
 }
-/*
-  template: `
-  <div id="{{ data.elem_id }}" class="form-group"
-  >
-    <label for="content_key" class="col-sm-2 control-label">{{ data.label }}</label>
-    <div class="col-sm-10">
-      <input
-        [attr.property]="data.key"
-        id="content_key"
-        class="form-control"
-        value="{{ data.value }}
-      ">
-    </div>
-  </div>
-  `
-})
-*/

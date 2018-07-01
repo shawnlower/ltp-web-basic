@@ -15,22 +15,19 @@ export function reducer(state: State = initialState, action) {
 
   switch (action.type) {
     case actions.LOAD_ITEM: {
-      console.log(action.type, action.payload);
+      // console.log(action.type, action.payload);
       return { ...state, item: action.payload };
     }
 
     case actions.RESET_EDITOR: {
-      console.log(action.type, action.payload);
       return state;
     }
 
     case actions.EDITOR_OPENED: {
-      console.log(action.type);
       return state;
     }
 
     case actions.EDITOR_CLOSED: {
-      console.log(action.type);
       return state;
     }
 

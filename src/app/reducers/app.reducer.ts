@@ -19,12 +19,10 @@ export function reducer(state: State = initialState, action) {
 
     case actions.SELECT_NEXT_ITEM :
     case actions.SELECT_PREV_ITEM: {
-      console.log(action.type);
       return state;
     }
 
     default: {
-      console.log('default', action.type);
       return state;
     }
 
