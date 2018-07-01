@@ -45,6 +45,48 @@ export class JsonLD {
   '@type': string;
 }
 
+export function getTypeUrl(data: JsonLD): string {
+  /*
+   * Return a *single* type URL for an item
+   */
+  let typeUrl: string;
+  let validTypeUrl = false;
+
+  if (data['@type']) {
+    if (Array.isArray(data['@type'])) {
+      const numTypes = data['@type'].length;
+      if (numTypes === 1) {
+        typeUrl = data['@type'][0];
+      } else {
+        throw new Error(`Expected exactly one type. (found ${numTypes})`);
+      }
+    } else {
+      // Not an array, assume string
+      typeUrl = data['@type'];
+    }
+  } else {
+        throw new Error('No @type in object');
+  }
+
+  if (typeUrl.startsWith('http')) {
+    validTypeUrl = true;
+  } else {
+    // We need a context
+    if (data['@context']) {
+      // Concatenate context + type, ensuring a single / between them
+      typeUrl = data['@context'].replace(/\/+$/, '') + '/' + typeUrl.replace(/^\/\+/, '');
+      validTypeUrl = true;
+    }
+  }
+
+  if (validTypeUrl) {
+    return typeUrl;
+  }
+
+  throw new Error('Unable to determine type for item');
+
+}
+
 /*
 export class JsonLD {
   '@context'?: any;
