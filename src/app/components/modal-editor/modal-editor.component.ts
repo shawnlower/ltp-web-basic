@@ -17,7 +17,9 @@ import * as appActions from '../../actions/app.actions';
 import * as editorActions from '../../actions/editor.actions';
 import * as itemActions from '../../actions/item.actions';
 
-import { Item } from '../../models/item.model';
+import { SchemaService } from '../../services/schema.service';
+
+import { Item, getTypeUrl } from '../../models/item.model';
 
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 import { Unlisten } from '../../services/keyboard-shortcuts.service';
@@ -49,18 +51,41 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
   public unlisten: Unlisten;
   public unlistenInput: Unlisten;
 
+  modalTitle: string; // A formatted string, e.g. type label + description
   currentItem: Item;
   currentItem$: Observable<Item>;
 
   constructor(public store: Store<fromRoot.State>,
+              private schema: SchemaService,
               public keyboardShortcuts: KeyboardShortcutsService) {
     this.keyboardShortcuts = keyboardShortcuts;
 
-    store.select(state => state.item.selectedItem).subscribe(item => {
-      console.log('[modalEditor] item updated', item);
+    store.select(state => state.editor.item).subscribe(item => {
       this.currentItem = item;
+      this.getModalTitle(item).then(title => {
+        this.modalTitle = title;
+      });
     });
 
+  }
+
+  getModalTitle(item: Item): Promise<string> {
+    /*
+     * Return a formatted title
+     */
+
+    if (!item || !item.data) {
+      return new Promise(() => '<new item>');
+    }
+
+    const typeUrl = getTypeUrl(item.data);
+
+    return this.schema.getLabelForType(typeUrl).then(label => {
+      return `${label}`;
+    }).catch(err => {
+      console.log('[getModalTitle] error fetching label', err);
+      return '';
+    });
   }
 
   keyHandlerInput(): Unlisten {
@@ -78,7 +103,6 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       },
       'Escape': ( event: KeyboardEvent ): void => {
 
-        console.log( 'Handler[ 0 ]: ', this, event );
         this.toggleEditor();
 
         event.preventDefault();
@@ -99,7 +123,6 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
          * Show help dialog
          */
 
-        console.log( 'Handler[ 0 ]: ', event);
         alert('Halp.');
         event.preventDefault();
 
@@ -115,7 +138,6 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       },
       'Escape': ( event: KeyboardEvent ): void => {
 
-        console.log( 'Handler[ 0 ]: ', event );
         this.toggleEditor();
 
         event.preventDefault();
@@ -151,14 +173,6 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
         console.log('[saveChanges]', this.item);
         this.toggleEditor();
       });
-    /*
-    this.store.select(state => state.editor.item).subscribe(item => {
-      this.currentItem = item;
-      console.log('save', this.currentItem, this.item);
-    });
-    this.store.dispatch(new itemActions.ItemLoaded(this.currentItem));
-    this.toggleEditor();
-    */
   }
 
   toggleEditor() {

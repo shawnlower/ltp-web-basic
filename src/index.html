@@ -14,12 +14,12 @@ var open = window.XMLHttpRequest.prototype.open;
 
 XMLHttpRequest = class extends XMLHttpRequest {
   open() {
-    console.log('[XHR rewrite]', arguments);
+    // console.log('[XHR rewrite]', arguments);
     var url = arguments[1];
     if (url.startsWith('http:')) {
       var newUrl = url.replace('http:', 'https:');
       arguments[1] = newUrl;
-      console.log('Rewriting', url, 'to', newUrl);
+      // console.log('Rewriting', url, 'to', newUrl);
     }
     super.open(...arguments);
   }

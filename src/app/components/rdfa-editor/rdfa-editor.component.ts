@@ -59,17 +59,12 @@ interface AdItem {
 })
 export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
-  @Input() item: Item;
   @ViewChild('typeUrl') typeUrl: ElementRef;
   @ViewChild('rawInput') rawInput: ElementRef;
 
   form: FormGroup;
 
   contentLoaded: boolean; // controls spinner/loader
-
-  // A viewchild bound to the 'selector' property of our directive
-  @ViewChild(ItemDirective) itemHost: ItemDirective;
-  private componentRefs: Array<any>;
 
   private resultOptionsSubject: Subject<any> = new Subject<any>();
 
@@ -86,11 +81,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     private componentFactoryResolver: ComponentFactoryResolver,
     private schema: SchemaService,
     private store: Store<fromRoot.State>,
-    private renderer: Renderer
   ) {
 
     this.contentLoaded = false;
-    this.componentRefs = [];
     this.showRawInputBox = false;
 
     this.setupForm();
@@ -155,25 +148,32 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    // Perform initialization steps for editor modal
+    /*
+     * Upon initalization, we call initEditor()
+     * which either
+     * a) Takes any item that our item list put into the store, into the
+     *    editor, or:
+     * b) Loads a default item, e.g. a digital 'note' item
+     *
+     */
     this.store.select(state => state.editor)
       .pipe(take(1))
         .subscribe(editorState => this.initEditor(editorState))
         .unsubscribe();
-
-    this.store.select(state => state.editor.item)
-      .subscribe(item => {
-        this.updateItem(item);
-      });
   }
 
   ngAfterViewInit() {
   }
 
-  updateItem(item: Item) {
-    console.log('[rdfEditor:updateItem]', item);
-    // If our editor has an item, load the content
+  loadItem(item: Item, lock = true) {
+    /*
+     * Can be called at any time, to clear the editor and load a new item
+     * lock: controls whether to lock the typeUrl control
+     */
+    console.log('[rdfEditor:loadItem]', item);
+
     if (item) {
+      this.store.dispatch(new editorActions.LoadItem(item));
       // Set expandedJson which is used by the item-section component,
       // then update the type field
       jsonld.expand(item.data).then(expanded => {
@@ -181,7 +181,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
         const typeUrl = expanded[0]['@type'][0];
         this.schema.getLabelForType(typeUrl).then(label => {
           this.form.controls['typeUrl'].setValue(label);
-          this.form.controls['typeUrl'].disable();
+          if (lock) {
+            this.form.controls['typeUrl'].disable();
+          }
         });
       });
     }
@@ -202,8 +204,11 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
        * For now, just close and re-open :-/
        */
       this.form.controls['typeUrl'].setValue(label);
-      this.form.controls['typeUrl'].disable();
+      this.loadDefaultItem();
+    });
+  }
 
+  loadDefaultItem() {
       /*
        * Next, populate the inputs for this type.
        *
@@ -218,17 +223,27 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
           '@type': 'NoteDigitalDocument',
           '@context': 'https://schema.org/',
           'text': '',
-          'dateCreated': ''
       };
       const item    = new Item(data);
       item.observed = new Date(Date.now()).toUTCString();
       item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
-      this.store.dispatch(new editorActions.LoadItem(item));
-    });
+      this.loadItem(item, false);
   }
 
   initEditor(editorState) {
-    this.typeUrl.nativeElement.focus();
+    /*
+     * Called upon initialization
+     */
+    // console.log('[initEditor]', editorState);
+
+    // Load a default item if we don't have one already loaded
+    if (!editorState.item) {
+      this.loadDefaultItem();
+      this.typeUrl.nativeElement.focus();
+    } else {
+      this.loadItem(editorState.item);
+    }
+
     this.contentLoaded = true;
 
   }

@@ -50,7 +50,6 @@ export class ItemHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('[ItemHeaderComponent]', this.data);
   }
 
 }
