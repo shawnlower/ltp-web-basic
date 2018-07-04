@@ -98,7 +98,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       debounceTime(200),
       distinctUntilChanged())
       .subscribe(v => {
-        // console.log('typeUrl updated to', v);
+        console.log('typeUrl updated to', v);
     });
 
     this.form.controls['json'].valueChanges.pipe(

@@ -25,11 +25,15 @@ import { SchemaService } from '../../services/schema.service';
       <!-----------------
         Item
       ------------------->
+      <div
+        *ngSwitchCase="'item'">
+      <tr><td>
       <app-item-section
-        *ngSwitchCase="'item'"
         [data]="subitem.data"
         [headerSize]="getHeaderSize()"
       ></app-item-section>
+      <hr>
+      </div>
 
       <!-----------------
         Raw value
@@ -78,7 +82,7 @@ export class ItemSectionComponent implements OnInit {
   constructor(private schema: SchemaService) {
   }
 
-  ngOnInit() {
+  async initSection() {
     let typeUrl: string;
 
     if (this.data) {
@@ -93,80 +97,85 @@ export class ItemSectionComponent implements OnInit {
       }
 
       // Setup the header
-      this.schema.getLabelForType(typeUrl).then(label => {
-        this.typeLabel = label;
+      const label = await this.schema.getLabelForType(typeUrl);
 
-        this.header = {
-          label: label,
-          headerSize: this.headerSize
-        };
+      this.header = {
+        label: label,
+        headerSize: this.headerSize
+      };
 
-        for (const key in this.data) {
-          if (key) {
-            /*
-             * The keys within the data object should be either URIs, or
-             * JSON-LD @type, etc;
-             * The values should be lists of either JSON-LD values (literals),
-             * or sub-items
-             */
-            if (key === '@type') {
-              continue;
-            } else if (key === '@value') {
-              this.subitems.push({
-                component: 'value',
-                typeUrl: typeUrl,
-                label: label,
-                value: this.data[key]
-              });
-              return;
-            }
+      for (const key in this.data) {
+        if (key) {
+          /*
+           * The keys within the data object should be either URIs, or
+           * JSON-LD @type, etc;
+           * The values should be lists of either JSON-LD values (literals),
+           * or sub-items
+           */
+          if (key === '@type') {
+            continue;
+          } else if (key === '@value') {
+            this.subitems.push({
+              component: 'value',
+              typeUrl: typeUrl,
+              label: label,
+              value: this.data[key]
+            });
+            return;
+          }
 
-            /*
-             * Our node should be a list
-            /*
-             * ex:
-             * { 'schema:text':
-             *   [
-             *     { '@value': 'example text' }
-             *   ],
-             * { 'schema:dateCreated':
-             *   [
-             *     { '@type': 'schema:date',
-             *       '@value': 'example text' }
-             *   ],
-             * }
-             */
-
-            for (const property of this.data[key]) {
-              if (property) {
-                if (property['@type']) {
-                  this.subitems.push({
-                    data: property,
-                    component: 'item'
-                  });
-                } else if (property['@value']) {
-                  this.subitems.push({
-                    typeUrl: key,
-                    label: key,
-                    value: property['@value'],
-                    component: 'value'
-                  });
-                } else {
-                  this.subitems.push({
-                    typeUrl: key,
-                    label: key,
-                    value: property['@id'],
-                    component: 'value'
-                  });
-                }
+          /*
+           * Our node should be a list
+          /*
+           * ex:
+           * { 'schema:text':
+           *   [
+           *     { '@value': 'example text' }
+           *   ],
+           * { 'schema:dateCreated':
+           *   [
+           *     { '@type': 'schema:date',
+           *       '@value': 'example text' }
+           *   ],
+           * }
+           */
+          // Fix data model to make lookups from DB explicitly;
+          // obviously these can't be XHRs
+          // const keyLabel = await this.schema.getLabelForType(key);
+          const keyLabel = key;
+          for (const property of this.data[key]) {
+            if (property) {
+              if (property['@type']) {
+                this.subitems.push({
+                  data: property,
+                  component: 'item'
+                });
+              } else if (property['@value']) {
+                this.subitems.push({
+                  typeUrl: key,
+                  label: keyLabel,
+                  value: property['@value'],
+                  component: 'value'
+                });
+              } else {
+                this.subitems.push({
+                  typeUrl: key,
+                  label: keyLabel,
+                  value: property['@id'],
+                  component: 'value'
+                });
               }
             }
           }
         }
-      });
+      }
     }
-
   }
+
+  ngOnInit() {
+    this.initSection();
+  }
+
   getHeaderSize() {
     return this.headerSize <= 5 ? this.headerSize++ : 5;
   }
