@@ -5,7 +5,7 @@ if (workbox) {
 
 //  workbox.LOG_LEVEL = 'debug';
   workbox.setConfig({
-    debug: false
+    debug: true
   });
 
   /*

@@ -11,7 +11,7 @@ if (environment.production) {
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     console.log('Registering service worker');
-    navigator.serviceWorker.register('/sw.js', { scope: '/' });
+    navigator.serviceWorker.register('../sw.js', { scope: '/' });
   }
 }
 
