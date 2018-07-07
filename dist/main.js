@@ -21957,7 +21957,7 @@ if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].produc
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         console.log('Registering service worker');
-        navigator.serviceWorker.register('../sw.js', { scope: '/' });
+        navigator.serviceWorker.register('../sw.js', { scope: '.' });
     }
 }
 Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
