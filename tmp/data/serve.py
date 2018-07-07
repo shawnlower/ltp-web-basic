@@ -35,8 +35,9 @@ class ModifiedHTTPRequestHandler(SimpleHTTPRequestHandler):
             finally:
                 f.close()
 
-    def get_index(self):
-        for index in "index.html", "index.htm":
+    def get_index(self, path='.'):
+        for name in "index.html", "index.htm":
+            index = os.path.join(path, name)
             if os.path.exists(index):
                 return index
 
@@ -53,10 +54,11 @@ class ModifiedHTTPRequestHandler(SimpleHTTPRequestHandler):
 
         path = self.translate_path(self.path)
 
-        if self.path == '/':
-            path = self.path = self.get_index()
-        elif os.path.isdir(path):
-            print('request for', path)
+        print('request for {} ({})'.format(self.path, path))
+        if os.path.isdir(path):
+            """
+            Handle directory
+            """
             parts = urllib.parse.urlsplit(self.path)
             if not parts.path.endswith('/'):
                 # redirect browser - doing basically what apache does
@@ -67,21 +69,27 @@ class ModifiedHTTPRequestHandler(SimpleHTTPRequestHandler):
                 self.send_header("Location", new_url)
                 self.end_headers()
                 return None
+            index = self.get_index(path)
+            if index:
+                path = self.path = index
             else:
                 return self.list_directory(path)
         else:
-            if not os.path.exists(path):
+            """
+            Handle file path
+            """
+            if not path or not os.path.exists(path):
                 # fall-back to index if not found
-                path = self.get_index()
-                if not path:
+                path = self.path = self.get_index()
+                if path:
+                    print('Using default index "{}" for {}'.format(
+                        path, self.path))
+                else:
                     # Non-existent path, and no index.html in root
                     self.send_error(HTTPStatus.NOT_FOUND,
                         "{} does not exist, and no index document available"\
                         " in /".format(self.path))
                     return None
-                print('Using default index "{}" for {}'.format(
-                    path, self.path))
-                self.path = path
         try:
             f = open(path, 'rb')
         except OSError as e:

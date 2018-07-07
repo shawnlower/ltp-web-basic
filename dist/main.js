@@ -1567,8 +1567,11 @@ let RdfaEditorComponent = class RdfaEditorComponent {
         this.showRawInputBox = false;
         this.setupForm();
         this.searchResults = Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["of"])([
+            'http://schema.org/Book',
+            'http://schema.org/Movie',
             'http://schema.org/NoteDigitalDocument',
             'http://schema.org/Person',
+            'http://schema.org/Place',
             'http://schema.org/Restaurant',
             'http://schema.org/Thing',
         ]);
