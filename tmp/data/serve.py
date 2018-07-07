@@ -80,7 +80,12 @@ class ModifiedHTTPRequestHandler(SimpleHTTPRequestHandler):
             """
             if not path or not os.path.exists(path):
                 # fall-back to index if not found
-                path = self.path = self.get_index()
+                if self.get_index(path):
+                    path = self.path = self.get_index(path)
+                else:
+                    # try trimming the last component off
+                    _path = '/'.join(path.split('/')[:-1])
+                    path = self.get_index(_path)
                 if path:
                     print('Using default index "{}" for {}'.format(
                         path, self.path))
