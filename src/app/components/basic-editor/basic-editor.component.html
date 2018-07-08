@@ -4,27 +4,33 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-sm">Type URL</span>
       </div>
-      <input title=""
-             class="form-control custom-combobox-input ui-widget
-                    ui-widget-content ui-state-default ui-corner-left
-                    ui-autocomplete-input"
-             autocomplete="off"
-             [ngbTypeahead]="search"
-             [(ngModel)]="typeUrl"
-             formControlName="typeUrl"
-             autofocus
-             >
-    </div>
-      <span>Item: {{ this.currentItem$ | async | json }}</span>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">With textarea</span>
-        </div>
-        <textarea class="form-control"
-                  aria-label="With textarea"
-                  formControlName="dataType"
-                  [(ngModel)]="item"
-                  ></textarea>
+      <div>
+        <input #typeUrl
+               id="inputTypeUrl"
+               class="form-control custom-combobox-input ui-widget
+                      ui-widget-content ui-state-default ui-corner-left
+                      ui-autocomplete-input"
+               autocomplete="off"
+               (blur)="this.handleTypeChange(typeUrl.value)"
+               [ngbTypeahead]="search"
+               [class.alert-danger]="!!this.form.controls.typeUrl.errors"
+               formControlName="typeUrl"
+               autofocus
+               >
       </div>
+    </div>
   </form>
+  <div>
+    <span> {{ this.properties$ | async | json }} </span>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Vocabulary</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>schema.org</td>
+      </tr>
+    </table>
+  </div>
 </div>
