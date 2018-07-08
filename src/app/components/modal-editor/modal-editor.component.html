@@ -20,7 +20,7 @@
         <button type="button" (click)="this.toggleEditor()" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button"
           class="btn btn-primary"
-          (click)="this.saveChanges(editor.json, editor.typeUrl)"
+          (click)="this.saveChanges()"
           [disabled]="!!this.currentItem$"
           
           >Save changes</button>

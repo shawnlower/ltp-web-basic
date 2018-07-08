@@ -36,6 +36,19 @@
       *ngIf="this.expandedJson">
     </app-item-section>
 
+    <div>
+      <input #ctlAddProperty
+             id="ctlAddProperty"
+             class="form-control custom-combobox-input ui-widget
+                    ui-widget-content ui-state-default ui-corner-left
+                    ui-autocomplete-input"
+             autocomplete="off"
+             (blur)="addProperty(ctlAddProperty.value)"
+             [ngbTypeahead]="propertySearch"
+             formControlName="ctlAddProperty"
+             >
+    </div>
+
     <div *ngIf="this.showRawInputBox">
       <textarea
         class="container"

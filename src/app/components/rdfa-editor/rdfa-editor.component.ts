@@ -31,7 +31,7 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import { Action, State, Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
 
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, from } from 'rxjs';
 import { debounceTime, distinctUntilChanged, merge, concat,
          flatMap, mergeMap, filter, last, map, switchMap,
          take
@@ -47,10 +47,6 @@ import { Item, JsonLD } from '../../models/item.model';
 import { SchemaService } from '../../services/schema.service';
 
 import * as jsonld from '../../../assets/js/jsonld.js';
-
-interface AdItem {
-  new (component: Type<any>, data: any): any;
-}
 
 @Component({
   selector: 'app-rdfa-editor',
@@ -71,6 +67,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
   staticSearchResults: string[];
   searchResults: Observable<string[]>;
 
+  currentItem: Item;
+  currentItem$: Observable<Item>;
+
   expandedJson: any;
 
   public model: any;
@@ -88,8 +87,11 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
     this.setupForm();
     this.searchResults = of([
+      'http://schema.org/Book',
+      'http://schema.org/Movie',
       'http://schema.org/NoteDigitalDocument',
       'http://schema.org/Person',
+      'http://schema.org/Place',
       'http://schema.org/Restaurant',
       'http://schema.org/Thing',
     ]);
@@ -109,6 +111,12 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
           /*
            * Create 'item' from JSON
            */
+
+          /*
+           *
+           * Disabled for now.
+           *
+           *
 
           const json = JSON.parse(v);
 
@@ -160,6 +168,21 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       .pipe(take(1))
         .subscribe(editorState => this.initEditor(editorState))
         .unsubscribe();
+
+    this.currentItem$ = this.store.select(state => state.editor.item)
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged()
+      );
+
+    /*
+     * Observable not working correctly in template
+     * :-(
+     */
+    this.currentItem$.subscribe(item => {
+      console.log('[ngOnInit: editor.item]', item);
+      this.currentItem = item;
+    });
   }
 
   ngAfterViewInit() {
@@ -191,7 +214,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   handleTypeChange(typeUrl: string): void {
     // console.log('[handleTypeChange] called w/', arguments);
-    if (!typeUrl.startsWith('http')) { // ignore already labels
+    if (!typeUrl.startsWith('http')) { // ignore existing labels
       return;
     }
 
@@ -204,30 +227,39 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
        * For now, just close and re-open :-/
        */
       this.form.controls['typeUrl'].setValue(label);
-      this.loadDefaultItem();
+      this.form.controls['typeUrl'].disable();
+
+      this.loadDefaultItem(typeUrl);
     });
   }
 
-  loadDefaultItem() {
-      /*
-       * Next, populate the inputs for this type.
-       *
-       * 1) Get, for the set of vocabularies we are using (schema, etc):
-       *     { "@id": "xxx:some_type",
-       *       "schema:rangeIncludes": {
-       *       "@id": "${typeUrl}" }
-       *
-       */
+  loadDefaultItem(typeUrl: string) {
+    /*
+     * Construct an empty Item from a given Type URL
+     * this item should contain the default properties for that
+     * type.
+     *
+     * loadItem() will then construct the form / DOM elements
+     */
 
-      const data = {
-          '@type': 'NoteDigitalDocument',
-          '@context': 'https://schema.org/',
-          'text': '',
-      };
-      const item    = new Item(data);
-      item.observed = new Date(Date.now()).toUTCString();
-      item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
-      this.loadItem(item, false);
+    const defProperties = this.schema.getDefaultProperties(typeUrl);
+
+    const data = {
+      '@type': typeUrl
+    };
+    if (defProperties) {
+      for (const property of defProperties) {
+        data[property.id] = '<default>';
+      }
+    }
+
+    const item    = new Item(data);
+    /*
+    item.observed = new Date(Date.now()).toUTCString();
+    item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
+    */
+    // console.log('[loadDefaultItem] with', item);
+    this.loadItem(item, false);
   }
 
   initEditor(editorState) {
@@ -237,13 +269,11 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     // console.log('[initEditor]', editorState);
 
     // Load a default item if we don't have one already loaded
-    if (!editorState.item) {
-      this.loadDefaultItem();
-      this.typeUrl.nativeElement.focus();
-    } else {
+    if (editorState.item) {
       this.loadItem(editorState.item);
     }
 
+    this.typeUrl.nativeElement.focus();
     this.contentLoaded = true;
 
   }
@@ -253,11 +283,24 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       typeUrl: new FormControl('', [
         Validators.required
       ]),
+      ctlAddProperty: new FormControl('', [
+      ]),
       json: new FormControl('', [
         Validators.required,
         jsonValidator
       ])
     });
+  }
+
+  addProperty(propertyName: string) {
+    /*
+     * Called when we add a new property from the form
+     * We need to update the current item with the new property,
+     * BUT should likely do that as part of the blur event, or
+     * when the control becomes dirty, AKA: when data is added.
+     */
+    console.log('[addProperty] args', arguments);
+
   }
 
   doSearch(term) {
@@ -270,11 +313,42 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     );
   }
 
+  doPropertySearch(term) {
+
+    if (!this.currentItem) {
+      return ['<no item selected>'];
+    }
+
+    const typeUrl = this.currentItem.data['@type'];
+
+    if (!typeUrl) {
+      return ['<no item selected>'];
+    }
+
+    // const properties = this.schema.getDefaultProperties(typeUrl);
+    const properties = this.schema.getCachedProperties(typeUrl);
+    const results = [];
+    if (properties) {
+      for (const p of properties) {
+        results.push(`${p.label} | ${p.id}`);
+      }
+    }
+    return [results];
+  }
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       flatMap(i => this.doSearch(i)
+      )
+    )
+
+  propertySearch = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(i => this.doPropertySearch(i)
       )
     )
 
