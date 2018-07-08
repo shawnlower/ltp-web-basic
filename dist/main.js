@@ -223,7 +223,7 @@ let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forRoot(routes)],
+        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forRoot(routes, { useHash: false })],
         exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
     })
 ], AppRoutingModule);
@@ -549,7 +549,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-body\">\n  <form [formGroup]=\"form\">\n    <div class=\"input-group input-group-sm mb-3\">\n      <div class=\"input-group-prepend\">\n        <span class=\"input-group-text\" id=\"inputGroup-sizing-sm\">Type URL</span>\n      </div>\n      <input title=\"\"\n             class=\"form-control custom-combobox-input ui-widget\n                    ui-widget-content ui-state-default ui-corner-left\n                    ui-autocomplete-input\"\n             autocomplete=\"off\"\n             [ngbTypeahead]=\"search\"\n             [(ngModel)]=\"typeUrl\"\n             formControlName=\"typeUrl\"\n             autofocus\n             >\n    </div>\n      <span>Item: {{ this.currentItem$ | async | json }}</span>\n      <div class=\"input-group\">\n        <div class=\"input-group-prepend\">\n          <span class=\"input-group-text\">With textarea</span>\n        </div>\n        <textarea class=\"form-control\"\n                  aria-label=\"With textarea\"\n                  formControlName=\"dataType\"\n                  [(ngModel)]=\"item\"\n                  ></textarea>\n      </div>\n  </form>\n</div>\n"
+module.exports = "<div class=\"modal-body\">\n  <form [formGroup]=\"form\">\n    <div class=\"input-group input-group-sm mb-3\">\n      <div class=\"input-group-prepend\">\n        <span class=\"input-group-text\" id=\"inputGroup-sizing-sm\">Type URL</span>\n      </div>\n      <div>\n        <input #typeUrl\n               id=\"inputTypeUrl\"\n               class=\"form-control custom-combobox-input ui-widget\n                      ui-widget-content ui-state-default ui-corner-left\n                      ui-autocomplete-input\"\n               autocomplete=\"off\"\n               (blur)=\"this.handleTypeChange(typeUrl.value)\"\n               [ngbTypeahead]=\"search\"\n               [class.alert-danger]=\"!!this.form.controls.typeUrl.errors\"\n               formControlName=\"typeUrl\"\n               autofocus\n               >\n      </div>\n    </div>\n  </form>\n  <div>\n    <span> {{ this.properties$ | async | json }} </span>\n    <table>\n      <tr>\n        <th>Property</th>\n        <th>Vocabulary</th>\n      </tr>\n      <tr>\n        <td>name</td>\n        <td>schema.org</td>\n      </tr>\n    </table>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -568,7 +568,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm2015/store.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var _models_item_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../models/item.model */ "./src/app/models/item.model.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _actions_editor_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/editor.actions */ "./src/app/actions/editor.actions.ts");
+/* harmony import */ var _models_item_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../models/item.model */ "./src/app/models/item.model.ts");
+/* harmony import */ var _services_schema_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../services/schema.service */ "./src/app/services/schema.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -584,9 +588,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
 let BasicEditorComponent = class BasicEditorComponent {
-    constructor(formBuilder, store) {
+    constructor(formBuilder, schema, store) {
         this.formBuilder = formBuilder;
+        this.schema = schema;
         this.store = store;
         this.resultOptionsSubject = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
         this.search = (text$) => text$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["flatMap"])(i => this.doSearch(i)));
@@ -597,9 +605,21 @@ let BasicEditorComponent = class BasicEditorComponent {
             'http://schema.org/Restaurant',
             'http://schema.org/Thing',
         ]);
+        this.rdfProps = Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["of"])([
+            'https://schema.org/NoteDigitalDocument',
+            'http://schema.org/Person',
+            'http://schema.org/Restaurant',
+            'http://schema.org/Thing',
+        ]);
+        this.rdfClasses = Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["of"])([
+            'https://schema.org/NoteDigitalDocument',
+            'http://schema.org/Person',
+            'http://schema.org/Restaurant',
+            'http://schema.org/Thing',
+        ]);
         this.form.controls['typeUrl'].valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["distinctUntilChanged"])())
             .subscribe(v => {
-            console.log('typeUrl updated to', v);
+            // console.log('typeUrl updated to', v);
         });
     }
     ngOnInit() {
@@ -620,10 +640,44 @@ let BasicEditorComponent = class BasicEditorComponent {
         return this.searchResults.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(results => results.filter(result => result.toLowerCase()
             .indexOf(term.toLowerCase()) > -1)));
     }
+    handleTypeChange(typeUrl) {
+        this.loadDefaultItem();
+        this.properties$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["from"])(this.schema.getProps(typeUrl));
+        // this.properties$.subscribe();
+    }
+    loadItem(item, lock = true) {
+        /*
+         * Can be called at any time, to clear the editor and load a new item
+         * lock: controls whether to lock the typeUrl control
+         */
+        if (item) {
+            this.store.dispatch(new _actions_editor_actions__WEBPACK_IMPORTED_MODULE_6__["LoadItem"](item));
+        }
+    }
+    loadDefaultItem() {
+        /*
+         * Next, populate the inputs for this type.
+         *
+         * 1) Get, for the set of vocabularies we are using (schema, etc):
+         *     { "@id": "xxx:some_type",
+         *       "schema:rangeIncludes": {
+         *       "@id": "${typeUrl}" }
+         *
+         */
+        const data = {
+            '@type': 'NoteDigitalDocument',
+            '@context': 'https://schema.org/',
+            'text': '',
+        };
+        const item = new _models_item_model__WEBPACK_IMPORTED_MODULE_7__["Item"](data);
+        item.observed = new Date(Date.now()).toUTCString();
+        item.sameAs = 'http://shawnlower.net/o/' + uuid__WEBPACK_IMPORTED_MODULE_5__["v1"]();
+        this.loadItem(item, false);
+    }
 };
 __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-    __metadata("design:type", _models_item_model__WEBPACK_IMPORTED_MODULE_5__["Item"])
+    __metadata("design:type", _models_item_model__WEBPACK_IMPORTED_MODULE_7__["Item"])
 ], BasicEditorComponent.prototype, "item", void 0);
 __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -631,7 +685,7 @@ __decorate([
 ], BasicEditorComponent.prototype, "typeUrl", void 0);
 __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-    __metadata("design:type", _models_item_model__WEBPACK_IMPORTED_MODULE_5__["Item"])
+    __metadata("design:type", _models_item_model__WEBPACK_IMPORTED_MODULE_7__["Item"])
 ], BasicEditorComponent.prototype, "testitem", void 0);
 BasicEditorComponent = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -640,6 +694,7 @@ BasicEditorComponent = __decorate([
         styles: [__webpack_require__(/*! ./basic-editor.component.css */ "./src/app/components/basic-editor/basic-editor.component.css")],
     }),
     __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
+        _services_schema_service__WEBPACK_IMPORTED_MODULE_8__["SchemaService"],
         _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]])
 ], BasicEditorComponent);
 
@@ -1301,7 +1356,7 @@ module.exports = ".overlay {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  lef
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\"\n     [ngStyle]=\"{'display': visible ? 'block' : 'none', 'opacity': 1 }\"\n  >\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\"\n  >\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\"\n            id=\"exampleModalLabel\"\n            [innerHtml]=\"modalTitle\">\n        </h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\t<app-rdfa-editor\n      #editor\n\t></app-rdfa-editor>\n      <div class=\"modal-footer\">\n        <button type=\"button\" (click)=\"this.toggleEditor()\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        <button type=\"button\"\n          class=\"btn btn-primary\"\n          (click)=\"this.saveChanges(editor.json, editor.typeUrl)\"\n          [disabled]=\"!!this.currentItem$\"\n          \n          >Save changes</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n"
+module.exports = "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\"\n     [ngStyle]=\"{'display': visible ? 'block' : 'none', 'opacity': 1 }\"\n  >\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\"\n  >\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\"\n            id=\"exampleModalLabel\"\n            [innerHtml]=\"modalTitle\">\n        </h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\t<app-basic-editor\n      #editor\n\t></app-basic-editor>\n      <div class=\"modal-footer\">\n        <button type=\"button\" (click)=\"this.toggleEditor()\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        <button type=\"button\"\n          class=\"btn btn-primary\"\n          (click)=\"this.saveChanges()\"\n          [disabled]=\"!!this.currentItem$\"\n          \n          >Save changes</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -2499,9 +2554,11 @@ KeyboardShortcutsService = __decorate([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SchemaService", function() { return SchemaService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../assets/js/jsonld.js */ "./src/assets/js/jsonld.js");
-/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/js/jsonld.js */ "./src/assets/js/jsonld.js");
+/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2511,18 +2568,30 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
 
 
 
 let SchemaService = class SchemaService {
     constructor(http) {
         this.http = http;
+        this.schemaMap = {};
+        this.classHierarchy = {};
     }
     getLabelForType(typeUrl) {
         // Fetch our schema first
         const resp = this.getSchema(typeUrl);
         return resp.toPromise().then(schema => {
-            return _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2__["flatten"](schema)
+            return _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__["flatten"](schema)
                 .then(flat => {
                 // Assume http and https are the same type
                 const typeUrls = [typeUrl, typeUrl.replace(/^https/, 'http')];
@@ -2557,6 +2626,152 @@ let SchemaService = class SchemaService {
             });
         });
     }
+    addProp(typeUrl, property) {
+        // console.log('[addProp] ', property, typeUrl, this.schemaMap);
+        if (!Object.keys(this.schemaMap).includes(typeUrl)) {
+            this.schemaMap[typeUrl] = [];
+        }
+        if (property === '' || property === null) {
+            return;
+        }
+        this.schemaMap[typeUrl].push(property);
+    }
+    propExists(typeUrl, property) {
+        if (!Object.keys(this.schemaMap).includes(typeUrl)) {
+            return false;
+        }
+        return this.schemaMap[typeUrl].includes(property);
+    }
+    getCachedProps(typeUrl, recurse = 20) {
+        if (recurse === -1) {
+            // Recursion disabled
+            return this.schemaMap[typeUrl];
+        }
+        else if (recurse < 1) {
+            throw new Error('Maximum recursion depth exceeded');
+        }
+        if (!this.schemaMap[typeUrl]) {
+            return null;
+        }
+        const props = this.schemaMap[typeUrl];
+        console.log('[getCachedProps] classHierarchy ', typeUrl, this.classHierarchy);
+        console.log('[getCachedProps] schemaMap', this.schemaMap);
+        if (this.classHierarchy[typeUrl] && this.classHierarchy[typeUrl].parents) {
+            for (const parentUrl of this.classHierarchy[typeUrl].parents) {
+                if (parentUrl) {
+                    return props.concat(this.getCachedProps(parentUrl, --recurse));
+                }
+            }
+        }
+        return props;
+    }
+    getProps(typeUrl, recurse = 10) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.updateProps(typeUrl);
+            return new Promise((resolve, reject) => {
+                resolve(this.getCachedProps(typeUrl));
+            });
+        });
+    }
+    updateProps(typeUrl, recurse = 200) {
+        console.log('[updateProps] args', arguments);
+        const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+        const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
+        const SCHEMA = 'http://schema.org/';
+        if (recurse < 1) {
+            throw new Error('[getProps] max recursion depth exceeded');
+        }
+        return this.getSchema(typeUrl).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["mergeMap"])(json => Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["from"])(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__["expand"](json))), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(_schema => {
+            // console.log('[updateProps] schema', schema);
+            /*
+             * Add any direct properties to the DB
+             */
+            const schema = _schema;
+            for (const node of schema) {
+                if (node) {
+                    // console.log('[updateProps] node', node);
+                    if (node['@type'] && node['@type'][0] === `${RDF}Property`) {
+                        /*
+                         * This is a PROPERTY. Now we want:
+                         * - Domains (the types that this property is valid for)
+                         * - Comment
+                         * - Label
+                         */
+                        let property;
+                        if (node['@id']) {
+                            property = node['@id'];
+                        }
+                        else {
+                            property = typeUrl;
+                        }
+                        // TODO: Use RDFS as well as schema for domainIncludes, etc
+                        const domainIncludes = node[`${SCHEMA}domainIncludes`];
+                        if (domainIncludes) {
+                            for (const domain of domainIncludes) {
+                                this.addProp(domain['@id'], property);
+                            }
+                        }
+                    }
+                    else if (node['@type'] && node['@type'][0] === `${RDFS}Class`) {
+                        /*
+                         * This is a CLASS. Now we want:
+                         * - Ensure the schema has an entry
+                         * - Look up any sameAs entries (http v https, etc)
+                         * - Ensure we have the subclass information in our class hierarchy structure
+                         * - Walk the class hierarchy back, to get all properties
+                         */
+                        // Add empty property for now
+                        this.addProp(typeUrl, '');
+                        /*
+                         * Recurse into any 'sameAs' properties
+                         */
+                        const refs = node['http://schema.org/sameAs'];
+                        if (refs) {
+                            for (const ref of refs) {
+                                const refUrl = ref['@id'];
+                                if (!this.getCachedProps(refUrl, -1)) {
+                                    console.log('[updateProps] recursing', refUrl, recurse);
+                                    this.updateProps(refUrl, --recurse);
+                                }
+                            }
+                        }
+                        /*
+                         * Retrieve the entire tree back to the root
+                         */
+                        if (!this.classHierarchy[typeUrl]) {
+                            this.classHierarchy[typeUrl] = {};
+                            this.classHierarchy[typeUrl].parents = [];
+                            this.classHierarchy[typeUrl].children = [];
+                        }
+                        const superClasses = node[`${RDFS}subClassOf`];
+                        if (superClasses) {
+                            /*
+                             * First update the hierarchy tree
+                             */
+                            for (const s of superClasses) {
+                                const s_typeUrl = s['@id'];
+                                if (!this.classHierarchy[typeUrl].parents.includes(s_typeUrl) && s_typeUrl !== typeUrl) {
+                                    this.classHierarchy[typeUrl].parents.push(s_typeUrl);
+                                }
+                                if (!this.classHierarchy[s_typeUrl]) {
+                                    this.classHierarchy[s_typeUrl] = {};
+                                    this.classHierarchy[s_typeUrl].parents = [];
+                                    this.classHierarchy[s_typeUrl].children = [];
+                                }
+                                if (!this.classHierarchy[s_typeUrl].children.includes(typeUrl) && s_typeUrl !== typeUrl) {
+                                    this.classHierarchy[s_typeUrl].children.push(typeUrl);
+                                }
+                                if (!this.getCachedProps(s_typeUrl, -1)) {
+                                    console.log('[updateProps] adding superclass', s_typeUrl);
+                                    this.updateProps(s_typeUrl, --recurse);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })).toPromise();
+    }
     getSchema(typeUrl) {
         /*
          * Fetch the schema for a given type
@@ -2565,7 +2780,7 @@ let SchemaService = class SchemaService {
          *  getSchema('http://schema.org/Person')
          */
         const httpOptions = {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
                 'Accept': 'application/ld+json',
             })
         };
@@ -2589,7 +2804,7 @@ SchemaService = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
         providedIn: 'root'
     }),
-    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
 ], SchemaService);
 
 
@@ -21957,7 +22172,7 @@ if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].produc
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         console.log('Registering service worker');
-        navigator.serviceWorker.register('../sw.js', { scope: '.' });
+        navigator.serviceWorker.register('../sw.js', { scope: '/' });
     }
 }
 Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])

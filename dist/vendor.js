@@ -29,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵAnimationGroupPlayer", function() { return AnimationGroupPlayer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵPRE_STYLE", function() { return ɵPRE_STYLE; });
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -100,147 +100,128 @@ class AnimationFactory {
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Represents a set of CSS styles for use in an animation style.
  * @record
  */
 
 /**
- * \@experimental Animation support is experimental.
+ * Specifies automatic styling.
  */
 const AUTO_STYLE = '*';
 /**
- * \@experimental Animation support is experimental.
+ * Base for animation data structures.
  * @record
  */
 
 /**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link trigger trigger animation function} is called.
+ * Contains an animation trigger. Instantiated and returned by the
+ * `trigger()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation state by associating a state name with a set of CSS styles.
+ * Instantiated and returned by the `state()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation transition. Instantiated and returned by the
+ * `transition()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates a reusable animation, which is a collection of individual animation steps.
+ * Instantiated and returned by the `animation()` function, and
+ * passed to the `useAnimation()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation query. Instantiated and returned by
+ * the `query()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates a keyframes sequence. Instantiated and returned by
+ * the `keyframes()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation style. Instantiated and returned by
+ * the `style()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation step. Instantiated and returned by
+ * the `animate()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates a child animation, that can be run explicitly when the parent is run.
+ * Instantiated and returned by the `animateChild` function.
+ * @record
+ */
+
+/**
+ * Encapsulates a reusable animation.
+ * Instantiated and returned by the `useAnimation()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation sequence.
+ * Instantiated and returned by the `sequence()` function.
+ * @record
+ */
+
+/**
+ * Encapsulates an animation group.
+ * Instantiated and returned by the `{\@link animations/group group()}` function.
+ * @record
+ */
+
+/**
+ * Encapsulates parameters for staggering the start times of a set of animation steps.
+ * Instantiated and returned by the `stagger()` function.
  *
- * \@experimental Animation support is experimental.
  * @record
  */
 
 /**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link state state animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link transition transition animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link keyframes keyframes animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link style style animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link animate animate animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link animateChild animateChild animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link useAnimation useAnimation animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link sequence sequence animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link group group animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * Metadata representing the entry of animations. Instances of this interface are provided via the
- * animation DSL when the {\@link stagger stagger animation function} is called.
- *
- * \@experimental Animation support is experimental.
- * @record
- */
-
-/**
- * `trigger` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the
- * {\@link Component#animations component animations metadata page} to gain a better
- * understanding of how animations in Angular are used.
- *
- * `trigger` Creates an animation trigger which will a list of {\@link state state} and
- * {\@link transition transition} entries that will be evaluated when the expression
+ * Creates a named animation trigger, containing a  list of `state()`
+ * and `transition()` entries to be evaluated when the expression
  * bound to the trigger changes.
  *
- * Triggers are registered within the component annotation data under the
- * {\@link Component#animations animations section}. An animation trigger can be placed on an element
- * within a template by referencing the name of the trigger followed by the expression value that
- * the
- * trigger is bound to (in the form of `[\@triggerName]="expression"`.
+ * \@usageNotes
+ * Define an animation trigger in the `animations` section of `\@Component` metadata.
+ * In the template, reference the trigger by name and bind it to a trigger expression that
+ * evaluates to a defined animation state, using the following format:
  *
- * Animation trigger bindings strigify values and then match the previous and current values against
- * any linked transitions. If a boolean value is provided into the trigger binding then it will both
- * be represented as `1` or `true` and `0` or `false` for a true and false boolean values
- * respectively.
+ * `[\@triggerName]="expression"`
  *
- * ### Usage
+ * Animation trigger bindings convert all values to strings, and then match the
+ * previous and current values against any linked transitions.
+ * Booleans can be specified as `1` or `true` and `0` or `false`.
  *
- * `trigger` will create an animation trigger reference based on the provided `name` value. The
- * provided `animation` value is expected to be an array consisting of {\@link state state} and
- * {\@link transition transition} declarations.
+ * ### Usage Example
+ *
+ * The following example creates an animation trigger reference based on the provided
+ * name value.
+ * The provided animation value is expected to be an array consisting of state and
+ * transition declarations.
  *
  * ```typescript
  * \@Component({
- *   selector: 'my-component',
- *   templateUrl: 'my-component-tpl.html',
+ *   selector: "my-component",
+ *   templateUrl: "my-component-tpl.html",
  *   animations: [
  *     trigger("myAnimationTrigger", [
  *       state(...),
@@ -255,8 +236,8 @@ const AUTO_STYLE = '*';
  * }
  * ```
  *
- * The template associated with this component will make use of the `myAnimationTrigger` animation
- * trigger by binding to an element within its template code.
+ * The template associated with this component makes use of the defined trigger
+ * by binding to an element within its template code.
  *
  * ```html
  * <!-- somewhere inside of my-component-tpl.html -->
@@ -267,9 +248,8 @@ const AUTO_STYLE = '*';
  * The `transition` animation method also supports reading an inline function which can decide
  * if its associated animation should be run.
  *
- * ```
- * // this method will be run each time the `myAnimationTrigger`
- * // trigger value changes...
+ * ```typescript
+ * // this method is run each time the `myAnimationTrigger` trigger value changes.
  * function myInlineMatcherFn(fromState: string, toState: string, element: any, params: {[key:
  * string]: any}): boolean {
  *   // notice that `element` and `params` are also available here
@@ -292,18 +272,16 @@ const AUTO_STYLE = '*';
  * }
  * ```
  *
- * The inline method will be run each time the trigger
- * value changes
+ * ### Disabling Animations
+ * When true, the special animation control binding `\@.disabled` binding prevents
+ * all animations from rendering.
+ * Place the  `\@.disabled` binding on an element to disable
+ * animations on the element itself, as well as any inner animation triggers
+ * within the element.
  *
- * ## Disable Animations
- * A special animation control binding called `\@.disabled` can be placed on an element which will
- * then disable animations for any inner animation triggers situated within the element as well as
- * any animations on the element itself.
+ * The following example shows how to use this feature:
  *
- * When true, the `\@.disabled` binding will prevent all animations from rendering. The example
- * below shows how to use this feature:
- *
- * ```ts
+ * ```typescript
  * \@Component({
  *   selector: 'my-component',
  *   template: `
@@ -323,19 +301,16 @@ const AUTO_STYLE = '*';
  * }
  * ```
  *
- * The `\@childAnimation` trigger will not animate because `\@.disabled` prevents it from happening
- * (when true).
+ * When `\@.disabled` is true, it prevents the `\@childAnimation` trigger from animating,
+ * along with any inner animations.
  *
- * Note that `\@.disabled` will only disable all animations (this means any animations running on
- * the same element will also be disabled).
+ * ### Disable animations application-wide
+ * When an area of the template is set to have animations disabled,
+ * **all** inner components have their animations disabled as well.
+ * This means that you can disable all animations for an app
+ * by placing a host binding set on `\@.disabled` on the topmost Angular component.
  *
- * ### Disabling Animations Application-wide
- * When an area of the template is set to have animations disabled, **all** inner components will
- * also have their animations disabled as well. This means that all animations for an angular
- * application can be disabled by placing a host binding set on `\@.disabled` on the topmost Angular
- * component.
- *
- * ```ts
+ * ```typescript
  * import {Component, HostBinding} from '\@angular/core';
  *
  * \@Component({
@@ -343,102 +318,109 @@ const AUTO_STYLE = '*';
  *   templateUrl: 'app.component.html',
  * })
  * class AppComponent {
- *   \@HostBinding('\@.disabled')
+ * \@HostBinding('@.disabled')
  *   public animationsDisabled = true;
  * }
  * ```
  *
- * ### What about animations that us `query()` and `animateChild()`?
- * Despite inner animations being disabled, a parent animation can {\@link query query} for inner
- * elements located in disabled areas of the template and still animate them as it sees fit. This is
- * also the case for when a sub animation is queried by a parent and then later animated using {\@link
- * animateChild animateChild}.
- * ### Detecting when an animation is disabled
- * If a region of the DOM (or the entire application) has its animations disabled, then animation
- * trigger callbacks will still fire just as normal (only for zero seconds).
+ * ### Overriding disablement of inner animations
+ * Despite inner animations being disabled, a parent animation can `query()`
+ * for inner elements located in disabled areas of the template and still animate
+ * them if needed. This is also the case for when a sub animation is
+ * queried by a parent and then later animated using `animateChild()`.
  *
- * When a trigger callback fires it will provide an instance of an {\@link AnimationEvent}. If
- * animations
- * are disabled then the `.disabled` flag on the event will be true.
+ * ### Detecting when an animation is disabled
+ * If a region of the DOM (or the entire application) has its animations disabled, the animation
+ * trigger callbacks still fire, but for zero seconds. When the callback fires, it provides
+ * an instance of an `AnimationEvent`. If animations are disabled,
+ * the `.disabled` flag on the event is true.
  *
  * \@experimental Animation support is experimental.
- * @param {?} name
- * @param {?} definitions
- * @return {?}
+ * @param {?} name An identifying string.
+ * @param {?} definitions  An animation definition object, containing an array of `state()`
+ * and `transition()` declarations.
+ *
+ * @return {?} An object that encapsulates the trigger data.
+ *
  */
 function trigger(name, definitions) {
     return { type: 7 /* Trigger */, name, definitions, options: {} };
 }
 /**
- * `animate` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
+ * Defines an animation step that combines styling information with timing information.
  *
- * `animate` specifies an animation step that will apply the provided `styles` data for a given
- * amount of time based on the provided `timing` expression value. Calls to `animate` are expected
- * to be used within {\@link sequence an animation sequence}, {\@link group group}, or {\@link
- * transition transition}.
+ * \@usageNotes
+ * Call within an animation `sequence()`, `{\@link animations/group group()}`, or
+ * `transition()` call to specify an animation step
+ * that applies given style data to the parent animation for a given amount of time.
  *
- * ### Usage
+ * ### Syntax Examples
+ * **Timing examples**
  *
- * The `animate` function accepts two input parameters: `timing` and `styles`:
+ * The following examples show various `timings` specifications.
+ * - `animate(500)` : Duration is 500 milliseconds.
+ * - `animate("1s")` : Duration is 1000 milliseconds.
+ * - `animate("100ms 0.5s")` : Duration is 100 milliseconds, delay is 500 milliseconds.
+ * - `animate("5s ease-in")` : Duration is 5000 milliseconds, easing in.
+ * - `animate("5s 10ms cubic-bezier(.17,.67,.88,.1)")` : Duration is 5000 milliseconds, delay is 10
+ * milliseconds, easing according to a bezier curve.
  *
- * - `timing` is a string based value that can be a combination of a duration with optional delay
- * and easing values. The format for the expression breaks down to `duration delay easing`
- * (therefore a value such as `1s 100ms ease-out` will be parse itself into `duration=1000,
- * delay=100, easing=ease-out`. If a numeric value is provided then that will be used as the
- * `duration` value in millisecond form.
- * - `styles` is the style input data which can either be a call to {\@link style style} or {\@link
- * keyframes keyframes}. If left empty then the styles from the destination state will be collected
- * and used (this is useful when describing an animation step that will complete an animation by
- * {\@link transition#the-final-animate-call animating to the final state}).
+ * **Style examples**
  *
+ * The following example calls `style()` to set a single CSS style.
  * ```typescript
- * // various functions for specifying timing data
- * animate(500, style(...))
- * animate("1s", style(...))
- * animate("100ms 0.5s", style(...))
- * animate("5s ease", style(...))
- * animate("5s 10ms cubic-bezier(.17,.67,.88,.1)", style(...))
- *
- * // either style() of keyframes() can be used
  * animate(500, style({ background: "red" }))
- * animate(500, keyframes([
+ * ```
+ * The following example calls `keyframes()` to set a CSS style
+ * to different values for successive keyframes.
+ * ```typescript
+ * animate(500, keyframes(
+ *  [
  *   style({ background: "blue" })),
  *   style({ background: "red" }))
- * ])
+ *  ])
  * ```
+ * @param {?} timings Sets `AnimateTimings` for the parent animation.
+ * A string in the format "duration [delay] [easing]".
+ *  - Duration and delay are expressed as a number and optional time unit,
+ * such as "1s" or "10ms" for one second and 10 milliseconds, respectively.
+ * The default unit is milliseconds.
+ *  - The easing value controls how the animation accelerates and decelerates
+ * during its runtime. Value is one of  `ease`, `ease-in`, `ease-out`,
+ * `ease-in-out`, or a `cubic-bezier()` function call.
+ * If not supplied, no easing is applied.
  *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
+ * For example, the string "1s 100ms ease-out" specifies a duration of
+ * 1000 milliseconds, and delay of 100 ms, and the "ease-out" easing style,
+ * which decelerates near the end of the duration.
+ * @param {?=} styles Sets AnimationStyles for the parent animation.
+ * A function call to either `style()` or `keyframes()`
+ * that returns a collection of CSS style entries to be applied to the parent animation.
+ * When null, uses the styles from the destination state.
+ * This is useful when describing an animation step that will complete an animation;
+ * see "Animating to the final state" in `transitions()`.
+ * @return {?} An object that encapsulates the animation step.
  *
- * \@experimental Animation support is experimental.
- * @param {?} timings
- * @param {?=} styles
- * @return {?}
  */
 function animate(timings, styles = null) {
     return { type: 4 /* Animate */, styles, timings };
 }
 /**
- * `group` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
+ * \@description Defines a list of animation steps to be run in parallel.
  *
- * `group` specifies a list of animation steps that are all run in parallel. Grouped animations are
- * useful when a series of styles must be animated/closed off at different starting/ending times.
+ * \@usageNotes
+ * Grouped animations are useful when a series of styles must be
+ * animated at different starting times and closed off at different ending times.
  *
- * The `group` function can either be used within a {\@link sequence sequence} or a {\@link transition
- * transition} and it will only continue to the next instruction once all of the inner animation
- * steps have completed.
- *
- * ### Usage
- *
- * The `steps` data that is passed into the `group` animation function can either consist of {\@link
- * style style} or {\@link animate animate} function calls. Each call to `style()` or `animate()`
- * within a group will be executed instantly (use {\@link keyframes keyframes} or a {\@link
- * animate#usage animate() with a delay value} to offset styles to be applied at a later time).
+ * When called within a `sequence()` or a
+ * `transition()` call, does not continue to the next
+ * instruction until all of the inner animation steps have completed.
+ * @param {?} steps An array of animation step objects.
+ * - When steps are defined by `style()` or `animate()`
+ * function calls, each call within the group is executed instantly.
+ * - To specify offset styles to be applied at a later time, define steps with
+ * `keyframes()`, or use `animate()` calls with a delay value.
+ * For example:
  *
  * ```typescript
  * group([
@@ -447,38 +429,33 @@ function animate(timings, styles = null) {
  * ])
  * ```
  *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
+ * @param {?=} options An options object containing a delay and
+ * developer-defined parameters that provide styling defaults and
+ * can be overridden on invocation.
  *
- * \@experimental Animation support is experimental.
- * @param {?} steps
- * @param {?=} options
- * @return {?}
+ * @return {?} An object that encapsulates the group data.
+ *
  */
 function group(steps, options = null) {
     return { type: 3 /* Group */, steps, options };
 }
 /**
- * `sequence` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
+ * Defines a list of animation steps to be run sequentially, one by one.
  *
- * `sequence` Specifies a list of animation steps that are run one by one. (`sequence` is used by
- * default when an array is passed as animation data into {\@link transition transition}.)
+ * \@usageNotes
+ * When you pass an array of steps to a
+ * `transition()` call, the steps run sequentially by default.
+ * Compare this to the `{\@link animations/group group()}` call, which runs animation steps in parallel.
  *
- * The `sequence` function can either be used within a {\@link group group} or a {\@link transition
- * transition} and it will only continue to the next instruction once each of the inner animation
+ * When a sequence is used within a `{\@link animations/group group()}` or a `transition()` call,
+ * execution continues to the next instruction only after each of the inner animation
  * steps have completed.
  *
- * To perform animation styling in parallel with other animation steps then have a look at the
- * {\@link group group} animation function.
  *
- * ### Usage
- *
- * The `steps` data that is passed into the `sequence` animation function can either consist of
- * {\@link style style} or {\@link animate animate} function calls. A call to `style()` will apply the
- * provided styling data immediately while a call to `animate()` will apply its styling data over a
- * given time depending on its timing data.
+ * @param {?} steps An array of animation step objects.
+ * - Steps defined by `style()` calls apply the styling data immediately.
+ * - Steps defined by `animate()` calls apply the styling data over time
+ *   as specified by the timing data.
  *
  * ```typescript
  * sequence([
@@ -487,139 +464,107 @@ function group(steps, options = null) {
  * ])
  * ```
  *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
+ * @param {?=} options An options object containing a delay and
+ * developer-defined parameters that provide styling defaults and
+ * can be overridden on invocation.
  *
- * \@experimental Animation support is experimental.
- * @param {?} steps
- * @param {?=} options
- * @return {?}
+ * @return {?} An object that encapsulates the sequence data.
+ *
  */
 function sequence(steps, options = null) {
     return { type: 2 /* Sequence */, steps, options };
 }
 /**
- * `style` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
+ * Declares a key/value object containing CSS properties/styles that
+ * can then be used for an animation `state`, within an animation `sequence`,
+ * or as styling data for calls to `animate()` and `keyframes()`.
  *
- * `style` declares a key/value object containing CSS properties/styles that can then be used for
- * {\@link state animation states}, within an {\@link sequence animation sequence}, or as styling data
- * for both {\@link animate animate} and {\@link keyframes keyframes}.
- *
- * ### Usage
- *
- * `style` takes in a key/value string map as data and expects one or more CSS property/value pairs
- * to be defined.
+ * \@usageNotes
+ * The following examples create animation styles that collect a set of
+ * CSS property values:
  *
  * ```typescript
- * // string values are used for css properties
+ * // string values for CSS properties
  * style({ background: "red", color: "blue" })
  *
- * // numerical (pixel) values are also supported
+ * // numerical pixel values
  * style({ width: 100, height: 0 })
  * ```
  *
- * #### Auto-styles (using `*`)
+ * The following example uses auto-styling to allow a component to animate from
+ * a height of 0 up to the height of the parent element:
  *
- * When an asterix (`*`) character is used as a value then it will be detected from the element
- * being animated and applied as animation data when the animation starts.
- *
- * This feature proves useful for a state depending on layout and/or environment factors; in such
- * cases the styles are calculated just before the animation starts.
- *
- * ```typescript
- * // the steps below will animate from 0 to the
- * // actual height of the element
+ * ```
  * style({ height: 0 }),
  * animate("1s", style({ height: "*" }))
  * ```
  *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
  *
- * \@experimental Animation support is experimental.
- * @param {?} tokens
- * @return {?}
+ * @param {?} tokens A set of CSS styles or HTML styles associated with an animation state.
+ * The value can be any of the following:
+ * - A key-value style pair associating a CSS property with a value.
+ * - An array of key-value style pairs.
+ * - An asterisk (*), to use auto-styling, where styles are derived from the element
+ * being animated and applied to the animation when it starts.
+ *
+ * Auto-styling can be used to define a state that depends on layout or other
+ * environmental factors.
+ *
+ * @return {?} An object that encapsulates the style data.
+ *
  */
 function style(tokens) {
     return { type: 6 /* Style */, styles: tokens, offset: null };
 }
 /**
- * `state` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
+ * Declares an animation state within a trigger attached to an element.
  *
- * `state` declares an animation state within the given trigger. When a state is active within a
- * component then its associated styles will persist on the element that the trigger is attached to
- * (even when the animation ends).
+ * \@usageNotes
+ * Use the `trigger()` function to register states to an animation trigger.
+ * Use the `transition()` function to animate between states.
+ * When a state is active within a component, its associated styles persist on the element,
+ * even when the animation ends.
  *
- * To animate between states, have a look at the animation {\@link transition transition} DSL
- * function. To register states to an animation trigger please have a look at the {\@link trigger
- * trigger} function.
+ * @param {?} name One or more names for the defined state in a comma-separated string.
+ * The following reserved state names can be supplied to define a style for specific use
+ * cases:
  *
- * #### The `void` state
+ * - `void` You can associate styles with this name to be used when
+ * the element is detached from the application. For example, when an `ngIf` evaluates
+ * to false, the state of the associated element is void.
+ *  - `*` (asterisk) Indicates the default state. You can associate styles with this name
+ * to be used as the fallback when the state that is being animated is not declared
+ * within the trigger.
  *
- * The `void` state value is a reserved word that angular uses to determine when the element is not
- * apart of the application anymore (e.g. when an `ngIf` evaluates to false then the state of the
- * associated element is void).
+ * @param {?} styles A set of CSS styles associated with this state, created using the
+ * `style()` function.
+ * This set of styles persists on the element once the state has been reached.
+ * @param {?=} options Parameters that can be passed to the state when it is invoked.
+ * 0 or more key-value pairs.
+ * @return {?} An object that encapsulates the new state data.
  *
- * #### The `*` (default) state
- *
- * The `*` state (when styled) is a fallback state that will be used if the state that is being
- * animated is not declared within the trigger.
- *
- * ### Usage
- *
- * `state` will declare an animation state with its associated styles
- * within the given trigger.
- *
- * - `stateNameExpr` can be one or more state names separated by commas.
- * - `styles` refers to the {\@link style styling data} that will be persisted on the element once
- * the state has been reached.
- *
- * ```typescript
- * // "void" is a reserved name for a state and is used to represent
- * // the state in which an element is detached from from the application.
- * state("void", style({ height: 0 }))
- *
- * // user-defined states
- * state("closed", style({ height: 0 }))
- * state("open, visible", style({ height: "*" }))
- * ```
- *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
- *
- * \@experimental Animation support is experimental.
- * @param {?} name
- * @param {?} styles
- * @param {?=} options
- * @return {?}
  */
 function state(name, styles, options) {
     return { type: 0 /* State */, name, styles, options };
 }
 /**
- * `keyframes` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
+ * Defines a set of animation styles, associating each style with an optional `offset` value.
  *
- * `keyframes` specifies a collection of {\@link style style} entries each optionally characterized
- * by an `offset` value.
+ * \@usageNotes
+ * Use with the `animate()` call. Instead of applying animations
+ * from the current state
+ * to the destination state, keyframes describe how each style entry is applied and at what point
+ * within the animation arc.
+ * Compare [CSS Keyframe Animations](https://www.w3schools.com/css/css3_animations.asp).
  *
  * ### Usage
  *
- * The `keyframes` animation function is designed to be used alongside the {\@link animate animate}
- * animation function. Instead of applying animations from where they are currently to their
- * destination, keyframes can describe how each style entry is applied and at what point within the
- * animation arc (much like CSS Keyframe Animations do).
- *
- * For each `style()` entry an `offset` value can be set. Doing so allows to specify at what
- * percentage of the animate time the styles will be applied.
+ * In the following example, the offset values describe
+ * when each `backgroundColor` value is applied. The color is red at the start, and changes to
+ * blue when 20% of the total time has elapsed.
  *
  * ```typescript
- * // the provided offset values describe when each backgroundColor value is applied.
+ * // the provided offset values
  * animate("5s", keyframes([
  *   style({ backgroundColor: "red", offset: 0 }),
  *   style({ backgroundColor: "blue", offset: 0.2 }),
@@ -628,8 +573,8 @@ function state(name, styles, options) {
  * ]))
  * ```
  *
- * Alternatively, if there are no `offset` values used within the style entries then the offsets
- * will be calculated automatically.
+ * If there are no `offset` values specified in the style entries, the offsets
+ * are calculated automatically.
  *
  * ```typescript
  * animate("5s", keyframes([
@@ -639,127 +584,148 @@ function state(name, styles, options) {
  *   style({ backgroundColor: "black" }) // offset = 1
  * ]))
  * ```
+ * @param {?} steps A set of animation styles with optional offset data.
+ * The optional `offset` value for a style specifies a percentage of the total animation
+ * time at which that style is applied.
+ * @return {?} An object that encapsulates the keyframes data.
  *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
- *
- * \@experimental Animation support is experimental.
- * @param {?} steps
- * @return {?}
  */
 function keyframes(steps) {
     return { type: 5 /* Keyframes */, steps };
 }
 /**
- * `transition` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. If this information is new, please navigate to the {\@link
- * Component#animations component animations metadata page} to gain a better understanding of
- * how animations in Angular are used.
- *
- * `transition` declares the {\@link sequence sequence of animation steps} that will be run when the
- * provided `stateChangeExpr` value is satisfied. The `stateChangeExpr` consists of a `state1 =>
- * state2` which consists of two known states (use an asterix (`*`) to refer to a dynamic starting
- * and/or ending state).
- *
- * A function can also be provided as the `stateChangeExpr` argument for a transition and this
- * function will be executed each time a state change occurs. If the value returned within the
- * function is true then the associated animation will be run.
- *
- * Animation transitions are placed within an {\@link trigger animation trigger}. For an transition
- * to animate to a state value and persist its styles then one or more {\@link state animation
- * states} is expected to be defined.
- *
- * ### Usage
- *
- * An animation transition is kicked off the `stateChangeExpr` predicate evaluates to true based on
- * what the previous state is and what the current state has become. In other words, if a transition
- * is defined that matches the old/current state criteria then the associated animation will be
+ * Declares an animation transition as a sequence of animation steps to run when a given
+ * condition is satisfied. The condition is a Boolean expression or function that compares
+ * the previous and current animation states, and returns true if this transition should occur.
+ * When the state criteria of a defined transition are met, the associated animation is
  * triggered.
  *
- * ```typescript
- * // all transition/state changes are defined within an animation trigger
- * trigger("myAnimationTrigger", [
- *   // if a state is defined then its styles will be persisted when the
- *   // animation has fully completed itself
- *   state("on", style({ background: "green" })),
- *   state("off", style({ background: "grey" })),
+ * \@usageNotes
+ * The template associated with a component binds an animation trigger to an element.
  *
- *   // a transition animation that will be kicked off when the state value
- *   // bound to "myAnimationTrigger" changes from "on" to "off"
- *   transition("on => off", animate(500)),
- *
- *   // it is also possible to do run the same animation for both directions
- *   transition("on <=> off", animate(500)),
- *
- *   // or to define multiple states pairs separated by commas
- *   transition("on => off, off => void", animate(500)),
- *
- *   // this is a catch-all state change for when an element is inserted into
- *   // the page and the destination state is unknown
- *   transition("void => *", [
- *     style({ opacity: 0 }),
- *     animate(500)
- *   ]),
- *
- *   // this will capture a state change between any states
- *   transition("* => *", animate("1s 0s")),
- *
- *   // you can also go full out and include a function
- *   transition((fromState, toState) => {
- *     // when `true` then it will allow the animation below to be invoked
- *     return fromState == "off" && toState == "on";
- *   }, animate("1s 0s"))
- * ])
- * ```
- *
- * The template associated with this component will make use of the `myAnimationTrigger` animation
- * trigger by binding to an element within its template code.
- *
- * ```html
+ * ```HTML
  * <!-- somewhere inside of my-component-tpl.html -->
  * <div [\@myAnimationTrigger]="myStatusExp">...</div>
  * ```
  *
- * #### The final `animate` call
+ * All transitions are defined within an animation trigger,
+ * along with named states that the transitions change to and from.
  *
- * If the final step within the transition steps is a call to `animate()` that **only** uses a
- * timing value with **no style data** then it will be automatically used as the final animation arc
- * for the element to animate itself to the final state. This involves an automatic mix of
- * adding/removing CSS styles so that the element will be in the exact state it should be for the
- * applied state to be presented correctly.
- *
+ * ```typescript
+ * trigger("myAnimationTrigger", [
+ *  // define states
+ *  state("on", style({ background: "green" })),
+ *  state("off", style({ background: "grey" })),
+ *  ...]
  * ```
- * // start off by hiding the element, but make sure that it animates properly to whatever state
- * // is currently active for "myAnimationTrigger"
+ *
+ * Note that when you call the `sequence()` function within a `{\@link animations/group group()}`
+ * or a `transition()` call, execution does not continue to the next instruction
+ * until each of the inner animation steps have completed.
+ *
+ * ### Syntax examples
+ *
+ * The following examples define transitions between the two defined states (and default states),
+ * using various options:
+ *
+ * ```typescript
+ * // Transition occurs when the state value
+ * // bound to "myAnimationTrigger" changes from "on" to "off"
+ * transition("on => off", animate(500))
+ * // Run the same animation for both directions
+ * transition("on <=> off", animate(500))
+ * // Define multiple state-change pairs separated by commas
+ * transition("on => off, off => void", animate(500))
+ * ```
+ *
+ * ### Special values for state-change expressions
+ *
+ * - Catch-all state change for when an element is inserted into the page and the
+ * destination state is unknown:
+ *
+ * ```typescript
  * transition("void => *", [
- *   style({ opacity: 0 }),
- *   animate(500)
- * ])
+ *  style({ opacity: 0 }),
+ *  animate(500)
+ *  ])
  * ```
  *
- * ### Using :enter and :leave
+ * - Capture a state change between any states:
  *
- * Given that enter (insertion) and leave (removal) animations are so common, the `transition`
- * function accepts both `:enter` and `:leave` values which are aliases for the `void => *` and `*
- * => void` state changes.
+ *  `transition("* => *", animate("1s 0s"))`
  *
- * ```
+ * - Entry and exit transitions:
+ *
+ * ```typescript
  * transition(":enter", [
  *   style({ opacity: 0 }),
  *   animate(500, style({ opacity: 1 }))
- * ]),
+ *   ]),
  * transition(":leave", [
  *   animate(500, style({ opacity: 0 }))
- * ])
+ *   ])
  * ```
  *
- * ### Boolean values
- * if a trigger binding value is a boolean value then it can be matched using a transition
- * expression that compares `true` and `false` or `1` and `0`.
+ * - Use `:increment` and `:decrement` to initiate transitions:
+ *
+ * ```typescript
+ * transition(":increment", group([
+ *  query(':enter', [
+ *     style({ left: '100%' }),
+ *     animate('0.5s ease-out', style('*'))
+ *   ]),
+ *  query(':leave', [
+ *     animate('0.5s ease-out', style({ left: '-100%' }))
+ *  ])
+ * ]))
+ *
+ * transition(":decrement", group([
+ *  query(':enter', [
+ *     style({ left: '100%' }),
+ *     animate('0.5s ease-out', style('*'))
+ *   ]),
+ *  query(':leave', [
+ *     animate('0.5s ease-out', style({ left: '-100%' }))
+ *  ])
+ * ]))
+ * ```
+ *
+ * ### State-change functions
+ *
+ * Here is an example of a `fromState` specified as a state-change function that invokes an
+ * animation when true:
+ *
+ * ```typescript
+ * transition((fromState, toState) =>
+ *  {
+ *   return fromState == "off" && toState == "on";
+ *  },
+ *  animate("1s 0s"))
+ * ```
+ *
+ * ### Animating to the final state
+ *
+ * If the final step in a transition is a call to `animate()` that uses a timing value
+ * with no style data, that step is automatically considered the final animation arc,
+ * for the element to reach the final state. Angular automatically adds or removes
+ * CSS styles to ensure that the element is in the correct final state.
+ *
+ * The following example defines a transition that starts by hiding the element,
+ * then makes sure that it animates properly to whatever state is currently active for trigger:
+ *
+ * ```typescript
+ * transition("void => *", [
+ *   style({ opacity: 0 }),
+ *   animate(500)
+ *  ])
+ * ```
+ * ### Boolean value matching
+ * If a trigger binding value is a Boolean, it can be matched using a transition expression
+ * that compares true and false or 1 and 0. For example:
  *
  * ```
  * // in the template
  * <div [\@openClose]="open ? true : false">...</div>
- *
  * // in the component metadata
  * trigger('openClose', [
  *   state('true', style({ height: '*' })),
@@ -768,115 +734,56 @@ function keyframes(steps) {
  * ])
  * ```
  *
- * ### Using :increment and :decrement
- * In addition to the :enter and :leave transition aliases, the :increment and :decrement aliases
- * can be used to kick off a transition when a numeric value has increased or decreased in value.
+ * @param {?} stateChangeExpr A Boolean expression or function that compares the previous and current
+ * animation states, and returns true if this transition should occur. Note that  "true" and "false"
+ * match 1 and 0, respectively. An expression is evaluated each time a state change occurs in the
+ * animation trigger element.
+ * The animation steps run when the expression evaluates to true.
  *
- * ```
- * import {group, animate, query, transition, style, trigger} from '\@angular/animations';
- * import {Component} from '\@angular/core';
+ * - A state-change string takes the form "state1 => state2", where each side is a defined animation
+ * state, or an asterix (*) to refer to a dynamic start or end state.
+ *   - The expression string can contain multiple comma-separated statements;
+ * for example "state1 => state2, state3 => state4".
+ *   - Special values `:enter` and `:leave` initiate a transition on the entry and exit states,
+ * equivalent to  "void => *"  and "* => void".
+ *   - Special values `:increment` and `:decrement` initiate a transition when a numeric value has
+ * increased or decreased in value.
+ * - A function is executed each time a state change occurs in the animation trigger element.
+ * The animation steps run when the function returns true.
  *
- * \@Component({
- *   selector: 'banner-carousel-component',
- *   styles: [`
- *     .banner-container {
- *        position:relative;
- *        height:500px;
- *        overflow:hidden;
- *      }
- *     .banner-container > .banner {
- *        position:absolute;
- *        left:0;
- *        top:0;
- *        font-size:200px;
- *        line-height:500px;
- *        font-weight:bold;
- *        text-align:center;
- *        width:100%;
- *      }
- *   `],
- *   template: `
- *     <button (click)="previous()">Previous</button>
- *     <button (click)="next()">Next</button>
- *     <hr>
- *     <div [\@bannerAnimation]="selectedIndex" class="banner-container">
- *       <div class="banner" *ngFor="let banner of banners"> {{ banner }} </div>
- *     </div>
- *   `,
- *   animations: [
- *     trigger('bannerAnimation', [
- *       transition(":increment", group([
- *         query(':enter', [
- *           style({ left: '100%' }),
- *           animate('0.5s ease-out', style('*'))
- *         ]),
- *         query(':leave', [
- *           animate('0.5s ease-out', style({ left: '-100%' }))
- *         ])
- *       ])),
- *       transition(":decrement", group([
- *         query(':enter', [
- *           style({ left: '-100%' }),
- *           animate('0.5s ease-out', style('*'))
- *         ]),
- *         query(':leave', [
- *           animate('0.5s ease-out', style({ left: '100%' }))
- *         ])
- *       ]))
- *     ])
- *   ]
- * })
- * class BannerCarouselComponent {
- *   allBanners: string[] = ['1', '2', '3', '4'];
- *   selectedIndex: number = 0;
+ * @param {?} steps One or more animation objects, as returned by the `animate()` or
+ * `sequence()` function, that form a transformation from one state to another.
+ * A sequence is used by default when you pass an array.
+ * @param {?=} options An options object that can contain a delay value for the start of the animation,
+ * and additional developer-defined parameters. Provided values for additional parameters are used
+ * as defaults, and override values can be passed to the caller on invocation.
+ * @return {?} An object that encapsulates the transition data.
  *
- *   get banners() {
- *      return [this.allBanners[this.selectedIndex]];
- *   }
- *
- *   previous() {
- *     this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
- *   }
- *
- *   next() {
- *     this.selectedIndex = Math.min(this.selectedIndex + 1, this.allBanners.length - 1);
- *   }
- * }
- * ```
- *
- * {\@example core/animation/ts/dsl/animation_example.ts region='Component'}
- *
- * \@experimental Animation support is experimental.
- * @param {?} stateChangeExpr
- * @param {?} steps
- * @param {?=} options
- * @return {?}
  */
 function transition(stateChangeExpr, steps, options = null) {
     return { type: 1 /* Transition */, expr: stateChangeExpr, animation: steps, options };
 }
 /**
- * `animation` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language.
+ * Produces a reusable animation that can be invoked in another animation or sequence,
+ * by calling the `useAnimation()` function.
  *
- * `var myAnimation = animation(...)` is designed to produce a reusable animation that can be later
- * invoked in another animation or sequence. Reusable animations are designed to make use of
- * animation parameters and the produced animation can be used via the `useAnimation` method.
+ * \@usageNotes
+ * The following example defines a reusable animation, providing some default parameter
+ * values.
  *
- * ```
+ * ```typescript
  * var fadeAnimation = animation([
  *   style({ opacity: '{{ start }}' }),
  *   animate('{{ time }}',
- *     style({ opacity: '{{ end }}'}))
- * ], { params: { time: '1000ms', start: 0, end: 1 }});
+ *   style({ opacity: '{{ end }}'}))
+ *   ],
+ *   { params: { time: '1000ms', start: 0, end: 1 }});
  * ```
  *
- * If parameters are attached to an animation then they act as **default parameter values**. When an
- * animation is invoked via `useAnimation` then parameter values are allowed to be passed in
- * directly. If any of the passed in parameter values are missing then the default values will be
- * used.
+ * The following invokes the defined animation with a call to `useAnimation()`,
+ * passing in override parameter values.
  *
- * ```
+ * ```js
  * useAnimation(fadeAnimation, {
  *   params: {
  *     time: '2s',
@@ -886,145 +793,67 @@ function transition(stateChangeExpr, steps, options = null) {
  * })
  * ```
  *
- * If one or more parameter values are missing before animated then an error will be thrown.
+ * If any of the passed-in parameter values are missing from this call,
+ * the default values are used. If one or more parameter values are missing before a step is
+ * animated, `useAnimation()` throws an error.
+ * @param {?} steps One or more animation objects, as returned by the `animate()`
+ * or `sequence()` function, that form a transformation from one state to another.
+ * A sequence is used by default when you pass an array.
+ * @param {?=} options An options object that can contain a delay value for the start of the
+ * animation, and additional developer-defined parameters.
+ * Provided values for additional parameters are used as defaults,
+ * and override values can be passed to the caller on invocation.
+ * @return {?} An object that encapsulates the animation data.
  *
- * \@experimental Animation support is experimental.
- * @param {?} steps
- * @param {?=} options
- * @return {?}
  */
 function animation(steps, options = null) {
     return { type: 8 /* Reference */, animation: steps, options };
 }
 /**
- * `animateChild` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. It works by allowing a queried element to execute its own
- * animation within the animation sequence.
+ * Executes a queried inner animation element within an animation sequence.
  *
- * Each time an animation is triggered in angular, the parent animation
- * will always get priority and any child animations will be blocked. In order
+ * \@usageNotes
+ * Each time an animation is triggered in Angular, the parent animation
+ * has priority and any child animations are blocked. In order
  * for a child animation to run, the parent animation must query each of the elements
- * containing child animations and then allow the animations to run using `animateChild`.
+ * containing child animations, and run them using this function.
  *
- * The example HTML code below shows both parent and child elements that have animation
- * triggers that will execute at the same time.
+ * Note that this feature designed to be used with `query()` and it will only work
+ * with animations that are assigned using the Angular animation library. CSS keyframes
+ * and transitions are not handled by this API.
+ * @param {?=} options An options object that can contain a delay value for the start of the
+ * animation, and additional override values for developer-defined parameters.
+ * @return {?} An object that encapsulates the child animation data.
  *
- * ```html
- * <!-- parent-child.component.html -->
- * <button (click)="exp =! exp">Toggle</button>
- * <hr>
- *
- * <div [\@parentAnimation]="exp">
- *   <header>Hello</header>
- *   <div [\@childAnimation]="exp">
- *       one
- *   </div>
- *   <div [\@childAnimation]="exp">
- *       two
- *   </div>
- *   <div [\@childAnimation]="exp">
- *       three
- *   </div>
- * </div>
- * ```
- *
- * Now when the `exp` value changes to true, only the `parentAnimation` animation will animate
- * because it has priority. However, using `query` and `animateChild` each of the inner animations
- * can also fire:
- *
- * ```ts
- * // parent-child.component.ts
- * import {trigger, transition, animate, style, query, animateChild} from '\@angular/animations';
- * \@Component({
- *   selector: 'parent-child-component',
- *   animations: [
- *     trigger('parentAnimation', [
- *       transition('false => true', [
- *         query('header', [
- *           style({ opacity: 0 }),
- *           animate(500, style({ opacity: 1 }))
- *         ]),
- *         query('\@childAnimation', [
- *           animateChild()
- *         ])
- *       ])
- *     ]),
- *     trigger('childAnimation', [
- *       transition('false => true', [
- *         style({ opacity: 0 }),
- *         animate(500, style({ opacity: 1 }))
- *       ])
- *     ])
- *   ]
- * })
- * class ParentChildCmp {
- *   exp: boolean = false;
- * }
- * ```
- *
- * In the animation code above, when the `parentAnimation` transition kicks off it first queries to
- * find the header element and fades it in. It then finds each of the sub elements that contain the
- * `\@childAnimation` trigger and then allows for their animations to fire.
- *
- * This example can be further extended by using stagger:
- *
- * ```ts
- * query('\@childAnimation', stagger(100, [
- *   animateChild()
- * ]))
- * ```
- *
- * Now each of the sub animations start off with respect to the `100ms` staggering step.
- *
- * ## The first frame of child animations
- * When sub animations are executed using `animateChild` the animation engine will always apply the
- * first frame of every sub animation immediately at the start of the animation sequence. This way
- * the parent animation does not need to set any initial styling data on the sub elements before the
- * sub animations kick off.
- *
- * In the example above the first frame of the `childAnimation`'s `false => true` transition
- * consists of a style of `opacity: 0`. This is applied immediately when the `parentAnimation`
- * animation transition sequence starts. Only then when the `\@childAnimation` is queried and called
- * with `animateChild` will it then animate to its destination of `opacity: 1`.
- *
- * Note that this feature designed to be used alongside {\@link query query()} and it will only work
- * with animations that are assigned using the Angular animation DSL (this means that CSS keyframes
- * and transitions are not handled by this API).
- *
- * \@experimental Animation support is experimental.
- * @param {?=} options
- * @return {?}
  */
 function animateChild(options = null) {
     return { type: 9 /* AnimateChild */, options };
 }
 /**
- * `useAnimation` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. It is used to kick off a reusable animation that is created using {\@link
- * animation animation()}.
+ * Starts a reusable animation that is created using the `animation()` function.
  *
- * \@experimental Animation support is experimental.
- * @param {?} animation
- * @param {?=} options
- * @return {?}
+ * @param {?} animation The reusable animation to start.
+ * @param {?=} options An options object that can contain a delay value for the start of
+ * the animation, and additional override values for developer-defined parameters.
+ * @return {?} An object that contains the animation parameters.
  */
 function useAnimation(animation, options = null) {
     return { type: 10 /* AnimateRef */, animation, options };
 }
 /**
- * `query` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language.
+ * Finds one or more inner elements within the current element that is
+ * being animated within a sequence. Use with `animateChild()`.
  *
- * query() is used to find one or more inner elements within the current element that is
- * being animated within the sequence. The provided animation steps are applied
- * to the queried element (by default, an array is provided, then this will be
- * treated as an animation sequence).
+ * \@usageNotes
+ * Tokens can be merged into a combined query selector string. For example:
  *
- * ### Usage
+ * ```typescript
+ *  query(':self, .record:enter, .record:leave, \@subTrigger', [...])
+ * ```
  *
- * query() is designed to collect multiple elements and works internally by using
- * `element.querySelectorAll`. An additional options object can be provided which
- * can be used to limit the total amount of items to be collected.
+ * The `query()` function collects multiple elements and works internally by using
+ * `element.querySelectorAll`. Use the `limit` field of an options object to limit
+ * the total number of items to be collected. For example:
  *
  * ```js
  * query('div', [
@@ -1033,8 +862,8 @@ function useAnimation(animation, options = null) {
  * ], { limit: 1 })
  * ```
  *
- * query(), by default, will throw an error when zero items are found. If a query
- * has the `optional` flag set to true then this error will be ignored.
+ * By default, throws an error when zero items are found. Set the
+ * `optional` flag to ignore this error. For example:
  *
  * ```js
  * query('.some-element-that-may-not-be-there', [
@@ -1043,31 +872,12 @@ function useAnimation(animation, options = null) {
  * ], { optional: true })
  * ```
  *
- * ### Special Selector Values
+ * ### Usage Example
  *
- * The selector value within a query can collect elements that contain angular-specific
- * characteristics
- * using special pseudo-selectors tokens.
+ * The following example queries for inner elements and animates them
+ * individually using `animateChild()`.
  *
- * These include:
- *
- *  - Querying for newly inserted/removed elements using `query(":enter")`/`query(":leave")`
- *  - Querying all currently animating elements using `query(":animating")`
- *  - Querying elements that contain an animation trigger using `query("\@triggerName")`
- *  - Querying all elements that contain an animation triggers using `query("\@*")`
- *  - Including the current element into the animation sequence using `query(":self")`
- *
- *
- *  Each of these pseudo-selector tokens can be merged together into a combined query selector
- * string:
- *
- *  ```
- *  query(':self, .record:enter, .record:leave, \@subTrigger', [...])
- *  ```
- *
- * ### Demo
- *
- * ```
+ * ```typescript
  * \@Component({
  *   selector: 'inner',
  *   template: `
@@ -1100,26 +910,37 @@ function useAnimation(animation, options = null) {
  *   }
  * }
  * ```
+ * @param {?} selector The element to query, or a set of elements that contain Angular-specific
+ * characteristics, specified with one or more of the following tokens.
+ *  - `query(":enter")` or `query(":leave")` : Query for newly inserted/removed elements.
+ *  - `query(":animating")` : Query all currently animating elements.
+ *  - `query("\@triggerName")` : Query elements that contain an animation trigger.
+ *  - `query("\@*")` : Query all elements that contain an animation triggers.
+ *  - `query(":self")` : Include the current element into the animation sequence.
  *
- * \@experimental Animation support is experimental.
- * @param {?} selector
- * @param {?} animation
- * @param {?=} options
- * @return {?}
+ * @param {?} animation One or more animation steps to apply to the queried element or elements.
+ * An array is treated as an animation sequence.
+ * @param {?=} options An options object. Use the 'limit' field to limit the total number of
+ * items to collect.
+ * @return {?} An object that encapsulates the query data.
+ *
  */
 function query(selector, animation, options = null) {
     return { type: 11 /* Query */, selector, animation, options };
 }
 /**
- * `stagger` is an animation-specific function that is designed to be used inside of Angular's
- * animation DSL language. It is designed to be used inside of an animation {\@link query query()}
- * and works by issuing a timing gap between after each queried item is animated.
+ * Use within an animation `query()` call to issue a timing gap after
+ * each queried item is animated.
  *
- * ### Usage
- *
- * In the example below there is a container element that wraps a list of items stamped out
- * by an ngFor. The container element contains an animation trigger that will later be set
+ * \@usageNotes
+ * In the following example, a container element wraps a list of items stamped out
+ * by an `ngFor`. The container element contains an animation trigger that will later be set
  * to query for each of the inner items.
+ *
+ * Each time items are added, the opacity fade-in animation runs,
+ * and each removed item is faded out.
+ * When either of these animations occur, the stagger effect is
+ * applied after each item's animation is started.
  *
  * ```html
  * <!-- list.component.html -->
@@ -1132,15 +953,15 @@ function query(selector, animation, options = null) {
  * </div>
  * ```
  *
- * The component code for this looks as such:
+ * Here is the component code:
  *
- * ```ts
+ * ```typescript
  * import {trigger, transition, style, animate, query, stagger} from '\@angular/animations';
  * \@Component({
  *   templateUrl: 'list.component.html',
  *   animations: [
  *     trigger('listAnimation', [
- *        //...
+ *     ...
  *     ])
  *   ]
  * })
@@ -1157,13 +978,13 @@ function query(selector, animation, options = null) {
  *
  *   toggle() {
  *     this.items.length ? this.hideItems() : this.showItems();
- *   }
- * }
+ *    }
+ *  }
  * ```
  *
- * And now for the animation trigger code:
+ * Here is the animation trigger code:
  *
- * ```ts
+ * ```typescript
  * trigger('listAnimation', [
  *   transition('* => *', [ // each time the binding value changes
  *     query(':leave', [
@@ -1180,16 +1001,10 @@ function query(selector, animation, options = null) {
  *   ])
  * ])
  * ```
+ * @param {?} timings A delay value.
+ * @param {?} animation One ore more animation steps.
+ * @return {?} An object that encapsulates the stagger data.
  *
- * Now each time the items are added/removed then either the opacity
- * fade-in animation will run or each removed item will be faded out.
- * When either of these animations occur then a stagger effect will be
- * applied after each item's animation is started.
- *
- * \@experimental Animation support is experimental.
- * @param {?} timings
- * @param {?} animation
- * @return {?}
  */
 function stagger(timings, animation) {
     return { type: 12 /* Stagger */, timings, animation };
@@ -1627,7 +1442,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm2015/animations.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1639,6 +1454,18 @@ __webpack_require__.r(__webpack_exports__);
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+/**
+ * @return {?}
+ */
+function isBrowser() {
+    return (typeof window !== 'undefined' && typeof window.document !== 'undefined');
+}
+/**
+ * @return {?}
+ */
+function isNode() {
+    return (typeof process !== 'undefined');
+}
 /**
  * @param {?} players
  * @return {?}
@@ -1789,10 +1616,13 @@ let _matches = (element, selector) => false;
 let _query = (element, selector, multi) => {
     return [];
 };
-if (typeof Element != 'undefined') {
+// Define utility methods for browsers and platform-server(domino) where Element
+// and utility methods exist.
+const _isNode = isNode();
+if (_isNode || typeof Element !== 'undefined') {
     // this is well supported in all browsers
     _contains = (elm1, elm2) => { return /** @type {?} */ (elm1.contains(elm2)); };
-    if (Element.prototype.matches) {
+    if (_isNode || Element.prototype.matches) {
         _matches = (element, selector) => element.matches(selector);
     }
     else {
@@ -1934,8 +1764,6 @@ class NoopAnimationDriver {
 NoopAnimationDriver.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"] }
 ];
-/** @nocollapse */
-NoopAnimationDriver.ctorParameters = () => [];
 /**
  * \@experimental
  * @abstract
@@ -2087,6 +1915,46 @@ function copyStyles(styles, readPrototype, destination = {}) {
 }
 /**
  * @param {?} element
+ * @param {?} key
+ * @param {?} value
+ * @return {?}
+ */
+function getStyleAttributeString(element, key, value) {
+    // Return the key-value pair string to be added to the style attribute for the
+    // given CSS style key.
+    if (value) {
+        return key + ':' + value + ';';
+    }
+    else {
+        return '';
+    }
+}
+/**
+ * @param {?} element
+ * @return {?}
+ */
+function writeStyleAttribute(element) {
+    // Read the style property of the element and manually reflect it to the
+    // style attribute. This is needed because Domino on platform-server doesn't
+    // understand the full set of allowed CSS properties and doesn't reflect some
+    // of them automatically.
+    let /** @type {?} */ styleAttrValue = '';
+    for (let /** @type {?} */ i = 0; i < element.style.length; i++) {
+        const /** @type {?} */ key = element.style.item(i);
+        styleAttrValue += getStyleAttributeString(element, key, element.style.getPropertyValue(key));
+    }
+    for (const /** @type {?} */ key in element.style) {
+        // Skip internal Domino properties that don't need to be reflected.
+        if (!element.style.hasOwnProperty(key) || key.startsWith('_')) {
+            continue;
+        }
+        const /** @type {?} */ dashKey = camelCaseToDashCase(key);
+        styleAttrValue += getStyleAttributeString(element, dashKey, element.style[key]);
+    }
+    element.setAttribute('style', styleAttrValue);
+}
+/**
+ * @param {?} element
  * @param {?} styles
  * @return {?}
  */
@@ -2096,6 +1964,10 @@ function setStyles(element, styles) {
             const /** @type {?} */ camelProp = dashCaseToCamelCase(prop);
             element.style[camelProp] = styles[prop];
         });
+        // On the server set the 'style' attribute since it's not automatically reflected.
+        if (isNode()) {
+            writeStyleAttribute(element);
+        }
     }
 }
 /**
@@ -2109,6 +1981,10 @@ function eraseStyles(element, styles) {
             const /** @type {?} */ camelProp = dashCaseToCamelCase(prop);
             element.style[camelProp] = '';
         });
+        // On the server set the 'style' attribute since it's not automatically reflected.
+        if (isNode()) {
+            writeStyleAttribute(element);
+        }
     }
 }
 /**
@@ -2203,6 +2079,13 @@ const DASH_CASE_REGEXP = /-+([a-z0-9])/g;
  */
 function dashCaseToCamelCase(input) {
     return input.replace(DASH_CASE_REGEXP, (...m) => m[1].toUpperCase());
+}
+/**
+ * @param {?} input
+ * @return {?}
+ */
+function camelCaseToDashCase(input) {
+    return input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 /**
  * @param {?} duration
@@ -4171,9 +4054,10 @@ class AnimationTransitionFactory {
      * @param {?=} currentOptions
      * @param {?=} nextOptions
      * @param {?=} subInstructions
+     * @param {?=} skipAstBuild
      * @return {?}
      */
-    build(driver, element, currentState, nextState, enterClassName, leaveClassName, currentOptions, nextOptions, subInstructions) {
+    build(driver, element, currentState, nextState, enterClassName, leaveClassName, currentOptions, nextOptions, subInstructions, skipAstBuild) {
         const /** @type {?} */ errors = [];
         const /** @type {?} */ transitionAnimationParams = this.ast.options && this.ast.options.params || EMPTY_OBJECT;
         const /** @type {?} */ currentAnimationParams = currentOptions && currentOptions.params || EMPTY_OBJECT;
@@ -4185,7 +4069,7 @@ class AnimationTransitionFactory {
         const /** @type {?} */ postStyleMap = new Map();
         const /** @type {?} */ isRemoval = nextState === 'void';
         const /** @type {?} */ animationOptions = { params: Object.assign({}, transitionAnimationParams, nextAnimationParams) };
-        const /** @type {?} */ timelines = buildAnimationTimelines(driver, element, this.ast.animation, enterClassName, leaveClassName, currentStateStyles, nextStateStyles, animationOptions, subInstructions, errors);
+        const /** @type {?} */ timelines = skipAstBuild ? [] : buildAnimationTimelines(driver, element, this.ast.animation, enterClassName, leaveClassName, currentStateStyles, nextStateStyles, animationOptions, subInstructions, errors);
         let /** @type {?} */ totalTime = 0;
         timelines.forEach(tl => { totalTime = Math.max(tl.duration + tl.delay, totalTime); });
         if (errors.length) {
@@ -4359,10 +4243,12 @@ function balanceProperties(obj, key1, key2) {
 const EMPTY_INSTRUCTION_MAP = new ElementInstructionMap();
 class TimelineAnimationEngine {
     /**
+     * @param {?} bodyNode
      * @param {?} _driver
      * @param {?} _normalizer
      */
-    constructor(_driver, _normalizer) {
+    constructor(bodyNode, _driver, _normalizer) {
+        this.bodyNode = bodyNode;
         this._driver = _driver;
         this._normalizer = _normalizer;
         this._animations = {};
@@ -4595,7 +4481,6 @@ class StateValue {
 }
 const VOID_VALUE = 'void';
 const DEFAULT_STATE_VALUE = new StateValue(VOID_VALUE);
-const DELETED_STATE_VALUE = new StateValue('DELETED');
 class AnimationTransitionNamespace {
     /**
      * @param {?} id
@@ -4705,9 +4590,6 @@ class AnimationTransitionNamespace {
         triggersWithStates[triggerName] = toState;
         if (!fromState) {
             fromState = DEFAULT_STATE_VALUE;
-        }
-        else if (fromState === DELETED_STATE_VALUE) {
-            return player;
         }
         const /** @type {?} */ isRemoval = toState.value === VOID_VALUE;
         // normally this isn't reached by here, however, if an object expression
@@ -5018,10 +4900,12 @@ class AnimationTransitionNamespace {
 
 class TransitionAnimationEngine {
     /**
+     * @param {?} bodyNode
      * @param {?} driver
      * @param {?} _normalizer
      */
-    constructor(driver, _normalizer) {
+    constructor(bodyNode, driver, _normalizer) {
+        this.bodyNode = bodyNode;
         this.driver = driver;
         this._normalizer = _normalizer;
         this.players = [];
@@ -5320,10 +5204,11 @@ class TransitionAnimationEngine {
      * @param {?} subTimelines
      * @param {?} enterClassName
      * @param {?} leaveClassName
+     * @param {?=} skipBuildAst
      * @return {?}
      */
-    _buildInstruction(entry, subTimelines, enterClassName, leaveClassName) {
-        return entry.transition.build(this.driver, entry.element, entry.fromState.value, entry.toState.value, enterClassName, leaveClassName, entry.fromState.options, entry.toState.options, subTimelines);
+    _buildInstruction(entry, subTimelines, enterClassName, leaveClassName, skipBuildAst) {
+        return entry.transition.build(this.driver, entry.element, entry.fromState.value, entry.toState.value, enterClassName, leaveClassName, entry.fromState.options, entry.toState.options, subTimelines, skipBuildAst);
     }
     /**
      * @param {?} containerElement
@@ -5355,10 +5240,6 @@ class TransitionAnimationEngine {
                     player.destroy();
                 }
             });
-        }
-        const /** @type {?} */ stateMap = this.statesByElement.get(element);
-        if (stateMap) {
-            Object.keys(stateMap).forEach(triggerName => stateMap[triggerName] = DELETED_STATE_VALUE);
         }
     }
     /**
@@ -5490,7 +5371,7 @@ class TransitionAnimationEngine {
                 disabledElementsSet.add(nodesThatAreDisabled[i]);
             }
         });
-        const /** @type {?} */ bodyNode = getBodyNode();
+        const /** @type {?} */ bodyNode = this.bodyNode;
         const /** @type {?} */ allTriggerElements = Array.from(this.statesByElement.keys());
         const /** @type {?} */ enterNodeMap = buildRootMap(allTriggerElements, this.collectedEnterElements);
         // this must occur before the instructions are built below such that
@@ -5554,15 +5435,22 @@ class TransitionAnimationEngine {
                         return;
                     }
                 }
-                if (!bodyNode || !this.driver.containsElement(bodyNode, element)) {
-                    player.destroy();
-                    return;
-                }
+                const /** @type {?} */ nodeIsOrphaned = !bodyNode || !this.driver.containsElement(bodyNode, element);
                 const /** @type {?} */ leaveClassName = /** @type {?} */ ((leaveNodeMapIds.get(element)));
                 const /** @type {?} */ enterClassName = /** @type {?} */ ((enterNodeMapIds.get(element)));
-                const /** @type {?} */ instruction = /** @type {?} */ ((this._buildInstruction(entry, subTimelines, enterClassName, leaveClassName)));
+                const /** @type {?} */ instruction = /** @type {?} */ ((this._buildInstruction(entry, subTimelines, enterClassName, leaveClassName, nodeIsOrphaned)));
                 if (instruction.errors && instruction.errors.length) {
                     erroneousTransitions.push(instruction);
+                    return;
+                }
+                // even though the element may not be apart of the DOM, it may
+                // still be added at a later point (due to the mechanics of content
+                // projection and/or dynamic component insertion) therefore it's
+                // important we still style the element.
+                if (nodeIsOrphaned) {
+                    player.onStart(() => eraseStyles(element, instruction.fromStyles));
+                    player.onDestroy(() => setStyles(element, instruction.toStyles));
+                    skippedPlayers.push(player);
                     return;
                 }
                 // if a unmatched transition is queued to go then it SHOULD NOT render
@@ -6383,15 +6271,17 @@ function replacePostStylesAsPre(element, allPreStyleElements, allPostStyleElemen
  */
 class AnimationEngine {
     /**
+     * @param {?} bodyNode
      * @param {?} _driver
      * @param {?} normalizer
      */
-    constructor(_driver, normalizer) {
+    constructor(bodyNode, _driver, normalizer) {
+        this.bodyNode = bodyNode;
         this._driver = _driver;
         this._triggerCache = {};
         this.onRemovalComplete = (element, context) => { };
-        this._transitionEngine = new TransitionAnimationEngine(_driver, normalizer);
-        this._timelineEngine = new TimelineAnimationEngine(_driver, normalizer);
+        this._transitionEngine = new TransitionAnimationEngine(bodyNode, _driver, normalizer);
+        this._timelineEngine = new TimelineAnimationEngine(bodyNode, _driver, normalizer);
         this._transitionEngine.onRemovalComplete = (element, context) => this.onRemovalComplete(element, context);
     }
     /**
@@ -7438,7 +7328,7 @@ function supportsWebAnimations() {
  * @return {?}
  */
 function getElementAnimateFn() {
-    return (typeof Element !== 'undefined' && (/** @type {?} */ (Element)).prototype['animate']) || {};
+    return (isBrowser() && (/** @type {?} */ (Element)).prototype['animate']) || {};
 }
 
 /**
@@ -7601,7 +7491,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Location", function() { return Location; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7916,7 +7806,7 @@ Location.decorators = [
 ];
 /** @nocollapse */
 Location.ctorParameters = () => [
-    { type: LocationStrategy, },
+    { type: LocationStrategy }
 ];
 /**
  * @param {?} baseHref
@@ -8048,8 +7938,8 @@ HashLocationStrategy.decorators = [
 ];
 /** @nocollapse */
 HashLocationStrategy.ctorParameters = () => [
-    { type: PlatformLocation, },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [APP_BASE_HREF,] },] },
+    { type: PlatformLocation },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [APP_BASE_HREF,] }] }
 ];
 
 /**
@@ -8169,8 +8059,8 @@ PathLocationStrategy.decorators = [
 ];
 /** @nocollapse */
 PathLocationStrategy.ctorParameters = () => [
-    { type: PlatformLocation, },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [APP_BASE_HREF,] },] },
+    { type: PlatformLocation },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [APP_BASE_HREF,] }] }
 ];
 
 /**
@@ -8249,7 +8139,7 @@ var localeEn = [
 const LOCALE_DATA = {};
 /**
  * Register global data to be used internally by Angular. See the
- * {\@linkDocs guide/i18n#i18n-pipes "I18n guide"} to know how to import additional locale data.
+ * ["I18n guide"](guide/i18n#i18n-pipes) to know how to import additional locale data.
  *
  * \@experimental i18n support is experimental.
  * @param {?} data
@@ -8847,7 +8737,7 @@ function checkFullData(data) {
  * You should fallback to AM/PM when there are no rules available.
  *
  * Note: this is only available if you load the full locale data.
- * See the {\@linkDocs guide/i18n#i18n-pipes "I18n guide"} to know how to import additional locale
+ * See the ["I18n guide"](guide/i18n#i18n-pipes) to know how to import additional locale
  * data.
  *
  * \@experimental i18n support is experimental.
@@ -8873,7 +8763,7 @@ function getLocaleExtraDayPeriodRules(locale) {
  * You should fallback to AM/PM when there are no day periods available.
  *
  * Note: this is only available if you load the full locale data.
- * See the {\@linkDocs guide/i18n#i18n-pipes "I18n guide"} to know how to import additional locale
+ * See the ["I18n guide"](guide/i18n#i18n-pipes) to know how to import additional locale
  * data.
  *
  * \@experimental i18n support is experimental.
@@ -10242,8 +10132,8 @@ NgLocaleLocalization.decorators = [
 ];
 /** @nocollapse */
 NgLocaleLocalization.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [DEPRECATED_PLURAL_FN,] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [DEPRECATED_PLURAL_FN,] }] }
 ];
 /**
  * Returns the plural case based on the locale
@@ -10837,14 +10727,14 @@ NgClass.decorators = [
 ];
 /** @nocollapse */
 NgClass.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["IterableDiffers"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["KeyValueDiffers"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["IterableDiffers"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["KeyValueDiffers"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] }
 ];
 NgClass.propDecorators = {
-    "klass": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['class',] },],
-    "ngClass": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    klass: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['class',] }],
+    ngClass: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 
 /**
@@ -10960,13 +10850,13 @@ NgComponentOutlet.decorators = [
 ];
 /** @nocollapse */
 NgComponentOutlet.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] }
 ];
 NgComponentOutlet.propDecorators = {
-    "ngComponentOutlet": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngComponentOutletInjector": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngComponentOutletContent": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngComponentOutletNgModuleFactory": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngComponentOutlet: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngComponentOutletInjector: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngComponentOutletContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngComponentOutletNgModuleFactory: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 
 /**
@@ -11203,14 +11093,14 @@ NgForOf.decorators = [
 ];
 /** @nocollapse */
 NgForOf.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["IterableDiffers"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["IterableDiffers"] }
 ];
 NgForOf.propDecorators = {
-    "ngForOf": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngForTrackBy": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngForTemplate": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngForOf: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngForTrackBy: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngForTemplate: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * @template T
@@ -11406,13 +11296,13 @@ NgIf.decorators = [
 ];
 /** @nocollapse */
 NgIf.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"] }
 ];
 NgIf.propDecorators = {
-    "ngIf": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngIfThen": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngIfElse": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngIf: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngIfThen: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngIfElse: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 class NgIfContext {
     constructor() {
@@ -11586,10 +11476,8 @@ class NgSwitch {
 NgSwitch.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"], args: [{ selector: '[ngSwitch]' },] }
 ];
-/** @nocollapse */
-NgSwitch.ctorParameters = () => [];
 NgSwitch.propDecorators = {
-    "ngSwitch": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngSwitch: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * \@ngModule CommonModule
@@ -11636,12 +11524,12 @@ NgSwitchCase.decorators = [
 ];
 /** @nocollapse */
 NgSwitchCase.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"], },
-    { type: NgSwitch, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] },] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"] },
+    { type: NgSwitch, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }] }
 ];
 NgSwitchCase.propDecorators = {
-    "ngSwitchCase": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngSwitchCase: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * \@ngModule CommonModule
@@ -11680,9 +11568,9 @@ NgSwitchDefault.decorators = [
 ];
 /** @nocollapse */
 NgSwitchDefault.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"], },
-    { type: NgSwitch, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] },] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"] },
+    { type: NgSwitch, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }] }
 ];
 
 /**
@@ -11781,10 +11669,10 @@ NgPlural.decorators = [
 ];
 /** @nocollapse */
 NgPlural.ctorParameters = () => [
-    { type: NgLocalization, },
+    { type: NgLocalization }
 ];
 NgPlural.propDecorators = {
-    "ngPlural": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngPlural: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * \@ngModule CommonModule
@@ -11824,10 +11712,10 @@ NgPluralCase.decorators = [
 ];
 /** @nocollapse */
 NgPluralCase.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Attribute"], args: ['ngPluralCase',] },] },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
-    { type: NgPlural, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Attribute"], args: ['ngPluralCase',] }] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["TemplateRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] },
+    { type: NgPlural, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }] }
 ];
 
 /**
@@ -11925,12 +11813,12 @@ NgStyle.decorators = [
 ];
 /** @nocollapse */
 NgStyle.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["KeyValueDiffers"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["KeyValueDiffers"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] }
 ];
 NgStyle.propDecorators = {
-    "ngStyle": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngStyle: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 
 /**
@@ -12045,11 +11933,11 @@ NgTemplateOutlet.decorators = [
 ];
 /** @nocollapse */
 NgTemplateOutlet.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"] }
 ];
 NgTemplateOutlet.propDecorators = {
-    "ngTemplateOutletContext": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "ngTemplateOutlet": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    ngTemplateOutletContext: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    ngTemplateOutlet: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 
 /**
@@ -12492,7 +12380,7 @@ DeprecatedDatePipe.decorators = [
 ];
 /** @nocollapse */
 DeprecatedDatePipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 /**
  * @param {?} value
@@ -12612,7 +12500,7 @@ DeprecatedDecimalPipe.decorators = [
 ];
 /** @nocollapse */
 DeprecatedDecimalPipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 /**
  * \@ngModule CommonModule
@@ -12653,7 +12541,7 @@ DeprecatedPercentPipe.decorators = [
 ];
 /** @nocollapse */
 DeprecatedPercentPipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 /**
  * \@ngModule CommonModule
@@ -12702,7 +12590,7 @@ DeprecatedCurrencyPipe.decorators = [
 ];
 /** @nocollapse */
 DeprecatedCurrencyPipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 
 /**
@@ -12893,7 +12781,7 @@ AsyncPipe.decorators = [
 ];
 /** @nocollapse */
 AsyncPipe.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }
 ];
 
 /**
@@ -12908,15 +12796,22 @@ AsyncPipe.ctorParameters = () => [
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * Transforms text to lowercase.
+ * Transforms text to all lower case.
  *
- * {\@example  common/pipes/ts/lowerupper_pipe.ts region='LowerUpperPipe' }
+ * @see `UpperCasePipe`
+ * @see `TitleCasePipe`
+ * \@usageNotes
+ *
+ * The following example defines a view that allows the user to enter
+ * text, and then uses the pipe to convert the input text to all lower case.
+ *
+ * <code-example path="common/pipes/ts/lowerupper_pipe.ts" region='LowerUpperPipe'></code-example>
  *
  *
  */
 class LowerCasePipe {
     /**
-     * @param {?} value
+     * @param {?} value The string to transform to lower case.
      * @return {?}
      */
     transform(value) {
@@ -12931,8 +12826,6 @@ class LowerCasePipe {
 LowerCasePipe.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"], args: [{ name: 'lowercase' },] }
 ];
-/** @nocollapse */
-LowerCasePipe.ctorParameters = () => [];
 //
 // Regex below matches any Unicode word and compatible with ES5. In ES2018 the same result
 // can be achieved by using /\p{L}\S*/gu and also known as Unicode Property Escapes
@@ -12943,20 +12836,24 @@ LowerCasePipe.ctorParameters = () => [];
 //
 const unicodeWordMatch = /(?:[A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u0860-\u086A\u08A0-\u08B4\u08B6-\u08BD\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u09FC\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C80\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D54-\u0D56\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16F1-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u1884\u1887-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1C80-\u1C88\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2183\u2184\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005\u3006\u3031-\u3035\u303B\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312E\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FEA\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6E5\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AE\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]|\uD800[\uDC00-\uDC0B\uDC0D-\uDC26\uDC28-\uDC3A\uDC3C\uDC3D\uDC3F-\uDC4D\uDC50-\uDC5D\uDC80-\uDCFA\uDE80-\uDE9C\uDEA0-\uDED0\uDF00-\uDF1F\uDF2D-\uDF40\uDF42-\uDF49\uDF50-\uDF75\uDF80-\uDF9D\uDFA0-\uDFC3\uDFC8-\uDFCF]|\uD801[\uDC00-\uDC9D\uDCB0-\uDCD3\uDCD8-\uDCFB\uDD00-\uDD27\uDD30-\uDD63\uDE00-\uDF36\uDF40-\uDF55\uDF60-\uDF67]|\uD802[\uDC00-\uDC05\uDC08\uDC0A-\uDC35\uDC37\uDC38\uDC3C\uDC3F-\uDC55\uDC60-\uDC76\uDC80-\uDC9E\uDCE0-\uDCF2\uDCF4\uDCF5\uDD00-\uDD15\uDD20-\uDD39\uDD80-\uDDB7\uDDBE\uDDBF\uDE00\uDE10-\uDE13\uDE15-\uDE17\uDE19-\uDE33\uDE60-\uDE7C\uDE80-\uDE9C\uDEC0-\uDEC7\uDEC9-\uDEE4\uDF00-\uDF35\uDF40-\uDF55\uDF60-\uDF72\uDF80-\uDF91]|\uD803[\uDC00-\uDC48\uDC80-\uDCB2\uDCC0-\uDCF2]|\uD804[\uDC03-\uDC37\uDC83-\uDCAF\uDCD0-\uDCE8\uDD03-\uDD26\uDD50-\uDD72\uDD76\uDD83-\uDDB2\uDDC1-\uDDC4\uDDDA\uDDDC\uDE00-\uDE11\uDE13-\uDE2B\uDE80-\uDE86\uDE88\uDE8A-\uDE8D\uDE8F-\uDE9D\uDE9F-\uDEA8\uDEB0-\uDEDE\uDF05-\uDF0C\uDF0F\uDF10\uDF13-\uDF28\uDF2A-\uDF30\uDF32\uDF33\uDF35-\uDF39\uDF3D\uDF50\uDF5D-\uDF61]|\uD805[\uDC00-\uDC34\uDC47-\uDC4A\uDC80-\uDCAF\uDCC4\uDCC5\uDCC7\uDD80-\uDDAE\uDDD8-\uDDDB\uDE00-\uDE2F\uDE44\uDE80-\uDEAA\uDF00-\uDF19]|\uD806[\uDCA0-\uDCDF\uDCFF\uDE00\uDE0B-\uDE32\uDE3A\uDE50\uDE5C-\uDE83\uDE86-\uDE89\uDEC0-\uDEF8]|\uD807[\uDC00-\uDC08\uDC0A-\uDC2E\uDC40\uDC72-\uDC8F\uDD00-\uDD06\uDD08\uDD09\uDD0B-\uDD30\uDD46]|\uD808[\uDC00-\uDF99]|\uD809[\uDC80-\uDD43]|[\uD80C\uD81C-\uD820\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD80D[\uDC00-\uDC2E]|\uD811[\uDC00-\uDE46]|\uD81A[\uDC00-\uDE38\uDE40-\uDE5E\uDED0-\uDEED\uDF00-\uDF2F\uDF40-\uDF43\uDF63-\uDF77\uDF7D-\uDF8F]|\uD81B[\uDF00-\uDF44\uDF50\uDF93-\uDF9F\uDFE0\uDFE1]|\uD821[\uDC00-\uDFEC]|\uD822[\uDC00-\uDEF2]|\uD82C[\uDC00-\uDD1E\uDD70-\uDEFB]|\uD82F[\uDC00-\uDC6A\uDC70-\uDC7C\uDC80-\uDC88\uDC90-\uDC99]|\uD835[\uDC00-\uDC54\uDC56-\uDC9C\uDC9E\uDC9F\uDCA2\uDCA5\uDCA6\uDCA9-\uDCAC\uDCAE-\uDCB9\uDCBB\uDCBD-\uDCC3\uDCC5-\uDD05\uDD07-\uDD0A\uDD0D-\uDD14\uDD16-\uDD1C\uDD1E-\uDD39\uDD3B-\uDD3E\uDD40-\uDD44\uDD46\uDD4A-\uDD50\uDD52-\uDEA5\uDEA8-\uDEC0\uDEC2-\uDEDA\uDEDC-\uDEFA\uDEFC-\uDF14\uDF16-\uDF34\uDF36-\uDF4E\uDF50-\uDF6E\uDF70-\uDF88\uDF8A-\uDFA8\uDFAA-\uDFC2\uDFC4-\uDFCB]|\uD83A[\uDC00-\uDCC4\uDD00-\uDD43]|\uD83B[\uDE00-\uDE03\uDE05-\uDE1F\uDE21\uDE22\uDE24\uDE27\uDE29-\uDE32\uDE34-\uDE37\uDE39\uDE3B\uDE42\uDE47\uDE49\uDE4B\uDE4D-\uDE4F\uDE51\uDE52\uDE54\uDE57\uDE59\uDE5B\uDE5D\uDE5F\uDE61\uDE62\uDE64\uDE67-\uDE6A\uDE6C-\uDE72\uDE74-\uDE77\uDE79-\uDE7C\uDE7E\uDE80-\uDE89\uDE8B-\uDE9B\uDEA1-\uDEA3\uDEA5-\uDEA9\uDEAB-\uDEBB]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0]|\uD87E[\uDC00-\uDE1D])\S*/g;
 /**
- * Transforms text to titlecase.
+ * Transforms text to title case.
+ * Capitalizes the first letter of each word, and transforms the
+ * rest of the word to lower case.
+ * Words are delimited by any whitespace character, such as a space, tab, or line-feed character.
  *
- * The pipe splits up a text into words, capitalizes the first letter of each word and transforms
- * the rest of the word into lowercase. In this case, whitespace characters (such as "space", "\t",
- * "\n", etc) are used as word separators.
+ * @see `LowerCasePipe`
+ * @see `UpperCasePipe`
  *
- * ## Example
- * {\@example common/pipes/ts/titlecase_pipe.ts region='TitleCasePipe'}
+ * \@usageNotes
+ * The following example shows the result of transforming various strings into title case.
+ *
+ * <code-example path="common/pipes/ts/titlecase_pipe.ts" region='TitleCasePipe'></code-example>
  *
  *
  */
 class TitleCasePipe {
     /**
-     * @param {?} value
+     * @param {?} value The string to transform to title case.
      * @return {?}
      */
     transform(value) {
@@ -12971,16 +12868,14 @@ class TitleCasePipe {
 TitleCasePipe.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"], args: [{ name: 'titlecase' },] }
 ];
-/** @nocollapse */
-TitleCasePipe.ctorParameters = () => [];
 /**
- * Transforms text to uppercase.
- *
- *
+ * Transforms text to all upper case.
+ * @see `LowerCasePipe`
+ * @see `TitleCasePipe`
  */
 class UpperCasePipe {
     /**
-     * @param {?} value
+     * @param {?} value The string to transform to upper case.
      * @return {?}
      */
     transform(value) {
@@ -12995,8 +12890,6 @@ class UpperCasePipe {
 UpperCasePipe.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"], args: [{ name: 'uppercase' },] }
 ];
-/** @nocollapse */
-UpperCasePipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -13013,11 +12906,48 @@ UpperCasePipe.ctorParameters = () => [];
  * \@ngModule CommonModule
  * \@description
  *
- * Uses the function {\@link formatDate} to format a date according to locale rules.
+ * Formats a date value according to locale rules.
  *
- * The following tabled describes the formatting options.
+ * Only the `en-US` locale data comes with Angular. To localize dates
+ * in another language, you must import the corresponding locale data.
+ * See the [I18n guide](guide/i18n#i18n-pipes) for more information.
  *
- *  | Field Type         | Format      | Description                                                   | Example Value                                              |
+ * @see `formatDate()`
+ *
+ *
+ * \@usageNotes
+ *
+ * The result of this pipe is not reevaluated when the input is mutated. To avoid the need to
+ * reformat the date on every change-detection cycle, treat the date as an immutable object
+ * and change the reference when the pipe needs to run again.
+ *
+ * ### Pre-defined format options
+ *
+ * Examples are given in `en-US` locale.
+ *
+ * - `'short'`: equivalent to `'M/d/yy, h:mm a'` (`6/15/15, 9:03 AM`).
+ * - `'medium'`: equivalent to `'MMM d, y, h:mm:ss a'` (`Jun 15, 2015, 9:03:01 AM`).
+ * - `'long'`: equivalent to `'MMMM d, y, h:mm:ss a z'` (`June 15, 2015 at 9:03:01 AM
+ * GMT+1`).
+ * - `'full'`: equivalent to `'EEEE, MMMM d, y, h:mm:ss a zzzz'` (`Monday, June 15, 2015 at
+ * 9:03:01 AM GMT+01:00`).
+ * - `'shortDate'`: equivalent to `'M/d/yy'` (`6/15/15`).
+ * - `'mediumDate'`: equivalent to `'MMM d, y'` (`Jun 15, 2015`).
+ * - `'longDate'`: equivalent to `'MMMM d, y'` (`June 15, 2015`).
+ * - `'fullDate'`: equivalent to `'EEEE, MMMM d, y'` (`Monday, June 15, 2015`).
+ * - `'shortTime'`: equivalent to `'h:mm a'` (`9:03 AM`).
+ * - `'mediumTime'`: equivalent to `'h:mm:ss a'` (`9:03:01 AM`).
+ * - `'longTime'`: equivalent to `'h:mm:ss a z'` (`9:03:01 AM GMT+1`).
+ * - `'fullTime'`: equivalent to `'h:mm:ss a zzzz'` (`9:03:01 AM GMT+01:00`).
+ *
+ * ### Custom format options
+ *
+ * You can construct a format string using symbols to specify the components
+ * of a date-time value, as described in the following table.
+ * Format details depend on the locale.
+ * Fields marked with (*) are only available in the extra data set for the given locale.
+ *
+ *  | Field type         | Format      | Description                                                   | Example Value                                              |
  *  |--------------------|-------------|---------------------------------------------------------------|------------------------------------------------------------|
  *  | Era                | G, GG & GGG | Abbreviated                                                   | AD                                                         |
  *  |                    | GGGG        | Wide                                                          | Anno Domini                                                |
@@ -13073,30 +13003,40 @@ UpperCasePipe.ctorParameters = () => [];
  *  |                    | O, OO & OOO | Short localized GMT format                                    | GMT-8                                                      |
  *  |                    | OOOO        | Long localized GMT format                                     | GMT-08:00                                                  |
  *
+ * Note that timezone correction is not applied to an ISO string that has no time component, such as "2016-09-19"
  *
- * When the expression is a ISO string without time (e.g. 2016-09-19) the time zone offset is not
- * applied and the formatted text will have the same day, month and year of the expression.
+ * ### Format examples
  *
- * WARNINGS:
- * - this pipe has only access to en-US locale data by default. If you want to localize the dates
- *   in another language, you will have to import data for other locales.
- *   See the {\@linkDocs guide/i18n#i18n-pipes "I18n guide"} to know how to import additional locale
- *   data.
- * - Fields suffixed with * are only available in the extra dataset.
- *   See the {\@linkDocs guide/i18n#i18n-pipes "I18n guide"} to know how to import extra locale
- *   data.
- * - this pipe is marked as pure hence it will not be re-evaluated when the input is mutated.
- *   Instead users should treat the date as an immutable object and change the reference when the
- *   pipe needs to re-run (this is to avoid reformatting the date on every change detection run
- *   which would be an expensive operation).
+ * These examples transform a date into various formats,
+ * assuming that `dateObj` is a JavaScript `Date` object for
+ * year: 2015, month: 6, day: 15, hour: 21, minute: 43, second: 11,
+ * given in the local time for the `en-US` locale.
  *
- * ### Examples
+ * ```
+ * {{ dateObj | date }}               // output is 'Jun 15, 2015'
+ * {{ dateObj | date:'medium' }}      // output is 'Jun 15, 2015, 9:43:11 PM'
+ * {{ dateObj | date:'shortTime' }}   // output is '9:43 PM'
+ * {{ dateObj | date:'mmss' }}        // output is '43:11'
+ * ```
  *
- * Assuming `dateObj` is (year: 2015, month: 6, day: 15, hour: 21, minute: 43, second: 11)
- * in the _local_ time and locale is 'en-US':
+ * ### Usage example
  *
- * {\@example common/pipes/ts/date_pipe.ts region='DatePipe'}
+ * The following component uses a date pipe to display the current date in different formats.
  *
+ * ```
+ * \@Component({
+ *  selector: 'date-pipe',
+ *  template: `<div>
+ *    <p>Today is {{today | date}}</p>
+ *    <p>Or if you prefer, {{today | date:'fullDate'}}</p>
+ *    <p>The time is {{today | date:'h:mm a z'}}</p>
+ *  </div>`
+ * })
+ * // Get the current date and time as a date-time value.
+ * export class DatePipeComponent {
+ *   today: number = Date.now();
+ * }
+ * ```
  *
  */
 class DatePipe {
@@ -13107,30 +13047,17 @@ class DatePipe {
         this.locale = locale;
     }
     /**
-     * @param {?} value a date object or a number (milliseconds since UTC epoch) or an ISO string
-     * (https://www.w3.org/TR/NOTE-datetime).
-     * @param {?=} format indicates which date/time components to include. The format can be predefined as
-     *   shown below (all examples are given for `en-US`) or custom as shown in the table.
-     *   - `'short'`: equivalent to `'M/d/yy, h:mm a'` (e.g. `6/15/15, 9:03 AM`).
-     *   - `'medium'`: equivalent to `'MMM d, y, h:mm:ss a'` (e.g. `Jun 15, 2015, 9:03:01 AM`).
-     *   - `'long'`: equivalent to `'MMMM d, y, h:mm:ss a z'` (e.g. `June 15, 2015 at 9:03:01 AM
-     * GMT+1`).
-     *   - `'full'`: equivalent to `'EEEE, MMMM d, y, h:mm:ss a zzzz'` (e.g. `Monday, June 15, 2015 at
-     * 9:03:01 AM GMT+01:00`).
-     *   - `'shortDate'`: equivalent to `'M/d/yy'` (e.g. `6/15/15`).
-     *   - `'mediumDate'`: equivalent to `'MMM d, y'` (e.g. `Jun 15, 2015`).
-     *   - `'longDate'`: equivalent to `'MMMM d, y'` (e.g. `June 15, 2015`).
-     *   - `'fullDate'`: equivalent to `'EEEE, MMMM d, y'` (e.g. `Monday, June 15, 2015`).
-     *   - `'shortTime'`: equivalent to `'h:mm a'` (e.g. `9:03 AM`).
-     *   - `'mediumTime'`: equivalent to `'h:mm:ss a'` (e.g. `9:03:01 AM`).
-     *   - `'longTime'`: equivalent to `'h:mm:ss a z'` (e.g. `9:03:01 AM GMT+1`).
-     *   - `'fullTime'`: equivalent to `'h:mm:ss a zzzz'` (e.g. `9:03:01 AM GMT+01:00`).
-     * @param {?=} timezone to be used for formatting the time. It understands UTC/GMT and the continental
-     * US time zone
-     *  abbreviations, but for general use, use a time zone offset (e.g. `'+0430'`).
-     * @param {?=} locale a `string` defining the locale to use (uses the current {\@link LOCALE_ID} by
-     * default).
-     * @return {?}
+     * @param {?} value The date expression: a `Date` object,  a number
+     * (milliseconds since UTC epoch), or an ISO string (https://www.w3.org/TR/NOTE-datetime).
+     * @param {?=} format The date/time components to include, using predefined options or a
+     * custom format string.
+     * @param {?=} timezone A timezone offset (such as `'+0430'`), or a standard
+     * UTC/GMT or continental US timezone abbreviation. Default is
+     * the local system timezone of the end-user's machine.
+     * @param {?=} locale A locale code for the locale format rules to use.
+     * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
+     * See [Setting your app locale](guide/i18n#setting-up-the-locale-of-your-app).
+     * @return {?} A date string in the desired format.
      */
     transform(value, format = 'mediumDate', timezone, locale) {
         if (value == null || value === '' || value !== value)
@@ -13148,7 +13075,7 @@ DatePipe.decorators = [
 ];
 /** @nocollapse */
 DatePipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 
 /**
@@ -13205,7 +13132,7 @@ I18nPluralPipe.decorators = [
 ];
 /** @nocollapse */
 I18nPluralPipe.ctorParameters = () => [
-    { type: NgLocalization, },
+    { type: NgLocalization }
 ];
 
 /**
@@ -13259,8 +13186,6 @@ class I18nSelectPipe {
 I18nSelectPipe.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"], args: [{ name: 'i18nSelect', pure: true },] }
 ];
-/** @nocollapse */
-I18nSelectPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -13277,16 +13202,19 @@ I18nSelectPipe.ctorParameters = () => [];
  * \@ngModule CommonModule
  * \@description
  *
- * Converts value into string using `JSON.stringify`. Useful for debugging.
+ * Converts a value into its JSON-format representation.  Useful for debugging.
  *
- * ### Example
+ * \@usageNotes
+ *
+ * The following component uses a JSON pipe to convert an object
+ * to JSON format, and displays the string in both formats for comparison.
  * {\@example common/pipes/ts/json_pipe.ts region='JsonPipe'}
  *
  *
  */
 class JsonPipe {
     /**
-     * @param {?} value
+     * @param {?} value A value of any type to convert into a JSON-format string.
      * @return {?}
      */
     transform(value) { return JSON.stringify(value, null, 2); }
@@ -13294,8 +13222,6 @@ class JsonPipe {
 JsonPipe.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"], args: [{ name: 'json', pure: false },] }
 ];
-/** @nocollapse */
-JsonPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -13312,14 +13238,19 @@ JsonPipe.ctorParameters = () => [];
  * \@ngModule CommonModule
  * \@description
  *
- * Uses the function {\@link formatNumber} to format a number according to locale rules.
+ * Transforms a number into a string,
+ * formatted according to locale rules that determine group sizing and
+ * separator, decimal-point character, and other locale-specific
+ * configurations.
  *
- * Formats a number as text. Group sizing and separator and other locale-specific
- * configurations are based on the locale.
+ * @see `formatNumber()`
  *
- * ### Example
+ * \@usageNotes
+ * The following code shows how the pipe transforms numbers
+ * into text strings, according to various format specifications,
+ * where the caller's default locale is `en-US`.
  *
- * {\@example common/pipes/ts/number_pipe.ts region='NumberPipe'}
+ * <code-example path="common/pipes/ts/number_pipe.ts" region='NumberPipe'></code-example>
  *
  *
  */
@@ -13331,16 +13262,19 @@ class DecimalPipe {
         this._locale = _locale;
     }
     /**
-     * @param {?} value a number to be formatted.
-     * @param {?=} digitsInfo a `string` which has a following format: <br>
+     * @param {?} value The number to be formatted.
+     * @param {?=} digitsInfo Decimal representation options, specified by a string
+     * in the following format:<br>
      * <code>{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}</code>.
-     *   - `minIntegerDigits` is the minimum number of integer digits to use. Defaults to `1`.
-     *   - `minFractionDigits` is the minimum number of digits after the decimal point. Defaults to
-     * `0`.
-     *   - `maxFractionDigits` is the maximum number of digits after the decimal point. Defaults to
-     * `3`.
-     * @param {?=} locale a `string` defining the locale to use (uses the current {\@link LOCALE_ID} by
-     * default).
+     *   - `minIntegerDigits`: The minimum number of integer digits before the decimal point.
+     * Default is `1`.
+     *   - `minFractionDigits`: The minimum number of digits after the decimal point.
+     * Default is `0`.
+     *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
+     * Default is `3`.
+     * @param {?=} locale A locale code for the locale format rules to use.
+     * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
+     * See [Setting your app locale](guide/i18n#setting-up-the-locale-of-your-app).
      * @return {?}
      */
     transform(value, digitsInfo, locale) {
@@ -13361,18 +13295,25 @@ DecimalPipe.decorators = [
 ];
 /** @nocollapse */
 DecimalPipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 /**
  * \@ngModule CommonModule
  * \@description
  *
- * Uses the function {\@link formatPercent} to format a number as a percentage according
- * to locale rules.
+ * Transforms a number to a percentage
+ * string, formatted according to locale rules that determine group sizing and
+ * separator, decimal-point character, and other locale-specific
+ * configurations.
  *
- * ### Example
+ * @see `formatPercent()`
  *
- * {\@example common/pipes/ts/percent_pipe.ts region='PercentPipe'}
+ * \@usageNotes
+ * The following code shows how the pipe transforms numbers
+ * into text strings, according to various format specifications,
+ * where the caller's default locale is `en-US`.
+ *
+ * <code-example path="common/pipes/ts/percent_pipe.ts" region='PercentPipe'></code-example>
  *
  *
  */
@@ -13385,10 +13326,19 @@ class PercentPipe {
     }
     /**
      *
-     * @param {?} value a number to be formatted as a percentage.
-     * @param {?=} digitsInfo see {\@link DecimalPipe} for more details.
-     * @param {?=} locale a `string` defining the locale to use (uses the current {\@link LOCALE_ID} by
-     * default).
+     * @param {?} value The number to be formatted as a percentage.
+     * @param {?=} digitsInfo Decimal representation options, specified by a string
+     * in the following format:<br>
+     * <code>{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}</code>.
+     *   - `minIntegerDigits`: The minimum number of integer digits before the decimal point.
+     * Default is `1`.
+     *   - `minFractionDigits`: The minimum number of digits after the decimal point.
+     * Default is `0`.
+     *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
+     * Default is `3`.
+     * @param {?=} locale A locale code for the locale format rules to use.
+     * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
+     * See [Setting your app locale](guide/i18n#setting-up-the-locale-of-your-app).
      * @return {?}
      */
     transform(value, digitsInfo, locale) {
@@ -13409,18 +13359,25 @@ PercentPipe.decorators = [
 ];
 /** @nocollapse */
 PercentPipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 /**
  * \@ngModule CommonModule
  * \@description
  *
- * Uses the functions {\@link getCurrencySymbol} and {\@link formatCurrency} to format a
- * number as currency using locale rules.
+ * Transforms a number to a currency string, formatted according to locale rules
+ * that determine group sizing and separator, decimal-point character,
+ * and other locale-specific configurations.
  *
- * ### Example
+ * @see `getCurrencySymbol()`
+ * @see `formatCurrency()`
  *
- * {\@example common/pipes/ts/currency_pipe.ts region='CurrencyPipe'}
+ * \@usageNotes
+ * The following code shows how the pipe transforms numbers
+ * into text strings, according to various format specifications,
+ * where the caller's default locale is `en-US`.
+ *
+ * <code-example path="common/pipes/ts/currency_pipe.ts" region='CurrencyPipe'></code-example>
  *
  *
  */
@@ -13433,19 +13390,31 @@ class CurrencyPipe {
     }
     /**
      *
-     * @param {?} value a number to be formatted as currency.
-     * @param {?=} currencyCode
-     * @param {?=} display indicates whether to show the currency symbol, the code or a custom value:
-     *   - `code`: use code (e.g. `USD`).
-     *   - `symbol`(default): use symbol (e.g. `$`).
-     *   - `symbol-narrow`: some countries have two symbols for their currency, one regular and one
-     *     narrow (e.g. the canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`).
-     *   - `string`: use this value instead of a code or a symbol.
-     *   - boolean (deprecated from v5): `true` for symbol and false for `code`.
-     *   If there is no narrow symbol for the chosen currency, the regular symbol will be used.
-     * @param {?=} digitsInfo see {\@link DecimalPipe} for more details.
-     * @param {?=} locale a `string` defining the locale to use (uses the current {\@link LOCALE_ID} by
-     * default).
+     * @param {?} value The number to be formatted as currency.
+     * @param {?=} currencyCode The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code,
+     * such as `USD` for the US dollar and `EUR` for the euro.
+     * @param {?=} display The format for the currency indicator. One of the following:
+     *   - `code`: Show the code (such as `USD`).
+     *   - `symbol`(default): Show the symbol (such as `$`).
+     *   - `symbol-narrow`: Use the narrow symbol for locales that have two symbols for their
+     * currency.
+     * For example, the Canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`. If the
+     * locale has no narrow symbol, uses the standard symbol for the locale.
+     *   - String: Use the given string value instead of a code or a symbol.
+     *   - Boolean (marked deprecated in v5): `true` for symbol and false for `code`.
+     *
+     * @param {?=} digitsInfo Decimal representation options, specified by a string
+     * in the following format:<br>
+     * <code>{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}</code>.
+     *   - `minIntegerDigits`: The minimum number of integer digits before the decimal point.
+     * Default is `1`.
+     *   - `minFractionDigits`: The minimum number of digits after the decimal point.
+     * Default is `0`.
+     *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
+     * Default is `3`.
+     * @param {?=} locale A locale code for the locale format rules to use.
+     * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
+     * See [Setting your app locale](guide/i18n#setting-up-the-locale-of-your-app).
      * @return {?}
      */
     transform(value, currencyCode, display = 'symbol', digitsInfo, locale) {
@@ -13481,7 +13450,7 @@ CurrencyPipe.decorators = [
 ];
 /** @nocollapse */
 CurrencyPipe.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] },] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["LOCALE_ID"],] }] }
 ];
 /**
  * @param {?} value
@@ -13491,7 +13460,7 @@ function isEmpty(value) {
     return value == null || value === '' || value !== value;
 }
 /**
- * Transforms a string into a number (if needed)
+ * Transforms a string into a number (if needed).
  * @param {?} value
  * @return {?}
  */
@@ -13582,8 +13551,6 @@ class SlicePipe {
 SlicePipe.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"], args: [{ name: 'slice', pure: false },] }
 ];
-/** @nocollapse */
-SlicePipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -13641,8 +13608,6 @@ CommonModule.decorators = [
                 ],
             },] }
 ];
-/** @nocollapse */
-CommonModule.ctorParameters = () => [];
 const ɵ0 = getPluralCase;
 /**
  * A module that contains the deprecated i18n pipes.
@@ -13658,8 +13623,6 @@ DeprecatedI18NPipesModule.decorators = [
                 providers: [{ provide: DEPRECATED_PLURAL_FN, useValue: ɵ0 }],
             },] }
 ];
-/** @nocollapse */
-DeprecatedI18NPipesModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -13745,7 +13708,7 @@ function isPlatformWorkerUi(platformId) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["Version"]('6.0.3');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["Version"]('6.0.7');
 
 /**
  * @fileoverview added by tsickle
@@ -13813,20 +13776,19 @@ const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["Version"]('6.0.3
 /*!*******************************************************!*\
   !*** ./node_modules/@angular/common/fesm2015/http.js ***!
   \*******************************************************/
-/*! exports provided: ɵangular_packages_common_http_http_a, ɵangular_packages_common_http_http_b, ɵangular_packages_common_http_http_c, ɵangular_packages_common_http_http_d, ɵangular_packages_common_http_http_e, ɵangular_packages_common_http_http_h, ɵangular_packages_common_http_http_i, ɵangular_packages_common_http_http_f, ɵangular_packages_common_http_http_g, HttpBackend, HttpHandler, HttpClient, HttpHeaders, HTTP_INTERCEPTORS, JsonpClientBackend, JsonpInterceptor, HttpClientJsonpModule, HttpClientModule, HttpClientXsrfModule, ɵinterceptingHandler, HttpParams, HttpUrlEncodingCodec, HttpRequest, HttpErrorResponse, HttpEventType, HttpHeaderResponse, HttpResponse, HttpResponseBase, HttpXhrBackend, XhrFactory, HttpXsrfTokenExtractor */
+/*! exports provided: ɵangular_packages_common_http_http_a, ɵangular_packages_common_http_http_b, ɵangular_packages_common_http_http_c, ɵangular_packages_common_http_http_d, ɵangular_packages_common_http_http_g, ɵangular_packages_common_http_http_h, ɵangular_packages_common_http_http_e, ɵangular_packages_common_http_http_f, HttpBackend, HttpHandler, HttpClient, HttpHeaders, HTTP_INTERCEPTORS, JsonpClientBackend, JsonpInterceptor, HttpClientJsonpModule, HttpClientModule, HttpClientXsrfModule, ɵHttpInterceptingHandler, HttpParams, HttpUrlEncodingCodec, HttpRequest, HttpErrorResponse, HttpEventType, HttpHeaderResponse, HttpResponse, HttpResponseBase, HttpXhrBackend, XhrFactory, HttpXsrfTokenExtractor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_a", function() { return NoopInterceptor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_b", function() { return JsonpCallbackContext; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_c", function() { return HttpInterceptingHandler; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_d", function() { return jsonpCallbackContext; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_e", function() { return BrowserXhr; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_h", function() { return HttpXsrfCookieExtractor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_i", function() { return HttpXsrfInterceptor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_f", function() { return XSRF_COOKIE_NAME; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_g", function() { return XSRF_HEADER_NAME; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_c", function() { return jsonpCallbackContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_d", function() { return BrowserXhr; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_g", function() { return HttpXsrfCookieExtractor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_h", function() { return HttpXsrfInterceptor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_e", function() { return XSRF_COOKIE_NAME; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵangular_packages_common_http_http_f", function() { return XSRF_HEADER_NAME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpBackend", function() { return HttpBackend; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpHandler", function() { return HttpHandler; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return HttpClient; });
@@ -13837,7 +13799,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClientJsonpModule", function() { return HttpClientJsonpModule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClientModule", function() { return HttpClientModule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClientXsrfModule", function() { return HttpClientXsrfModule; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵinterceptingHandler", function() { return interceptingHandler; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵHttpInterceptingHandler", function() { return HttpInterceptingHandler; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpParams", function() { return HttpParams; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpUrlEncodingCodec", function() { return HttpUrlEncodingCodec; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpRequest", function() { return HttpRequest; });
@@ -13854,7 +13816,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -15189,7 +15151,7 @@ HttpClient.decorators = [
 ];
 /** @nocollapse */
 HttpClient.ctorParameters = () => [
-    { type: HttpHandler, },
+    { type: HttpHandler }
 ];
 
 /**
@@ -15258,8 +15220,6 @@ class NoopInterceptor {
 NoopInterceptor.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] }
 ];
-/** @nocollapse */
-NoopInterceptor.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -15447,8 +15407,8 @@ JsonpClientBackend.decorators = [
 ];
 /** @nocollapse */
 JsonpClientBackend.ctorParameters = () => [
-    { type: JsonpCallbackContext, },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["DOCUMENT"],] },] },
+    { type: JsonpCallbackContext },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["DOCUMENT"],] }] }
 ];
 /**
  * An `HttpInterceptor` which identifies requests with the method JSONP and
@@ -15481,7 +15441,7 @@ JsonpInterceptor.decorators = [
 ];
 /** @nocollapse */
 JsonpInterceptor.ctorParameters = () => [
-    { type: JsonpClientBackend, },
+    { type: JsonpClientBackend }
 ];
 
 /**
@@ -15788,7 +15748,7 @@ HttpXhrBackend.decorators = [
 ];
 /** @nocollapse */
 HttpXhrBackend.ctorParameters = () => [
-    { type: XhrFactory, },
+    { type: XhrFactory }
 ];
 
 /**
@@ -15853,9 +15813,9 @@ HttpXsrfCookieExtractor.decorators = [
 ];
 /** @nocollapse */
 HttpXsrfCookieExtractor.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["DOCUMENT"],] },] },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["PLATFORM_ID"],] },] },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [XSRF_COOKIE_NAME,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["DOCUMENT"],] }] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["PLATFORM_ID"],] }] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [XSRF_COOKIE_NAME,] }] }
 ];
 /**
  * `HttpInterceptor` which adds an XSRF token to eligible outgoing requests.
@@ -15897,8 +15857,8 @@ HttpXsrfInterceptor.decorators = [
 ];
 /** @nocollapse */
 HttpXsrfInterceptor.ctorParameters = () => [
-    { type: HttpXsrfTokenExtractor, },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [XSRF_HEADER_NAME,] },] },
+    { type: HttpXsrfTokenExtractor },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [XSRF_HEADER_NAME,] }] }
 ];
 
 /**
@@ -15913,12 +15873,13 @@ HttpXsrfInterceptor.ctorParameters = () => [
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * An `HttpHandler` that applies a bunch of `HttpInterceptor`s
+ * An injectable `HttpHandler` that applies multiple interceptors
  * to a request before passing it to the given `HttpBackend`.
  *
  * The interceptors are loaded lazily from the injector, to allow
  * interceptors to themselves inject classes depending indirectly
  * on `HttpInterceptingHandler` itself.
+ * @see `HttpInterceptor`
  */
 class HttpInterceptingHandler {
     /**
@@ -15947,26 +15908,21 @@ HttpInterceptingHandler.decorators = [
 ];
 /** @nocollapse */
 HttpInterceptingHandler.ctorParameters = () => [
-    { type: HttpBackend, },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"], },
+    { type: HttpBackend },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"] }
 ];
 /**
- * Constructs an `HttpHandler` that applies a bunch of `HttpInterceptor`s
+ * Constructs an `HttpHandler` that applies interceptors
  * to a request before passing it to the given `HttpBackend`.
  *
- * Meant to be used as a factory function within `HttpClientModule`.
+ * Use as a factory function within `HttpClientModule`.
  *
  *
  * @param {?} backend
  * @param {?=} interceptors
  * @return {?}
  */
-function interceptingHandler(backend, interceptors = []) {
-    if (!interceptors) {
-        return backend;
-    }
-    return interceptors.reduceRight((next, interceptor) => new HttpInterceptorHandler(next, interceptor), backend);
-}
+
 /**
  * Factory function that determines where to store JSONP callbacks.
  *
@@ -15983,14 +15939,14 @@ function jsonpCallbackContext() {
     return {};
 }
 /**
- * `NgModule` which adds XSRF protection support to outgoing requests.
+ * An NgModule that adds XSRF protection support to outgoing requests.
  *
- * Provided the server supports a cookie-based XSRF protection system, this
- * module can be used directly to configure XSRF protection with the correct
+ * For a server that supports a cookie-based XSRF protection system,
+ * use directly to configure XSRF protection with the correct
  * cookie and header names.
  *
- * If no such names are provided, the default is to use `X-XSRF-TOKEN` for
- * the header name and `XSRF-TOKEN` for the cookie name.
+ * If no names are supplied, the default cookie name is `XSRF-TOKEN`
+ * and the default header name is `X-XSRF-TOKEN`.
  *
  *
  */
@@ -16008,9 +15964,12 @@ class HttpClientXsrfModule {
         };
     }
     /**
-     * Configure XSRF protection to use the given cookie name or header name,
-     * or the default names (as described above) if not provided.
-     * @param {?=} options
+     * Configure XSRF protection.
+     * @param {?=} options An object that can specify either or both
+     * cookie name or header name.
+     * - Cookie name default is `XSRF-TOKEN`.
+     * - Header name default is `X-XSRF-TOKEN`.
+     *
      * @return {?}
      */
     static withOptions(options = {}) {
@@ -16034,10 +15993,8 @@ HttpClientXsrfModule.decorators = [
                 ],
             },] }
 ];
-/** @nocollapse */
-HttpClientXsrfModule.ctorParameters = () => [];
 /**
- * `NgModule` which provides the `HttpClient` and associated services.
+ * An NgModule that provides the `HttpClient` and associated services.
  *
  * Interceptors can be added to the chain behind `HttpClient` by binding them
  * to the multiprovider for `HTTP_INTERCEPTORS`.
@@ -16048,12 +16005,18 @@ class HttpClientModule {
 }
 HttpClientModule.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"], args: [{
+                /**
+                   * Optional configuration for XSRF protection.
+                   */
                 imports: [
                     HttpClientXsrfModule.withOptions({
                         cookieName: 'XSRF-TOKEN',
                         headerName: 'X-XSRF-TOKEN',
                     }),
                 ],
+                /**
+                   * The module provides `HttpClient` itself, and supporting services.
+                   */
                 providers: [
                     HttpClient,
                     { provide: HttpHandler, useClass: HttpInterceptingHandler },
@@ -16064,10 +16027,8 @@ HttpClientModule.decorators = [
                 ],
             },] }
 ];
-/** @nocollapse */
-HttpClientModule.ctorParameters = () => [];
 /**
- * `NgModule` which enables JSONP support in `HttpClient`.
+ * An NgModule that enables JSONP support in `HttpClient`.
  *
  * Without this module, Jsonp requests will reach the backend
  * with method JSONP, where they'll be rejected.
@@ -16085,8 +16046,6 @@ HttpClientJsonpModule.decorators = [
                 ],
             },] }
 ];
-/** @nocollapse */
-HttpClientJsonpModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -16363,7 +16322,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createElementCssSelector", function() { return createElementCssSelector; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeSummaryDuplicates", function() { return removeSummaryDuplicates; });
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -16655,7 +16614,7 @@ class Version {
  * @description
  * Entry point for all public APIs of the common package.
  */
-const VERSION = new Version('6.0.3');
+const VERSION = new Version('6.0.7');
 
 /**
  * @license
@@ -26530,7 +26489,7 @@ class CompileMetadataResolver {
                     providerMeta = new ProviderMeta(provider, { useClass: provider });
                 }
                 else if (provider === void 0) {
-                    this._reportError(syntaxError(`Encountered undefined provider! Usually this means you have a circular dependencies (might be caused by using 'barrel' index.ts files.`));
+                    this._reportError(syntaxError(`Encountered undefined provider! Usually this means you have a circular dependencies. This might be caused by using 'barrel' index.ts files.`));
                     return;
                 }
                 else {
@@ -34442,7 +34401,7 @@ class StaticSymbolResolver {
             }
         }
         // handle the actual metadata. Has to be after the exports
-        // as there migth be collisions in the names, and we want the symbols
+        // as there might be collisions in the names, and we want the symbols
         // of the current module to win ofter reexports.
         if (metadata['metadata']) {
             // handle direct declarations of the symbol
@@ -34486,7 +34445,7 @@ class StaticSymbolResolver {
         let _originalFileMemo;
         const getOriginalName = () => {
             if (!_originalFileMemo) {
-                // Guess what hte original file name is from the reference. If it has a `.d.ts` extension
+                // Guess what the original file name is from the reference. If it has a `.d.ts` extension
                 // replace it with `.ts`. If it already has `.ts` just leave it in place. If it doesn't have
                 // .ts or .d.ts, append `.ts'. Also, if it is in `node_modules`, trim the `node_module`
                 // location as it is not important to finding the file.
@@ -38444,7 +38403,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -38612,16 +38571,14 @@ function defineInjector(options) {
  * overrides the above behavior and marks the token as belonging to a particular `\@NgModule`. As
  * mentioned above, `'root'` is the default value for `providedIn`.
  *
- * ### Example
- *
- * #### Tree-shakeable InjectionToken
- *
- * {\@example core/di/ts/injector_spec.ts region='ShakeableInjectionToken'}
- *
- * #### Plain InjectionToken
+ * \@usageNotes
+ * ### Basic Example
  *
  * {\@example core/di/ts/injector_spec.ts region='InjectionToken'}
  *
+ * ### Tree-shakeable Example
+ *
+ * {\@example core/di/ts/injector_spec.ts region='ShakeableInjectionToken'}
  *
  * @template T
  */
@@ -38843,6 +38800,7 @@ function makePropDecorator(name, props, parentClass) {
  * All components that are referenced in the `useValue` value (either directly
  * or in a nested array or map) will be added to the `entryComponents` property.
  *
+ * \@usageNotes
  * ### Example
  * The following example shows how the router can populate the `entryComponents`
  * field of an NgModule based on the router configuration which refers
@@ -38882,17 +38840,16 @@ const ANALYZE_FOR_ENTRY_COMPONENTS = new InjectionToken('AnalyzeForEntryComponen
 /**
  * Attribute decorator and metadata.
  *
- *
  * \@Annotation
  */
 const Attribute = makeParamDecorator('Attribute', (attributeName) => ({ attributeName }));
 /**
  * Base class for query metadata.
  *
- * See {\@link ContentChildren}, {\@link ContentChild}, {\@link ViewChildren}, {\@link ViewChild} for
- * more information.
- *
- *
+ * @see `ContentChildren`.
+ * @see `ContentChild`.
+ * @see `ViewChildren`.
+ * @see `ViewChild`.
  * @abstract
  */
 class Query {
@@ -38900,9 +38857,7 @@ class Query {
 /**
  * Type of the ContentChildren decorator / constructor function.
  *
- * See {\@link ContentChildren}.
- *
- *
+ * @see `ContentChildren`.
  * @record
  */
 
@@ -38910,7 +38865,7 @@ class Query {
  * ContentChildren decorator and metadata.
  *
  *
- *  \@Annotation
+ * \@Annotation
  */
 const ContentChildren = makePropDecorator('ContentChildren', (selector, data = {}) => (Object.assign({ selector, first: false, isViewQuery: false, descendants: false }, data)), Query);
 /**
@@ -38931,7 +38886,7 @@ const ContentChild = makePropDecorator('ContentChild', (selector, data = {}) => 
 /**
  * Type of the ViewChildren decorator / constructor function.
  *
- * See {\@link ViewChildren}.
+ * @see `ViewChildren`.
  *
  *
  * @record
@@ -38940,22 +38895,18 @@ const ContentChild = makePropDecorator('ContentChild', (selector, data = {}) => 
 /**
  * ViewChildren decorator and metadata.
  *
- *
  * \@Annotation
  */
 const ViewChildren = makePropDecorator('ViewChildren', (selector, data = {}) => (Object.assign({ selector, first: false, isViewQuery: true, descendants: true }, data)), Query);
 /**
  * Type of the ViewChild decorator / constructor function.
  *
- * See {\@link ViewChild}
- *
- *
+ * @see `ViewChild`.
  * @record
  */
 
 /**
  * ViewChild decorator and metadata.
- *
  *
  * \@Annotation
  */
@@ -39046,21 +38997,15 @@ function isDefaultChangeDetectionStrategy(changeDetectionStrategy) {
  */
 /**
  * Type of the Directive decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
- * Directive decorator and metadata.
- *
- *
- * \@Annotation
+ * Type of the Component metadata.
  */
 const Directive = makeDecorator('Directive', (dir = {}) => dir);
 /**
- * Type of the Component decorator / constructor function.
- *
+ * Component decorator interface
  *
  * @record
  */
@@ -39068,82 +39013,166 @@ const Directive = makeDecorator('Directive', (dir = {}) => dir);
 /**
  * Component decorator and metadata.
  *
+ * \@usageNotes
+ *
+ * ### Using animations
+ *
+ * The following snippet shows an animation trigger in a component's
+ * metadata. The trigger is attached to an element in the component's
+ * template, using "\@_trigger_name_", and a state expression that is evaluated
+ * at run time to determine whether the animation should start.
+ *
+ * ```typescript
+ * \@Component({
+ *   selector: 'animation-cmp',
+ *   templateUrl: 'animation-cmp.html',
+ *   animations: [
+ *     trigger('myTriggerName', [
+ *       state('on', style({ opacity: 1 }),
+ *       state('off', style({ opacity: 0 }),
+ *       transition('on => off', [
+ *         animate("1s")
+ *       ])
+ *     ])
+ *   ]
+ * })
+ * ```
+ *
+ * ```html
+ * <!-- animation-cmp.html -->
+ * <div \@myTriggerName="expression">...</div>
+ * ```
+ *
+ * ### Preserving whitespace
+ *
+ * Removing whitespace can greatly reduce AOT-generated code size, and speed up view creation.
+ * As of Angular 6, default for `preserveWhitespaces` is false (whitespace is removed).
+ * To change the default setting for all components in your application, set
+ * the `preserveWhitespaces` option of the AOT compiler.
+ *
+ * Current implementation removes whitespace characters as follows:
+ * - Trims all whitespaces at the beginning and the end of a template.
+ * - Removes whitespace-only text nodes. For example,
+ * `<button>Action 1</button>  <button>Action 2</button>` becomes
+ * `<button>Action 1</button><button>Action 2</button>`.
+ * - Replaces a series of whitespace characters in text nodes with a single space.
+ * For example, `<span>\n some text\n</span>` becomes `<span> some text </span>`.
+ * - Does NOT alter text nodes inside HTML tags such as `<pre>` or `<textarea>`,
+ * where whitespace characters are significant.
+ *
+ * Note that these transformations can influence DOM nodes layout, although impact
+ * should be minimal.
+ *
+ * You can override the default behavior to preserve whitespace characters
+ * in certain fragments of a template. For example, you can exclude an entire
+ * DOM sub-tree by using the `ngPreserveWhitespaces` attribute:
+ *
+ * ```html
+ * <div ngPreserveWhitespaces>
+ *     whitespaces are preserved here
+ *     <span>    and here </span>
+ * </div>
+ * ```
+ *
+ * You can force a single space to be preserved in a text node by using `&ngsp;`,
+ * which is replaced with a space character by Angular's template
+ * compiler:
+ *
+ * ```html
+ * <a>Spaces</a>&ngsp;<a>between</a>&ngsp;<a>links.</a>
+ * <!-->compiled to be equivalent to:</>
+ *  <a>Spaces</a> <a>between</a> <a>links.</a>
+ * ```
+ *
+ * Note that sequences of `&ngsp;` are still collapsed to just one space character when
+ * the `preserveWhitespaces` option is set to `false`.
+ *
+ * ```html
+ * <a>before</a>&ngsp;&ngsp;&ngsp;<a>after</a>
+ * <!-->compiled to be equivalent to:</>
+ *  <a>Spaces</a> <a>between</a> <a>links.</a>
+ * ```
+ *
+ * To preserve sequences of whitespace characters, use the
+ * `ngPreserveWhitespaces` attribute.
  *
  * \@Annotation
  */
 const Component = makeDecorator('Component', (c = {}) => (Object.assign({ changeDetection: ChangeDetectionStrategy.Default }, c)), Directive);
 /**
  * Type of the Pipe decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
- * Pipe decorator and metadata.
- *
- * Use the `\@Pipe` annotation to declare that a given class is a pipe. A pipe
- * class must also implement {\@link PipeTransform} interface.
- *
- * To use the pipe include a reference to the pipe class in
- * {\@link NgModule#declarations}.
  *
  *
  * \@Annotation
  */
 const Pipe = makeDecorator('Pipe', (p) => (Object.assign({ pure: true }, p)));
 /**
- * Type of the Input decorator / constructor function.
- *
  *
  * @record
  */
 
 /**
- * Input decorator and metadata.
- *
  *
  * \@Annotation
  */
 const Input = makePropDecorator('Input', (bindingPropertyName) => ({ bindingPropertyName }));
 /**
  * Type of the Output decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
- * Output decorator and metadata.
- *
  *
  * \@Annotation
  */
 const Output = makePropDecorator('Output', (bindingPropertyName) => ({ bindingPropertyName }));
 /**
  * Type of the HostBinding decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
- * HostBinding decorator and metadata.
- *
  *
  * \@Annotation
  */
 const HostBinding = makePropDecorator('HostBinding', (hostPropertyName) => ({ hostPropertyName }));
 /**
  * Type of the HostListener decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
- * HostListener decorator and metadata.
+ * Binds a CSS event to a host listener and supplies configuration metadata.
+ * Angular invokes the supplied handler method when the host element emits the specified event,
+ * and updates the bound element with the result.
+ * If the handler method returns false, applies `preventDefault` on the bound element.
  *
+ * \@usageNotes
+ *
+ * The following example declares a directive
+ * that attaches a click listener to a button and counts clicks.
+ *
+ * ```
+ * \@Directive({selector: 'button[counting]'})
+ * class CountClicks {
+ *   numberOfClicks = 0;
+ *
+ * \@HostListener('click', ['$event.target'])
+ *   onClick(btn) {
+ *     console.log('button', btn, 'number of clicks:', this.numberOfClicks++);
+ *  }
+ * }
+ *
+ * \@Component({
+ *   selector: 'app',
+ *   template: '<button counting>Increment</button>',
+ * })
+ * class App {}
+ * ```
  *
  * \@Annotation
  */
@@ -39628,6 +39657,7 @@ function getClosureSafeProperty(objWithPropertyToExtract, target) {
 /**
  * An interface that a function passed into {\@link forwardRef} has to implement.
  *
+ * \@usageNotes
  * ### Example
  *
  * {\@example core/di/ts/forward_ref/forward_ref_spec.ts region='forward_ref_fn'}
@@ -39639,10 +39669,10 @@ function getClosureSafeProperty(objWithPropertyToExtract, target) {
  * Allows to refer to references which are not yet defined.
  *
  * For instance, `forwardRef` is used when the `token` which we need to refer to for the purposes of
- * DI is declared,
- * but not yet defined. It is also used when the `token` which we use when creating a query is not
- * yet defined.
+ * DI is declared, but not yet defined. It is also used when the `token` which we use when creating
+ * a query is not yet defined.
  *
+ * \@usageNotes
  * ### Example
  * {\@example core/di/ts/forward_ref/forward_ref_spec.ts region='forward_ref'}
  * \@experimental
@@ -39659,11 +39689,12 @@ function forwardRef(forwardRefFn) {
  *
  * Acts as the identity function when given a non-forward-ref value.
  *
- * ### Example ([live demo](http://plnkr.co/edit/GU72mJrk1fiodChcmiDR?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * {\@example core/di/ts/forward_ref/forward_ref_spec.ts region='resolve_forward_ref'}
  *
- * See: {\@link forwardRef}
+ * @see `forwardRef`
  * \@experimental
  * @param {?} type
  * @return {?}
@@ -39691,70 +39722,55 @@ function resolveForwardRef(type) {
  */
 /**
  * Type of the Inject decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
  * Inject decorator and metadata.
  *
- *
  * \@Annotation
  */
 const Inject = makeParamDecorator('Inject', (token) => ({ token }));
 /**
  * Type of the Optional decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
  * Optional decorator and metadata.
  *
- *
  * \@Annotation
  */
 const Optional = makeParamDecorator('Optional');
 /**
  * Type of the Self decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
  * Self decorator and metadata.
  *
- *
  * \@Annotation
  */
 const Self = makeParamDecorator('Self');
 /**
  * Type of the SkipSelf decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
  * SkipSelf decorator and metadata.
  *
- *
  * \@Annotation
  */
 const SkipSelf = makeParamDecorator('SkipSelf');
 /**
  * Type of the Host decorator / constructor function.
- *
- *
  * @record
  */
 
 /**
  * Host decorator and metadata.
- *
  *
  * \@Annotation
  */
@@ -39797,23 +39813,17 @@ class NullInjector {
     }
 }
 /**
- * \@usageNotes
- * ```
- * const injector: Injector = ...;
- * injector.get(...);
- * ```
- *
- * \@description
- *
  * Concrete injectors implement this interface.
  *
- * For more details, see the {\@linkDocs guide/dependency-injection "Dependency Injection Guide"}.
+ * For more details, see the ["Dependency Injection Guide"](guide/dependency-injection).
  *
+ * \@usageNotes
  * ### Example
  *
  * {\@example core/di/ts/injector_spec.ts region='Injector'}
  *
  * `Injector` returns itself when given `Injector` as a token:
+ *
  * {\@example core/di/ts/injector_spec.ts region='injectInjector'}
  *
  *
@@ -39823,6 +39833,7 @@ class Injector {
     /**
      * Create a new Injector which is configure using `StaticProvider`s.
      *
+     * \@usageNotes
      * ### Example
      *
      * {\@example core/di/ts/provider_spec.ts region='ConstructorProvider'}
@@ -40260,8 +40271,6 @@ const ɵ0 = GET_PROPERTY_NAME;
 const USE_VALUE = getClosureSafeProperty({ provide: String, useValue: ɵ0 }, GET_PROPERTY_NAME);
 /**
  * Type of the Injectable decorator / constructor function.
- *
- *
  * @record
  */
 
@@ -40311,7 +40320,6 @@ function convertInjectableProviderToFactory(type, provider) {
 /**
  * Injectable decorator and metadata.
  *
- *
  * \@Annotation
  */
 const Injectable = makeDecorator('Injectable', undefined, undefined, undefined, (injectableType, options) => {
@@ -40343,24 +40351,28 @@ const Injectable = makeDecorator('Injectable', undefined, undefined, undefined, 
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * A wrapper around a module that also includes the providers.
+ * A wrapper around an NgModule that associates it with the providers.
  *
  *
  * @record
  */
 
 /**
- * Interface for schema definitions in \@NgModules.
+ * A schema definition associated with an NgModule.
+ *
+ * @see `\@NgModule`, `CUSTOM_ELEMENTS_SCHEMA`, `NO_ERRORS_SCHEMA`
+ *
+ * @param name The name of a defined schema.
  *
  * \@experimental
  * @record
  */
 
 /**
- * Defines a schema that will allow:
- * - any non-Angular elements with a `-` in their name,
- * - any properties on elements with a `-` in their name which is the common rule for custom
- * elements.
+ * Defines a schema that allows an NgModule to contain the following:
+ * - Non-Angular elements named with dash case (`-`).
+ * - Element properties named with dash case (`-`).
+ * Dash case is the naming convention for custom elements.
  *
  *
  */
@@ -40368,7 +40380,7 @@ const CUSTOM_ELEMENTS_SCHEMA = {
     name: 'custom-elements'
 };
 /**
- * Defines a schema that will allow any property on any element.
+ * Defines a schema that allows any property on any element.
  *
  * \@experimental
  */
@@ -40383,12 +40395,16 @@ const NO_ERRORS_SCHEMA = {
  */
 
 /**
- * NgModule decorator and metadata.
- *
+ * Decorator that marks the following class as an NgModule, and supplies
+ * configuration metadata for it.
  *
  * \@Annotation
  */
-const NgModule = makeDecorator('NgModule', (ngModule) => ngModule, undefined, undefined, (moduleType, metadata) => {
+const NgModule = makeDecorator('NgModule', (ngModule) => ngModule, undefined, undefined, /**
+     * Decorator that marks the following class as an NgModule, and supplies
+     * configuration metadata for it.
+     */
+(moduleType, metadata) => {
     let /** @type {?} */ imports = (metadata && metadata.imports) || [];
     if (metadata && metadata.exports) {
         imports = [...imports, metadata.exports];
@@ -40477,7 +40493,7 @@ class Version {
         this.patch = full.split('.').slice(2).join('.');
     }
 }
-const VERSION = new Version('6.0.3');
+const VERSION = new Version('6.0.7');
 
 /**
  * @fileoverview added by tsickle
@@ -40541,14 +40557,13 @@ function defaultErrorLogger(console, ...values) {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- *
- * \@description
  * Provides a hook for centralized exception handling.
  *
  * The default implementation of `ErrorHandler` prints error messages to the `console`. To
  * intercept error handling, write a custom exception handler that replaces this default as
  * appropriate for your app.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -40563,8 +40578,6 @@ function defaultErrorLogger(console, ...values) {
  * })
  * class MyModule {}
  * ```
- *
- *
  */
 class ErrorHandler {
     constructor() {
@@ -40704,7 +40717,8 @@ function addKey(injector, key) {
  * Thrown when trying to retrieve a dependency by key from {\@link Injector}, but the
  * {\@link Injector} does not have a {\@link Provider} for the given key.
  *
- * ### Example ([live demo](http://plnkr.co/edit/vq8D3FRB9aGbnWJqtEPE?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * ```typescript
  * class A {
@@ -40726,7 +40740,8 @@ function noProviderError(injector, key) {
 /**
  * Thrown when dependencies form a cycle.
  *
- * ### Example ([live demo](http://plnkr.co/edit/wYQdNos0Tzql3ei1EV9j?p=info))
+ * \@usageNotes
+ * ### Example
  *
  * ```typescript
  * var injector = Injector.resolveAndCreate([
@@ -40753,7 +40768,8 @@ function cyclicDependencyError(injector, key) {
  * The `InstantiationError` class contains the original error plus the dependency graph which caused
  * this object to be instantiated.
  *
- * ### Example ([live demo](http://plnkr.co/edit/7aWYdcqTQsP0eNqEdUAf?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * ```typescript
  * class A {
@@ -40787,7 +40803,8 @@ function instantiationError(injector, originalException, originalStack, key) {
  * Thrown when an object other then {\@link Provider} (or `Type`) is passed to {\@link Injector}
  * creation.
  *
- * ### Example ([live demo](http://plnkr.co/edit/YatCFbPAMCL0JSSQ4mvH?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * ```typescript
  * expect(() => Injector.resolveAndCreate(["not a type"])).toThrowError();
@@ -40804,7 +40821,8 @@ function invalidProviderError(provider) {
  * Lack of annotation information prevents the {\@link Injector} from determining which dependencies
  * need to be injected into the constructor.
  *
- * ### Example ([live demo](http://plnkr.co/edit/rHnZtlNS7vJOPQ6pcVkm?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * ```typescript
  * class A {
@@ -40849,7 +40867,8 @@ function noAnnotationError(typeOrFunc, params) {
 /**
  * Thrown when getting an object by index.
  *
- * ### Example ([live demo](http://plnkr.co/edit/bRs0SX2OTQiJzqvjgl8P?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * ```typescript
  * class A {}
@@ -40868,6 +40887,7 @@ function outOfBoundsError(index) {
 /**
  * Thrown when a multi provider and a regular provider are bound to the same token.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```typescript
@@ -41122,13 +41142,14 @@ class ReflectiveDependency {
 }
 const _EMPTY_LIST = [];
 /**
- * An internal resolved representation of a {\@link Provider} used by the {\@link Injector}.
+ * An internal resolved representation of a `Provider` used by the `Injector`.
  *
- * It is usually created automatically by `Injector.resolveAndCreate`.
+ * \@usageNotes
+ * This is usually created automatically by `Injector.resolveAndCreate`.
  *
  * It can be created manually, as follows:
  *
- * ### Example ([live demo](http://plnkr.co/edit/RfEnhh8kUEI0G3qsnIeT?p%3Dpreview&p=preview))
+ * ### Example
  *
  * ```typescript
  * var resolvedProviders = Injector.resolve([{ provide: 'message', useValue: 'Hello' }]);
@@ -41155,8 +41176,7 @@ class ResolvedReflectiveProvider_ {
     }
 }
 /**
- * An internal resolved representation of a factory function created by resolving {\@link
- * Provider}.
+ * An internal resolved representation of a factory function created by resolving `Provider`.
  * \@experimental
  */
 class ResolvedReflectiveFactory {
@@ -41197,10 +41217,10 @@ function resolveReflectiveFactory(provider) {
     return new ResolvedReflectiveFactory(factoryFn, resolvedDeps);
 }
 /**
- * Converts the {\@link Provider} into {\@link ResolvedProvider}.
+ * Converts the `Provider` into `ResolvedProvider`.
  *
- * {\@link Injector} internally only uses {\@link ResolvedProvider}, {\@link Provider} contains
- * convenience provider syntax.
+ * `Injector` internally only uses `ResolvedProvider`, `Provider` contains convenience provider
+ * syntax.
  * @param {?} provider
  * @return {?}
  */
@@ -41219,9 +41239,8 @@ function resolveReflectiveProviders(providers) {
     return Array.from(resolvedProviderMap.values());
 }
 /**
- * Merges a list of ResolvedProviders into a list where
- * each key is contained exactly once and multi providers
- * have been merged.
+ * Merges a list of ResolvedProviders into a list where each key is contained exactly once and
+ * multi providers have been merged.
  * @param {?} providers
  * @param {?} normalizedProvidersMap
  * @return {?}
@@ -41382,7 +41401,8 @@ const UNDEFINED = new Object();
  * In typical use, application code asks for the dependencies in the constructor and they are
  * resolved by the `Injector`.
  *
- * ### Example ([live demo](http://plnkr.co/edit/jzjec0?p=preview))
+ * \@usageNotes
+ * ### Example
  *
  * The following example creates an `Injector` configured to create `Engine` and `Car`.
  *
@@ -41413,9 +41433,10 @@ class ReflectiveInjector {
      * Turns an array of provider definitions into an array of resolved providers.
      *
      * A resolution is a process of flattening multiple nested arrays and converting individual
-     * providers into an array of {\@link ResolvedReflectiveProvider}s.
+     * providers into an array of `ResolvedReflectiveProvider`s.
      *
-     * ### Example ([live demo](http://plnkr.co/edit/AiXTHi?p=preview))
+     * \@usageNotes
+     * ### Example
      *
      * ```typescript
      * \@Injectable()
@@ -41440,7 +41461,6 @@ class ReflectiveInjector {
      * });
      * ```
      *
-     * See {\@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders} for more info.
      * @param {?} providers
      * @return {?}
      */
@@ -41450,10 +41470,11 @@ class ReflectiveInjector {
     /**
      * Resolves an array of providers and creates an injector from those providers.
      *
-     * The passed-in providers can be an array of `Type`, {\@link Provider},
+     * The passed-in providers can be an array of `Type`, `Provider`,
      * or a recursive array of more providers.
      *
-     * ### Example ([live demo](http://plnkr.co/edit/ePOccA?p=preview))
+     * \@usageNotes
+     * ### Example
      *
      * ```typescript
      * \@Injectable()
@@ -41468,11 +41489,6 @@ class ReflectiveInjector {
      * var injector = ReflectiveInjector.resolveAndCreate([Car, Engine]);
      * expect(injector.get(Car) instanceof Car).toBe(true);
      * ```
-     *
-     * This function is slower than the corresponding `fromResolvedProviders`
-     * because it needs to resolve the passed-in providers first.
-     * See {\@link ReflectiveInjector#resolve resolve} and
-     * {\@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders}.
      * @param {?} providers
      * @param {?=} parent
      * @return {?}
@@ -41486,7 +41502,8 @@ class ReflectiveInjector {
      *
      * This API is the recommended way to construct injectors in performance-sensitive parts.
      *
-     * ### Example ([live demo](http://plnkr.co/edit/KrSMci?p=preview))
+     * \@usageNotes
+     * ### Example
      *
      * ```typescript
      * \@Injectable()
@@ -42301,7 +42318,7 @@ ApplicationInitStatus.decorators = [
 ];
 /** @nocollapse */
 ApplicationInitStatus.ctorParameters = () => [
-    { type: Array, decorators: [{ type: Inject, args: [APP_INITIALIZER,] }, { type: Optional },] },
+    { type: Array, decorators: [{ type: Inject, args: [APP_INITIALIZER,] }, { type: Optional }] }
 ];
 
 /**
@@ -42404,8 +42421,6 @@ class Console {
 Console.decorators = [
     { type: Injectable }
 ];
-/** @nocollapse */
-Console.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -42499,8 +42514,6 @@ class Compiler {
 Compiler.decorators = [
     { type: Injectable }
 ];
-/** @nocollapse */
-Compiler.ctorParameters = () => [];
 /**
  * Token to provide CompilerOptions in the platform injector.
  *
@@ -42861,6 +42874,7 @@ const wtfEndTimeRange = wtfEnabled ? endTimeRange : (r) => null;
 /**
  * Use by directives and components to emit custom Events.
  *
+ * \@usageNotes
  * ### Examples
  *
  * In the following example, `Zippy` alternatively emits `open` and `close` events when its
@@ -42878,8 +42892,8 @@ const wtfEndTimeRange = wtfEnabled ? endTimeRange : (r) => null;
  *  </div>`})
  * export class Zippy {
  *   visible: boolean = true;
- *   \@Output() open: EventEmitter<any> = new EventEmitter();
- *   \@Output() close: EventEmitter<any> = new EventEmitter();
+ * \@Output() open: EventEmitter<any> = new EventEmitter();
+ * \@Output() close: EventEmitter<any> = new EventEmitter();
  *
  *   toggle() {
  *     this.visible = !this.visible;
@@ -42898,6 +42912,8 @@ const wtfEndTimeRange = wtfEnabled ? endTimeRange : (r) => null;
  * ```
  * <zippy (open)="onOpen($event)" (close)="onClose($event)"></zippy>
  * ```
+ *
+ * ### Notes
  *
  * Uses Rx.Observable but provides an adapter to make it work as specified here:
  * https://github.com/jhusain/observable-spec
@@ -42990,6 +43006,7 @@ class EventEmitter extends rxjs__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
  *   - link to runOutsideAngular/run (throughout this file!)
  *   -->
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -43532,7 +43549,7 @@ Testability.decorators = [
 ];
 /** @nocollapse */
 Testability.ctorParameters = () => [
-    { type: NgZone, },
+    { type: NgZone }
 ];
 /**
  * A global registry of {\@link Testability} instances for specific elements.
@@ -43790,8 +43807,6 @@ function getPlatform() {
  *
  * A page's platform is initialized implicitly when a platform is created via a platform factory
  * (e.g. {\@link platformBrowser}), or explicitly by calling the {\@link createPlatform} function.
- *
- *
  */
 class PlatformRef {
     /**
@@ -43808,7 +43823,8 @@ class PlatformRef {
      * Creates an instance of an `\@NgModule` for the given platform
      * for offline compilation.
      *
-     * ## Simple Example
+     * \@usageNotes
+     * ### Simple Example
      *
      * ```typescript
      * my_module.ts:
@@ -43863,7 +43879,8 @@ class PlatformRef {
     /**
      * Creates an instance of an `\@NgModule` for a given platform using the given runtime compiler.
      *
-     * ## Simple Example
+     * \@usageNotes
+     * ### Simple Example
      *
      * ```typescript
      * \@NgModule({
@@ -43938,7 +43955,7 @@ PlatformRef.decorators = [
 ];
 /** @nocollapse */
 PlatformRef.ctorParameters = () => [
-    { type: Injector, },
+    { type: Injector }
 ];
 /**
  * @param {?=} ngZoneOption
@@ -43996,8 +44013,6 @@ function optionsReducer(dst, objs) {
 }
 /**
  * A reference to an Angular application running on a page.
- *
- *
  */
 class ApplicationRef {
     /**
@@ -44076,14 +44091,15 @@ class ApplicationRef {
     /**
      * Bootstrap a new component at the root level of the application.
      *
+     * \@usageNotes
      * ### Bootstrap process
      *
      * When bootstrapping a new root component into an application, Angular mounts the
-     * specified application component onto DOM elements identified by the [componentType]'s
+     * specified application component onto DOM elements identified by the componentType's
      * selector and kicks off automatic change detection to finish initializing the component.
      *
      * Optionally, a component can be mounted onto a DOM element that does not match the
-     * [componentType]'s selector.
+     * componentType's selector.
      *
      * ### Example
      * {\@example core/ts/platform/platform.ts region='longform'}
@@ -44220,12 +44236,12 @@ ApplicationRef.decorators = [
 ];
 /** @nocollapse */
 ApplicationRef.ctorParameters = () => [
-    { type: NgZone, },
-    { type: Console, },
-    { type: Injector, },
-    { type: ErrorHandler, },
-    { type: ComponentFactoryResolver, },
-    { type: ApplicationInitStatus, },
+    { type: NgZone },
+    { type: Console },
+    { type: Injector },
+    { type: ErrorHandler },
+    { type: ComponentFactoryResolver },
+    { type: ApplicationInitStatus }
 ];
 /**
  * @template T
@@ -44465,14 +44481,14 @@ function getModuleFactory(id) {
  *
  * NOTE: In the future this class will implement an `Observable` interface.
  *
- * ### Example ([live demo](http://plnkr.co/edit/RX8sJnQYl9FWuSCWme5z?p=preview))
+ * \@usageNotes
+ * ### Example
  * ```typescript
  * \@Component({...})
  * class Container {
- *   \@ViewChildren(Item) items:QueryList<Item>;
+ * \@ViewChildren(Item) items:QueryList<Item>;
  * }
  * ```
- *
  * @template T
  */
 class QueryList {
@@ -44670,8 +44686,8 @@ SystemJsNgModuleLoader.decorators = [
 ];
 /** @nocollapse */
 SystemJsNgModuleLoader.ctorParameters = () => [
-    { type: Compiler, },
-    { type: SystemJsNgModuleLoaderConfig, decorators: [{ type: Optional },] },
+    { type: Compiler },
+    { type: SystemJsNgModuleLoaderConfig, decorators: [{ type: Optional }] }
 ];
 /**
  * @param {?} value
@@ -44789,9 +44805,10 @@ class ViewRef extends ChangeDetectorRef {
  *
  * Properties of elements in a View can change, but the structure (number and order) of elements in
  * a View cannot. Changing the structure of Elements can only be done by inserting, moving or
- * removing nested Views via a {\@link ViewContainerRef}. Each View can contain many View Containers.
+ * removing nested Views via a `ViewContainerRef`. Each View can contain many View Containers.
  * <!-- /TODO -->
  *
+ * \@usageNotes
  * ### Example
  *
  * Given this template...
@@ -44803,9 +44820,10 @@ class ViewRef extends ChangeDetectorRef {
  * </ul>
  * ```
  *
- * We have two {\@link TemplateRef}s:
+ * We have two `TemplateRef`s:
  *
- * Outer {\@link TemplateRef}:
+ * Outer `TemplateRef`:
+ *
  * ```
  * Count: {{items.length}}
  * <ul>
@@ -44813,14 +44831,15 @@ class ViewRef extends ChangeDetectorRef {
  * </ul>
  * ```
  *
- * Inner {\@link TemplateRef}:
+ * Inner `TemplateRef`:
+ *
  * ```
  *   <li>{{item}}</li>
  * ```
  *
- * Notice that the original template is broken down into two separate {\@link TemplateRef}s.
+ * Notice that the original template is broken down into two separate `TemplateRef`s.
  *
- * The outer/inner {\@link TemplateRef}s are then assembled into views like so:
+ * The outer/inner `TemplateRef`s are then assembled into views like so:
  *
  * ```
  * <!-- ViewRef: outer-0 -->
@@ -46533,11 +46552,12 @@ class IterableDiffers {
      * inherited {\@link IterableDiffers} instance with the provided factories and return a new
      * {\@link IterableDiffers} instance.
      *
+     * \@usageNotes
+     * ### Example
+     *
      * The following example shows how to extend an existing list of factories,
      * which will only be applied to the injector for this component and its children.
      * This step is all that's required to make a new {\@link IterableDiffer} available.
-     *
-     * ### Example
      *
      * ```
      * \@Component({
@@ -46661,11 +46681,12 @@ class KeyValueDiffers {
      * inherited {\@link KeyValueDiffers} instance with the provided factories and return a new
      * {\@link KeyValueDiffers} instance.
      *
+     * \@usageNotes
+     * ### Example
+     *
      * The following example shows how to extend an existing list of factories,
      * which will only be applied to the injector for this component and its children.
      * This step is all that's required to make a new {\@link KeyValueDiffer} available.
-     *
-     * ### Example
      *
      * ```
      * \@Component({
@@ -46781,8 +46802,9 @@ const platformCore = createPlatformFactory(null, 'core', _CORE_PLATFORM_PROVIDER
  * It is used for i18n extraction, by i18n pipes (DatePipe, I18nPluralPipe, CurrencyPipe,
  * DecimalPipe and PercentPipe) and by ICU expressions.
  *
- * See the {\@linkDocs guide/i18n#setting-up-locale i18n guide} for more information.
+ * See the [i18n guide](guide/i18n#setting-up-locale) for more information.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```typescript
@@ -46802,8 +46824,9 @@ const LOCALE_ID = new InjectionToken('LocaleId');
  * Use this token at bootstrap to provide the content of your translation file (`xtb`,
  * `xlf` or `xlf2`) when you want to translate your application in another language.
  *
- * See the {\@linkDocs guide/i18n#merge i18n guide} for more information.
+ * See the [i18n guide](guide/i18n#merge) for more information.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```typescript
@@ -46826,8 +46849,9 @@ const TRANSLATIONS = new InjectionToken('Translations');
  * Provide this token at bootstrap to set the format of your {\@link TRANSLATIONS}: `xtb`,
  * `xlf` or `xlf2`.
  *
- * See the {\@linkDocs guide/i18n#merge i18n guide} for more information.
+ * See the [i18n guide](guide/i18n#merge) for more information.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```typescript
@@ -46914,7 +46938,7 @@ ApplicationModule.decorators = [
 ];
 /** @nocollapse */
 ApplicationModule.ctorParameters = () => [
-    { type: ApplicationRef, },
+    { type: ApplicationRef }
 ];
 
 /**
@@ -49002,6 +49026,9 @@ function resolveNgModuleDep(data, depDef, notFoundValue = Injector.THROW_IF_NOT_
             data._providers[index] = UNDEFINED_VALUE;
             return (data._providers[index] =
                 _createProviderInstance$1(data, data._def.providersByKey[depDef.tokenKey]));
+        }
+        else if (depDef.flags & 4 /* Self */) {
+            return notFoundValue;
         }
         return data._parent.get(depDef.token, notFoundValue);
     }
@@ -54221,8 +54248,7 @@ function addRemoveViewFromContainer(container, rootNode, insertMode, beforeNode)
  *  - Using a while loop because it's faster than recursion
  *  - Destroy only called on movement to sibling or movement to parent (laterally or up)
  *
- *  \@param rootView The view to destroy
- * @param {?} rootView
+ * @param {?} rootView The view to destroy
  * @return {?}
  */
 function destroyViewTree(rootView) {
@@ -57081,7 +57107,8 @@ class ViewRef$1 {
      *
      * <!-- TODO: Add a link to a chapter on OnPush components -->
      *
-     * ### Example ([live demo](https://stackblitz.com/edit/angular-kx7rrw))
+     * \@usageNotes
+     * ### Example
      *
      * ```typescript
      * \@Component({
@@ -57115,6 +57142,7 @@ class ViewRef$1 {
      * <!-- TODO: Add a link to a chapter on detach/reattach/local digest -->
      * <!-- TODO: Add a live demo once ref.detectChanges is merged into master -->
      *
+     * \@usageNotes
      * ### Example
      *
      * The following example defines a component with a large list of readonly data.
@@ -57166,7 +57194,8 @@ class ViewRef$1 {
      *
      * <!-- TODO: Add a link to a chapter on detach/reattach/local digest -->
      *
-     * ### Example ([live demo](https://stackblitz.com/edit/angular-ymgsxw))
+     * \@usageNotes
+     * ### Example
      *
      * The following example creates a component displaying `live` data. The component will detach
      * its change detector from the main change detector tree when the component's live property
@@ -57224,6 +57253,7 @@ class ViewRef$1 {
      * <!-- TODO: Add a link to a chapter on detach/reattach/local digest -->
      * <!-- TODO: Add a live demo once ref.detectChanges is merged into master -->
      *
+     * \@usageNotes
      * ### Example
      *
      * The following example defines a component with a large list of readonly data.
@@ -59627,7 +59657,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -60213,8 +60243,8 @@ CheckboxControlValueAccessor.decorators = [
 ];
 /** @nocollapse */
 CheckboxControlValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }
 ];
 
 /**
@@ -60345,9 +60375,9 @@ DefaultValueAccessor.decorators = [
 ];
 /** @nocollapse */
 DefaultValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [COMPOSITION_BUFFER_MODE,] },] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: Boolean, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [COMPOSITION_BUFFER_MODE,] }] }
 ];
 
 /**
@@ -60464,8 +60494,8 @@ NumberValueAccessor.decorators = [
 ];
 /** @nocollapse */
 NumberValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }
 ];
 
 /**
@@ -60591,8 +60621,6 @@ class RadioControlRegistry {
 RadioControlRegistry.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] }
 ];
-/** @nocollapse */
-RadioControlRegistry.ctorParameters = () => [];
 /**
  * \@description
  *
@@ -60714,15 +60742,15 @@ RadioControlValueAccessor.decorators = [
 ];
 /** @nocollapse */
 RadioControlValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
-    { type: RadioControlRegistry, },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: RadioControlRegistry },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"] }
 ];
 RadioControlValueAccessor.propDecorators = {
-    "name": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "formControlName": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "value": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    formControlName: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    value: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 
 /**
@@ -60801,8 +60829,8 @@ RangeValueAccessor.decorators = [
 ];
 /** @nocollapse */
 RangeValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }
 ];
 
 /**
@@ -61171,11 +61199,11 @@ SelectControlValueAccessor.decorators = [
 ];
 /** @nocollapse */
 SelectControlValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }
 ];
 SelectControlValueAccessor.propDecorators = {
-    "compareWith": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    compareWith: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * \@description
@@ -61242,13 +61270,13 @@ NgSelectOption.decorators = [
 ];
 /** @nocollapse */
 NgSelectOption.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: SelectControlValueAccessor, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] },] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: SelectControlValueAccessor, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }] }
 ];
 NgSelectOption.propDecorators = {
-    "ngValue": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngValue',] },],
-    "value": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['value',] },],
+    ngValue: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngValue',] }],
+    value: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['value',] }]
 };
 
 /**
@@ -61447,11 +61475,11 @@ SelectMultipleControlValueAccessor.decorators = [
 ];
 /** @nocollapse */
 SelectMultipleControlValueAccessor.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] }
 ];
 SelectMultipleControlValueAccessor.propDecorators = {
-    "compareWith": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    compareWith: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
@@ -61534,13 +61562,13 @@ NgSelectMultipleOption.decorators = [
 ];
 /** @nocollapse */
 NgSelectMultipleOption.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
-    { type: SelectMultipleControlValueAccessor, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] },] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] },
+    { type: SelectMultipleControlValueAccessor, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }] }
 ];
 NgSelectMultipleOption.propDecorators = {
-    "ngValue": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngValue',] },],
-    "value": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['value',] },],
+    ngValue: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngValue',] }],
+    value: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['value',] }]
 };
 
 /**
@@ -61971,7 +61999,7 @@ NgControlStatus.decorators = [
 ];
 /** @nocollapse */
 NgControlStatus.ctorParameters = () => [
-    { type: NgControl, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] },] },
+    { type: NgControl, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }] }
 ];
 /**
  * Directive automatically applied to Angular form groups that sets CSS classes
@@ -61993,7 +62021,7 @@ NgControlStatusGroup.decorators = [
 ];
 /** @nocollapse */
 NgControlStatusGroup.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] },] },
+    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }] }
 ];
 
 /**
@@ -62008,21 +62036,31 @@ NgControlStatusGroup.ctorParameters = () => [
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
+ * Reports that a FormControl is valid, meaning that no errors exist in the input value.
+ *
+ * @see `status`
  */
 const VALID = 'VALID';
 /**
- * Indicates that a FormControl is invalid, i.e. that an error exists in the input value.
+ * Reports that a FormControl is invalid, meaning that an error exists in the input value.
+ *
+ * @see `status`
  */
 const INVALID = 'INVALID';
 /**
- * Indicates that a FormControl is pending, i.e. that async validation is occurring and
+ * Reports that a FormControl is pending, meaning that that async validation is occurring and
  * errors are not yet available for the input value.
+ *
+ * @see `markAsPending`
+ * @see `status`
  */
 const PENDING = 'PENDING';
 /**
- * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
+ * Reports that a FormControl is disabled, meaning that the control is exempt from ancestor
  * calculations of validity or value.
+ *
+ * @see `markAsDisabled`
+ * @see `status`
  */
 const DISABLED = 'DISABLED';
 /**
@@ -62041,7 +62079,7 @@ function _find(control, path, delimiter) {
         return null;
     return (/** @type {?} */ (path)).reduce((v, name) => {
         if (v instanceof FormGroup) {
-            return v.controls[name] || null;
+            return v.controls.hasOwnProperty(/** @type {?} */ (name)) ? v.controls[name] : null;
         }
         if (v instanceof FormArray) {
             return v.at(/** @type {?} */ (name)) || null;
@@ -62070,8 +62108,6 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
         origAsyncValidator || null;
 }
 /**
- * \@description
- *
  * Interface for options provided to an `AbstractControl`.
  *
  * \@experimental
@@ -62087,8 +62123,6 @@ function isOptionsObj(validatorOrOpts) {
         typeof validatorOrOpts === 'object';
 }
 /**
- * \@description
- *
  * This is the base class for `FormControl`, `FormGroup`, and `FormArray`.
  *
  * It provides some of the shared behavior that all controls and groups of controls have, like
@@ -62105,8 +62139,9 @@ function isOptionsObj(validatorOrOpts) {
 class AbstractControl {
     /**
      * Initialize the AbstractControl instance.
-     * @param {?} validator The function that will determine the synchronous validity of this control.
-     * @param {?} asyncValidator The function that will determine the asynchronous validity of this
+     *
+     * @param {?} validator The function that determines the synchronous validity of this control.
+     * @param {?} asyncValidator The function that determines the asynchronous validity of this
      * control.
      */
     constructor(validator, asyncValidator) {
@@ -62120,11 +62155,13 @@ class AbstractControl {
          * A control is `pristine` if the user has not yet changed
          * the value in the UI.
          *
-         * Note that programmatic changes to a control's value will
-         * *not* mark it dirty.
+         * @return True if the user has not yet changed the value in the UI; compare `dirty`.
+         * Programmatic changes to a control's value do not mark it dirty.
          */
         this.pristine = true;
         /**
+         * True if the control is marked as `touched`.
+         *
          * A control is marked `touched` once the user has triggered
          * a `blur` event on it.
          */
@@ -62140,65 +62177,75 @@ class AbstractControl {
      */
     get parent() { return this._parent; }
     /**
-     * A control is `valid` when its `status === VALID`.
+     * A control is `valid` when its `status` is `VALID`.
      *
-     * In order to have this status, the control must have passed all its
-     * validation checks.
-     * @return {?}
+     * @see `status`
+     *
+     * @return {?} True if the control has passed all of its validation tests,
+     * false otherwise.
      */
     get valid() { return this.status === VALID; }
     /**
-     * A control is `invalid` when its `status === INVALID`.
+     * A control is `invalid` when its `status` is `INVALID`.
      *
-     * In order to have this status, the control must have failed
-     * at least one of its validation checks.
-     * @return {?}
+     * @see `status`
+     *
+     * @return {?} True if this control has failed one or more of its validation checks,
+     * false otherwise.
      */
     get invalid() { return this.status === INVALID; }
     /**
-     * A control is `pending` when its `status === PENDING`.
+     * A control is `pending` when its `status` is `PENDING`.
      *
-     * In order to have this status, the control must be in the
-     * middle of conducting a validation check.
-     * @return {?}
+     * @see `status`
+     *
+     * @return {?} True if this control is in the process of conducting a validation check,
+     * false otherwise.
      */
     get pending() { return this.status == PENDING; }
     /**
-     * A control is `disabled` when its `status === DISABLED`.
+     * A control is `disabled` when its `status` is `DISABLED`.
+     *
+     * @see `status`
      *
      * Disabled controls are exempt from validation checks and
      * are not included in the aggregate value of their ancestor
      * controls.
-     * @return {?}
+     *
+     * @return {?} True if the control is disabled, false otherwise.
      */
     get disabled() { return this.status === DISABLED; }
     /**
-     * A control is `enabled` as long as its `status !== DISABLED`.
+     * A control is `enabled` as long as its `status` is not `DISABLED`.
      *
-     * In other words, it has a status of `VALID`, `INVALID`, or
-     * `PENDING`.
-     * @return {?}
+     * @see `status`
+     *
+     * @return {?} True if the control has any status other than 'DISABLED',
+     * false if the status is 'DISABLED'.
+     *
      */
     get enabled() { return this.status !== DISABLED; }
     /**
      * A control is `dirty` if the user has changed the value
      * in the UI.
      *
-     * Note that programmatic changes to a control's value will
-     * *not* mark it dirty.
-     * @return {?}
+     * @return {?} True if the user has changed the value of this control in the UI; compare `pristine`.
+     * Programmatic changes to a control's value do not mark it dirty.
      */
     get dirty() { return !this.pristine; }
     /**
+     * True if the control has not been marked as touched
+     *
      * A control is `untouched` if the user has not yet triggered
      * a `blur` event on it.
      * @return {?}
      */
     get untouched() { return !this.touched; }
     /**
-     * Returns the update strategy of the `AbstractControl` (i.e.
-     * the event on which the control will update itself).
-     * Possible values: `'change'` (default) | `'blur'` | `'submit'`
+     * Reports the update strategy of the `AbstractControl` (meaning
+     * the event on which the control updates itself).
+     * Possible values: `'change'` | `'blur'` | `'submit'`
+     * Default value: `'change'`
      * @return {?}
      */
     get updateOn() {
@@ -62206,7 +62253,7 @@ class AbstractControl {
     }
     /**
      * Sets the synchronous validators that are active on this control.  Calling
-     * this will overwrite any existing sync validators.
+     * this overwrites any existing sync validators.
      * @param {?} newValidator
      * @return {?}
      */
@@ -62215,7 +62262,7 @@ class AbstractControl {
     }
     /**
      * Sets the async validators that are active on this control. Calling this
-     * will overwrite any existing async validators.
+     * overwrites any existing async validators.
      * @param {?} newValidator
      * @return {?}
      */
@@ -62233,11 +62280,13 @@ class AbstractControl {
      */
     clearAsyncValidators() { this.asyncValidator = null; }
     /**
-     * Marks the control as `touched`.
+     * Marks the control as `touched`. A control is touched by focus and
+     * blur events that do not change the value; compare `markAsDirty`;
      *
-     * This will also mark all direct ancestors as `touched` to maintain
-     * the model.
-     * @param {?=} opts
+     * @param {?=} opts Configuration options that determine how the control propagates changes
+     * and emits events events after marking is applied.
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false.
      * @return {?}
      */
     markAsTouched(opts = {}) {
@@ -62249,10 +62298,13 @@ class AbstractControl {
     /**
      * Marks the control as `untouched`.
      *
-     * If the control has any children, it will also mark all children as `untouched`
-     * to maintain the model, and re-calculate the `touched` status of all parent
-     * controls.
-     * @param {?=} opts
+     * If the control has any children, also marks all children as `untouched`
+     * and recalculates the `touched` status of all parent controls.
+     *
+     * @param {?=} opts Configuration options that determine how the control propagates changes
+     * and emits events after the marking is applied.
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false.
      * @return {?}
      */
     markAsUntouched(opts = {}) {
@@ -62264,11 +62316,13 @@ class AbstractControl {
         }
     }
     /**
-     * Marks the control as `dirty`.
+     * Marks the control as `dirty`. A control becomes dirty when
+     * the control's is changed through the UI; compare `markAsTouched`.
      *
-     * This will also mark all direct ancestors as `dirty` to maintain
-     * the model.
-     * @param {?=} opts
+     * @param {?=} opts Configuration options that determine how the control propagates changes
+     * and emits events after marking is applied.
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false.
      * @return {?}
      */
     markAsDirty(opts = {}) {
@@ -62280,10 +62334,14 @@ class AbstractControl {
     /**
      * Marks the control as `pristine`.
      *
-     * If the control has any children, it will also mark all children as `pristine`
-     * to maintain the model, and re-calculate the `pristine` status of all parent
+     * If the control has any children, marks all children as `pristine`,
+     * and recalculates the `pristine` status of all parent
      * controls.
-     * @param {?=} opts
+     *
+     * @param {?=} opts Configuration options that determine how the control emits events after
+     * marking is applied.
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false..
      * @return {?}
      */
     markAsPristine(opts = {}) {
@@ -62297,10 +62355,16 @@ class AbstractControl {
     /**
      * Marks the control as `pending`.
      *
-     * An event will be emitted by `statusChanges` by default.
+     * A control is pending while the control performs async validation.
      *
-     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
-     * @param {?=} opts
+     * @param {?=} opts Configuration options that determine how the control propagates changes and
+     * emits events after marking is applied.
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false..
+     * * `emitEvent`: When true or not supplied (the default), the `statusChanges`
+     * observable emits an event with the latest status the control is marked pending.
+     * When false, no events are emitted.
+     *
      * @return {?}
      */
     markAsPending(opts = {}) {
@@ -62313,11 +62377,19 @@ class AbstractControl {
         }
     }
     /**
-     * Disables the control. This means the control will be exempt from validation checks and
+     * Disables the control. This means the control is exempt from validation checks and
      * excluded from the aggregate value of any parent. Its status is `DISABLED`.
      *
-     * If the control has children, all children will be disabled to maintain the model.
-     * @param {?=} opts
+     * If the control has children, all children are also disabled.
+     *
+     * @param {?=} opts Configuration options that determine how the control propagates
+     * changes and emits events after the control is disabled.
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false..
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is disabled.
+     * When false, no events are emitted.
      * @return {?}
      */
     disable(opts = {}) {
@@ -62333,12 +62405,20 @@ class AbstractControl {
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
-     * Enables the control. This means the control will be included in validation checks and
-     * the aggregate value of its parent. Its status is re-calculated based on its value and
+     * Enables the control. This means the control is included in validation checks and
+     * the aggregate value of its parent. Its status recalculates based on its value and
      * its validators.
      *
-     * If the control has children, all children will be enabled.
-     * @param {?=} opts
+     * By default, if the control has children, all children are enabled.
+     *
+     * @param {?=} opts Configure options that control how the control propagates changes and
+     * emits events when marked as untouched
+     * * `onlySelf`: When true, mark only this control. When false or not supplied,
+     * marks all direct ancestors. Default is false..
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is enabled.
+     * When false, no events are emitted.
      * @return {?}
      */
     enable(opts = {}) {
@@ -62360,15 +62440,23 @@ class AbstractControl {
         }
     }
     /**
-     * @param {?} parent
+     * @param {?} parent Sets the parent of the control
      * @return {?}
      */
     setParent(parent) { this._parent = parent; }
     /**
-     * Re-calculates the value and validation status of the control.
+     * Recalculates the value and validation status of the control.
      *
-     * By default, it will also update the value and validity of its ancestors.
-     * @param {?=} opts
+     * By default, it also updates the value and validity of its ancestors.
+     *
+     * @param {?=} opts Configuration options determine how the control propagates changes and emits events
+     * after updates and validity checks are applied.
+     * * `onlySelf`: When true, only update this control. When false or not supplied,
+     * update all direct ancestors. Default is false..
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is updated.
+     * When false, no events are emitted.
      * @return {?}
      */
     updateValueAndValidity(opts = {}) {
@@ -62432,24 +62520,22 @@ class AbstractControl {
         }
     }
     /**
-     * Sets errors on a form control.
+     * Sets errors on a form control when running validations manually, rather than automatically.
      *
-     * This is used when validations are run manually by the user, rather than automatically.
+     * Calling `setErrors` also updates the validity of the parent control.
      *
-     * Calling `setErrors` will also update the validity of the parent control.
-     *
-     * ### Example
+     * ### Manually set the errors for a control
      *
      * ```
-     * const login = new FormControl("someLogin");
+     * const login = new FormControl('someLogin');
      * login.setErrors({
-     *   "notUnique": true
+     *   notUnique: true
      * });
      *
      * expect(login.valid).toEqual(false);
-     * expect(login.errors).toEqual({"notUnique": true});
+     * expect(login.errors).toEqual({ notUnique: true });
      *
-     * login.setValue("someOtherLogin");
+     * login.setValue('someOtherLogin');
      *
      * expect(login.valid).toEqual(true);
      * ```
@@ -62464,40 +62550,42 @@ class AbstractControl {
     /**
      * Retrieves a child control given the control's name or path.
      *
-     * Paths can be passed in as an array or a string delimited by a dot.
+     * @param {?} path A dot-delimited string or array of string/number values that define the path to the
+     * control.
      *
-     * To get a control nested within a `person` sub-group:
+     * ### Retrieve a nested control
+     *
+     * For example, to get a `name` control nested within a `person` sub-group:
      *
      * * `this.form.get('person.name');`
      *
      * -OR-
      *
      * * `this.form.get(['person', 'name']);`
-     * @param {?} path
      * @return {?}
      */
     get(path) { return _find(this, path, '.'); }
     /**
-     * Returns error data if the control with the given path has the error specified. Otherwise
-     * returns null or undefined.
+     * Reports error data for a specific error occurring in this control or in another control.
      *
-     * If no path is given, it checks for the error on the present control.
-     * @param {?} errorCode
-     * @param {?=} path
-     * @return {?}
+     * @param {?} errorCode The error code for which to retrieve data
+     * @param {?=} path The path to a control to check. If not supplied, checks for the error in this
+     * control.
+     *
+     * @return {?} The error data if the control with the given path has the given error, otherwise null
+     * or undefined.
      */
     getError(errorCode, path) {
         const /** @type {?} */ control = path ? this.get(path) : this;
         return control && control.errors ? control.errors[errorCode] : null;
     }
     /**
-     * Returns true if the control with the given path has the error specified. Otherwise
-     * returns false.
+     * Reports whether the control with the given path has the error specified.
      *
-     * If no path is given, it checks for the error on the present control.
-     * @param {?} errorCode
-     * @param {?=} path
-     * @return {?}
+     * @param {?} errorCode The error code for which to retrieve data
+     * @param {?=} path The path to a control to check. If not supplied, checks for the error in this
+     * control.
+     * @return {?} True when the control with the given path has the error, otherwise false.
      */
     hasError(errorCode, path) { return !!this.getError(errorCode, path); }
     /**
@@ -62618,46 +62706,46 @@ class AbstractControl {
     }
 }
 /**
- * \@description
- *
  * Tracks the value and validation status of an individual form control.
  *
  * This is one of the three fundamental building blocks of Angular forms, along with
- * `FormGroup` and `FormArray`.
+ * `FormGroup` and `FormArray`. It extends the `AbstractControl` class that
+ * implements most of the base functionality for accessing the value, validation status,
+ * user interactions and events.
  *
- * When instantiating a `FormControl`, you can pass in an initial value as the
- * first argument. Example:
+ * @see `AbstractControl`
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Usage Notes](#usage-notes)
+ *
+ * \@usageNotes
+ *
+ * ### Initializing Form Controls
+ *
+ * Instantiate a `FormControl`, with an initial value.
  *
  * ```ts
  * const ctrl = new FormControl('some value');
  * console.log(ctrl.value);     // 'some value'
  * ```
  *
- * You can also initialize the control with a form state object on instantiation,
- * which includes both the value and whether or not the control is disabled.
- * You can't use the value key without the disabled key; both are required
- * to use this way of initialization.
+ * The following example initializes the control with a form state object. The `value`
+ * and `disabled` keys are required in this case.
  *
  * ```ts
- * const ctrl = new FormControl({value: 'n/a', disabled: true});
+ * const ctrl = new FormControl({ value: 'n/a', disabled: true });
  * console.log(ctrl.value);     // 'n/a'
- * console.log(ctrl.status);   // 'DISABLED'
+ * console.log(ctrl.status);    // 'DISABLED'
  * ```
  *
- * The second `FormControl` argument can accept one of three things:
- * * a sync validator function
- * * an array of sync validator functions
- * * an options object containing validator and/or async validator functions
- *
- * Example of a single sync validator function:
+ * The following example initializes the control with a sync validator.
  *
  * ```ts
  * const ctrl = new FormControl('', Validators.required);
- * console.log(ctrl.value);     // ''
- * console.log(ctrl.status);   // 'INVALID'
+ * console.log(ctrl.value);      // ''
+ * console.log(ctrl.status);     // 'INVALID'
  * ```
  *
- * Example using options object:
+ * The following example initializes the control using an options object.
  *
  * ```ts
  * const ctrl = new FormControl('', {
@@ -62666,29 +62754,66 @@ class AbstractControl {
  * });
  * ```
  *
- * The options object can also be used to define when the control should update.
- * By default, the value and validity of a control updates whenever the value
- * changes. You can configure it to update on the blur event instead by setting
- * the `updateOn` option to `'blur'`.
+ * ### Configure the control to update on a blur event
+ *
+ * Set the `updateOn` option to `'blur'` to update on the blur `event`.
  *
  * ```ts
- * const c = new FormControl('', { updateOn: 'blur' });
+ * const ctrl = new FormControl('', { updateOn: 'blur' });
  * ```
  *
- * You can also set `updateOn` to `'submit'`, which will delay value and validity
- * updates until the parent form of the control fires a submit event.
+ * ### Configure the control to update on a submit event
  *
- * See its superclass, `AbstractControl`, for more properties and methods.
+ * Set the `updateOn` option to `'submit'` to update on a submit `event`.
  *
- * * **npm package**: `\@angular/forms`
+ * ```ts
+ * const ctrl = new FormControl('', { updateOn: 'submit' });
+ * ```
  *
+ * ### Reset the control back to an initial value
+ *
+ * You reset to a specific form state by passing through a standalone
+ * value or a form state object that contains both a value and a disabled state
+ * (these are the only two properties that cannot be calculated).
+ *
+ * ```ts
+ * const ctrl = new FormControl('Nancy');
+ *
+ * console.log(control.value); // 'Nancy'
+ *
+ * control.reset('Drew');
+ *
+ * console.log(control.value); // 'Drew'
+ * ```
+ *
+ * ### Reset the control back to an initial value and disabled
+ *
+ * ```
+ * const ctrl = new FormControl('Nancy');
+ *
+ * console.log(control.value); // 'Nancy'
+ * console.log(this.control.status); // 'DISABLED'
+ *
+ * control.reset({ value: 'Drew', disabled: true });
+ *
+ * console.log(this.control.value); // 'Drew'
+ * console.log(this.control.status); // 'DISABLED'
  *
  */
 class FormControl extends AbstractControl {
     /**
-     * @param {?=} formState
-     * @param {?=} validatorOrOpts
-     * @param {?=} asyncValidator
+     * Creates a new `FormControl` instance.
+     *
+     * @param {?=} formState Initializes the control with an initial state value,
+     * or with an object that defines the initial value, status, and options
+     * for handling updates and validation.
+     *
+     * @param {?=} validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param {?=} asyncValidator A single async validator or array of async validator functions
+     *
      */
     constructor(formState = null, validatorOrOpts, asyncValidator) {
         super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
@@ -62702,23 +62827,27 @@ class FormControl extends AbstractControl {
         this._initObservables();
     }
     /**
-     * Set the value of the form control to `value`.
+     * Sets a new value for the form control.
      *
-     * If `onlySelf` is `true`, this change will only affect the validation of this `FormControl`
-     * and not its parent component. This defaults to false.
+     * @param {?} value The new value for the control.
+     * @param {?=} options Configuration options that determine how the control proopagates changes
+     * and emits events when the value changes.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
      *
-     * If `emitEvent` is `true`, this
-     * change will cause a `valueChanges` event on the `FormControl` to be emitted. This defaults
-     * to true (as it falls through to `updateValueAndValidity`).
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control value is updated.
+     * When false, no events are emitted.
+     * * `emitModelToViewChange`: When true or not supplied  (the default), each change triggers an
+     * `onChange` event to
+     * update the view.
+     * * `emitViewToModelChange`: When true or not supplied (the default), each change triggers an
+     * `ngModelChange`
+     * event to update the model.
      *
-     * If `emitModelToViewChange` is `true`, the view will be notified about the new value
-     * via an `onChange` event. This is the default behavior if `emitModelToViewChange` is not
-     * specified.
-     *
-     * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
-     * model.  This is the default behavior if `emitViewToModelChange` is not specified.
-     * @param {?} value
-     * @param {?=} options
      * @return {?}
      */
     setValue(value, options = {}) {
@@ -62734,6 +62863,8 @@ class FormControl extends AbstractControl {
      * This function is functionally the same as {\@link FormControl#setValue setValue} at this level.
      * It exists for symmetry with {\@link FormGroup#patchValue patchValue} on `FormGroups` and
      * `FormArrays`, where it does behave differently.
+     *
+     * @see `setValue` for options
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -62742,34 +62873,23 @@ class FormControl extends AbstractControl {
         this.setValue(value, options);
     }
     /**
-     * Resets the form control. This means by default:
+     * Resets the form control, marking it `pristine` and `untouched`, and setting
+     * the value to null.
      *
-     * * it is marked as `pristine`
-     * * it is marked as `untouched`
-     * * value is set to null
+     * @param {?=} formState Initializes the control with an initial state value,
+     * or with an object that defines the initial value, status, and options
+     * for handling updates and validation.
      *
-     * You can also reset to a specific form state by passing through a standalone
-     * value or a form state object that contains both a value and a disabled state
-     * (these are the only two properties that cannot be calculated).
+     * @param {?=} options Configuration options that determine how the control propagates changes
+     * and emits events after the value changes.
      *
-     * Ex:
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is reset.
+     * When false, no events are emitted.
      *
-     * ```ts
-     * this.control.reset('Nancy');
-     *
-     * console.log(this.control.value);  // 'Nancy'
-     * ```
-     *
-     * OR
-     *
-     * ```
-     * this.control.reset({value: 'Nancy', disabled: true});
-     *
-     * console.log(this.control.value);  // 'Nancy'
-     * console.log(this.control.status);  // 'DISABLED'
-     * ```
-     * @param {?=} formState
-     * @param {?=} options
      * @return {?}
      */
     reset(formState = null, options = {}) {
@@ -62797,7 +62917,8 @@ class FormControl extends AbstractControl {
     _allControlsDisabled() { return this.disabled; }
     /**
      * Register a listener for change events.
-     * @param {?} fn
+     *
+     * @param {?} fn The method that is called when the value changes
      * @return {?}
      */
     registerOnChange(fn) { this._onChange.push(fn); }
@@ -62812,7 +62933,8 @@ class FormControl extends AbstractControl {
     }
     /**
      * Register a listener for disabled events.
-     * @param {?} fn
+     *
+     * @param {?} fn The method that is called when the disabled status changes.
      * @return {?}
      */
     registerOnDisabledChange(fn) {
@@ -62857,12 +62979,10 @@ class FormControl extends AbstractControl {
     }
 }
 /**
- * \@description
- *
  * Tracks the value and validity state of a group of `FormControl` instances.
  *
  * A `FormGroup` aggregates the values of each child `FormControl` into one object,
- * with each control name as the key.  It calculates its status by reducing the statuses
+ * with each control name as the key.  It calculates its status by reducing the status values
  * of its children. For example, if one of the controls in a group is invalid, the entire
  * group becomes invalid.
  *
@@ -62870,9 +62990,11 @@ class FormControl extends AbstractControl {
  * along with `FormControl` and `FormArray`.
  *
  * When instantiating a `FormGroup`, pass in a collection of child controls as the first
- * argument. The key for each child will be the name under which it is registered.
+ * argument. The key for each child registers the name for the control.
  *
- * ### Example
+ * \@usageNotes
+ *
+ * ### Create a form group with 2 controls
  *
  * ```
  * const form = new FormGroup({
@@ -62884,11 +63006,11 @@ class FormControl extends AbstractControl {
  * console.log(form.status);  // 'VALID'
  * ```
  *
- * You can also include group-level validators as the second arg, or group-level async
+ * ### Create a form group with a group-level validator
+ *
+ * You include group-level validators as the second arg, or group-level async
  * validators as the third arg. These come in handy when you want to perform validation
  * that considers the value of more than one child control.
- *
- * ### Example
  *
  * ```
  * const form = new FormGroup({
@@ -62903,36 +63025,42 @@ class FormControl extends AbstractControl {
  * }
  * ```
  *
- * Like `FormControl` instances, you can alternatively choose to pass in
+ * Like `FormControl` instances, you choose to pass in
  * validators and async validators as part of an options object.
  *
  * ```
  * const form = new FormGroup({
  *   password: new FormControl('')
  *   passwordConfirm: new FormControl('')
- * }, {validators: passwordMatchValidator, asyncValidators: otherValidator});
+ * }, { validators: passwordMatchValidator, asyncValidators: otherValidator });
  * ```
  *
- * The options object can also be used to set a default value for each child
+ * ### Set the updateOn property for all controls in a form group
+ *
+ * The options object is used to set a default value for each child
  * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
- * group level, all child controls will default to 'blur', unless the child
+ * group level, all child controls default to 'blur', unless the child
  * has explicitly specified a different `updateOn` value.
  *
  * ```ts
  * const c = new FormGroup({
- *    one: new FormControl()
- * }, {updateOn: 'blur'});
+ *   one: new FormControl()
+ * }, { updateOn: 'blur' });
  * ```
- *
- * * **npm package**: `\@angular/forms`
- *
- *
  */
 class FormGroup extends AbstractControl {
     /**
-     * @param {?} controls
-     * @param {?=} validatorOrOpts
-     * @param {?=} asyncValidator
+     * Creates a new `FormGroup` instance.
+     *
+     * @param {?} controls A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param {?=} validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param {?=} asyncValidator A single async validator or array of async validator functions
+     *
      */
     constructor(controls, validatorOrOpts, asyncValidator) {
         super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
@@ -62945,10 +63073,11 @@ class FormGroup extends AbstractControl {
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update the value or validity of the control, so for most cases you'll want
-     * to use {\@link FormGroup#addControl addControl} instead.
-     * @param {?} name
-     * @param {?} control
+     * This method does not update the value or validity of the control.
+     * Use {\@link FormGroup#addControl addControl} instead.
+     *
+     * @param {?} name The control name to register in the collection
+     * @param {?} control Provides the control for the given name
      * @return {?}
      */
     registerControl(name, control) {
@@ -62961,8 +63090,11 @@ class FormGroup extends AbstractControl {
     }
     /**
      * Add a control to this group.
-     * @param {?} name
-     * @param {?} control
+     *
+     * This method also updates the value and validity of the control.
+     *
+     * @param {?} name The control name to add to the collection
+     * @param {?} control Provides the control for the given name
      * @return {?}
      */
     addControl(name, control) {
@@ -62972,7 +63104,8 @@ class FormGroup extends AbstractControl {
     }
     /**
      * Remove a control from this group.
-     * @param {?} name
+     *
+     * @param {?} name The control name to remove from the collection
      * @return {?}
      */
     removeControl(name) {
@@ -62984,8 +63117,9 @@ class FormGroup extends AbstractControl {
     }
     /**
      * Replace an existing control.
-     * @param {?} name
-     * @param {?} control
+     *
+     * @param {?} name The control name to replace in the collection
+     * @param {?} control Provides the control for the given name
      * @return {?}
      */
     setControl(name, control) {
@@ -63000,36 +63134,48 @@ class FormGroup extends AbstractControl {
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * Reports false for disabled controls. If you'd like to check for existence in the group
      * only, use {\@link AbstractControl#get get} instead.
+     *
      * @param {?} controlName
-     * @return {?}
+     * @return {?} false for disabled controls, true otherwise.
      */
     contains(controlName) {
         return this.controls.hasOwnProperty(controlName) && this.controls[controlName].enabled;
     }
     /**
-     *  Sets the value of the `FormGroup`. It accepts an object that matches
-     *  the structure of the group, with control names as keys.
+     * Sets the value of the `FormGroup`. It accepts an object that matches
+     * the structure of the group, with control names as keys.
      *
-     *  ### Example
+     * ### Set the complete value for the form group
      *
-     *  ```
-     *  const form = new FormGroup({
-     *     first: new FormControl(),
-     *     last: new FormControl()
-     *  });
-     *  console.log(form.value);   // {first: null, last: null}
+     * ```
+     * const form = new FormGroup({
+     *   first: new FormControl(),
+     *   last: new FormControl()
+     * });
      *
-     *  form.setValue({first: 'Nancy', last: 'Drew'});
-     *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
+     * console.log(form.value);   // {first: null, last: null}
      *
-     *  ```
-     * @throws This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     * @param {?} value
-     * @param {?=} options
+     * form.setValue({first: 'Nancy', last: 'Drew'});
+     * console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
+     *
+     * ```
+     * @throws When strict checks fail, such as setting the value of a control
+     * that doesn't exist or if you excluding the value of a control.
+     *
+     * @param {?} value The new value for the control that matches the structure of the group.
+     * @param {?=} options Configuration options that determine how the control propagates changes
+     * and emits events after the value changes.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control value is updated.
+     * When false, no events are emitted.
      * @return {?}
      */
     setValue(value, options = {}) {
@@ -63041,13 +63187,13 @@ class FormGroup extends AbstractControl {
         this.updateValueAndValidity(options);
     }
     /**
-     *  Patches the value of the `FormGroup`. It accepts an object with control
-     *  names as keys, and will do its best to match the values to the correct controls
-     *  in the group.
+     * Patches the value of the `FormGroup`. It accepts an object with control
+     * names as keys, and does its best to match the values to the correct controls
+     * in the group.
      *
-     *  It accepts both super-sets and sub-sets of the group without throwing an error.
+     * It accepts both super-sets and sub-sets of the group without throwing an error.
      *
-     *  ### Example
+     * ### Patch the value for a form group
      *
      *  ```
      *  const form = new FormGroup({
@@ -63060,8 +63206,18 @@ class FormGroup extends AbstractControl {
      *  console.log(form.value);   // {first: 'Nancy', last: null}
      *
      *  ```
-     * @param {?} value
-     * @param {?=} options
+     *
+     * @param {?} value The object that matches the structure of the group
+     * @param {?=} options Configure options that determines how the control propagates changes and
+     * emits events after the value is patched
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * true.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control value is updated.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
      * @return {?}
      */
     patchValue(value, options = {}) {
@@ -63073,29 +63229,40 @@ class FormGroup extends AbstractControl {
         this.updateValueAndValidity(options);
     }
     /**
-     * Resets the `FormGroup`. This means by default:
+     * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+     * the value of all descendants to null.
      *
-     * * The group and all descendants are marked `pristine`
-     * * The group and all descendants are marked `untouched`
-     * * The value of all descendants will be null or null maps
-     *
-     * You can also reset to a specific form state by passing in a map of states
+     * You reset to a specific form state by passing in a map of states
      * that matches the structure of your form, with control names as keys. The state
-     * can be a standalone value or a form state object with both a value and a disabled
+     * is a standalone value or a form state object with both a value and a disabled
      * status.
      *
-     * ### Example
+     * \@usageNotes
+     *
+     * ### Reset the form group values
      *
      * ```ts
-     * this.form.reset({first: 'name', last: 'last name'});
+     * const form = new FormGroup({
+     *   first: new FormControl('first name'),
+     *   last: new FormControl('last name')
+     * });
      *
-     * console.log(this.form.value);  // {first: 'name', last: 'last name'}
+     * console.log(form.value);  // {first: 'first name', last: 'last name'}
+     *
+     * form.reset({ first: 'name', last: 'last name' });
+     *
+     * console.log(form.value);  // {first: 'name', last: 'last name'}
      * ```
      *
-     * - OR -
+     * ### Reset the form group values and disabled status
      *
      * ```
-     * this.form.reset({
+     * const form = new FormGroup({
+     *   first: new FormControl('first name'),
+     *   last: new FormControl('last name')
+     * });
+     *
+     * form.reset({
      *   first: {value: 'name', disabled: true},
      *   last: 'last'
      * });
@@ -63103,8 +63270,21 @@ class FormGroup extends AbstractControl {
      * console.log(this.form.value);  // {first: 'name', last: 'last name'}
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
-     * @param {?=} value
-     * @param {?=} options
+     * @param {?=} value Initializes the control with an initial state value,
+     * or with an object that defines the initial value, status,
+     * and options for handling updates and validation.
+     *
+     * @param {?=} options Configuration options that determine how the control propagates changes
+     * and emits events when the group is reset.
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is reset.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
+     *
      * @return {?}
      */
     reset(value = {}, options = {}) {
@@ -63118,8 +63298,9 @@ class FormGroup extends AbstractControl {
     /**
      * The aggregate value of the `FormGroup`, including any disabled controls.
      *
-     * If you'd like to include all values regardless of disabled status, use this method.
-     * Otherwise, the `value` property is the best way to get the value of the group.
+     * Retrieves all values regardless of disabled status.
+     * The `value` property is the best way to get the value of the group, because
+     * it excludes disabled controls in the `FormGroup`.
      * @return {?}
      */
     getRawValue() {
@@ -63240,22 +63421,19 @@ class FormGroup extends AbstractControl {
     }
 }
 /**
- * \@description
- *
  * Tracks the value and validity state of an array of `FormControl`,
  * `FormGroup` or `FormArray` instances.
  *
  * A `FormArray` aggregates the values of each child `FormControl` into an array.
- * It calculates its status by reducing the statuses of its children. For example, if one of
+ * It calculates its status by reducing the status values of its children. For example, if one of
  * the controls in a `FormArray` is invalid, the entire array becomes invalid.
  *
  * `FormArray` is one of the three fundamental building blocks used to define forms in Angular,
  * along with `FormControl` and `FormGroup`.
  *
- * When instantiating a `FormArray`, pass in an array of child controls as the first
- * argument.
+ * \@usageNotes
  *
- * ### Example
+ * ### Create an array of form controls
  *
  * ```
  * const arr = new FormArray([
@@ -63267,11 +63445,13 @@ class FormGroup extends AbstractControl {
  * console.log(arr.status);  // 'VALID'
  * ```
  *
- * You can also include array-level validators and async validators. These come in handy
+ * ### Create a form array with array-level validators
+ *
+ * You include array-level validators and async validators. These come in handy
  * when you want to perform validation that considers the value of more than one child
  * control.
  *
- * The two types of validators can be passed in separately as the second and third arg
+ * The two types of validators are passed in separately as the second and third arg
  * respectively, or together as part of an options object.
  *
  * ```
@@ -63281,34 +63461,42 @@ class FormGroup extends AbstractControl {
  * ], {validators: myValidator, asyncValidators: myAsyncValidator});
  * ```
  *
- * The options object can also be used to set a default value for each child
+ * ### Set the updateOn property for all controls in a form array
+ *
+ * The options object is used to set a default value for each child
  * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
- * array level, all child controls will default to 'blur', unless the child
+ * array level, all child controls default to 'blur', unless the child
  * has explicitly specified a different `updateOn` value.
  *
  * ```ts
- * const c = new FormArray([
+ * const arr = new FormArray([
  *    new FormControl()
  * ], {updateOn: 'blur'});
  * ```
  *
- * ### Adding or removing controls
+ * ### Adding or removing controls from a form array
  *
  * To change the controls in the array, use the `push`, `insert`, or `removeAt` methods
  * in `FormArray` itself. These methods ensure the controls are properly tracked in the
  * form's hierarchy. Do not modify the array of `AbstractControl`s used to instantiate
- * the `FormArray` directly, as that will result in strange and unexpected behavior such
+ * the `FormArray` directly, as that result in strange and unexpected behavior such
  * as broken change detection.
- *
- * * **npm package**: `\@angular/forms`
  *
  *
  */
 class FormArray extends AbstractControl {
     /**
-     * @param {?} controls
-     * @param {?=} validatorOrOpts
-     * @param {?=} asyncValidator
+     * Creates a new `FormArray` instance.
+     *
+     * @param {?} controls An array of child controls. Each child control is given an index
+     * wheh it is registered.
+     *
+     * @param {?=} validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param {?=} asyncValidator A single async validator or array of async validator functions
+     *
      */
     constructor(controls, validatorOrOpts, asyncValidator) {
         super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
@@ -63320,13 +63508,15 @@ class FormArray extends AbstractControl {
     }
     /**
      * Get the `AbstractControl` at the given `index` in the array.
-     * @param {?} index
+     *
+     * @param {?} index Index in the array to retrieve the control
      * @return {?}
      */
     at(index) { return this.controls[index]; }
     /**
      * Insert a new `AbstractControl` at the end of the array.
-     * @param {?} control
+     *
+     * @param {?} control Form control to be inserted
      * @return {?}
      */
     push(control) {
@@ -63337,8 +63527,9 @@ class FormArray extends AbstractControl {
     }
     /**
      * Insert a new `AbstractControl` at the given `index` in the array.
-     * @param {?} index
-     * @param {?} control
+     *
+     * @param {?} index Index in the array to insert the control
+     * @param {?} control Form control to be inserted
      * @return {?}
      */
     insert(index, control) {
@@ -63348,7 +63539,8 @@ class FormArray extends AbstractControl {
     }
     /**
      * Remove the control at the given `index` in the array.
-     * @param {?} index
+     *
+     * @param {?} index Index in the array to remove the control
      * @return {?}
      */
     removeAt(index) {
@@ -63359,8 +63551,9 @@ class FormArray extends AbstractControl {
     }
     /**
      * Replace an existing control.
-     * @param {?} index
-     * @param {?} control
+     *
+     * @param {?} index Index in the array to replace the control
+     * @param {?} control The `AbstractControl` control to replace the existing control
      * @return {?}
      */
     setControl(index, control) {
@@ -63380,27 +63573,38 @@ class FormArray extends AbstractControl {
      */
     get length() { return this.controls.length; }
     /**
-     *  Sets the value of the `FormArray`. It accepts an array that matches
-     *  the structure of the control.
+     * Sets the value of the `FormArray`. It accepts an array that matches
+     * the structure of the control.
      *
-     * This method performs strict checks, so it will throw an error if you try
+     * This method performs strict checks, and throws an error if you try
      * to set the value of a control that doesn't exist or if you exclude the
      * value of a control.
      *
-     *  ### Example
+     * ### Set the values for the controls in the form array
      *
-     *  ```
-     *  const arr = new FormArray([
-     *     new FormControl(),
-     *     new FormControl()
-     *  ]);
-     *  console.log(arr.value);   // [null, null]
+     * ```
+     * const arr = new FormArray([
+     *   new FormControl(),
+     *   new FormControl()
+     * ]);
+     * console.log(arr.value);   // [null, null]
      *
-     *  arr.setValue(['Nancy', 'Drew']);
-     *  console.log(arr.value);   // ['Nancy', 'Drew']
-     *  ```
-     * @param {?} value
-     * @param {?=} options
+     * arr.setValue(['Nancy', 'Drew']);
+     * console.log(arr.value);   // ['Nancy', 'Drew']
+     * ```
+     *
+     * @param {?} value Array of values for the controls
+     * @param {?=} options Configure options that determine how the control propagates changes and
+     * emits events after the value changes
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
+     * is false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control value is updated.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
      * @return {?}
      */
     setValue(value, options = {}) {
@@ -63412,26 +63616,37 @@ class FormArray extends AbstractControl {
         this.updateValueAndValidity(options);
     }
     /**
-     *  Patches the value of the `FormArray`. It accepts an array that matches the
-     *  structure of the control, and will do its best to match the values to the correct
-     *  controls in the group.
+     * Patches the value of the `FormArray`. It accepts an array that matches the
+     * structure of the control, and does its best to match the values to the correct
+     * controls in the group.
      *
-     *  It accepts both super-sets and sub-sets of the array without throwing an error.
+     * It accepts both super-sets and sub-sets of the array without throwing an error.
      *
-     *  ### Example
+     * ### Patch the values for controls in a form array
      *
-     *  ```
-     *  const arr = new FormArray([
-     *     new FormControl(),
-     *     new FormControl()
-     *  ]);
-     *  console.log(arr.value);   // [null, null]
+     * ```
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     * console.log(arr.value);   // [null, null]
      *
-     *  arr.patchValue(['Nancy']);
-     *  console.log(arr.value);   // ['Nancy', null]
-     *  ```
-     * @param {?} value
-     * @param {?=} options
+     * arr.patchValue(['Nancy']);
+     * console.log(arr.value);   // ['Nancy', null]
+     * ```
+     *
+     * @param {?} value Array of latest values for the controls
+     * @param {?=} options Configure options that determine how the control propagates changes and
+     * emits events after the value changes
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
+     * is false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control value is updated.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
      * @return {?}
      */
     patchValue(value, options = {}) {
@@ -63443,25 +63658,26 @@ class FormArray extends AbstractControl {
         this.updateValueAndValidity(options);
     }
     /**
-     * Resets the `FormArray`. This means by default:
+     * Resets the `FormArray` and all descendants are marked `pristine` and `untouched`, and the
+     * value of all descendants to null or null maps.
      *
-     * * The array and all descendants are marked `pristine`
-     * * The array and all descendants are marked `untouched`
-     * * The value of all descendants will be null or null maps
-     *
-     * You can also reset to a specific form state by passing in an array of states
-     * that matches the structure of the control. The state can be a standalone value
+     * You reset to a specific form state by passing in an array of states
+     * that matches the structure of the control. The state is a standalone value
      * or a form state object with both a value and a disabled status.
      *
-     * ### Example
+     * ### Reset the values in a form array
      *
      * ```ts
-     * this.arr.reset(['name', 'last name']);
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     * arr.reset(['name', 'last name']);
      *
      * console.log(this.arr.value);  // ['name', 'last name']
      * ```
      *
-     * - OR -
+     * ### Reset the values in a form array and the disabled status for the first control
      *
      * ```
      * this.arr.reset([
@@ -63472,8 +63688,19 @@ class FormArray extends AbstractControl {
      * console.log(this.arr.value);  // ['name', 'last name']
      * console.log(this.arr.get(0).status);  // 'DISABLED'
      * ```
-     * @param {?=} value
-     * @param {?=} options
+     *
+     * @param {?=} value Array of values for the controls
+     * @param {?=} options Configure options that determine how the control propagates changes and
+     * emits events after the value changes
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
+     * is false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is reset.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
      * @return {?}
      */
     reset(value = [], options = {}) {
@@ -63487,8 +63714,8 @@ class FormArray extends AbstractControl {
     /**
      * The aggregate value of the array, including any disabled controls.
      *
-     * If you'd like to include all values regardless of disabled status, use this method.
-     * Otherwise, the `value` property is the best way to get the value of the array.
+     * Reports all values regardless of disabled status.
+     * For enabled controls only, the `value` property is the best way to get the value of the array.
      * @return {?}
      */
     getRawValue() {
@@ -63804,11 +64031,11 @@ NgForm.decorators = [
 ];
 /** @nocollapse */
 NgForm.ctorParameters = () => [
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] }
 ];
 NgForm.propDecorators = {
-    "options": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngFormOptions',] },],
+    options: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngFormOptions',] }]
 };
 
 /**
@@ -63948,12 +64175,12 @@ NgModelGroup.decorators = [
 ];
 /** @nocollapse */
 NgModelGroup.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] }
 ];
 NgModelGroup.propDecorators = {
-    "name": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModelGroup',] },],
+    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModelGroup',] }]
 };
 
 /**
@@ -64209,17 +64436,17 @@ NgModel.decorators = [
 ];
 /** @nocollapse */
 NgModel.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALUE_ACCESSOR,] },] },
+    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALUE_ACCESSOR,] }] }
 ];
 NgModel.propDecorators = {
-    "name": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-    "isDisabled": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['disabled',] },],
-    "model": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModel',] },],
-    "options": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModelOptions',] },],
-    "update": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"], args: ['ngModelChange',] },],
+    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
+    isDisabled: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['disabled',] }],
+    model: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModel',] }],
+    options: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModelOptions',] }],
+    update: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"], args: ['ngModelChange',] }]
 };
 
 /**
@@ -64443,16 +64670,16 @@ FormControlDirective.decorators = [
 ];
 /** @nocollapse */
 FormControlDirective.ctorParameters = () => [
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALUE_ACCESSOR,] },] },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] },] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALUE_ACCESSOR,] }] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
 ];
 FormControlDirective.propDecorators = {
-    "form": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formControl',] },],
-    "isDisabled": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['disabled',] },],
-    "model": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModel',] },],
-    "update": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"], args: ['ngModelChange',] },],
+    form: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formControl',] }],
+    isDisabled: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['disabled',] }],
+    model: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModel',] }],
+    update: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"], args: ['ngModelChange',] }]
 };
 
 /**
@@ -64687,12 +64914,12 @@ FormGroupDirective.decorators = [
 ];
 /** @nocollapse */
 FormGroupDirective.ctorParameters = () => [
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] }
 ];
 FormGroupDirective.propDecorators = {
-    "form": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formGroup',] },],
-    "ngSubmit": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] },],
+    form: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formGroup',] }],
+    ngSubmit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] }]
 };
 
 /**
@@ -64781,12 +65008,12 @@ FormGroupName.decorators = [
 ];
 /** @nocollapse */
 FormGroupName.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] }
 ];
 FormGroupName.propDecorators = {
-    "name": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formGroupName',] },],
+    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formGroupName',] }]
 };
 const formArrayNameProvider = {
     provide: ControlContainer,
@@ -64904,12 +65131,12 @@ FormArrayName.decorators = [
 ];
 /** @nocollapse */
 FormArrayName.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] }
 ];
 FormArrayName.propDecorators = {
-    "name": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formArrayName',] },],
+    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formArrayName',] }]
 };
 /**
  * @param {?} parent
@@ -65173,17 +65400,17 @@ FormControlName.decorators = [
 ];
 /** @nocollapse */
 FormControlName.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALUE_ACCESSOR,] },] },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] },] },
+    { type: ControlContainer, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Host"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["SkipSelf"] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_ASYNC_VALIDATORS,] }] },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Self"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_VALUE_ACCESSOR,] }] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
 ];
 FormControlName.propDecorators = {
-    "name": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formControlName',] },],
-    "isDisabled": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['disabled',] },],
-    "model": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModel',] },],
-    "update": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"], args: ['ngModelChange',] },],
+    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['formControlName',] }],
+    isDisabled: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['disabled',] }],
+    model: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['ngModel',] }],
+    update: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"], args: ['ngModelChange',] }]
 };
 
 /**
@@ -65279,10 +65506,8 @@ RequiredValidator.decorators = [
                 host: { '[attr.required]': 'required ? "" : null' }
             },] }
 ];
-/** @nocollapse */
-RequiredValidator.ctorParameters = () => [];
 RequiredValidator.propDecorators = {
-    "required": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    required: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
@@ -65312,8 +65537,6 @@ CheckboxRequiredValidator.decorators = [
                 host: { '[attr.required]': 'required ? "" : null' }
             },] }
 ];
-/** @nocollapse */
-CheckboxRequiredValidator.ctorParameters = () => [];
 /**
  * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
  */
@@ -65365,10 +65588,8 @@ EmailValidator.decorators = [
                 providers: [EMAIL_VALIDATOR]
             },] }
 ];
-/** @nocollapse */
-EmailValidator.ctorParameters = () => [];
 EmailValidator.propDecorators = {
-    "email": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    email: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * @record
@@ -65434,10 +65655,8 @@ MinLengthValidator.decorators = [
                 host: { '[attr.minlength]': 'minlength ? minlength : null' }
             },] }
 ];
-/** @nocollapse */
-MinLengthValidator.ctorParameters = () => [];
 MinLengthValidator.propDecorators = {
-    "minlength": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    minlength: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 /**
  * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
@@ -65496,10 +65715,8 @@ MaxLengthValidator.decorators = [
                 host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
             },] }
 ];
-/** @nocollapse */
-MaxLengthValidator.ctorParameters = () => [];
 MaxLengthValidator.propDecorators = {
-    "maxlength": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    maxlength: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 const PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -65553,10 +65770,8 @@ PatternValidator.decorators = [
                 host: { '[attr.pattern]': 'pattern ? pattern : null' }
             },] }
 ];
-/** @nocollapse */
-PatternValidator.ctorParameters = () => [];
 PatternValidator.propDecorators = {
-    "pattern": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    pattern: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }]
 };
 
 /**
@@ -65669,8 +65884,6 @@ class FormBuilder {
 FormBuilder.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] }
 ];
-/** @nocollapse */
-FormBuilder.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -65683,7 +65896,7 @@ FormBuilder.ctorParameters = () => [];
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["Version"]('6.0.3');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["Version"]('6.0.7');
 
 /**
  * @fileoverview added by tsickle
@@ -65719,8 +65932,6 @@ NgNoValidate.decorators = [
                 host: { 'novalidate': '' },
             },] }
 ];
-/** @nocollapse */
-NgNoValidate.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -65766,8 +65977,6 @@ InternalFormsSharedModule.decorators = [
                 exports: SHARED_FORM_DIRECTIVES,
             },] }
 ];
-/** @nocollapse */
-InternalFormsSharedModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -65793,8 +66002,6 @@ FormsModule.decorators = [
                 exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] }
 ];
-/** @nocollapse */
-FormsModule.ctorParameters = () => [];
 /**
  * The ng module for reactive forms.
  *
@@ -65821,8 +66028,6 @@ ReactiveFormsModule.decorators = [
                 exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] }
 ];
-/** @nocollapse */
-ReactiveFormsModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -65904,7 +66109,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -66390,8 +66595,6 @@ class ResourceLoaderImpl extends _angular_compiler__WEBPACK_IMPORTED_MODULE_0__[
 ResourceLoaderImpl.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"] }
 ];
-/** @nocollapse */
-ResourceLoaderImpl.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -66477,7 +66680,7 @@ class CachedResourceLoader extends _angular_compiler__WEBPACK_IMPORTED_MODULE_0_
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.3');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.7');
 
 /**
  * @fileoverview added by tsickle
@@ -66568,11 +66771,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 /* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm2015/animations.js");
 /* harmony import */ var _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/animations/browser */ "./node_modules/@angular/animations/fesm2015/browser.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
+
 
 
 
@@ -66616,8 +66821,8 @@ BrowserAnimationBuilder.decorators = [
 ];
 /** @nocollapse */
 BrowserAnimationBuilder.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["RendererFactory2"], },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["DOCUMENT"],] },] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["RendererFactory2"] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["DOCUMENT"],] }] }
 ];
 class BrowserAnimationFactory extends _angular_animations__WEBPACK_IMPORTED_MODULE_2__["AnimationFactory"] {
     /**
@@ -66868,9 +67073,9 @@ AnimationRendererFactory.decorators = [
 ];
 /** @nocollapse */
 AnimationRendererFactory.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["RendererFactory2"], },
-    { type: _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["ɵAnimationEngine"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["RendererFactory2"] },
+    { type: _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["ɵAnimationEngine"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"] }
 ];
 class BaseAnimationRenderer {
     /**
@@ -67139,11 +67344,12 @@ function parseTriggerCallbackName(triggerName) {
  */
 class InjectableAnimationEngine extends _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["ɵAnimationEngine"] {
     /**
+     * @param {?} doc
      * @param {?} driver
      * @param {?} normalizer
      */
-    constructor(driver, normalizer) {
-        super(driver, normalizer);
+    constructor(doc, driver, normalizer) {
+        super(doc.body, driver, normalizer);
     }
 }
 InjectableAnimationEngine.decorators = [
@@ -67151,8 +67357,9 @@ InjectableAnimationEngine.decorators = [
 ];
 /** @nocollapse */
 InjectableAnimationEngine.ctorParameters = () => [
-    { type: _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["AnimationDriver"], },
-    { type: _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["ɵAnimationStyleNormalizer"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["DOCUMENT"],] }] },
+    { type: _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["AnimationDriver"] },
+    { type: _angular_animations_browser__WEBPACK_IMPORTED_MODULE_3__["ɵAnimationStyleNormalizer"] }
 ];
 /**
  * @return {?}
@@ -67220,8 +67427,6 @@ BrowserAnimationsModule.decorators = [
                 providers: BROWSER_ANIMATIONS_PROVIDERS,
             },] }
 ];
-/** @nocollapse */
-BrowserAnimationsModule.ctorParameters = () => [];
 /**
  * \@experimental Animation support is experimental.
  */
@@ -67233,8 +67438,6 @@ NoopAnimationsModule.decorators = [
                 providers: BROWSER_NOOP_ANIMATIONS_PROVIDERS,
             },] }
 ];
-/** @nocollapse */
-NoopAnimationsModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -67356,7 +67559,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -68561,7 +68764,7 @@ BrowserPlatformLocation.decorators = [
 ];
 /** @nocollapse */
 BrowserPlatformLocation.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] }
 ];
 
 /**
@@ -68713,7 +68916,7 @@ Meta.decorators = [
 ];
 /** @nocollapse */
 Meta.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] }
 ];
 
 /**
@@ -68878,7 +69081,7 @@ Title.decorators = [
 ];
 /** @nocollapse */
 Title.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] }
 ];
 
 /**
@@ -69066,8 +69269,8 @@ EventManager.decorators = [
 ];
 /** @nocollapse */
 EventManager.ctorParameters = () => [
-    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [EVENT_MANAGER_PLUGINS,] },] },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"], },
+    { type: Array, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [EVENT_MANAGER_PLUGINS,] }] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"] }
 ];
 /**
  * @abstract
@@ -69139,8 +69342,6 @@ class SharedStylesHost {
 SharedStylesHost.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"] }
 ];
-/** @nocollapse */
-SharedStylesHost.ctorParameters = () => [];
 class DomSharedStylesHost extends SharedStylesHost {
     /**
      * @param {?} _doc
@@ -69194,7 +69395,7 @@ DomSharedStylesHost.decorators = [
 ];
 /** @nocollapse */
 DomSharedStylesHost.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] }
 ];
 
 /**
@@ -69323,8 +69524,8 @@ DomRendererFactory2.decorators = [
 ];
 /** @nocollapse */
 DomRendererFactory2.ctorParameters = () => [
-    { type: EventManager, },
-    { type: DomSharedStylesHost, },
+    { type: EventManager },
+    { type: DomSharedStylesHost }
 ];
 class DefaultDomRenderer2 {
     /**
@@ -69720,17 +69921,20 @@ class DomEventsPlugin extends EventManagerPlugin {
     /**
      * @param {?} doc
      * @param {?} ngZone
+     * @param {?} platformId
      */
-    constructor(doc, ngZone) {
+    constructor(doc, ngZone, platformId) {
         super(doc);
         this.ngZone = ngZone;
-        this.patchEvent();
+        if (!platformId || !Object(_angular_common__WEBPACK_IMPORTED_MODULE_0__["isPlatformServer"])(platformId)) {
+            this.patchEvent();
+        }
     }
     /**
      * @return {?}
      */
     patchEvent() {
-        if (!Event || !Event.prototype) {
+        if (typeof Event === 'undefined' || !Event || !Event.prototype) {
             return;
         }
         if ((/** @type {?} */ (Event.prototype))[stopMethodSymbol]) {
@@ -69861,8 +70065,9 @@ DomEventsPlugin.decorators = [
 ];
 /** @nocollapse */
 DomEventsPlugin.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["PLATFORM_ID"],] }] }
 ];
 
 /**
@@ -69977,8 +70182,6 @@ class HammerGestureConfig {
 HammerGestureConfig.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"] }
 ];
-/** @nocollapse */
-HammerGestureConfig.ctorParameters = () => [];
 class HammerGesturesPlugin extends EventManagerPlugin {
     /**
      * @param {?} doc
@@ -70034,9 +70237,9 @@ HammerGesturesPlugin.decorators = [
 ];
 /** @nocollapse */
 HammerGesturesPlugin.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
-    { type: HammerGestureConfig, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [HAMMER_GESTURE_CONFIG,] },] },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] },
+    { type: HammerGestureConfig, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [HAMMER_GESTURE_CONFIG,] }] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵConsole"] }
 ];
 
 /**
@@ -70186,7 +70389,7 @@ KeyEventsPlugin.decorators = [
 ];
 /** @nocollapse */
 KeyEventsPlugin.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] }
 ];
 
 /**
@@ -70371,7 +70574,7 @@ DomSanitizerImpl.decorators = [
 ];
 /** @nocollapse */
 DomSanitizerImpl.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [DOCUMENT$1,] }] }
 ];
 /**
  * @abstract
@@ -70529,7 +70732,7 @@ BrowserModule.decorators = [
 ];
 /** @nocollapse */
 BrowserModule.ctorParameters = () => [
-    { type: BrowserModule, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["SkipSelf"] },] },
+    { type: BrowserModule, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["SkipSelf"] }] }
 ];
 
 /**
@@ -70815,8 +71018,6 @@ class TransferState {
 TransferState.decorators = [
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"] }
 ];
-/** @nocollapse */
-TransferState.ctorParameters = () => [];
 /**
  * @param {?} doc
  * @param {?} appId
@@ -70850,8 +71051,6 @@ BrowserTransferStateModule.decorators = [
                 providers: [{ provide: TransferState, useFactory: initTransferState, deps: [DOCUMENT$1, _angular_core__WEBPACK_IMPORTED_MODULE_1__["APP_ID"]] }],
             },] }
 ];
-/** @nocollapse */
-BrowserTransferStateModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -70932,7 +71131,7 @@ class By {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.3');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.7');
 
 /**
  * @fileoverview added by tsickle
@@ -70995,7 +71194,7 @@ const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.3
 /*!*********************************************************!*\
   !*** ./node_modules/@angular/router/fesm2015/router.js ***!
   \*********************************************************/
-/*! exports provided: ɵangular_packages_router_router_a, ɵangular_packages_router_router_g, ɵangular_packages_router_router_h, ɵangular_packages_router_router_i, ɵangular_packages_router_router_d, ɵangular_packages_router_router_c, ɵangular_packages_router_router_j, ɵangular_packages_router_router_f, ɵangular_packages_router_router_b, ɵangular_packages_router_router_e, ɵangular_packages_router_router_k, ɵangular_packages_router_router_l, RouterLink, RouterLinkWithHref, RouterLinkActive, RouterOutlet, ActivationEnd, ActivationStart, ChildActivationEnd, ChildActivationStart, GuardsCheckEnd, GuardsCheckStart, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, RouterEvent, RoutesRecognized, RouteReuseStrategy, Router, ROUTES, ROUTER_CONFIGURATION, ROUTER_INITIALIZER, RouterModule, provideRoutes, ChildrenOutletContexts, OutletContext, NoPreloading, PreloadAllModules, PreloadingStrategy, RouterPreloader, ActivatedRoute, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot, PRIMARY_OUTLET, convertToParamMap, UrlHandlingStrategy, DefaultUrlSerializer, UrlSegment, UrlSegmentGroup, UrlSerializer, UrlTree, VERSION, ɵROUTER_PROVIDERS, ɵflatten */
+/*! exports provided: ɵangular_packages_router_router_a, ɵangular_packages_router_router_g, ɵangular_packages_router_router_h, ɵangular_packages_router_router_i, ɵangular_packages_router_router_d, ɵangular_packages_router_router_c, ɵangular_packages_router_router_j, ɵangular_packages_router_router_f, ɵangular_packages_router_router_b, ɵangular_packages_router_router_e, ɵangular_packages_router_router_k, ɵangular_packages_router_router_l, RouterLink, RouterLinkWithHref, RouterLinkActive, RouterOutlet, ActivationEnd, ActivationStart, ChildActivationEnd, ChildActivationStart, GuardsCheckEnd, GuardsCheckStart, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, RouterEvent, RoutesRecognized, RouteReuseStrategy, Router, ROUTES, ROUTER_CONFIGURATION, ROUTER_INITIALIZER, RouterModule, provideRoutes, ChildrenOutletContexts, OutletContext, NoPreloading, PreloadAllModules, PreloadingStrategy, RouterPreloader, ActivatedRoute, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot, PRIMARY_OUTLET, convertToParamMap, UrlHandlingStrategy, DefaultUrlSerializer, UrlSegment, UrlSegmentGroup, UrlSerializer, UrlTree, VERSION, ɵEmptyOutletComponent, ɵROUTER_PROVIDERS, ɵflatten */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71058,6 +71257,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UrlSerializer", function() { return UrlSerializer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UrlTree", function() { return UrlTree; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VERSION", function() { return VERSION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵEmptyOutletComponent", function() { return EmptyOutletComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵROUTER_PROVIDERS", function() { return ROUTER_PROVIDERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵflatten", function() { return flatten; });
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
@@ -71066,7 +71266,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 /**
- * @license Angular v6.0.3
+ * @license Angular v6.0.7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -71536,6 +71736,32 @@ class ActivationEnd {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
+ * This component is used internally within the router to be a placeholder when an empty
+ * router-outlet is needed. For example, with a config such as:
+ *
+ * `{path: 'parent', outlet: 'nav', children: [...]}`
+ *
+ * In order to render, there needs to be a component on this config, which will default
+ * to this `EmptyOutletComponent`.
+ */
+class EmptyOutletComponent {
+}
+EmptyOutletComponent.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"], args: [{ template: `<router-outlet></router-outlet>` }] }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * \@description
  *
  * Name of the primary outlet.
@@ -71717,8 +71943,9 @@ function validateNode(route, fullPath) {
     if (Array.isArray(route)) {
         throw new Error(`Invalid configuration of route '${fullPath}': Array cannot be specified`);
     }
-    if (!route.component && (route.outlet && route.outlet !== PRIMARY_OUTLET)) {
-        throw new Error(`Invalid configuration of route '${fullPath}': a componentless route cannot have a named outlet set`);
+    if (!route.component && !route.children && !route.loadChildren &&
+        (route.outlet && route.outlet !== PRIMARY_OUTLET)) {
+        throw new Error(`Invalid configuration of route '${fullPath}': a componentless route without children or loadChildren cannot have a named outlet set`);
     }
     if (route.redirectTo && route.children) {
         throw new Error(`Invalid configuration of route '${fullPath}': redirectTo and children cannot be used together`);
@@ -71778,12 +72005,17 @@ function getFullPath(parentPath, currentRoute) {
     }
 }
 /**
+ * Makes a copy of the config and adds any default required properties.
  * @param {?} r
  * @return {?}
  */
-function copyConfig(r) {
-    const /** @type {?} */ children = r.children && r.children.map(copyConfig);
-    return children ? Object.assign({}, r, { children }) : Object.assign({}, r);
+function standardizeConfig(r) {
+    const /** @type {?} */ children = r.children && r.children.map(standardizeConfig);
+    const /** @type {?} */ c = children ? Object.assign({}, r, { children }) : Object.assign({}, r);
+    if (!c.component && (children || c.loadChildren) && (c.outlet && c.outlet !== PRIMARY_OUTLET)) {
+        c.component = EmptyOutletComponent;
+    }
+    return c;
 }
 
 /**
@@ -75133,7 +75365,7 @@ class RouterConfigLoader {
                 this.onLoadEndListener(route);
             }
             const /** @type {?} */ module = factory.create(parentInjector);
-            return new LoadedRouterConfig(flatten(module.injector.get(ROUTES)).map(copyConfig), module);
+            return new LoadedRouterConfig(flatten(module.injector.get(ROUTES)).map(standardizeConfig), module);
         }));
     }
     /**
@@ -75388,7 +75620,7 @@ class Router {
      */
     resetConfig(config) {
         validateConfig(config);
-        this.config = config.map(copyConfig);
+        this.config = config.map(standardizeConfig);
         this.navigated = false;
         this.lastSuccessfulId = -1;
     }
@@ -76236,22 +76468,22 @@ RouterLink.decorators = [
 ];
 /** @nocollapse */
 RouterLink.ctorParameters = () => [
-    { type: Router, },
-    { type: ActivatedRoute, },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Attribute"], args: ['tabindex',] },] },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], },
+    { type: Router },
+    { type: ActivatedRoute },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Attribute"], args: ['tabindex',] }] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"] }
 ];
 RouterLink.propDecorators = {
-    "queryParams": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "fragment": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "queryParamsHandling": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "preserveFragment": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "skipLocationChange": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "replaceUrl": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "routerLink": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "preserveQueryParams": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "onClick": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"], args: ['click',] },],
+    queryParams: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    fragment: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    queryParamsHandling: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    preserveFragment: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    skipLocationChange: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    replaceUrl: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    routerLink: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    preserveQueryParams: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    onClick: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"], args: ['click',] }]
 };
 /**
  * \@description
@@ -76358,22 +76590,22 @@ RouterLinkWithHref.decorators = [
 ];
 /** @nocollapse */
 RouterLinkWithHref.ctorParameters = () => [
-    { type: Router, },
-    { type: ActivatedRoute, },
-    { type: _angular_common__WEBPACK_IMPORTED_MODULE_0__["LocationStrategy"], },
+    { type: Router },
+    { type: ActivatedRoute },
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_0__["LocationStrategy"] }
 ];
 RouterLinkWithHref.propDecorators = {
-    "target": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostBinding"], args: ['attr.target',] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "queryParams": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "fragment": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "queryParamsHandling": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "preserveFragment": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "skipLocationChange": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "replaceUrl": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "href": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostBinding"] },],
-    "routerLink": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "preserveQueryParams": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "onClick": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"], args: ['click', ['$event.button', '$event.ctrlKey', '$event.metaKey', '$event.shiftKey'],] },],
+    target: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostBinding"], args: ['attr.target',] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    queryParams: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    fragment: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    queryParamsHandling: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    preserveFragment: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    skipLocationChange: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    replaceUrl: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    href: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostBinding"] }],
+    routerLink: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    preserveQueryParams: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    onClick: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"], args: ['click', ['$event.button', '$event.ctrlKey', '$event.metaKey', '$event.shiftKey'],] }]
 };
 /**
  * @param {?} s
@@ -76541,16 +76773,16 @@ RouterLinkActive.decorators = [
 ];
 /** @nocollapse */
 RouterLinkActive.ctorParameters = () => [
-    { type: Router, },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"], },
+    { type: Router },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"] }
 ];
 RouterLinkActive.propDecorators = {
-    "links": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ContentChildren"], args: [RouterLink, { descendants: true },] },],
-    "linksWithHrefs": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ContentChildren"], args: [RouterLinkWithHref, { descendants: true },] },],
-    "routerLinkActiveOptions": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
-    "routerLinkActive": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
+    links: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ContentChildren"], args: [RouterLink, { descendants: true },] }],
+    linksWithHrefs: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ContentChildren"], args: [RouterLinkWithHref, { descendants: true },] }],
+    routerLinkActiveOptions: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+    routerLinkActive: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }]
 };
 
 /**
@@ -76816,15 +77048,15 @@ RouterOutlet.decorators = [
 ];
 /** @nocollapse */
 RouterOutlet.ctorParameters = () => [
-    { type: ChildrenOutletContexts, },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ComponentFactoryResolver"], },
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Attribute"], args: ['name',] },] },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"], },
+    { type: ChildrenOutletContexts },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ComponentFactoryResolver"] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Attribute"], args: ['name',] }] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"] }
 ];
 RouterOutlet.propDecorators = {
-    "activateEvents": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"], args: ['activate',] },],
-    "deactivateEvents": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"], args: ['deactivate',] },],
+    activateEvents: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"], args: ['activate',] }],
+    deactivateEvents: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"], args: ['deactivate',] }]
 };
 class OutletInjector {
     /**
@@ -77004,11 +77236,11 @@ RouterPreloader.decorators = [
 ];
 /** @nocollapse */
 RouterPreloader.ctorParameters = () => [
-    { type: Router, },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModuleFactoryLoader"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Compiler"], },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injector"], },
-    { type: PreloadingStrategy, },
+    { type: Router },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModuleFactoryLoader"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Compiler"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injector"] },
+    { type: PreloadingStrategy }
 ];
 
 /**
@@ -77029,7 +77261,7 @@ RouterPreloader.ctorParameters = () => [
  *
  *
  */
-const ROUTER_DIRECTIVES = [RouterOutlet, RouterLink, RouterLinkWithHref, RouterLinkActive];
+const ROUTER_DIRECTIVES = [RouterOutlet, RouterLink, RouterLinkWithHref, RouterLinkActive, EmptyOutletComponent];
 /**
  * \@description
  *
@@ -77181,12 +77413,16 @@ class RouterModule {
     }
 }
 RouterModule.decorators = [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"], args: [{ declarations: ROUTER_DIRECTIVES, exports: ROUTER_DIRECTIVES },] }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"], args: [{
+                declarations: ROUTER_DIRECTIVES,
+                exports: ROUTER_DIRECTIVES,
+                entryComponents: [EmptyOutletComponent]
+            },] }
 ];
 /** @nocollapse */
 RouterModule.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [ROUTER_FORROOT_GUARD,] },] },
-    { type: Router, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] },] },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [ROUTER_FORROOT_GUARD,] }] },
+    { type: Router, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Optional"] }] }
 ];
 /**
  * @param {?} platformLocationStrategy
@@ -77393,7 +77629,7 @@ RouterInitializer.decorators = [
 ];
 /** @nocollapse */
 RouterInitializer.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injector"], },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injector"] }
 ];
 /**
  * @param {?} r
@@ -77443,7 +77679,7 @@ function provideRouterInitializer() {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.3');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('6.0.7');
 
 /**
  * @fileoverview added by tsickle
@@ -77716,7 +77952,7 @@ var NgbAccordion = /** @class */ (function () {
                     selector: 'ngb-accordion',
                     exportAs: 'ngbAccordion',
                     host: { 'class': 'accordion', 'role': 'tablist', '[attr.aria-multiselectable]': '!closeOtherPanels' },
-                    template: "\n    <ng-template ngFor let-panel [ngForOf]=\"panels\">\n      <div class=\"card\">\n        <div role=\"tab\" id=\"{{panel.id}}-header\" [class]=\"'card-header ' + (panel.type ? 'bg-'+panel.type: type ? 'bg-'+type : '')\">\n          <a href (click)=\"!!toggle(panel.id)\" [class.text-muted]=\"panel.disabled\" [attr.tabindex]=\"(panel.disabled ? '-1' : null)\"\n            [attr.aria-expanded]=\"panel.isOpen\" [attr.aria-controls]=\"(panel.isOpen ? panel.id : null)\"\n            [attr.aria-disabled]=\"panel.disabled\">\n            {{panel.title}}<ng-template [ngTemplateOutlet]=\"panel.titleTpl?.templateRef\"></ng-template>\n          </a>\n        </div>\n        <div id=\"{{panel.id}}\" role=\"tabpanel\" [attr.aria-labelledby]=\"panel.id + '-header'\"\n             class=\"card-body collapse {{panel.isOpen ? 'show' : null}}\" *ngIf=\"!destroyOnHide || panel.isOpen\">\n             <ng-template [ngTemplateOutlet]=\"panel.contentTpl?.templateRef\"></ng-template>\n        </div>\n      </div>\n    </ng-template>\n  "
+                    template: "\n    <ng-template ngFor let-panel [ngForOf]=\"panels\">\n      <div class=\"card\">\n        <div role=\"tab\" id=\"{{panel.id}}-header\" [class]=\"'card-header ' + (panel.type ? 'bg-'+panel.type: type ? 'bg-'+type : '')\">\n          <h5 class=\"mb-0\">\n            <button class=\"btn btn-link\" (click)=\"!!toggle(panel.id)\" [disabled]=\"panel.disabled\" [class.collapsed]=\"panel.isOpen\"\n              [attr.aria-expanded]=\"panel.isOpen\" [attr.aria-controls]=\"panel.id\">\n              {{panel.title}}<ng-template [ngTemplateOutlet]=\"panel.titleTpl?.templateRef\"></ng-template>\n            </button>\n          </h5>\n        </div>\n        <div id=\"{{panel.id}}\" role=\"tabpanel\" [attr.aria-labelledby]=\"panel.id + '-header'\"\n             class=\"card-body collapse\" [class.show]=\"panel.isOpen\" *ngIf=\"!destroyOnHide || panel.isOpen\">\n             <ng-template [ngTemplateOutlet]=\"panel.contentTpl?.templateRef\"></ng-template>\n        </div>\n      </div>\n    </ng-template>\n  "
                 },] },
     ];
     /** @nocollapse */
@@ -77846,7 +78082,7 @@ var NgbAlert = /** @class */ (function () {
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                     selector: 'ngb-alert',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
-                    template: "\n    <div [class]=\"'alert alert-' + type + (dismissible ? ' alert-dismissible' : '')\" role=\"alert\">\n      <button *ngIf=\"dismissible\" type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"closeHandler()\">\n            <span aria-hidden=\"true\">&times;</span>\n      </button>\n      <ng-content></ng-content>\n    </div>\n    "
+                    template: "\n    <div [class]=\"'alert alert-' + type + (dismissible ? ' alert-dismissible' : '')\" role=\"alert\">\n      <button *ngIf=\"dismissible\" type=\"button\" class=\"close\" aria-label=\"Close\" i18n-aria-label=\"@@ngb.alert.close\"\n        (click)=\"closeHandler()\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n      <ng-content></ng-content>\n    </div>\n    "
                 },] },
     ];
     /** @nocollapse */
@@ -78272,6 +78508,9 @@ var NgbCarouselConfig = /** @class */ (function () {
         this.interval = 5000;
         this.wrap = true;
         this.keyboard = true;
+        this.pauseOnHover = true;
+        this.showNavigationArrows = true;
+        this.showNavigationIndicators = true;
     }
     NgbCarouselConfig.decorators = [
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
@@ -78339,6 +78578,9 @@ var NgbCarousel = /** @class */ (function () {
         this.interval = config.interval;
         this.wrap = config.wrap;
         this.keyboard = config.keyboard;
+        this.pauseOnHover = config.pauseOnHover;
+        this.showNavigationArrows = config.showNavigationArrows;
+        this.showNavigationIndicators = config.showNavigationIndicators;
     }
     NgbCarousel.prototype.ngAfterContentChecked = function () {
         var activeSlide = this._getSlideById(this.activeId);
@@ -78436,6 +78678,16 @@ var NgbCarousel = /** @class */ (function () {
             this.next();
         }
     };
+    NgbCarousel.prototype.onMouseEnter = function () {
+        if (this.pauseOnHover) {
+            this.pause();
+        }
+    };
+    NgbCarousel.prototype.onMouseLeave = function () {
+        if (this.pauseOnHover) {
+            this.cycle();
+        }
+    };
     NgbCarousel.prototype._restartTimer = function () {
         this._stopTimer();
         this._startTimer();
@@ -78476,12 +78728,12 @@ var NgbCarousel = /** @class */ (function () {
                         'class': 'carousel slide',
                         '[style.display]': '"block"',
                         'tabIndex': '0',
-                        '(mouseenter)': 'pause()',
-                        '(mouseleave)': 'cycle()',
+                        '(mouseenter)': 'onMouseEnter()',
+                        '(mouseleave)': 'onMouseLeave()',
                         '(keydown.arrowLeft)': 'keyPrev()',
                         '(keydown.arrowRight)': 'keyNext()'
                     },
-                    template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\"\n          (click)=\"cycleToSelected(slide.id, getSlideEventDirection(activeId, slide.id))\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
+                    template: "\n    <ol class=\"carousel-indicators\" *ngIf=\"showNavigationIndicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\"\n          (click)=\"cycleToSelected(slide.id, getSlideEventDirection(activeId, slide.id))\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\" *ngIf=\"showNavigationArrows\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\" i18n=\"@@ngb.carousel.previous\">Previous</span>\n    </a>\n    <a class=\"carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\" *ngIf=\"showNavigationArrows\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\" i18n=\"@@ngb.carousel.next\">Next</span>\n    </a>\n    "
                 },] },
     ];
     /** @nocollapse */
@@ -78490,10 +78742,13 @@ var NgbCarousel = /** @class */ (function () {
     ]; };
     NgbCarousel.propDecorators = {
         "slides": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChildren"], args: [NgbSlide,] },],
+        "activeId": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "interval": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "wrap": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "keyboard": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-        "activeId": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+        "pauseOnHover": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+        "showNavigationArrows": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+        "showNavigationIndicators": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "slide": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] },],
     };
     return NgbCarousel;
@@ -78626,6 +78881,141 @@ var NgbCollapseModule = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=collapse.module.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter.js ***!
+  \*****************************************************************************************/
+/*! exports provided: NgbDateAdapter, NgbDateStructAdapter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbDateAdapter", function() { return NgbDateAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbDateStructAdapter", function() { return NgbDateStructAdapter; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+/**
+ * Abstract type serving as a DI token for the service converting from your application Date model to internal
+ * NgbDateStruct model.
+ * A default implementation converting from and to NgbDateStruct is provided for retro-compatibility,
+ * but you can provide another implementation to use an alternative format, ie for using with native Date Object.
+ */
+var NgbDateAdapter = /** @class */ (function () {
+    function NgbDateAdapter() {
+    }
+    NgbDateAdapter.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
+    ];
+    return NgbDateAdapter;
+}());
+
+var NgbDateStructAdapter = /** @class */ (function (_super) {
+    __extends(NgbDateStructAdapter, _super);
+    function NgbDateStructAdapter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    /**
+     * Converts a NgbDateStruct value into NgbDateStruct value
+     * @param  {NgbDateStruct} value
+     * @return {NgbDateStruct}
+     */
+    /**
+       * Converts a NgbDateStruct value into NgbDateStruct value
+       * @param  {NgbDateStruct} value
+       * @return {NgbDateStruct}
+       */
+    NgbDateStructAdapter.prototype.fromModel = /**
+       * Converts a NgbDateStruct value into NgbDateStruct value
+       * @param  {NgbDateStruct} value
+       * @return {NgbDateStruct}
+       */
+    function (date) {
+        return (date && date.year && date.month && date.day) ? { year: date.year, month: date.month, day: date.day } : null;
+    };
+    /**
+     * Converts a NgbDateStruct value into NgbDateStruct value
+     * @param  {NgbDateStruct} value
+     * @return {NgbDateStruct}
+     */
+    /**
+       * Converts a NgbDateStruct value into NgbDateStruct value
+       * @param  {NgbDateStruct} value
+       * @return {NgbDateStruct}
+       */
+    NgbDateStructAdapter.prototype.toModel = /**
+       * Converts a NgbDateStruct value into NgbDateStruct value
+       * @param  {NgbDateStruct} value
+       * @return {NgbDateStruct}
+       */
+    function (date) {
+        return (date && date.year && date.month && date.day) ? { year: date.year, month: date.month, day: date.day } : null;
+    };
+    NgbDateStructAdapter.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
+    ];
+    return NgbDateStructAdapter;
+}(NgbDateAdapter));
+
+//# sourceMappingURL=ngb-date-adapter.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-native-adapter.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-native-adapter.js ***!
+  \************************************************************************************************/
+/*! exports provided: NgbDateNativeAdapter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbDateNativeAdapter", function() { return NgbDateNativeAdapter; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+var NgbDateNativeAdapter = /** @class */ (function (_super) {
+    __extends(NgbDateNativeAdapter, _super);
+    function NgbDateNativeAdapter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    NgbDateNativeAdapter.prototype.fromModel = function (date) {
+        return (date && date.getFullYear) ? { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() } :
+            null;
+    };
+    NgbDateNativeAdapter.prototype.toModel = function (date) {
+        return date && date.year && date.month ? new Date(date.year, date.month - 1, date.day) : null;
+    };
+    NgbDateNativeAdapter.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
+    ];
+    return NgbDateNativeAdapter;
+}(_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_1__["NgbDateAdapter"]));
+
+//# sourceMappingURL=ngb-date-native-adapter.js.map
 
 /***/ }),
 
@@ -78799,14 +79189,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbInputDatepicker", function() { return NgbInputDatepicker; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var _ngb_date__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ngb-date */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var _datepicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./datepicker */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js");
-/* harmony import */ var _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ngb-date-parser-formatter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js");
-/* harmony import */ var _util_positioning__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/positioning */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/positioning.js");
-/* harmony import */ var _util_focus_trap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/focus-trap */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/focus-trap.js");
-/* harmony import */ var _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-adapter.js");
-/* harmony import */ var _ngb_calendar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ngb-calendar */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var _datepicker_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./datepicker-service */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var _ngb_date__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ngb-date */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
+/* harmony import */ var _datepicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./datepicker */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js");
+/* harmony import */ var _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ngb-date-parser-formatter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js");
+/* harmony import */ var _util_positioning__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/positioning */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/positioning.js");
+/* harmony import */ var _util_focus_trap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../util/focus-trap */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/focus-trap.js");
+/* harmony import */ var _util_key__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../util/key */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js");
+/* harmony import */ var _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./adapters/ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter.js");
+/* harmony import */ var _ngb_calendar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ngb-calendar */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
+/* harmony import */ var _datepicker_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./datepicker-service */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
+
+
 
 
 
@@ -78832,7 +79230,7 @@ var NGB_DATEPICKER_VALIDATOR = {
  * Manages integration with the input field itself (data entry) and ngModel (validation etc.).
  */
 var NgbInputDatepicker = /** @class */ (function () {
-    function NgbInputDatepicker(_parserFormatter, _elRef, _vcRef, _renderer, _cfr, ngZone, _service, _calendar, _ngbDateAdapter, _focusTrapFactory) {
+    function NgbInputDatepicker(_parserFormatter, _elRef, _vcRef, _renderer, _cfr, ngZone, _service, _calendar, _ngbDateAdapter, _document) {
         var _this = this;
         this._parserFormatter = _parserFormatter;
         this._elRef = _elRef;
@@ -78842,10 +79240,10 @@ var NgbInputDatepicker = /** @class */ (function () {
         this._service = _service;
         this._calendar = _calendar;
         this._ngbDateAdapter = _ngbDateAdapter;
-        this._focusTrapFactory = _focusTrapFactory;
+        this._document = _document;
+        this._closed$ = new rxjs__WEBPACK_IMPORTED_MODULE_12__["Subject"]();
         this._cRef = null;
         this._disabled = false;
-        this._focusTrap = null;
         /**
            * Indicates whether the datepicker popup should be closed automatically after date selection or not.
            * If the value is 'false', the popup can be closed via 'close()' or 'toggle()' methods.
@@ -78854,11 +79252,11 @@ var NgbInputDatepicker = /** @class */ (function () {
            */
         this.autoClose = true;
         /**
-              * Placement of a datepicker popup accepts:
-              *    "top", "top-left", "top-right", "bottom", "bottom-left", "bottom-right",
-              *    "left", "left-top", "left-bottom", "right", "right-top", "right-bottom"
-              * and array of above values.
-              */
+           * Placement of a datepicker popup accepts:
+           *    "top", "top-left", "top-right", "bottom", "bottom-left", "bottom-right",
+           *    "left", "left-top", "left-bottom", "right", "right-top", "right-bottom"
+           * and array of above values.
+           */
         this.placement = 'bottom-left';
         /**
            * An event fired when user selects a date using keyboard or mouse.
@@ -78877,7 +79275,7 @@ var NgbInputDatepicker = /** @class */ (function () {
         this._validatorChange = function () { };
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
             if (_this._cRef) {
-                Object(_util_positioning__WEBPACK_IMPORTED_MODULE_5__["positionElements"])(_this._elRef.nativeElement, _this._cRef.location.nativeElement, _this.placement, _this.container === 'body');
+                Object(_util_positioning__WEBPACK_IMPORTED_MODULE_6__["positionElements"])(_this._elRef.nativeElement, _this._cRef.location.nativeElement, _this.placement, _this.container === 'body');
             }
         });
     }
@@ -78908,10 +79306,10 @@ var NgbInputDatepicker = /** @class */ (function () {
         if (!this._calendar.isValid(ngbDate)) {
             return { 'ngbDate': { invalid: c.value } };
         }
-        if (this.minDate && ngbDate.before(_ngb_date__WEBPACK_IMPORTED_MODULE_2__["NgbDate"].from(this.minDate))) {
+        if (this.minDate && ngbDate.before(_ngb_date__WEBPACK_IMPORTED_MODULE_3__["NgbDate"].from(this.minDate))) {
             return { 'ngbDate': { requiredBefore: this.minDate } };
         }
-        if (this.maxDate && ngbDate.after(_ngb_date__WEBPACK_IMPORTED_MODULE_2__["NgbDate"].from(this.maxDate))) {
+        if (this.maxDate && ngbDate.after(_ngb_date__WEBPACK_IMPORTED_MODULE_3__["NgbDate"].from(this.maxDate))) {
             return { 'ngbDate': { requiredAfter: this.maxDate } };
         }
     };
@@ -78940,7 +79338,7 @@ var NgbInputDatepicker = /** @class */ (function () {
     function () {
         var _this = this;
         if (!this.isOpen()) {
-            var cf = this._cfr.resolveComponentFactory(_datepicker__WEBPACK_IMPORTED_MODULE_3__["NgbDatepicker"]);
+            var cf = this._cfr.resolveComponentFactory(_datepicker__WEBPACK_IMPORTED_MODULE_4__["NgbDatepicker"]);
             this._cRef = this._vcRef.createComponent(cf);
             this._applyPopupStyling(this._cRef.location.nativeElement);
             this._applyDatepickerInputs(this._cRef.instance);
@@ -78957,9 +79355,13 @@ var NgbInputDatepicker = /** @class */ (function () {
             if (this.container === 'body') {
                 window.document.querySelector(this.container).appendChild(this._cRef.location.nativeElement);
             }
-            this._focusTrap = this._focusTrapFactory.create(this._cRef.location.nativeElement, true);
             // focus handling
+            Object(_util_focus_trap__WEBPACK_IMPORTED_MODULE_7__["ngbFocusTrap"])(this._cRef.location.nativeElement, this._closed$);
             this._cRef.instance.focus();
+            // closing on ESC
+            Object(rxjs__WEBPACK_IMPORTED_MODULE_12__["fromEvent"])(this._document, 'keyup')
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_13__["takeUntil"])(this._closed$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_13__["filter"])(function (e) { return e.which === _util_key__WEBPACK_IMPORTED_MODULE_8__["Key"].Escape; }))
+                .subscribe(function () { return _this.close(); });
         }
     };
     /**
@@ -78975,8 +79377,7 @@ var NgbInputDatepicker = /** @class */ (function () {
         if (this.isOpen()) {
             this._vcRef.remove(this._vcRef.indexOf(this._cRef.hostView));
             this._cRef = null;
-            this._focusTrap.destroy();
-            this._focusTrap = null;
+            this._closed$.next();
         }
     };
     /**
@@ -79063,7 +79464,7 @@ var NgbInputDatepicker = /** @class */ (function () {
         }
     };
     NgbInputDatepicker.prototype._fromDateStruct = function (date) {
-        var ngbDate = date ? new _ngb_date__WEBPACK_IMPORTED_MODULE_2__["NgbDate"](date.year, date.month, date.day) : null;
+        var ngbDate = date ? new _ngb_date__WEBPACK_IMPORTED_MODULE_3__["NgbDate"](date.year, date.month, date.day) : null;
         return this._calendar.isValid(ngbDate) ? ngbDate : null;
     };
     NgbInputDatepicker.decorators = [
@@ -79073,25 +79474,24 @@ var NgbInputDatepicker = /** @class */ (function () {
                     host: {
                         '(input)': 'manualDateChange($event.target.value)',
                         '(change)': 'manualDateChange($event.target.value, true)',
-                        '(keyup.esc)': 'close()',
                         '(blur)': 'onBlur()',
                         '[disabled]': 'disabled'
                     },
-                    providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NGB_DATEPICKER_VALIDATOR, _datepicker_service__WEBPACK_IMPORTED_MODULE_9__["NgbDatepickerService"]]
+                    providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NGB_DATEPICKER_VALIDATOR, _datepicker_service__WEBPACK_IMPORTED_MODULE_11__["NgbDatepickerService"]]
                 },] },
     ];
     /** @nocollapse */
     NgbInputDatepicker.ctorParameters = function () { return [
-        { type: _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_4__["NgbDateParserFormatter"], },
+        { type: _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_5__["NgbDateParserFormatter"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewContainerRef"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ComponentFactoryResolver"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"], },
-        { type: _datepicker_service__WEBPACK_IMPORTED_MODULE_9__["NgbDatepickerService"], },
-        { type: _ngb_calendar__WEBPACK_IMPORTED_MODULE_8__["NgbCalendar"], },
-        { type: _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_7__["NgbDateAdapter"], },
-        { type: _util_focus_trap__WEBPACK_IMPORTED_MODULE_6__["NgbFocusTrapFactory"], },
+        { type: _datepicker_service__WEBPACK_IMPORTED_MODULE_11__["NgbDatepickerService"], },
+        { type: _ngb_calendar__WEBPACK_IMPORTED_MODULE_10__["NgbCalendar"], },
+        { type: _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_9__["NgbDateAdapter"], },
+        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["DOCUMENT"],] },] },
     ]; };
     NgbInputDatepicker.propDecorators = {
         "autoClose": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
@@ -79133,23 +79533,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _datepicker_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./datepicker-service */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js");
 /* harmony import */ var _ngb_calendar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ngb-calendar */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
 /* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/util */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/util.js");
+/* harmony import */ var _util_key__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/key */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js");
 
 
 
 
-var Key;
-(function (Key) {
-    Key[Key["Enter"] = 13] = "Enter";
-    Key[Key["Space"] = 32] = "Space";
-    Key[Key["PageUp"] = 33] = "PageUp";
-    Key[Key["PageDown"] = 34] = "PageDown";
-    Key[Key["End"] = 35] = "End";
-    Key[Key["Home"] = 36] = "Home";
-    Key[Key["ArrowLeft"] = 37] = "ArrowLeft";
-    Key[Key["ArrowUp"] = 38] = "ArrowUp";
-    Key[Key["ArrowRight"] = 39] = "ArrowRight";
-    Key[Key["ArrowDown"] = 40] = "ArrowDown";
-})(Key || (Key = {}));
+
 var NgbDatepickerKeyMapService = /** @class */ (function () {
     function NgbDatepickerKeyMapService(_service, _calendar) {
         var _this = this;
@@ -79163,34 +79552,34 @@ var NgbDatepickerKeyMapService = /** @class */ (function () {
         });
     }
     NgbDatepickerKeyMapService.prototype.processKey = function (event) {
-        if (Key[Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["toString"])(event.which)]) {
+        if (_util_key__WEBPACK_IMPORTED_MODULE_4__["Key"][Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["toString"])(event.which)]) {
             switch (event.which) {
-                case Key.PageUp:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].PageUp:
                     this._service.focusMove(event.shiftKey ? 'y' : 'm', -1);
                     break;
-                case Key.PageDown:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].PageDown:
                     this._service.focusMove(event.shiftKey ? 'y' : 'm', 1);
                     break;
-                case Key.End:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].End:
                     this._service.focus(event.shiftKey ? this._maxDate : this._lastViewDate);
                     break;
-                case Key.Home:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].Home:
                     this._service.focus(event.shiftKey ? this._minDate : this._firstViewDate);
                     break;
-                case Key.ArrowLeft:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].ArrowLeft:
                     this._service.focusMove('d', -1);
                     break;
-                case Key.ArrowUp:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].ArrowUp:
                     this._service.focusMove('d', -this._calendar.getDaysPerWeek());
                     break;
-                case Key.ArrowRight:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].ArrowRight:
                     this._service.focusMove('d', 1);
                     break;
-                case Key.ArrowDown:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].ArrowDown:
                     this._service.focusMove('d', this._calendar.getDaysPerWeek());
                     break;
-                case Key.Enter:
-                case Key.Space:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].Enter:
+                case _util_key__WEBPACK_IMPORTED_MODULE_4__["Key"].Space:
                     this._service.focusSelect();
                     break;
                 default:
@@ -79237,23 +79626,16 @@ var NgbDatepickerMonthView = /** @class */ (function () {
         this.select = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     NgbDatepickerMonthView.prototype.doSelect = function (day) {
-        if (!day.context.disabled && !this.isHidden(day)) {
+        if (!day.context.disabled && !day.hidden) {
             this.select.emit(_ngb_date__WEBPACK_IMPORTED_MODULE_1__["NgbDate"].from(day.date));
         }
-    };
-    NgbDatepickerMonthView.prototype.isCollapsed = function (week) {
-        return this.outsideDays === 'collapsed' && week.days[0].date.month !== this.month.number &&
-            week.days[week.days.length - 1].date.month !== this.month.number;
-    };
-    NgbDatepickerMonthView.prototype.isHidden = function (day) {
-        return (this.outsideDays === 'hidden' || this.outsideDays === 'collapsed') && this.month.number !== day.date.month;
     };
     NgbDatepickerMonthView.decorators = [
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                     selector: 'ngb-datepicker-month-view',
-                    host: { 'class': 'd-block', 'role': 'grid' },
-                    styles: ["\n    .ngb-dp-weekday, .ngb-dp-week-number {\n      line-height: 2rem;\n      text-align: center;\n      font-style: italic;\n    }\n    .ngb-dp-weekday {\n      color: #5bc0de;\n      color: var(--info);\n    }\n    .ngb-dp-week {\n      border-radius: 0.25rem;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n    }\n    .ngb-dp-weekdays {\n      border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n      border-radius: 0rem;\n    }\n    .ngb-dp-day, .ngb-dp-weekday, .ngb-dp-week-number {\n      width: 2rem;\n      height: 2rem;\n    }\n    .ngb-dp-day {\n      cursor: pointer;\n    }\n    .ngb-dp-day.disabled, .ngb-dp-day.hidden {\n      cursor: default;\n    }\n  "],
-                    template: "\n    <div *ngIf=\"showWeekdays\" class=\"ngb-dp-week ngb-dp-weekdays bg-light\">\n      <div *ngIf=\"showWeekNumbers\" class=\"ngb-dp-weekday ngb-dp-showweek\"></div>\n      <div *ngFor=\"let w of month.weekdays\" class=\"ngb-dp-weekday small\">\n        {{ i18n.getWeekdayShortName(w) }}\n      </div>\n    </div>\n    <ng-template ngFor let-week [ngForOf]=\"month.weeks\">\n      <div *ngIf=\"!isCollapsed(week)\" class=\"ngb-dp-week\" role=\"row\">\n        <div *ngIf=\"showWeekNumbers\" class=\"ngb-dp-week-number small text-muted\">{{ week.number }}</div>\n        <div *ngFor=\"let day of week.days\" (click)=\"doSelect(day)\" class=\"ngb-dp-day\" role=\"gridcell\"\n          [class.disabled]=\"day.context.disabled\"\n          [tabindex]=\"day.tabindex\"\n          [class.hidden]=\"isHidden(day)\"\n          [attr.aria-label]=\"day.ariaLabel\">\n          <ng-template [ngIf]=\"!isHidden(day)\">\n            <ng-template [ngTemplateOutlet]=\"dayTemplate\" [ngTemplateOutletContext]=\"day.context\"></ng-template>\n          </ng-template>\n        </div>\n      </div>\n    </ng-template>\n  "
+                    host: { 'role': 'grid' },
+                    styles: ["\n    :host {\n      display: block;\n    }\n    .ngb-dp-weekday, .ngb-dp-week-number {\n      line-height: 2rem;\n      text-align: center;\n      font-style: italic;\n    }\n    .ngb-dp-weekday {\n      color: #5bc0de;\n      color: var(--info);\n    }\n    .ngb-dp-week {\n      border-radius: 0.25rem;\n      display: -ms-flexbox;\n      display: flex;\n    }\n    .ngb-dp-weekdays {\n      border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n      border-radius: 0;\n    }\n    .ngb-dp-day, .ngb-dp-weekday, .ngb-dp-week-number {\n      width: 2rem;\n      height: 2rem;\n    }\n    .ngb-dp-day {\n      cursor: pointer;\n    }\n    .ngb-dp-day.disabled, .ngb-dp-day.hidden {\n      cursor: default;\n    }\n  "],
+                    template: "\n    <div *ngIf=\"showWeekdays\" class=\"ngb-dp-week ngb-dp-weekdays bg-light\">\n      <div *ngIf=\"showWeekNumbers\" class=\"ngb-dp-weekday ngb-dp-showweek\"></div>\n      <div *ngFor=\"let w of month.weekdays\" class=\"ngb-dp-weekday small\">\n        {{ i18n.getWeekdayShortName(w) }}\n      </div>\n    </div>\n    <ng-template ngFor let-week [ngForOf]=\"month.weeks\">\n      <div *ngIf=\"!week.collapsed\" class=\"ngb-dp-week\" role=\"row\">\n        <div *ngIf=\"showWeekNumbers\" class=\"ngb-dp-week-number small text-muted\">{{ week.number }}</div>\n        <div *ngFor=\"let day of week.days\" (click)=\"doSelect(day)\" class=\"ngb-dp-day\" role=\"gridcell\"\n          [class.disabled]=\"day.context.disabled\"\n          [tabindex]=\"day.tabindex\"\n          [class.hidden]=\"day.hidden\"\n          [attr.aria-label]=\"day.ariaLabel\">\n          <ng-template [ngIf]=\"!day.hidden\">\n            <ng-template [ngTemplateOutlet]=\"dayTemplate\" [ngTemplateOutletContext]=\"day.context\"></ng-template>\n          </ng-template>\n        </div>\n      </div>\n    </ng-template>\n  "
                 },] },
     ];
     /** @nocollapse */
@@ -79263,7 +79645,6 @@ var NgbDatepickerMonthView = /** @class */ (function () {
     NgbDatepickerMonthView.propDecorators = {
         "dayTemplate": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "month": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
-        "outsideDays": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "showWeekdays": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "showWeekNumbers": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "select": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] },],
@@ -79304,8 +79685,8 @@ var NgbDatepickerNavigationSelect = /** @class */ (function () {
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                     selector: 'ngb-datepicker-navigation-select',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
-                    styles: ["\n    :host>select {\n      /* to align with btn-sm */\n      padding: 0.25rem 0.5rem;\n      font-size: 0.875rem;\n      line-height: 1.25;\n      /* to cancel the custom height set by custom-select */\n      height: inherit;\n      width: 50%;\n      display: inline-block;\n    }\n  "],
-                    template: "\n    <select\n      [disabled]=\"disabled\"\n      class=\"custom-select\"\n      [value]=\"date?.month\"\n      (change)=\"changeMonth($event.target.value)\">\n        <option *ngFor=\"let m of months\" [value]=\"m\">{{ i18n.getMonthShortName(m) }}</option>\n    </select><select\n      [disabled]=\"disabled\"\n      class=\"custom-select\"\n      [value]=\"date?.year\"\n      (change)=\"changeYear($event.target.value)\">\n        <option *ngFor=\"let y of years\" [value]=\"y\">{{ y }}</option>\n    </select>\n  "
+                    styles: ["\n    :host>select {\n      display: flex;\n      display: -ms-flexbox;\n      -ms-flex: 1 1 auto;\n      width: 100%;\n      padding: 0 0.5rem;\n      font-size: 0.875rem;\n      height: 1.85rem;\n    }\n  "],
+                    template: "\n    <select\n      [disabled]=\"disabled\"\n      class=\"custom-select\"\n      [value]=\"date?.month\"\n      (change)=\"changeMonth($event.target.value)\">\n        <option *ngFor=\"let m of months\" [attr.aria-label]=\"i18n.getMonthFullName(m)\" [value]=\"m\">{{ i18n.getMonthShortName(m) }}</option>\n    </select><select\n      [disabled]=\"disabled\"\n      class=\"custom-select\"\n      [value]=\"date?.year\"\n      (change)=\"changeYear($event.target.value)\">\n        <option *ngFor=\"let y of years\" [value]=\"y\">{{ y }}</option>\n    </select>\n  "
                 },] },
     ];
     /** @nocollapse */
@@ -79357,8 +79738,8 @@ var NgbDatepickerNavigation = /** @class */ (function () {
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                     selector: 'ngb-datepicker-navigation',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
-                    styles: ["\n    :host {\n      height: 2rem;\n      line-height: 1.85rem;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n    }\n    .ngb-dp-navigation-chevron {\n      border-style: solid;\n      border-width: 0.2em 0.2em 0 0;\n      display: inline-block;\n      width: 0.75em;\n      height: 0.75em;\n      margin-left: 0.25em;\n      margin-right: 0.15em;\n      transform: rotate(-135deg);\n      -webkit-transform: rotate(-135deg);\n      -ms-transform: rotate(-135deg);\n    }\n    .right .ngb-dp-navigation-chevron {\n      -webkit-transform: rotate(45deg);\n      -ms-transform: rotate(45deg);\n      transform: rotate(45deg);\n      margin-left: 0.15em;\n      margin-right: 0.25em;\n    }\n    .ngb-dp-arrow {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1 1 auto;\n      -ms-flex: 1 1 auto;\n      flex-basis: auto;\n      flex-grow: 1;\n      padding-right: 0px;\n      padding-left: 0px;\n      margin: 0px;\n      width: 2rem;\n      height: 2rem;\n    }\n    .ngb-dp-arrow.right {\n      -webkit-box-pack: end;\n      -ms-flex-pack: end;\n      justify-content: flex-end;\n    }\n    .ngb-dp-arrow-btn {\n      padding: 0rem 0.25rem;\n      margin: 0rem 0.5rem;\n      border: none;\n      background-color: transparent;\n      z-index: 1;\n    }\n    .ngb-dp-arrow-btn:focus {\n      outline-style: auto;\n      outline-width: 1px;\n    }\n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n      text-align: center;\n    }\n    .ngb-dp-navigation-select {\n      -webkit-box-flex: 1 1 9rem;\n      -ms-flex:  1 1 9rem;\n      flex-grow: 1;\n      flex-basis: 9rem;\n    }\n  "],
-                    template: "\n  <div class=\"ngb-dp-arrow\">\n    <button type=\"button\" class=\"btn btn-link ngb-dp-arrow-btn\"\n            (click)=\"!!navigate.emit(navigation.PREV)\" [disabled]=\"prevDisabled\">\n      <span class=\"ngb-dp-navigation-chevron\"></span>\n    </button>\n  </div>\n    <ngb-datepicker-navigation-select *ngIf=\"showSelect\" class=\"d-block ngb-dp-navigation-select\"\n      [date]=\"date\"\n      [disabled] = \"disabled\"\n      [months]=\"selectBoxes.months\"\n      [years]=\"selectBoxes.years\"\n      (select)=\"select.emit($event)\">\n    </ngb-datepicker-navigation-select>\n\n    <ng-template *ngIf=\"!showSelect\" ngFor let-month [ngForOf]=\"months\" let-i=\"index\">\n      <div class=\"ngb-dp-arrow\" *ngIf=\"i > 0\"></div>\n      <div class=\"ngb-dp-month-name d-block\">\n        {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n      </div>\n      <div class=\"ngb-dp-arrow\" *ngIf=\"i !== months.length - 1\"></div>\n    </ng-template>\n    <div class=\"ngb-dp-arrow right\">\n    <button type=\"button\" class=\"btn btn-link ngb-dp-arrow-btn\"\n            (click)=\"!!navigate.emit(navigation.NEXT)\" [disabled]=\"nextDisabled\">\n      <span class=\"ngb-dp-navigation-chevron\"></span>\n    </button>\n    </div>\n    "
+                    styles: ["\n    :host {\n      display: -ms-flexbox;\n      display: flex;\n      align-items: center;\n    }\n    .ngb-dp-navigation-chevron {\n      border-style: solid;\n      border-width: 0.2em 0.2em 0 0;\n      display: inline-block;\n      width: 0.75em;\n      height: 0.75em;\n      margin-left: 0.25em;\n      margin-right: 0.15em;\n      transform: rotate(-135deg);\n      -ms-transform: rotate(-135deg);\n    }\n    .right .ngb-dp-navigation-chevron {\n      -ms-transform: rotate(45deg);\n      transform: rotate(45deg);\n      margin-left: 0.15em;\n      margin-right: 0.25em;\n    }\n    .ngb-dp-arrow {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex: 1 1 auto;\n      flex-grow: 1;\n      padding-right: 0;\n      padding-left: 0;\n      margin: 0;\n      width: 2rem;\n      height: 2rem;\n    }\n    .ngb-dp-arrow.right {\n      -ms-flex-pack: end;\n      justify-content: flex-end;\n    }\n    .ngb-dp-arrow-btn {\n      padding: 0 0.25rem;\n      margin: 0 0.5rem;\n      border: none;\n      background-color: transparent;\n      z-index: 1;\n    }\n    .ngb-dp-arrow-btn:focus {\n      outline: auto 1px;\n    }\n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n      text-align: center;\n    }\n    .ngb-dp-navigation-select {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex: 1 1 9rem;\n      flex-grow: 1;\n      flex-basis: 9rem;\n    }\n  "],
+                    template: "\n    <div class=\"ngb-dp-arrow\">\n      <button type=\"button\" class=\"btn btn-link ngb-dp-arrow-btn\" (click)=\"!!navigate.emit(navigation.PREV)\" [disabled]=\"prevDisabled\"\n              i18n-aria-label=\"@@ngb.datepicker.previous-month\" aria-label=\"Previous month\"\n              i18n-title=\"@@ngb.datepicker.previous-month\" title=\"Previous month\">\n        <span class=\"ngb-dp-navigation-chevron\"></span>\n      </button>\n    </div>\n    <ngb-datepicker-navigation-select *ngIf=\"showSelect\" class=\"ngb-dp-navigation-select\"\n      [date]=\"date\"\n      [disabled] = \"disabled\"\n      [months]=\"selectBoxes.months\"\n      [years]=\"selectBoxes.years\"\n      (select)=\"select.emit($event)\">\n    </ngb-datepicker-navigation-select>\n\n    <ng-template *ngIf=\"!showSelect\" ngFor let-month [ngForOf]=\"months\" let-i=\"index\">\n      <div class=\"ngb-dp-arrow\" *ngIf=\"i > 0\"></div>\n      <div class=\"ngb-dp-month-name\">\n        {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n      </div>\n      <div class=\"ngb-dp-arrow\" *ngIf=\"i !== months.length - 1\"></div>\n    </ng-template>\n    <div class=\"ngb-dp-arrow right\">\n      <button type=\"button\" class=\"btn btn-link ngb-dp-arrow-btn\" (click)=\"!!navigate.emit(navigation.NEXT)\" [disabled]=\"nextDisabled\"\n              i18n-aria-label=\"@@ngb.datepicker.next-month\" aria-label=\"Next month\"\n              i18n-title=\"@@ngb.datepicker.next-month\" title=\"Next month\">\n        <span class=\"ngb-dp-navigation-chevron\"></span>\n      </button>\n    </div>\n    "
                 },] },
     ];
     /** @nocollapse */
@@ -79422,6 +79803,7 @@ var NgbDatepickerService = /** @class */ (function () {
             focusVisible: false,
             months: [],
             navigation: 'select',
+            outsideDays: 'visible',
             prevDisabled: false,
             nextDisabled: false,
             selectBoxes: { years: [], months: [] },
@@ -79514,6 +79896,15 @@ var NgbDatepickerService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NgbDatepickerService.prototype, "outsideDays", {
+        set: function (outsideDays) {
+            if (this._state.outsideDays !== outsideDays) {
+                this._nextState({ outsideDays: outsideDays });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     NgbDatepickerService.prototype.focus = function (date) {
         if (!this._state.disabled && this._calendar.isValid(date) && Object(_datepicker_tools__WEBPACK_IMPORTED_MODULE_5__["isChangedDate"])(this._state.focusDate, date)) {
             this._nextState({ focusDate: date });
@@ -79559,22 +79950,29 @@ var NgbDatepickerService = /** @class */ (function () {
         this._model$.next(this._state);
     };
     NgbDatepickerService.prototype._patchContexts = function (state) {
+        var months = state.months, displayMonths = state.displayMonths, selectedDate = state.selectedDate, focusDate = state.focusDate, focusVisible = state.focusVisible, disabled = state.disabled, outsideDays = state.outsideDays;
         state.months.forEach(function (month) {
             month.weeks.forEach(function (week) {
                 week.days.forEach(function (day) {
                     // patch focus flag
-                    if (state.focusDate) {
-                        day.context.focused = state.focusDate.equals(day.date) && state.focusVisible;
+                    if (focusDate) {
+                        day.context.focused = focusDate.equals(day.date) && focusVisible;
                     }
-                    day.tabindex =
-                        (!state.disabled && day.date.equals(state.focusDate) && state.focusDate.month === month.number) ? 0 : -1;
+                    // calculating tabindex
+                    day.tabindex = !disabled && day.date.equals(focusDate) && focusDate.month === month.number ? 0 : -1;
                     // override context disabled
-                    if (state.disabled === true) {
+                    if (disabled === true) {
                         day.context.disabled = true;
                     }
                     // patch selection flag
-                    if (state.selectedDate !== undefined) {
-                        day.context.selected = state.selectedDate !== null && state.selectedDate.equals(day.date);
+                    if (selectedDate !== undefined) {
+                        day.context.selected = selectedDate !== null && selectedDate.equals(day.date);
+                    }
+                    // visibility
+                    if (month.number !== day.date.month) {
+                        day.hidden = outsideDays === 'hidden' || outsideDays === 'collapsed' ||
+                            (displayMonths > 1 && day.date.after(months[0].firstDate) &&
+                                day.date.before(months[displayMonths - 1].lastDate));
                     }
                 });
             });
@@ -79617,7 +80015,7 @@ var NgbDatepickerService = /** @class */ (function () {
         // rebuilding months
         if (startDate) {
             var forceRebuild = 'firstDayOfWeek' in patch || 'markDisabled' in patch || 'minDate' in patch ||
-                'maxDate' in patch || 'disabled' in patch;
+                'maxDate' in patch || 'disabled' in patch || 'outsideDays' in patch;
             var months = Object(_datepicker_tools__WEBPACK_IMPORTED_MODULE_5__["buildMonths"])(this._calendar, startDate, state, this._i18n, forceRebuild);
             // updating months and boundary dates
             state.months = months;
@@ -79640,12 +80038,12 @@ var NgbDatepickerService = /** @class */ (function () {
             if (state.navigation === 'select') {
                 // years ->  boundaries (min/max were changed)
                 if ('minDate' in patch || 'maxDate' in patch || state.selectBoxes.years.length === 0 || yearChanged) {
-                    state.selectBoxes.years = Object(_datepicker_tools__WEBPACK_IMPORTED_MODULE_5__["generateSelectBoxYears"])(state.focusDate, state.minDate, state.maxDate);
+                    state.selectBoxes.years = Object(_datepicker_tools__WEBPACK_IMPORTED_MODULE_5__["generateSelectBoxYears"])(state.firstDate, state.minDate, state.maxDate);
                 }
                 // months -> when current year or boundaries change
                 if ('minDate' in patch || 'maxDate' in patch || state.selectBoxes.months.length === 0 || yearChanged) {
                     state.selectBoxes.months =
-                        Object(_datepicker_tools__WEBPACK_IMPORTED_MODULE_5__["generateSelectBoxMonths"])(this._calendar, state.focusDate, state.minDate, state.maxDate);
+                        Object(_datepicker_tools__WEBPACK_IMPORTED_MODULE_5__["generateSelectBoxMonths"])(this._calendar, state.firstDate, state.minDate, state.maxDate);
                 }
             }
             else {
@@ -79763,33 +80161,50 @@ function prevMonthDisabled(calendar, date, minDate) {
 }
 function buildMonths(calendar, date, state, i18n, force) {
     var displayMonths = state.displayMonths, months = state.months;
-    var newMonths = [];
-    var _loop_1 = function (i) {
-        var newDate = calendar.getNext(date, 'm', i);
-        var index = months.findIndex(function (month) { return month.firstDate.equals(newDate); });
-        if (force || index === -1) {
-            newMonths.push(buildMonth(calendar, newDate, state, i18n));
+    // move old months to a temporary array
+    var monthsToReuse = months.splice(0, months.length);
+    // generate new first dates, nullify or reuse months
+    var firstDates = Array.from({ length: displayMonths }, function (_, i) {
+        var firstDate = calendar.getNext(date, 'm', i);
+        months[i] = null;
+        if (!force) {
+            var reusedIndex = monthsToReuse.findIndex(function (month) { return month.firstDate.equals(firstDate); });
+            // move reused month back to months
+            if (reusedIndex !== -1) {
+                months[i] = monthsToReuse.splice(reusedIndex, 1)[0];
+            }
         }
-        else {
-            newMonths.push(months[index]);
+        return firstDate;
+    });
+    // rebuild nullified months
+    firstDates.forEach(function (firstDate, i) {
+        if (months[i] === null) {
+            months[i] = buildMonth(calendar, firstDate, state, i18n, monthsToReuse.shift() || {});
         }
-    };
-    for (var i = 0; i < displayMonths; i++) {
-        _loop_1(i);
-    }
-    return newMonths;
+    });
+    return months;
 }
-function buildMonth(calendar, date, state, i18n) {
-    var minDate = state.minDate, maxDate = state.maxDate, firstDayOfWeek = state.firstDayOfWeek, markDisabled = state.markDisabled;
-    var month = { firstDate: null, lastDate: null, number: date.month, year: date.year, weeks: [], weekdays: [] };
+function buildMonth(calendar, date, state, i18n, month) {
+    if (month === void 0) { month = {}; }
+    var minDate = state.minDate, maxDate = state.maxDate, firstDayOfWeek = state.firstDayOfWeek, markDisabled = state.markDisabled, outsideDays = state.outsideDays;
+    month.firstDate = null;
+    month.lastDate = null;
+    month.number = date.month;
+    month.year = date.year;
+    month.weeks = month.weeks || [];
+    month.weekdays = month.weekdays || [];
     date = getFirstViewDate(calendar, date, firstDayOfWeek);
     // month has weeks
     for (var week = 0; week < calendar.getWeeksPerMonth(); week++) {
-        var days = [];
+        var weekObject = month.weeks[week];
+        if (!weekObject) {
+            weekObject = month.weeks[week] = { number: 0, days: [], collapsed: true };
+        }
+        var days = weekObject.days;
         // week has days
         for (var day = 0; day < calendar.getDaysPerWeek(); day++) {
             if (week === 0) {
-                month.weekdays.push(calendar.getWeekday(date));
+                month.weekdays[day] = calendar.getWeekday(date);
             }
             var newDate = new _ngb_date__WEBPACK_IMPORTED_MODULE_0__["NgbDate"](date.year, date.month, date.day);
             var nextDate = calendar.getNext(newDate);
@@ -79807,20 +80222,26 @@ function buildMonth(calendar, date, state, i18n) {
             if (newDate.month === month.number && nextDate.month !== month.number) {
                 month.lastDate = newDate;
             }
-            days.push({
-                date: newDate,
-                context: {
-                    date: { year: newDate.year, month: newDate.month, day: newDate.day },
-                    currentMonth: month.number,
-                    disabled: disabled,
-                    focused: false,
-                    selected: false
-                },
-                tabindex: -1, ariaLabel: ariaLabel
+            var dayObject = days[day];
+            if (!dayObject) {
+                dayObject = days[day] = {};
+            }
+            dayObject.date = newDate;
+            dayObject.context = Object.assign(dayObject.context || {}, {
+                date: { year: newDate.year, month: newDate.month, day: newDate.day },
+                currentMonth: month.number, disabled: disabled,
+                focused: false,
+                selected: false
             });
+            dayObject.tabindex = -1;
+            dayObject.ariaLabel = ariaLabel;
+            dayObject.hidden = false;
             date = nextDate;
         }
-        month.weeks.push({ number: calendar.getWeekNumber(days.map(function (day) { return _ngb_date__WEBPACK_IMPORTED_MODULE_0__["NgbDate"].from(day.date); }), firstDayOfWeek), days: days });
+        weekObject.number = calendar.getWeekNumber(days.map(function (day) { return _ngb_date__WEBPACK_IMPORTED_MODULE_0__["NgbDate"].from(day.date); }), firstDayOfWeek);
+        // marking week as collapsed
+        weekObject.collapsed = outsideDays === 'collapsed' && days[0].date.month !== month.number &&
+            days[days.length - 1].date.month !== month.number;
     }
     return month;
 }
@@ -79875,7 +80296,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _datepicker_keymap_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./datepicker-keymap-service */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-keymap-service.js");
 /* harmony import */ var _datepicker_view_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./datepicker-view-model */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model.js");
 /* harmony import */ var _datepicker_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./datepicker-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-config.js");
-/* harmony import */ var _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-adapter.js");
+/* harmony import */ var _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./adapters/ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter.js");
 /* harmony import */ var _datepicker_i18n__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./datepicker-i18n */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
 /* harmony import */ var _datepicker_tools__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./datepicker-tools */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools.js");
 
@@ -79996,13 +80417,13 @@ var NgbDatepicker = /** @class */ (function () {
     NgbDatepicker.prototype.ngOnInit = function () {
         var _this = this;
         if (this.model === undefined) {
-            ['displayMonths', 'markDisabled', 'firstDayOfWeek', 'navigation', 'minDate', 'maxDate'].forEach(function (input) { return _this._service[input] = _this[input]; });
+            ['displayMonths', 'markDisabled', 'firstDayOfWeek', 'navigation', 'minDate', 'maxDate', 'outsideDays'].forEach(function (input) { return _this._service[input] = _this[input]; });
             this.navigateTo(this.startDate);
         }
     };
     NgbDatepicker.prototype.ngOnChanges = function (changes) {
         var _this = this;
-        ['displayMonths', 'markDisabled', 'firstDayOfWeek', 'navigation', 'minDate', 'maxDate']
+        ['displayMonths', 'markDisabled', 'firstDayOfWeek', 'navigation', 'minDate', 'maxDate', 'outsideDays']
             .filter(function (input) { return input in changes; })
             .forEach(function (input) { return _this._service[input] = _this[input]; });
         if ('startDate' in changes) {
@@ -80035,8 +80456,8 @@ var NgbDatepicker = /** @class */ (function () {
                     exportAs: 'ngbDatepicker',
                     selector: 'ngb-datepicker',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectionStrategy"].OnPush,
-                    styles: ["\n    :host {\n      border: 1px solid rgba(0, 0, 0, 0.125);\n      border-radius: 0.25rem;\n      display: inline-block;\n    }\n    .ngb-dp-month {\n      pointer-events: none;\n    }\n    .ngb-dp-header {\n      border-bottom: 0px;\n      border-radius: .25rem 0.25rem 0rem 0rem;\n      padding-top: 0.25rem;\n    }\n    ngb-datepicker-month-view {\n      pointer-events: auto;\n    }\n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n      text-align: center;\n    }\n    /deep/ .ngb-dp-month + .ngb-dp-month > ngb-datepicker-month-view > .ngb-dp-week {\n      padding-left: 1rem;\n    }\n    /deep/ .ngb-dp-month + .ngb-dp-month > .ngb-dp-month-name {\n      padding-left: 1rem;\n    }\n    /deep/ .ngb-dp-month:last-child .ngb-dp-week {\n      padding-right: .25rem;\n    }\n    /deep/ .ngb-dp-month:first-child .ngb-dp-week {\n      padding-left: .25rem;\n    }\n    /deep/ .ngb-dp-month > ngb-datepicker-month-view > .ngb-dp-week:last-child {\n      padding-bottom: .25rem;\n    }\n    .ngb-dp-months {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n    }\n  "],
-                    template: "\n    <ng-template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\" let-focused=\"focused\">\n      <div ngbDatepickerDayView\n        [date]=\"date\"\n        [currentMonth]=\"currentMonth\"\n        [selected]=\"selected\"\n        [disabled]=\"disabled\"\n        [focused]=\"focused\">\n      </div>\n    </ng-template>\n\n    <div class=\"ngb-dp-header bg-light\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"model.firstDate\"\n        [months]=\"model.months\"\n        [disabled]=\"model.disabled\"\n        [showSelect]=\"model.navigation === 'select'\"\n        [prevDisabled]=\"model.prevDisabled\"\n        [nextDisabled]=\"model.nextDisabled\"\n        [selectBoxes]=\"model.selectBoxes\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months\" (keydown)=\"onKeyDown($event)\" (focusin)=\"showFocus(true)\" (focusout)=\"showFocus(false)\">\n      <ng-template ngFor let-month [ngForOf]=\"model.months\" let-i=\"index\">\n        <div class=\"ngb-dp-month d-block\">\n          <div *ngIf=\"navigation === 'none' || (displayMonths > 1 && navigation === 'select')\"\n                class=\"ngb-dp-month-name bg-light\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            [outsideDays]=\"(displayMonths === 1 ? outsideDays : 'hidden')\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </ng-template>\n    </div>\n  ",
+                    styles: ["\n    :host {\n      border: 1px solid #dfdfdf;\n      border-radius: 0.25rem;\n      display: inline-block;\n    }\n    .ngb-dp-month {\n      pointer-events: none;\n    }\n    .ngb-dp-header {\n      border-bottom: 0;\n      border-radius: 0.25rem 0.25rem 0 0;\n      padding-top: 0.25rem;\n    }\n    ngb-datepicker-month-view {\n      pointer-events: auto;\n    }\n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n      text-align: center;\n    }\n    /deep/ .ngb-dp-month + .ngb-dp-month > ngb-datepicker-month-view > .ngb-dp-week {\n      padding-left: 1rem;\n    }\n    /deep/ .ngb-dp-month + .ngb-dp-month > .ngb-dp-month-name {\n      padding-left: 1rem;\n    }\n    /deep/ .ngb-dp-month:last-child .ngb-dp-week {\n      padding-right: .25rem;\n    }\n    /deep/ .ngb-dp-month:first-child .ngb-dp-week {\n      padding-left: .25rem;\n    }\n    /deep/ .ngb-dp-month > ngb-datepicker-month-view > .ngb-dp-week:last-child {\n      padding-bottom: .25rem;\n    }\n    .ngb-dp-months {\n      display: -ms-flexbox;\n      display: flex;\n    }\n  "],
+                    template: "\n    <ng-template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\" let-focused=\"focused\">\n      <div ngbDatepickerDayView\n        [date]=\"date\"\n        [currentMonth]=\"currentMonth\"\n        [selected]=\"selected\"\n        [disabled]=\"disabled\"\n        [focused]=\"focused\">\n      </div>\n    </ng-template>\n\n    <div class=\"ngb-dp-header bg-light\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"model.firstDate\"\n        [months]=\"model.months\"\n        [disabled]=\"model.disabled\"\n        [showSelect]=\"model.navigation === 'select'\"\n        [prevDisabled]=\"model.prevDisabled\"\n        [nextDisabled]=\"model.nextDisabled\"\n        [selectBoxes]=\"model.selectBoxes\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months\" (keydown)=\"onKeyDown($event)\" (focusin)=\"showFocus(true)\" (focusout)=\"showFocus(false)\">\n      <ng-template ngFor let-month [ngForOf]=\"model.months\" let-i=\"index\">\n        <div class=\"ngb-dp-month\">\n          <div *ngIf=\"navigation === 'none' || (displayMonths > 1 && navigation === 'select')\"\n                class=\"ngb-dp-month-name bg-light\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </ng-template>\n    </div>\n  ",
                     providers: [NGB_DATEPICKER_VALUE_ACCESSOR, _datepicker_service__WEBPACK_IMPORTED_MODULE_5__["NgbDatepickerService"], _datepicker_keymap_service__WEBPACK_IMPORTED_MODULE_6__["NgbDatepickerKeyMapService"]]
                 },] },
     ];
@@ -80049,7 +80470,7 @@ var NgbDatepicker = /** @class */ (function () {
         { type: _datepicker_config__WEBPACK_IMPORTED_MODULE_8__["NgbDatepickerConfig"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"], },
-        { type: _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_9__["NgbDateAdapter"], },
+        { type: _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_9__["NgbDateAdapter"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"], },
     ]; };
     NgbDatepicker.propDecorators = {
@@ -80078,7 +80499,7 @@ var NgbDatepicker = /** @class */ (function () {
 /*!*********************************************************************************!*\
   !*** ./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker.module.js ***!
   \*********************************************************************************/
-/*! exports provided: NgbDatepicker, NgbInputDatepicker, NgbCalendar, NgbCalendarIslamicCivil, NgbCalendarIslamicUmalqura, NgbDatepickerMonthView, NgbDatepickerDayView, NgbDatepickerNavigation, NgbDatepickerNavigationSelect, NgbDatepickerConfig, NgbDatepickerI18n, NgbDateAdapter, NgbDateParserFormatter, NgbDatepickerModule */
+/*! exports provided: NgbDatepicker, NgbInputDatepicker, NgbCalendar, NgbCalendarIslamicCivil, NgbCalendarIslamicUmalqura, NgbDatepickerMonthView, NgbDatepickerDayView, NgbDatepickerNavigation, NgbDatepickerNavigationSelect, NgbDatepickerConfig, NgbDatepickerI18n, NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDatepickerModule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80087,45 +80508,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var _util_focus_trap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/focus-trap */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/focus-trap.js");
-/* harmony import */ var _datepicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./datepicker */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js");
-/* harmony import */ var _datepicker_month_view__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./datepicker-month-view */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-month-view.js");
-/* harmony import */ var _datepicker_navigation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./datepicker-navigation */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.js");
-/* harmony import */ var _datepicker_input__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./datepicker-input */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-input.js");
-/* harmony import */ var _datepicker_day_view__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./datepicker-day-view */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-day-view.js");
-/* harmony import */ var _datepicker_i18n__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./datepicker-i18n */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
-/* harmony import */ var _ngb_calendar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ngb-calendar */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ngb-date-parser-formatter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js");
-/* harmony import */ var _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-adapter.js");
-/* harmony import */ var _datepicker_navigation_select__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./datepicker-navigation-select */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.js");
-/* harmony import */ var _datepicker_config__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./datepicker-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepicker", function() { return _datepicker__WEBPACK_IMPORTED_MODULE_4__["NgbDatepicker"]; });
+/* harmony import */ var _datepicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./datepicker */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js");
+/* harmony import */ var _datepicker_month_view__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./datepicker-month-view */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-month-view.js");
+/* harmony import */ var _datepicker_navigation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./datepicker-navigation */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.js");
+/* harmony import */ var _datepicker_input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./datepicker-input */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-input.js");
+/* harmony import */ var _datepicker_day_view__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./datepicker-day-view */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-day-view.js");
+/* harmony import */ var _datepicker_i18n__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./datepicker-i18n */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
+/* harmony import */ var _ngb_calendar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ngb-calendar */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
+/* harmony import */ var _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ngb-date-parser-formatter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js");
+/* harmony import */ var _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./adapters/ngb-date-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter.js");
+/* harmony import */ var _datepicker_navigation_select__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./datepicker-navigation-select */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.js");
+/* harmony import */ var _datepicker_config__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./datepicker-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepicker", function() { return _datepicker__WEBPACK_IMPORTED_MODULE_3__["NgbDatepicker"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbInputDatepicker", function() { return _datepicker_input__WEBPACK_IMPORTED_MODULE_7__["NgbInputDatepicker"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbInputDatepicker", function() { return _datepicker_input__WEBPACK_IMPORTED_MODULE_6__["NgbInputDatepicker"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbCalendar", function() { return _ngb_calendar__WEBPACK_IMPORTED_MODULE_10__["NgbCalendar"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbCalendar", function() { return _ngb_calendar__WEBPACK_IMPORTED_MODULE_9__["NgbCalendar"]; });
 
-/* harmony import */ var _hijri_ngb_calendar_islamic_civil__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./hijri/ngb-calendar-islamic-civil */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-islamic-civil.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbCalendarIslamicCivil", function() { return _hijri_ngb_calendar_islamic_civil__WEBPACK_IMPORTED_MODULE_15__["NgbCalendarIslamicCivil"]; });
+/* harmony import */ var _hijri_ngb_calendar_islamic_civil__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./hijri/ngb-calendar-islamic-civil */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-islamic-civil.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbCalendarIslamicCivil", function() { return _hijri_ngb_calendar_islamic_civil__WEBPACK_IMPORTED_MODULE_14__["NgbCalendarIslamicCivil"]; });
 
-/* harmony import */ var _hijri_ngb_calendar_islamic_umalqura__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./hijri/ngb-calendar-islamic-umalqura */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-islamic-umalqura.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbCalendarIslamicUmalqura", function() { return _hijri_ngb_calendar_islamic_umalqura__WEBPACK_IMPORTED_MODULE_16__["NgbCalendarIslamicUmalqura"]; });
+/* harmony import */ var _hijri_ngb_calendar_islamic_umalqura__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./hijri/ngb-calendar-islamic-umalqura */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-islamic-umalqura.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbCalendarIslamicUmalqura", function() { return _hijri_ngb_calendar_islamic_umalqura__WEBPACK_IMPORTED_MODULE_15__["NgbCalendarIslamicUmalqura"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerMonthView", function() { return _datepicker_month_view__WEBPACK_IMPORTED_MODULE_5__["NgbDatepickerMonthView"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerMonthView", function() { return _datepicker_month_view__WEBPACK_IMPORTED_MODULE_4__["NgbDatepickerMonthView"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerDayView", function() { return _datepicker_day_view__WEBPACK_IMPORTED_MODULE_8__["NgbDatepickerDayView"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerDayView", function() { return _datepicker_day_view__WEBPACK_IMPORTED_MODULE_7__["NgbDatepickerDayView"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerNavigation", function() { return _datepicker_navigation__WEBPACK_IMPORTED_MODULE_6__["NgbDatepickerNavigation"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerNavigation", function() { return _datepicker_navigation__WEBPACK_IMPORTED_MODULE_5__["NgbDatepickerNavigation"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerNavigationSelect", function() { return _datepicker_navigation_select__WEBPACK_IMPORTED_MODULE_13__["NgbDatepickerNavigationSelect"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerNavigationSelect", function() { return _datepicker_navigation_select__WEBPACK_IMPORTED_MODULE_12__["NgbDatepickerNavigationSelect"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerConfig", function() { return _datepicker_config__WEBPACK_IMPORTED_MODULE_14__["NgbDatepickerConfig"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerConfig", function() { return _datepicker_config__WEBPACK_IMPORTED_MODULE_13__["NgbDatepickerConfig"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerI18n", function() { return _datepicker_i18n__WEBPACK_IMPORTED_MODULE_9__["NgbDatepickerI18n"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepickerI18n", function() { return _datepicker_i18n__WEBPACK_IMPORTED_MODULE_8__["NgbDatepickerI18n"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateAdapter", function() { return _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_12__["NgbDateAdapter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateAdapter", function() { return _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_11__["NgbDateAdapter"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateParserFormatter", function() { return _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_11__["NgbDateParserFormatter"]; });
+/* harmony import */ var _adapters_ngb_date_native_adapter__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./adapters/ngb-date-native-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-native-adapter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateNativeAdapter", function() { return _adapters_ngb_date_native_adapter__WEBPACK_IMPORTED_MODULE_16__["NgbDateNativeAdapter"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateParserFormatter", function() { return _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_10__["NgbDateParserFormatter"]; });
 
 
 
@@ -80162,22 +80585,22 @@ var NgbDatepickerModule = /** @class */ (function () {
         return {
             ngModule: NgbDatepickerModule,
             providers: [
-                { provide: _ngb_calendar__WEBPACK_IMPORTED_MODULE_10__["NgbCalendar"], useClass: _ngb_calendar__WEBPACK_IMPORTED_MODULE_10__["NgbCalendarGregorian"] },
-                { provide: _datepicker_i18n__WEBPACK_IMPORTED_MODULE_9__["NgbDatepickerI18n"], useClass: _datepicker_i18n__WEBPACK_IMPORTED_MODULE_9__["NgbDatepickerI18nDefault"] },
-                { provide: _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_11__["NgbDateParserFormatter"], useClass: _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_11__["NgbDateISOParserFormatter"] },
-                { provide: _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_12__["NgbDateAdapter"], useClass: _ngb_date_adapter__WEBPACK_IMPORTED_MODULE_12__["NgbDateStructAdapter"] }, _datepicker_config__WEBPACK_IMPORTED_MODULE_14__["NgbDatepickerConfig"], _util_focus_trap__WEBPACK_IMPORTED_MODULE_3__["NgbFocusTrapFactory"], _angular_common__WEBPACK_IMPORTED_MODULE_1__["DatePipe"]
+                { provide: _ngb_calendar__WEBPACK_IMPORTED_MODULE_9__["NgbCalendar"], useClass: _ngb_calendar__WEBPACK_IMPORTED_MODULE_9__["NgbCalendarGregorian"] },
+                { provide: _datepicker_i18n__WEBPACK_IMPORTED_MODULE_8__["NgbDatepickerI18n"], useClass: _datepicker_i18n__WEBPACK_IMPORTED_MODULE_8__["NgbDatepickerI18nDefault"] },
+                { provide: _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_10__["NgbDateParserFormatter"], useClass: _ngb_date_parser_formatter__WEBPACK_IMPORTED_MODULE_10__["NgbDateISOParserFormatter"] },
+                { provide: _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_11__["NgbDateAdapter"], useClass: _adapters_ngb_date_adapter__WEBPACK_IMPORTED_MODULE_11__["NgbDateStructAdapter"] }, _datepicker_config__WEBPACK_IMPORTED_MODULE_13__["NgbDatepickerConfig"], _angular_common__WEBPACK_IMPORTED_MODULE_1__["DatePipe"]
             ]
         };
     };
     NgbDatepickerModule.decorators = [
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"], args: [{
                     declarations: [
-                        _datepicker__WEBPACK_IMPORTED_MODULE_4__["NgbDatepicker"], _datepicker_month_view__WEBPACK_IMPORTED_MODULE_5__["NgbDatepickerMonthView"], _datepicker_navigation__WEBPACK_IMPORTED_MODULE_6__["NgbDatepickerNavigation"], _datepicker_navigation_select__WEBPACK_IMPORTED_MODULE_13__["NgbDatepickerNavigationSelect"], _datepicker_day_view__WEBPACK_IMPORTED_MODULE_8__["NgbDatepickerDayView"],
-                        _datepicker_input__WEBPACK_IMPORTED_MODULE_7__["NgbInputDatepicker"]
+                        _datepicker__WEBPACK_IMPORTED_MODULE_3__["NgbDatepicker"], _datepicker_month_view__WEBPACK_IMPORTED_MODULE_4__["NgbDatepickerMonthView"], _datepicker_navigation__WEBPACK_IMPORTED_MODULE_5__["NgbDatepickerNavigation"], _datepicker_navigation_select__WEBPACK_IMPORTED_MODULE_12__["NgbDatepickerNavigationSelect"], _datepicker_day_view__WEBPACK_IMPORTED_MODULE_7__["NgbDatepickerDayView"],
+                        _datepicker_input__WEBPACK_IMPORTED_MODULE_6__["NgbInputDatepicker"]
                     ],
-                    exports: [_datepicker__WEBPACK_IMPORTED_MODULE_4__["NgbDatepicker"], _datepicker_input__WEBPACK_IMPORTED_MODULE_7__["NgbInputDatepicker"]],
+                    exports: [_datepicker__WEBPACK_IMPORTED_MODULE_3__["NgbDatepicker"], _datepicker_input__WEBPACK_IMPORTED_MODULE_6__["NgbInputDatepicker"]],
                     imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"]],
-                    entryComponents: [_datepicker__WEBPACK_IMPORTED_MODULE_4__["NgbDatepicker"]]
+                    entryComponents: [_datepicker__WEBPACK_IMPORTED_MODULE_3__["NgbDatepicker"]]
                 },] },
     ];
     return NgbDatepickerModule;
@@ -80863,95 +81286,6 @@ var NgbCalendarGregorian = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-adapter.js":
-/*!********************************************************************************!*\
-  !*** ./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-adapter.js ***!
-  \********************************************************************************/
-/*! exports provided: NgbDateAdapter, NgbDateStructAdapter */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbDateAdapter", function() { return NgbDateAdapter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbDateStructAdapter", function() { return NgbDateStructAdapter; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-/**
- * Abstract type serving as a DI token for the service converting from your application Date model to internal
- * NgbDateStruct model.
- * A default implementation converting from and to NgbDateStruct is provided for retro-compatibility,
- * but you can provide another implementation to use an alternative format, ie for using with native Date Object.
- */
-var NgbDateAdapter = /** @class */ (function () {
-    function NgbDateAdapter() {
-    }
-    NgbDateAdapter.decorators = [
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
-    ];
-    return NgbDateAdapter;
-}());
-
-var NgbDateStructAdapter = /** @class */ (function (_super) {
-    __extends(NgbDateStructAdapter, _super);
-    function NgbDateStructAdapter() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Converts a NgbDateStruct value into NgbDateStruct value
-     * @param  {NgbDateStruct} value
-     * @return {NgbDateStruct}
-     */
-    /**
-       * Converts a NgbDateStruct value into NgbDateStruct value
-       * @param  {NgbDateStruct} value
-       * @return {NgbDateStruct}
-       */
-    NgbDateStructAdapter.prototype.fromModel = /**
-       * Converts a NgbDateStruct value into NgbDateStruct value
-       * @param  {NgbDateStruct} value
-       * @return {NgbDateStruct}
-       */
-    function (date) {
-        return (date && date.year && date.month && date.day) ? { year: date.year, month: date.month, day: date.day } : null;
-    };
-    /**
-     * Converts a NgbDateStruct value into NgbDateStruct value
-     * @param  {NgbDateStruct} value
-     * @return {NgbDateStruct}
-     */
-    /**
-       * Converts a NgbDateStruct value into NgbDateStruct value
-       * @param  {NgbDateStruct} value
-       * @return {NgbDateStruct}
-       */
-    NgbDateStructAdapter.prototype.toModel = /**
-       * Converts a NgbDateStruct value into NgbDateStruct value
-       * @param  {NgbDateStruct} value
-       * @return {NgbDateStruct}
-       */
-    function (date) {
-        return (date && date.year && date.month && date.day) ? { year: date.year, month: date.month, day: date.day } : null;
-    };
-    NgbDateStructAdapter.decorators = [
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
-    ];
-    return NgbDateStructAdapter;
-}(NgbDateAdapter));
-
-//# sourceMappingURL=ngb-date-adapter.js.map
-
-/***/ }),
-
 /***/ "./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js":
 /*!*****************************************************************************************!*\
   !*** ./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js ***!
@@ -81440,7 +81774,7 @@ var NgbDropdownModule = /** @class */ (function () {
 /*!**********************************************************!*\
   !*** ./node_modules/@ng-bootstrap/ng-bootstrap/index.js ***!
   \**********************************************************/
-/*! exports provided: NgbAccordionModule, NgbAccordionConfig, NgbAccordion, NgbPanel, NgbPanelTitle, NgbPanelContent, NgbAlertModule, NgbAlertConfig, NgbAlert, NgbButtonsModule, NgbCheckBox, NgbRadioGroup, NgbCarouselModule, NgbCarouselConfig, NgbCarousel, NgbSlide, NgbCollapseModule, NgbCollapse, NgbCalendar, NgbCalendarIslamicCivil, NgbCalendarIslamicUmalqura, NgbDatepickerModule, NgbDatepickerI18n, NgbDatepickerConfig, NgbDateParserFormatter, NgbDateAdapter, NgbDatepicker, NgbInputDatepicker, NgbDropdownModule, NgbDropdownConfig, NgbDropdown, NgbModalModule, NgbModal, NgbActiveModal, NgbModalRef, ModalDismissReasons, NgbPaginationModule, NgbPaginationConfig, NgbPagination, NgbPopoverModule, NgbPopoverConfig, NgbPopover, NgbProgressbarModule, NgbProgressbarConfig, NgbProgressbar, NgbRatingModule, NgbRatingConfig, NgbRating, NgbTabsetModule, NgbTabsetConfig, NgbTabset, NgbTab, NgbTabContent, NgbTabTitle, NgbTimepickerModule, NgbTimepickerConfig, NgbTimepicker, NgbTooltipModule, NgbTooltipConfig, NgbTooltip, NgbHighlight, NgbTypeaheadModule, NgbTypeaheadConfig, NgbTypeahead, NgbRootModule, NgbModule */
+/*! exports provided: NgbAccordionModule, NgbAccordionConfig, NgbAccordion, NgbPanel, NgbPanelTitle, NgbPanelContent, NgbAlertModule, NgbAlertConfig, NgbAlert, NgbButtonsModule, NgbCheckBox, NgbRadioGroup, NgbCarouselModule, NgbCarouselConfig, NgbCarousel, NgbSlide, NgbCollapseModule, NgbCollapse, NgbCalendar, NgbCalendarIslamicCivil, NgbCalendarIslamicUmalqura, NgbDatepickerModule, NgbDatepickerI18n, NgbDatepickerConfig, NgbDateParserFormatter, NgbDateAdapter, NgbDateNativeAdapter, NgbDatepicker, NgbInputDatepicker, NgbDropdownModule, NgbDropdownConfig, NgbDropdown, NgbModalModule, NgbModal, NgbActiveModal, NgbModalRef, ModalDismissReasons, NgbPaginationModule, NgbPaginationConfig, NgbPagination, NgbPopoverModule, NgbPopoverConfig, NgbPopover, NgbProgressbarModule, NgbProgressbarConfig, NgbProgressbar, NgbRatingModule, NgbRatingConfig, NgbRating, NgbTabsetModule, NgbTabsetConfig, NgbTabset, NgbTab, NgbTabContent, NgbTabTitle, NgbTimepickerModule, NgbTimepickerConfig, NgbTimepicker, NgbTimeAdapter, NgbTooltipModule, NgbTooltipConfig, NgbTooltip, NgbHighlight, NgbTypeaheadModule, NgbTypeaheadConfig, NgbTypeahead, NgbRootModule, NgbModule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81516,6 +81850,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateAdapter", function() { return _datepicker_datepicker_module__WEBPACK_IMPORTED_MODULE_6__["NgbDateAdapter"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDateNativeAdapter", function() { return _datepicker_datepicker_module__WEBPACK_IMPORTED_MODULE_6__["NgbDateNativeAdapter"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbDatepicker", function() { return _datepicker_datepicker_module__WEBPACK_IMPORTED_MODULE_6__["NgbDatepicker"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbInputDatepicker", function() { return _datepicker_datepicker_module__WEBPACK_IMPORTED_MODULE_6__["NgbInputDatepicker"]; });
@@ -81577,6 +81913,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTimepickerConfig", function() { return _timepicker_timepicker_module__WEBPACK_IMPORTED_MODULE_14__["NgbTimepickerConfig"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTimepicker", function() { return _timepicker_timepicker_module__WEBPACK_IMPORTED_MODULE_14__["NgbTimepicker"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTimeAdapter", function() { return _timepicker_timepicker_module__WEBPACK_IMPORTED_MODULE_14__["NgbTimeAdapter"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTooltipModule", function() { return _tooltip_tooltip_module__WEBPACK_IMPORTED_MODULE_15__["NgbTooltipModule"]; });
 
@@ -81819,6 +82157,10 @@ NgbModalRef = /** @class */ (function () {
             this._removeModalElements();
         }
     };
+    NgbModalRef.prototype._dismiss = function (reason) {
+        this._reject(reason);
+        this._removeModalElements();
+    };
     /**
      * Can be used to dismiss a modal, passing an optional reason.
      */
@@ -81829,10 +82171,23 @@ NgbModalRef = /** @class */ (function () {
        * Can be used to dismiss a modal, passing an optional reason.
        */
     function (reason) {
+        var _this = this;
         if (this._windowCmptRef) {
-            if (!this._beforeDismiss || this._beforeDismiss() !== false) {
-                this._reject(reason);
-                this._removeModalElements();
+            if (!this._beforeDismiss) {
+                this._dismiss(reason);
+            }
+            else {
+                var dismiss = this._beforeDismiss();
+                if (dismiss && dismiss.then) {
+                    dismiss.then(function (result) {
+                        if (result !== false) {
+                            _this._dismiss(reason);
+                        }
+                    }, function () { });
+                }
+                else if (dismiss !== false) {
+                    this._dismiss(reason);
+                }
             }
         }
     };
@@ -81891,7 +82246,7 @@ var NgbModalStack = /** @class */ (function () {
         this._applicationRef = _applicationRef;
         this._injector = _injector;
         this._componentFactoryResolver = _componentFactoryResolver;
-        this._windowAttributes = ['backdrop', 'centered', 'keyboard', 'size', 'windowClass'];
+        this._windowAttributes = ['ariaLabelledBy', 'backdrop', 'centered', 'keyboard', 'size', 'windowClass'];
         this._backdropAttributes = ['backdropClass'];
         this._document = document;
     }
@@ -82001,6 +82356,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _modal_dismiss_reasons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal-dismiss-reasons */ "./node_modules/@ng-bootstrap/ng-bootstrap/modal/modal-dismiss-reasons.js");
+/* harmony import */ var _util_focus_trap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/focus-trap */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/focus-trap.js");
+
 
 
 
@@ -82012,6 +82369,7 @@ var NgbModalWindow = /** @class */ (function () {
         this.keyboard = true;
         this.dismissEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this._document = document;
+        Object(_util_focus_trap__WEBPACK_IMPORTED_MODULE_3__["ngbFocusTrap"])(this._elRef.nativeElement, this.dismissEvent);
     }
     NgbModalWindow.prototype.backdropClick = function ($event) {
         if (this.backdrop === true && this._elRef.nativeElement === $event.target) {
@@ -82055,7 +82413,8 @@ var NgbModalWindow = /** @class */ (function () {
                         'role': 'dialog',
                         'tabindex': '-1',
                         '(keyup.esc)': 'escKey($event)',
-                        '(click)': 'backdropClick($event)'
+                        '(click)': 'backdropClick($event)',
+                        '[attr.aria-labelledby]': 'ariaLabelledBy',
                     },
                     template: "\n    <div [class]=\"'modal-dialog' + (size ? ' modal-' + size : '') + (centered ? ' modal-dialog-centered' : '')\" role=\"document\">\n        <div class=\"modal-content\"><ng-content></ng-content></div>\n    </div>\n    "
                 },] },
@@ -82067,6 +82426,7 @@ var NgbModalWindow = /** @class */ (function () {
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer2"], },
     ]; };
     NgbModalWindow.propDecorators = {
+        "ariaLabelledBy": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
         "backdrop": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
         "centered": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
         "keyboard": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] },],
@@ -82404,7 +82764,7 @@ var NgbPagination = /** @class */ (function () {
                     selector: 'ngb-pagination',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
                     host: { 'role': 'navigation' },
-                    template: "\n    <ul [class]=\"'pagination' + (size ? ' pagination-' + size : '')\">\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"First\" class=\"page-link\" href (click)=\"!!selectPage(1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\">&laquo;&laquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"directionLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"Previous\" class=\"page-link\" href (click)=\"!!selectPage(page-1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\">&laquo;</span>\n        </a>\n      </li>\n      <li *ngFor=\"let pageNumber of pages\" class=\"page-item\" [class.active]=\"pageNumber === page\"\n        [class.disabled]=\"isEllipsis(pageNumber) || disabled\">\n        <a *ngIf=\"isEllipsis(pageNumber)\" class=\"page-link\">...</a>\n        <a *ngIf=\"!isEllipsis(pageNumber)\" class=\"page-link\" href (click)=\"!!selectPage(pageNumber)\">\n          {{pageNumber}}\n          <span *ngIf=\"pageNumber === page\" class=\"sr-only\">(current)</span>\n        </a>\n      </li>\n      <li *ngIf=\"directionLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Next\" class=\"page-link\" href (click)=\"!!selectPage(page+1)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\">&raquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Last\" class=\"page-link\" href (click)=\"!!selectPage(pageCount)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\">&raquo;&raquo;</span>\n        </a>\n      </li>\n    </ul>\n  "
+                    template: "\n    <ul [class]=\"'pagination' + (size ? ' pagination-' + size : '')\">\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"First\" i18n-aria-label=\"@@ngb.pagination.first-aria\" class=\"page-link\" href\n          (click)=\"!!selectPage(1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\" i18n=\"@@ngb.pagination.first\">&laquo;&laquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"directionLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"Previous\" i18n-aria-label=\"@@ngb.pagination.previous-aria\" class=\"page-link\" href\n          (click)=\"!!selectPage(page-1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\" i18n=\"@@ngb.pagination.previous\">&laquo;</span>\n        </a>\n      </li>\n      <li *ngFor=\"let pageNumber of pages\" class=\"page-item\" [class.active]=\"pageNumber === page\"\n        [class.disabled]=\"isEllipsis(pageNumber) || disabled\">\n        <a *ngIf=\"isEllipsis(pageNumber)\" class=\"page-link\">...</a>\n        <a *ngIf=\"!isEllipsis(pageNumber)\" class=\"page-link\" href (click)=\"!!selectPage(pageNumber)\">\n          {{pageNumber}}\n          <span *ngIf=\"pageNumber === page\" class=\"sr-only\">(current)</span>\n        </a>\n      </li>\n      <li *ngIf=\"directionLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Next\" i18n-aria-label=\"@@ngb.pagination.next-aria\" class=\"page-link\" href\n          (click)=\"!!selectPage(page+1)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\" i18n=\"@@ngb.pagination.next\">&raquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Last\" i18n-aria-label=\"@@ngb.pagination.last-aria\" class=\"page-link\" href\n          (click)=\"!!selectPage(pageCount)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\" i18n=\"@@ngb.pagination.last\">&raquo;&raquo;</span>\n        </a>\n      </li>\n    </ul>\n  "
                 },] },
     ];
     /** @nocollapse */
@@ -82545,7 +82905,7 @@ var NgbPopoverWindow = /** @class */ (function () {
                     selector: 'ngb-popover-window',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
                     host: {
-                        '[class]': '"popover bs-popover-" + placement.split("-")[0]+" bs-popover-" + placement',
+                        '[class]': '"popover bs-popover-" + placement.split("-")[0]+" bs-popover-" + placement + (popoverClass ? " " + popoverClass : "")',
                         'role': 'tooltip',
                         '[id]': 'id'
                     },
@@ -82562,6 +82922,7 @@ var NgbPopoverWindow = /** @class */ (function () {
         "placement": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "title": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "id": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+        "popoverClass": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
     };
     return NgbPopoverWindow;
 }());
@@ -82587,6 +82948,7 @@ var NgbPopover = /** @class */ (function () {
         this.triggers = config.triggers;
         this.container = config.container;
         this.disablePopover = config.disablePopover;
+        this.popoverClass = config.popoverClass;
         this._popupService = new _util_popup__WEBPACK_IMPORTED_MODULE_3__["PopupService"](NgbPopoverWindow, injector, viewContainerRef, _renderer, componentFactoryResolver);
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
             if (_this._windowRef) {
@@ -82619,6 +82981,7 @@ var NgbPopover = /** @class */ (function () {
         if (!this._windowRef && !this._isDisabled()) {
             this._windowRef = this._popupService.open(this.ngbPopover, context);
             this._windowRef.instance.title = this.popoverTitle;
+            this._windowRef.instance.popoverClass = this.popoverClass;
             this._windowRef.instance.id = this._ngbPopoverWindowId;
             this._renderer.setAttribute(this._elementRef.nativeElement, 'aria-describedby', this._ngbPopoverWindowId);
             if (this.container === 'body') {
@@ -82710,6 +83073,7 @@ var NgbPopover = /** @class */ (function () {
         "triggers": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "container": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "disablePopover": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+        "popoverClass": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "shown": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] },],
         "hidden": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"] },],
     };
@@ -82828,7 +83192,7 @@ var NgbProgressbar = /** @class */ (function () {
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                     selector: 'ngb-progressbar',
                     changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
-                    template: "\n    <div class=\"progress\" [style.height]=\"height\">\n      <div class=\"progress-bar{{type ? ' bg-' + type : ''}}{{animated ? ' progress-bar-animated' : ''}}{{striped ?\n    ' progress-bar-striped' : ''}}\" role=\"progressbar\" [style.width.%]=\"getPercentValue()\"\n    [attr.aria-valuenow]=\"getValue()\" aria-valuemin=\"0\" [attr.aria-valuemax]=\"max\">\n        <span *ngIf=\"showValue\">{{getPercentValue()}}%</span><ng-content></ng-content>\n      </div>\n    </div>\n  "
+                    template: "\n    <div class=\"progress\" [style.height]=\"height\">\n      <div class=\"progress-bar{{type ? ' bg-' + type : ''}}{{animated ? ' progress-bar-animated' : ''}}{{striped ?\n    ' progress-bar-striped' : ''}}\" role=\"progressbar\" [style.width.%]=\"getPercentValue()\"\n    [attr.aria-valuenow]=\"getValue()\" aria-valuemin=\"0\" [attr.aria-valuemax]=\"max\">\n        <span *ngIf=\"showValue\" i18n=\"ngb.progressbar.value\">{{getPercentValue()}}%</span><ng-content></ng-content>\n      </div>\n    </div>\n  "
                 },] },
     ];
     /** @nocollapse */
@@ -82935,22 +83299,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _rating_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rating-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/rating/rating-config.js");
 /* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/util */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _util_key__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/key */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
 
 
 
 
-var Key;
-(function (Key) {
-    Key[Key["End"] = 35] = "End";
-    Key[Key["Home"] = 36] = "Home";
-    Key[Key["ArrowLeft"] = 37] = "ArrowLeft";
-    Key[Key["ArrowUp"] = 38] = "ArrowUp";
-    Key[Key["ArrowRight"] = 39] = "ArrowRight";
-    Key[Key["ArrowDown"] = 40] = "ArrowDown";
-})(Key || (Key = {}));
+
 var NGB_RATING_VALUE_ACCESSOR = {
-    provide: _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NG_VALUE_ACCESSOR"],
+    provide: _angular_forms__WEBPACK_IMPORTED_MODULE_4__["NG_VALUE_ACCESSOR"],
     useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])(function () { return NgbRating; }),
     multi: true
 };
@@ -82992,21 +83349,21 @@ var NgbRating = /** @class */ (function () {
     NgbRating.prototype.handleBlur = function () { this.onTouched(); };
     NgbRating.prototype.handleClick = function (value) { this.update(this.resettable && this.rate === value ? 0 : value); };
     NgbRating.prototype.handleKeyDown = function (event) {
-        if (Key[Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["toString"])(event.which)]) {
+        if (_util_key__WEBPACK_IMPORTED_MODULE_3__["Key"][Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["toString"])(event.which)]) {
             event.preventDefault();
             switch (event.which) {
-                case Key.ArrowDown:
-                case Key.ArrowLeft:
+                case _util_key__WEBPACK_IMPORTED_MODULE_3__["Key"].ArrowDown:
+                case _util_key__WEBPACK_IMPORTED_MODULE_3__["Key"].ArrowLeft:
                     this.update(this.rate - 1);
                     break;
-                case Key.ArrowUp:
-                case Key.ArrowRight:
+                case _util_key__WEBPACK_IMPORTED_MODULE_3__["Key"].ArrowUp:
+                case _util_key__WEBPACK_IMPORTED_MODULE_3__["Key"].ArrowRight:
                     this.update(this.rate + 1);
                     break;
-                case Key.Home:
+                case _util_key__WEBPACK_IMPORTED_MODULE_3__["Key"].Home:
                     this.update(0);
                     break;
-                case Key.End:
+                case _util_key__WEBPACK_IMPORTED_MODULE_3__["Key"].End:
                     this.update(this.max);
                     break;
             }
@@ -83399,6 +83756,103 @@ var NgbTabsetModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time-adapter.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time-adapter.js ***!
+  \********************************************************************************/
+/*! exports provided: NgbTimeAdapter, NgbTimeStructAdapter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbTimeAdapter", function() { return NgbTimeAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbTimeStructAdapter", function() { return NgbTimeStructAdapter; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/util */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/util.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+/**
+ * Abstract type serving as a DI token for the service converting from your application Time model to internal
+ * NgbTimeStruct model.
+ * A default implementation converting from and to NgbTimeStruct is provided for retro-compatibility,
+ * but you can provide another implementation to use an alternative format, ie for using with native Date Object.
+ *
+ * @since 2.2.0
+ */
+var NgbTimeAdapter = /** @class */ (function () {
+    function NgbTimeAdapter() {
+    }
+    NgbTimeAdapter.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
+    ];
+    return NgbTimeAdapter;
+}());
+
+var NgbTimeStructAdapter = /** @class */ (function (_super) {
+    __extends(NgbTimeStructAdapter, _super);
+    function NgbTimeStructAdapter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    /**
+     * Converts a NgbTimeStruct value into NgbTimeStruct value
+     * @param  {NgbTimeStruct} value
+     * @return {NgbTimeStruct}
+     */
+    /**
+       * Converts a NgbTimeStruct value into NgbTimeStruct value
+       * @param  {NgbTimeStruct} value
+       * @return {NgbTimeStruct}
+       */
+    NgbTimeStructAdapter.prototype.fromModel = /**
+       * Converts a NgbTimeStruct value into NgbTimeStruct value
+       * @param  {NgbTimeStruct} value
+       * @return {NgbTimeStruct}
+       */
+    function (time) {
+        return (time && Object(_util_util__WEBPACK_IMPORTED_MODULE_1__["isInteger"])(time.hour) && Object(_util_util__WEBPACK_IMPORTED_MODULE_1__["isInteger"])(time.minute)) ?
+            { hour: time.hour, minute: time.minute, second: Object(_util_util__WEBPACK_IMPORTED_MODULE_1__["isInteger"])(time.second) ? time.second : null } :
+            null;
+    };
+    /**
+     * Converts a NgbTimeStruct value into NgbTimeStruct value
+     * @param  {NgbTimeStruct} value
+     * @return {NgbTimeStruct}
+     */
+    /**
+       * Converts a NgbTimeStruct value into NgbTimeStruct value
+       * @param  {NgbTimeStruct} value
+       * @return {NgbTimeStruct}
+       */
+    NgbTimeStructAdapter.prototype.toModel = /**
+       * Converts a NgbTimeStruct value into NgbTimeStruct value
+       * @param  {NgbTimeStruct} value
+       * @return {NgbTimeStruct}
+       */
+    function (time) {
+        return (time && Object(_util_util__WEBPACK_IMPORTED_MODULE_1__["isInteger"])(time.hour) && Object(_util_util__WEBPACK_IMPORTED_MODULE_1__["isInteger"])(time.minute)) ?
+            { hour: time.hour, minute: time.minute, second: Object(_util_util__WEBPACK_IMPORTED_MODULE_1__["isInteger"])(time.second) ? time.second : null } :
+            null;
+    };
+    NgbTimeStructAdapter.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"] },
+    ];
+    return NgbTimeStructAdapter;
+}(NgbTimeAdapter));
+
+//# sourceMappingURL=ngb-time-adapter.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js":
 /*!************************************************************************!*\
   !*** ./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js ***!
@@ -83521,6 +83975,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/util */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/util.js");
 /* harmony import */ var _ngb_time__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ngb-time */ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
 /* harmony import */ var _timepicker_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./timepicker-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker-config.js");
+/* harmony import */ var _ngb_time_adapter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ngb-time-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time-adapter.js");
+
 
 
 
@@ -83535,7 +83991,8 @@ var NGB_TIMEPICKER_VALUE_ACCESSOR = {
  * A lightweight & configurable timepicker directive.
  */
 var NgbTimepicker = /** @class */ (function () {
-    function NgbTimepicker(config) {
+    function NgbTimepicker(config, _ngbTimeAdapter) {
+        this._ngbTimeAdapter = _ngbTimeAdapter;
         this.onChange = function (_) { };
         this.onTouched = function () { };
         this.meridian = config.meridian;
@@ -83549,8 +84006,9 @@ var NgbTimepicker = /** @class */ (function () {
         this.size = config.size;
     }
     NgbTimepicker.prototype.writeValue = function (value) {
-        this.model = value ? new _ngb_time__WEBPACK_IMPORTED_MODULE_3__["NgbTime"](value.hour, value.minute, value.second) : new _ngb_time__WEBPACK_IMPORTED_MODULE_3__["NgbTime"]();
-        if (!this.seconds && (!value || !Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["isNumber"])(value.second))) {
+        var structValue = this._ngbTimeAdapter.fromModel(value);
+        this.model = structValue ? new _ngb_time__WEBPACK_IMPORTED_MODULE_3__["NgbTime"](structValue.hour, structValue.minute, structValue.second) : new _ngb_time__WEBPACK_IMPORTED_MODULE_3__["NgbTime"]();
+        if (!this.seconds && (!structValue || !Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["isNumber"])(structValue.second))) {
             this.model.second = 0;
         }
     };
@@ -83621,23 +84079,24 @@ var NgbTimepicker = /** @class */ (function () {
             this.onTouched();
         }
         if (this.model.isValid(this.seconds)) {
-            this.onChange({ hour: this.model.hour, minute: this.model.minute, second: this.model.second });
+            this.onChange(this._ngbTimeAdapter.toModel({ hour: this.model.hour, minute: this.model.minute, second: this.model.second }));
         }
         else {
-            this.onChange(null);
+            this.onChange(this._ngbTimeAdapter.toModel(null));
         }
     };
     NgbTimepicker.decorators = [
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
                     selector: 'ngb-timepicker',
-                    styles: ["\n    .ngb-tp {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex-align: center;\n      align-items: center;\n    }\n\n    .ngb-tp-hour, .ngb-tp-minute, .ngb-tp-second, .ngb-tp-meridian {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex-direction: column;\n      flex-direction: column;\n      -ms-flex-align: center;\n      align-items: center;\n      -ms-flex-pack: distribute;\n      justify-content: space-around;\n    }\n\n    .ngb-tp-spacer {\n      width: 1em;\n      text-align: center;\n    }\n\n    .chevron::before {\n      border-style: solid;\n      border-width: 0.29em 0.29em 0 0;\n      content: '';\n      display: inline-block;\n      height: 0.69em;\n      left: 0.05em;\n      position: relative;\n      top: 0.15em;\n      transform: rotate(-45deg);\n      -webkit-transform: rotate(-45deg);\n      -ms-transform: rotate(-45deg);\n      vertical-align: middle;\n      width: 0.71em;\n    }\n\n    .chevron.bottom:before {\n      top: -.3em;\n      -webkit-transform: rotate(135deg);\n      -ms-transform: rotate(135deg);\n      transform: rotate(135deg);\n    }\n\n    input {\n      text-align: center;\n      display: inline-block;\n      width: auto;\n    }\n  "],
-                    template: "\n    <fieldset [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n      <div class=\"ngb-tp\">\n        <div class=\"ngb-tp-hour\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeHour(hourStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\">Increment hours</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\" size=\"2\" placeholder=\"HH\"\n            [value]=\"formatHour(model?.hour)\" (change)=\"updateHour($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Hours\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeHour(-hourStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\">Decrement hours</span>\n          </button>\n        </div>\n        <div class=\"ngb-tp-spacer\">:</div>\n        <div class=\"ngb-tp-minute\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeMinute(minuteStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\">Increment minutes</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\" size=\"2\" placeholder=\"MM\"\n            [value]=\"formatMinSec(model?.minute)\" (change)=\"updateMinute($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Minutes\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeMinute(-minuteStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\">Decrement minutes</span>\n          </button>\n        </div>\n        <div *ngIf=\"seconds\" class=\"ngb-tp-spacer\">:</div>\n        <div *ngIf=\"seconds\" class=\"ngb-tp-second\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeSecond(secondStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\">Increment seconds</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\" size=\"2\" placeholder=\"SS\"\n            [value]=\"formatMinSec(model?.second)\" (change)=\"updateSecond($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Seconds\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeSecond(-secondStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\">Decrement seconds</span>\n          </button>\n        </div>\n        <div *ngIf=\"meridian\" class=\"ngb-tp-spacer\"></div>\n        <div *ngIf=\"meridian\" class=\"ngb-tp-meridian\">\n          <button type=\"button\" class=\"btn btn-outline-primary\" [ngClass]=\"setButtonSize()\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\"\n            (click)=\"toggleMeridian()\">{{model?.hour >= 12 ? 'PM' : 'AM'}}</button>\n        </div>\n      </div>\n    </fieldset>\n  ",
+                    styles: ["\n\n    :host {\n      font-size: 1rem;\n    }\n\n    .ngb-tp {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex-align: center;\n      align-items: center;\n    }\n\n    .ngb-tp-input-container {\n      width: 4em;\n    }\n\n    .ngb-tp-hour, .ngb-tp-minute, .ngb-tp-second, .ngb-tp-meridian {\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex-direction: column;\n      flex-direction: column;\n      -ms-flex-align: center;\n      align-items: center;\n      -ms-flex-pack: distribute;\n      justify-content: space-around;\n    }\n\n    .ngb-tp-spacer {\n      width: 1em;\n      text-align: center;\n    }\n\n    .chevron::before {\n      border-style: solid;\n      border-width: 0.29em 0.29em 0 0;\n      content: '';\n      display: inline-block;\n      height: 0.69em;\n      left: 0.05em;\n      position: relative;\n      top: 0.15em;\n      transform: rotate(-45deg);\n      -webkit-transform: rotate(-45deg);\n      -ms-transform: rotate(-45deg);\n      vertical-align: middle;\n      width: 0.71em;\n    }\n\n    .chevron.bottom:before {\n      top: -.3em;\n      -webkit-transform: rotate(135deg);\n      -ms-transform: rotate(135deg);\n      transform: rotate(135deg);\n    }\n\n    input {\n      text-align: center;\n    }\n  "],
+                    template: "\n    <fieldset [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n      <div class=\"ngb-tp\">\n        <div class=\"ngb-tp-input-container ngb-tp-hour\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeHour(hourStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\" i18n=\"@@ngb.timepicker.increment-hours\">Increment hours</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\"\n            placeholder=\"HH\" i18n-placeholder=\"@@ngb.timepicker.HH\"\n            [value]=\"formatHour(model?.hour)\" (change)=\"updateHour($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Hours\" i18n-aria-label=\"@@ngb.timepicker.hours\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeHour(-hourStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\" i18n=\"@@ngb.timepicker.decrement-hours\">Decrement hours</span>\n          </button>\n        </div>\n        <div class=\"ngb-tp-spacer\">:</div>\n        <div class=\"ngb-tp-input-container ngb-tp-minute\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeMinute(minuteStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\" i18n=\"@@ngb.timepicker.increment-minutes\">Increment minutes</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\"\n            placeholder=\"MM\" i18n-placeholder=\"@@ngb.timepicker.MM\"\n            [value]=\"formatMinSec(model?.minute)\" (change)=\"updateMinute($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Minutes\" i18n-aria-label=\"@@ngb.timepicker.minutes\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeMinute(-minuteStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\"  i18n=\"@@ngb.timepicker.decrement-minutes\">Decrement minutes</span>\n          </button>\n        </div>\n        <div *ngIf=\"seconds\" class=\"ngb-tp-spacer\">:</div>\n        <div *ngIf=\"seconds\" class=\"ngb-tp-input-container ngb-tp-second\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeSecond(secondStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\" i18n=\"@@ngb.timepicker.increment-seconds\">Increment seconds</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\"\n            placeholder=\"SS\" i18n-placeholder=\"@@ngb.timepicker.SS\"\n            [value]=\"formatMinSec(model?.second)\" (change)=\"updateSecond($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Seconds\" i18n-aria-label=\"@@ngb.timepicker.seconds\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeSecond(-secondStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\" i18n=\"@@ngb.timepicker.decrement-seconds\">Decrement seconds</span>\n          </button>\n        </div>\n        <div *ngIf=\"meridian\" class=\"ngb-tp-spacer\"></div>\n        <div *ngIf=\"meridian\" class=\"ngb-tp-meridian\">\n          <button type=\"button\" class=\"btn btn-outline-primary\" [ngClass]=\"setButtonSize()\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\"\n                  (click)=\"toggleMeridian()\">\n            <ng-container *ngIf=\"model?.hour >= 12; else am\" i18n=\"@@ngb.timepicker.PM\">PM</ng-container>\n            <ng-template #am i18n=\"@@ngb.timepicker.AM\">AM</ng-template>\n          </button>\n        </div>\n      </div>\n    </fieldset>\n  ",
                     providers: [NGB_TIMEPICKER_VALUE_ACCESSOR]
                 },] },
     ];
     /** @nocollapse */
     NgbTimepicker.ctorParameters = function () { return [
         { type: _timepicker_config__WEBPACK_IMPORTED_MODULE_4__["NgbTimepickerConfig"], },
+        { type: _ngb_time_adapter__WEBPACK_IMPORTED_MODULE_5__["NgbTimeAdapter"], },
     ]; };
     NgbTimepicker.propDecorators = {
         "meridian": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
@@ -83660,7 +84119,7 @@ var NgbTimepicker = /** @class */ (function () {
 /*!*********************************************************************************!*\
   !*** ./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.module.js ***!
   \*********************************************************************************/
-/*! exports provided: NgbTimepicker, NgbTimepickerConfig, NgbTimepickerModule */
+/*! exports provided: NgbTimepicker, NgbTimepickerConfig, NgbTimeAdapter, NgbTimepickerModule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83670,9 +84129,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _timepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./timepicker */ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.js");
 /* harmony import */ var _timepicker_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./timepicker-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker-config.js");
+/* harmony import */ var _ngb_time_adapter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ngb-time-adapter */ "./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time-adapter.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTimepicker", function() { return _timepicker__WEBPACK_IMPORTED_MODULE_2__["NgbTimepicker"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTimepickerConfig", function() { return _timepicker_config__WEBPACK_IMPORTED_MODULE_3__["NgbTimepickerConfig"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NgbTimeAdapter", function() { return _ngb_time_adapter__WEBPACK_IMPORTED_MODULE_4__["NgbTimeAdapter"]; });
+
+
 
 
 
@@ -83683,7 +84147,12 @@ __webpack_require__.r(__webpack_exports__);
 var NgbTimepickerModule = /** @class */ (function () {
     function NgbTimepickerModule() {
     }
-    NgbTimepickerModule.forRoot = function () { return { ngModule: NgbTimepickerModule, providers: [_timepicker_config__WEBPACK_IMPORTED_MODULE_3__["NgbTimepickerConfig"]] }; };
+    NgbTimepickerModule.forRoot = function () {
+        return {
+            ngModule: NgbTimepickerModule,
+            providers: [_timepicker_config__WEBPACK_IMPORTED_MODULE_3__["NgbTimepickerConfig"], { provide: _ngb_time_adapter__WEBPACK_IMPORTED_MODULE_4__["NgbTimeAdapter"], useClass: _ngb_time_adapter__WEBPACK_IMPORTED_MODULE_4__["NgbTimeStructAdapter"] }]
+        };
+    };
     NgbTimepickerModule.decorators = [
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"], args: [{ declarations: [_timepicker__WEBPACK_IMPORTED_MODULE_2__["NgbTimepicker"]], exports: [_timepicker__WEBPACK_IMPORTED_MODULE_2__["NgbTimepicker"]], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]] },] },
     ];
@@ -84185,9 +84654,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _typeahead_window__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./typeahead-window */ "./node_modules/@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window.js");
 /* harmony import */ var _util_popup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/popup */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/popup.js");
 /* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/util */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var _util_accessibility_live__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../util/accessibility/live */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/accessibility/live.js");
-/* harmony import */ var _typeahead_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./typeahead-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/typeahead/typeahead-config.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _util_key__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../util/key */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js");
+/* harmony import */ var _util_accessibility_live__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../util/accessibility/live */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/accessibility/live.js");
+/* harmony import */ var _typeahead_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./typeahead-config */ "./node_modules/@ng-bootstrap/ng-bootstrap/typeahead/typeahead-config.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 
 
 
@@ -84198,14 +84668,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Key;
-(function (Key) {
-    Key[Key["Tab"] = 9] = "Tab";
-    Key[Key["Enter"] = 13] = "Enter";
-    Key[Key["Escape"] = 27] = "Escape";
-    Key[Key["ArrowUp"] = 38] = "ArrowUp";
-    Key[Key["ArrowDown"] = 40] = "ArrowDown";
-})(Key || (Key = {}));
+
 var NGB_TYPEAHEAD_VALUE_ACCESSOR = {
     provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALUE_ACCESSOR"],
     useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])(function () { return NgbTypeahead; }),
@@ -84223,6 +84686,14 @@ var NgbTypeahead = /** @class */ (function () {
         this._renderer = _renderer;
         this._injector = _injector;
         this._live = _live;
+        /**
+           * Value for the configurable autocomplete attribute.
+           * Defaults to 'off' to disable the native browser autocomplete, but this standard value does not seem
+           * to be always correctly taken into account.
+           *
+           * @since 2.1.0
+           */
+        this.autocomplete = 'off';
         /** Placement of a typeahead accepts:
            *    "top", "top-left", "top-right", "bottom", "bottom-left", "bottom-right",
            *    "left", "left-top", "left-bottom", "right", "right-top", "right-bottom"
@@ -84242,7 +84713,7 @@ var NgbTypeahead = /** @class */ (function () {
         this.showHint = config.showHint;
         this.placement = config.placement;
         this._valueChanges = Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["fromEvent"])(_elementRef.nativeElement, 'input')
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["map"])(function ($event) { return $event.target.value; }));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["map"])(function ($event) { return $event.target.value; }));
         this._resubscribeTypeahead = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](null);
         this._popupService = new _util_popup__WEBPACK_IMPORTED_MODULE_5__["PopupService"](_typeahead_window__WEBPACK_IMPORTED_MODULE_4__["NgbTypeaheadWindow"], _injector, _viewContainerRef, _renderer, componentFactoryResolver);
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
@@ -84253,19 +84724,19 @@ var NgbTypeahead = /** @class */ (function () {
     }
     NgbTypeahead.prototype.ngOnInit = function () {
         var _this = this;
-        var inputValues$ = this._valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["tap"])(function (value) {
+        var inputValues$ = this._valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["tap"])(function (value) {
             _this._inputValueBackup = value;
             if (_this.editable) {
                 _this._onChange(value);
             }
         }));
         var results$ = inputValues$.pipe(this.ngbTypeahead);
-        var processedResults$ = results$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["tap"])(function () {
+        var processedResults$ = results$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["tap"])(function () {
             if (!_this.editable) {
                 _this._onChange(undefined);
             }
         }));
-        var userInput$ = this._resubscribeTypeahead.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["switchMap"])(function () { return processedResults$; }));
+        var userInput$ = this._resubscribeTypeahead.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["switchMap"])(function () { return processedResults$; }));
         this._subscription = this._subscribeToUserInput(userInput$);
     };
     NgbTypeahead.prototype.ngOnDestroy = function () {
@@ -84317,20 +84788,20 @@ var NgbTypeahead = /** @class */ (function () {
         if (!this.isPopupOpen()) {
             return;
         }
-        if (Key[Object(_util_util__WEBPACK_IMPORTED_MODULE_6__["toString"])(event.which)]) {
+        if (_util_key__WEBPACK_IMPORTED_MODULE_7__["Key"][Object(_util_util__WEBPACK_IMPORTED_MODULE_6__["toString"])(event.which)]) {
             switch (event.which) {
-                case Key.ArrowDown:
+                case _util_key__WEBPACK_IMPORTED_MODULE_7__["Key"].ArrowDown:
                     event.preventDefault();
                     this._windowRef.instance.next();
                     this._showHint();
                     break;
-                case Key.ArrowUp:
+                case _util_key__WEBPACK_IMPORTED_MODULE_7__["Key"].ArrowUp:
                     event.preventDefault();
                     this._windowRef.instance.prev();
                     this._showHint();
                     break;
-                case Key.Enter:
-                case Key.Tab:
+                case _util_key__WEBPACK_IMPORTED_MODULE_7__["Key"].Enter:
+                case _util_key__WEBPACK_IMPORTED_MODULE_7__["Key"].Tab:
                     var result = this._windowRef.instance.getActive();
                     if (Object(_util_util__WEBPACK_IMPORTED_MODULE_6__["isDefined"])(result)) {
                         event.preventDefault();
@@ -84339,7 +84810,7 @@ var NgbTypeahead = /** @class */ (function () {
                     }
                     this._closePopup();
                     break;
-                case Key.Escape:
+                case _util_key__WEBPACK_IMPORTED_MODULE_7__["Key"].Escape:
                     event.preventDefault();
                     this._resubscribeTypeahead.next(null);
                     this.dismissPopup();
@@ -84392,7 +84863,7 @@ var NgbTypeahead = /** @class */ (function () {
         }
     };
     NgbTypeahead.prototype._formatItemForInput = function (item) {
-        return item && this.inputFormatter ? this.inputFormatter(item) : Object(_util_util__WEBPACK_IMPORTED_MODULE_6__["toString"])(item);
+        return item != null && this.inputFormatter ? this.inputFormatter(item) : Object(_util_util__WEBPACK_IMPORTED_MODULE_6__["toString"])(item);
     };
     NgbTypeahead.prototype._writeInputValue = function (value) {
         this._renderer.setProperty(this._elementRef.nativeElement, 'value', Object(_util_util__WEBPACK_IMPORTED_MODULE_6__["toString"])(value));
@@ -84443,7 +84914,7 @@ var NgbTypeahead = /** @class */ (function () {
                         '[class.open]': 'isPopupOpen()',
                         '(document:click)': 'onDocumentClick($event)',
                         '(keydown)': 'handleKeyDown($event)',
-                        'autocomplete': 'off',
+                        '[autocomplete]': 'autocomplete',
                         'autocapitalize': 'off',
                         'autocorrect': 'off',
                         'role': 'combobox',
@@ -84463,11 +84934,12 @@ var NgbTypeahead = /** @class */ (function () {
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ComponentFactoryResolver"], },
-        { type: _typeahead_config__WEBPACK_IMPORTED_MODULE_8__["NgbTypeaheadConfig"], },
+        { type: _typeahead_config__WEBPACK_IMPORTED_MODULE_9__["NgbTypeaheadConfig"], },
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"], },
-        { type: _util_accessibility_live__WEBPACK_IMPORTED_MODULE_7__["Live"], },
+        { type: _util_accessibility_live__WEBPACK_IMPORTED_MODULE_8__["Live"], },
     ]; };
     NgbTypeahead.propDecorators = {
+        "autocomplete": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "container": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "editable": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
         "focusFirst": [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
@@ -84564,22 +85036,32 @@ __webpack_require__.r(__webpack_exports__);
 
 var ARIA_LIVE_DELAY = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["InjectionToken"]('live announcer delay');
 var DEFAULT_ARIA_LIVE_DELAY = 100;
-function createLiveElement(document) {
-    var element = document.createElement('div');
-    element.setAttribute('aria-live', 'polite');
-    element.setAttribute('aria-atomic', 'true');
-    element.classList.add('sr-only');
-    document.body.appendChild(element);
+function getLiveElement(document, lazyCreate) {
+    if (lazyCreate === void 0) { lazyCreate = false; }
+    var element = document.body.querySelector('#ngb-live');
+    if (element == null && lazyCreate) {
+        element = document.createElement('div');
+        element.setAttribute('id', 'ngb-live');
+        element.setAttribute('aria-live', 'polite');
+        element.setAttribute('aria-atomic', 'true');
+        element.classList.add('sr-only');
+        document.body.appendChild(element);
+    }
     return element;
 }
 var Live = /** @class */ (function () {
-    function Live(document, _delay) {
+    function Live(_document, _delay) {
+        this._document = _document;
         this._delay = _delay;
-        this._element = createLiveElement(document);
     }
-    Live.prototype.ngOnDestroy = function () { this._element.parentElement.removeChild(this._element); };
+    Live.prototype.ngOnDestroy = function () {
+        var element = getLiveElement(this._document);
+        if (element) {
+            element.parentElement.removeChild(element);
+        }
+    };
     Live.prototype.say = function (message) {
-        var element = this._element;
+        var element = getLiveElement(this._document, true);
         var delay = this._delay;
         element.textContent = '';
         var setText = function () { return element.textContent = message; };
@@ -84609,217 +85091,91 @@ var Live = /** @class */ (function () {
 /*!********************************************************************!*\
   !*** ./node_modules/@ng-bootstrap/ng-bootstrap/util/focus-trap.js ***!
   \********************************************************************/
-/*! exports provided: NgbFocusTrap, NgbFocusTrapFactory */
+/*! exports provided: ngbFocusTrap */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbFocusTrap", function() { return NgbFocusTrap; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbFocusTrapFactory", function() { return NgbFocusTrapFactory; });
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ngbFocusTrap", function() { return ngbFocusTrap; });
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _util_key__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/key */ "./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js");
+
 
 
 var FOCUSABLE_ELEMENTS_SELECTOR = [
     'a[href]', 'button:not([disabled])', 'input:not([disabled]):not([type="hidden"])', 'select:not([disabled])',
     'textarea:not([disabled])', '[contenteditable]', '[tabindex]:not([tabindex="-1"])'
 ].join(', ');
-var DIRECTION;
-(function (DIRECTION) {
-    DIRECTION[DIRECTION["BACKWARD"] = 0] = "BACKWARD";
-    DIRECTION[DIRECTION["FORWARD"] = 1] = "FORWARD";
-})(DIRECTION || (DIRECTION = {}));
 /**
- * Class that enforce the browser focus to be trapped inside a DOM element.
- *
- * The implementation is rather simple, the class add a `focusin` listener on the document with capture phase.
- * Any focus event will then be caught, and therefore the class will only allow the one for elements contained inside
- * it's own element.
- *
- * In case the element is not contained, the class will determine which new element has to be focused based on the `tab`
- * navigation direction.
- *
- * Should not be used directly. Use only via {@link NgbFocusTrapFactory}
+ * Returns first and last focusable elements inside of a given element based on specific CSS selector
  */
-var /**
- * Class that enforce the browser focus to be trapped inside a DOM element.
+function getFocusableBoundaryElements(element) {
+    var list = element.querySelectorAll(FOCUSABLE_ELEMENTS_SELECTOR);
+    return [list[0], list[list.length - 1]];
+}
+/**
+ * Function that enforces browser focus to be trapped inside a DOM element.
  *
- * The implementation is rather simple, the class add a `focusin` listener on the document with capture phase.
- * Any focus event will then be caught, and therefore the class will only allow the one for elements contained inside
- * it's own element.
+ * Works only for clicks inside the element and navigation with 'Tab', ignoring clicks outside of the element
  *
- * In case the element is not contained, the class will determine which new element has to be focused based on the `tab`
- * navigation direction.
- *
- * Should not be used directly. Use only via {@link NgbFocusTrapFactory}
+ * @param element The element around which focus will be trapped inside
+ * @param stopFocusTrap$ The observable stream. When completed the focus trap will clean up listeners
+ * and free internal resources
  */
-NgbFocusTrap = /** @class */ (function () {
-    /**
-     * @param _element The element around which focus will be trapped inside
-     * @param autofocus Initially put the focus on specific element with a `ngbFocustrap` attribute. Will also remenber
-     * and restore any previously focused element on destroy.
-     * @param _document Document on which `focusin` and `keydown.TAB` events are listened
-     * @param _ngZone The zone Angular is running in
-     */
-    function NgbFocusTrap(_element, autofocus, _document, _ngZone) {
-        var _this = this;
-        this._element = _element;
-        this._document = _document;
-        this._ngZone = _ngZone;
-        this._direction = DIRECTION.FORWARD;
-        this._previouslyFocused = null;
-        this._endOfDocument = null;
-        this._enforceFocus = this._enforceFocus.bind(this);
-        this._detectDirection = this._detectDirection.bind(this);
-        var eod = this._endOfDocument = this._document.createElement('i');
-        eod.className = 'ngb-focustrap-eod';
-        eod.tabIndex = 0;
-        this._document.body.appendChild(eod);
-        this._ngZone.runOutsideAngular(function () {
-            _this._document.addEventListener('focusin', _this._enforceFocus, true);
-            _this._document.addEventListener('keydown', _this._detectDirection);
-            _this._removeDocumentListener = function () {
-                _this._document.removeEventListener('focusin', _this._enforceFocus, true);
-                _this._document.removeEventListener('keydown', _this._detectDirection);
-            };
-        });
-        if (autofocus === true) {
-            this._previouslyFocused = document.activeElement;
-            this._focusInitial();
+var ngbFocusTrap = function (element, stopFocusTrap$) {
+    // last focused element
+    var lastFocusedElement$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["fromEvent"])(element, 'focusin').pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(stopFocusTrap$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (e) { return e.target; }));
+    // 'tab' / 'shift+tab' stream
+    Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["fromEvent"])(element, 'keydown')
+        .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(stopFocusTrap$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["filter"])(function (e) { return e.which === _util_key__WEBPACK_IMPORTED_MODULE_2__["Key"].Tab; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["withLatestFrom"])(lastFocusedElement$))
+        .subscribe(function (_a) {
+        var tabEvent = _a[0], focusedElement = _a[1];
+        var _b = getFocusableBoundaryElements(element), first = _b[0], last = _b[1];
+        if (focusedElement === first && tabEvent.shiftKey) {
+            last.focus();
+            tabEvent.preventDefault();
         }
-    }
-    Object.defineProperty(NgbFocusTrap.prototype, "focusableElement", {
-        /**
-         * Guess the next focusable element.
-         * Computation is based on specific CSS selector and [tab] navigation direction
-         */
-        get: /**
-           * Guess the next focusable element.
-           * Computation is based on specific CSS selector and [tab] navigation direction
-           */
-        function () {
-            var list = this._element.querySelectorAll(FOCUSABLE_ELEMENTS_SELECTOR);
-            return this._direction === DIRECTION.BACKWARD ? list[list.length - 1] : list[0];
-        },
-        enumerable: true,
-        configurable: true
+        if (focusedElement === last && !tabEvent.shiftKey) {
+            first.focus();
+            tabEvent.preventDefault();
+        }
     });
-    /** Detect if incoming focus event should be prevented or not */
-    /** Detect if incoming focus event should be prevented or not */
-    NgbFocusTrap.prototype._enforceFocus = /** Detect if incoming focus event should be prevented or not */
-    function (event) {
-        var _this = this;
-        var target = event.target;
-        if (this._document !== target && this._element !== target && !this._element.contains(target)) {
-            this._ngZone.run(function () {
-                var element = _this.focusableElement;
-                if (element) {
-                    element.focus();
-                    event.stopPropagation();
-                }
-            });
-        }
-    };
-    /** Event handler detecting current `tab` navigation direction */
-    /** Event handler detecting current `tab` navigation direction */
-    NgbFocusTrap.prototype._detectDirection = /** Event handler detecting current `tab` navigation direction */
-    function (event) {
-        var shiftKey = event.shiftKey, key = event.key;
-        if (key === 'Tab') {
-            this._direction = shiftKey ? DIRECTION.BACKWARD : DIRECTION.FORWARD;
-        }
-    };
-    /** Try to set focus on the first found element that has an ngbAutofocus attribute */
-    /** Try to set focus on the first found element that has an ngbAutofocus attribute */
-    NgbFocusTrap.prototype._focusInitial = /** Try to set focus on the first found element that has an ngbAutofocus attribute */
-    function () {
-        var element = this._element.querySelector('[ngbAutofocus]');
-        if (element) {
-            element.focus();
-        }
-    };
-    /**
-     * Destroys the focustrap by removing all event listeners set on document.
-     *
-     * Eventually put the focus back on the previously focused element at the time
-     * focustrap has been initialized.
-     */
-    /**
-       * Destroys the focustrap by removing all event listeners set on document.
-       *
-       * Eventually put the focus back on the previously focused element at the time
-       * focustrap has been initialized.
-       */
-    NgbFocusTrap.prototype.destroy = /**
-       * Destroys the focustrap by removing all event listeners set on document.
-       *
-       * Eventually put the focus back on the previously focused element at the time
-       * focustrap has been initialized.
-       */
-    function () {
-        this._removeDocumentListener();
-        this._document.body.removeChild(this._endOfDocument);
-        if (this._previouslyFocused) {
-            this._previouslyFocused.focus();
-        }
-    };
-    return NgbFocusTrap;
-}());
-/**
- * Class that enforce the browser focus to be trapped inside a DOM element.
- *
- * The implementation is rather simple, the class add a `focusin` listener on the document with capture phase.
- * Any focus event will then be caught, and therefore the class will only allow the one for elements contained inside
- * it's own element.
- *
- * In case the element is not contained, the class will determine which new element has to be focused based on the `tab`
- * navigation direction.
- *
- * Should not be used directly. Use only via {@link NgbFocusTrapFactory}
- */
-
-/**
- * Factory service to easily create a `NgbFocusTrap` instance on an element
- */
-var NgbFocusTrapFactory = /** @class */ (function () {
-    function NgbFocusTrapFactory(_document, _ngZone) {
-        this._document = _document;
-        this._ngZone = _ngZone;
-    }
-    /**
-     * Create an instance of {@link NgbFocusTrap} and return it
-     * @param element HTMLElement to trap focus inside
-     * @param autofocus Whether the focustrap should automatically move focus into the trapped element upon
-     * initialization and return focus to the previous activeElement upon destruction.
-     */
-    /**
-       * Create an instance of {@link NgbFocusTrap} and return it
-       * @param element HTMLElement to trap focus inside
-       * @param autofocus Whether the focustrap should automatically move focus into the trapped element upon
-       * initialization and return focus to the previous activeElement upon destruction.
-       */
-    NgbFocusTrapFactory.prototype.create = /**
-       * Create an instance of {@link NgbFocusTrap} and return it
-       * @param element HTMLElement to trap focus inside
-       * @param autofocus Whether the focustrap should automatically move focus into the trapped element upon
-       * initialization and return focus to the previous activeElement upon destruction.
-       */
-    function (element, autofocus) {
-        if (autofocus === void 0) { autofocus = false; }
-        return new NgbFocusTrap(element, autofocus, this._document, this._ngZone);
-    };
-    NgbFocusTrapFactory.decorators = [
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"] },
-    ];
-    /** @nocollapse */
-    NgbFocusTrapFactory.ctorParameters = function () { return [
-        { type: Document, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_0__["DOCUMENT"],] },] },
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"], },
-    ]; };
-    return NgbFocusTrapFactory;
-}());
-
+    // inside click
+    Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["fromEvent"])(element, 'click')
+        .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(stopFocusTrap$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["withLatestFrom"])(lastFocusedElement$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (arr) { return arr[1]; }))
+        .subscribe(function (lastFocusedElement) { return lastFocusedElement.focus(); });
+};
 //# sourceMappingURL=focus-trap.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@ng-bootstrap/ng-bootstrap/util/key.js ***!
+  \*************************************************************/
+/*! exports provided: Key */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Key", function() { return Key; });
+var Key;
+(function (Key) {
+    Key[Key["Tab"] = 9] = "Tab";
+    Key[Key["Enter"] = 13] = "Enter";
+    Key[Key["Escape"] = 27] = "Escape";
+    Key[Key["Space"] = 32] = "Space";
+    Key[Key["PageUp"] = 33] = "PageUp";
+    Key[Key["PageDown"] = 34] = "PageDown";
+    Key[Key["End"] = 35] = "End";
+    Key[Key["Home"] = 36] = "Home";
+    Key[Key["ArrowLeft"] = 37] = "ArrowLeft";
+    Key[Key["ArrowUp"] = 38] = "ArrowUp";
+    Key[Key["ArrowRight"] = 39] = "ArrowRight";
+    Key[Key["ArrowDown"] = 40] = "ArrowDown";
+})(Key || (Key = {}));
+//# sourceMappingURL=key.js.map
 
 /***/ }),
 
@@ -85040,11 +85396,16 @@ Positioning = /** @class */ (function () {
         var hostElemClientRect = hostElement.getBoundingClientRect();
         var targetElemClientRect = targetElement.getBoundingClientRect();
         var html = document.documentElement;
+        var windowHeight = window.innerHeight || html.clientHeight;
+        var windowWidth = window.innerWidth || html.clientWidth;
+        var hostElemClientRectHorCenter = hostElemClientRect.left + hostElemClientRect.width / 2;
+        var hostElemClientRectVerCenter = hostElemClientRect.top + hostElemClientRect.height / 2;
         // left: check if target width can be placed between host left and viewport start and also height of target is
         // inside viewport
         if (targetElemClientRect.width < hostElemClientRect.left) {
             // check for left only
-            if ((hostElemClientRect.top + hostElemClientRect.height / 2 - targetElement.offsetHeight / 2) > 0) {
+            if (hostElemClientRectVerCenter > targetElemClientRect.height / 2 &&
+                windowHeight - hostElemClientRectVerCenter > targetElemClientRect.height / 2) {
                 availablePlacements.splice(availablePlacements.length, 1, 'left');
             }
             // check for left-top and left-bottom
@@ -85052,22 +85413,29 @@ Positioning = /** @class */ (function () {
         }
         // top: target height is less than host top
         if (targetElemClientRect.height < hostElemClientRect.top) {
-            availablePlacements.splice(availablePlacements.length, 1, 'top');
+            if (hostElemClientRectHorCenter > targetElemClientRect.width / 2 &&
+                windowWidth - hostElemClientRectHorCenter > targetElemClientRect.width / 2) {
+                availablePlacements.splice(availablePlacements.length, 1, 'top');
+            }
             this.setSecondaryPlacementForTopBottom(hostElemClientRect, targetElemClientRect, 'top', availablePlacements);
         }
         // right: check if target width can be placed between host right and viewport end and also height of target is
         // inside viewport
-        if ((window.innerWidth || html.clientWidth) - hostElemClientRect.right > targetElemClientRect.width) {
+        if (windowWidth - hostElemClientRect.right > targetElemClientRect.width) {
             // check for right only
-            if ((hostElemClientRect.top + hostElemClientRect.height / 2 - targetElement.offsetHeight / 2) > 0) {
+            if (hostElemClientRectVerCenter > targetElemClientRect.height / 2 &&
+                windowHeight - hostElemClientRectVerCenter > targetElemClientRect.height / 2) {
                 availablePlacements.splice(availablePlacements.length, 1, 'right');
             }
             // check for right-top and right-bottom
             this.setSecondaryPlacementForLeftRight(hostElemClientRect, targetElemClientRect, 'right', availablePlacements);
         }
         // bottom: check if there is enough space between host bottom and viewport end for target height
-        if ((window.innerHeight || html.clientHeight) - hostElemClientRect.bottom > targetElemClientRect.height) {
-            availablePlacements.splice(availablePlacements.length, 1, 'bottom');
+        if (windowHeight - hostElemClientRect.bottom > targetElemClientRect.height) {
+            if (hostElemClientRectHorCenter > targetElemClientRect.width / 2 &&
+                windowWidth - hostElemClientRectHorCenter > targetElemClientRect.width / 2) {
+                availablePlacements.splice(availablePlacements.length, 1, 'bottom');
+            }
             this.setSecondaryPlacementForTopBottom(hostElemClientRect, targetElemClientRect, 'bottom', availablePlacements);
         }
         return availablePlacements;
@@ -85131,15 +85499,22 @@ var positionService = new Positioning();
 /*
  * Accept the placement array and applies the appropriate placement dependent on the viewport.
  * Returns the applied placement.
- * In case of auto placement, placements are selected in order 'top', 'bottom', 'left', 'right'.
+ * In case of auto placement, placements are selected in order
+ *   'top', 'bottom', 'left', 'right',
+ *   'top-left', 'top-right',
+ *   'bottom-left', 'bottom-right',
+ *   'left-top', 'left-bottom',
+ *   'right-top', 'right-bottom'.
  * */
 function positionElements(hostElement, targetElement, placement, appendToBody) {
     var placementVals = Array.isArray(placement) ? placement : [placement];
     // replace auto placement with other placements
     var hasAuto = placementVals.findIndex(function (val) { return val === 'auto'; });
     if (hasAuto >= 0) {
-        ['top', 'right', 'bottom', 'left'].forEach(function (obj) {
-            if (placementVals.find(function (val) { return val.search('^' + obj + '|^' + obj + '-') !== -1; }) == null) {
+        ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'left-top',
+            'left-bottom', 'right-top', 'right-bottom',
+        ].forEach(function (obj) {
+            if (placementVals.find(function (val) { return val.search('^' + obj) !== -1; }) == null) {
                 placementVals.splice(hasAuto++, 1, obj);
             }
         });
@@ -87328,40 +87703,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _internal_config__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./internal/config */ "./node_modules/rxjs/_esm2015/internal/config.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "config", function() { return _internal_config__WEBPACK_IMPORTED_MODULE_50__["config"]; });
 
-/* Observable */
-
-
-
-
-/* Subjects */
-
-
-
-
-/* Schedulers */
-
-
-
-
-
-
-/* Subscription */
-
-
-/* Notification */
-
-/* Utils */
-
-
-
-
-/* Error types */
-
-
-
-
-
-/* Static observable creation exports */
 
 
 
@@ -87386,10 +87727,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* Constants */
 
 
-/* Config */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //# sourceMappingURL=index.js.map
 
@@ -87409,9 +87774,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Subscription */ "./node_modules/rxjs/_esm2015/internal/Subscription.js");
 
 
-/**
- * @class AsyncSubject<T>
- */
 class AsyncSubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
     constructor() {
         super(...arguments);
@@ -87419,7 +87781,6 @@ class AsyncSubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
         this.hasNext = false;
         this.hasCompleted = false;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         if (this.hasError) {
             subscriber.error(this.thrownError);
@@ -87469,9 +87830,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_ObjectUnsubscribedError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/ObjectUnsubscribedError */ "./node_modules/rxjs/_esm2015/internal/util/ObjectUnsubscribedError.js");
 
 
-/**
- * @class BehaviorSubject<T>
- */
 class BehaviorSubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
     constructor(_value) {
         super();
@@ -87480,7 +87838,6 @@ class BehaviorSubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
     get value() {
         return this.getValue();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         const subscription = super._subscribe(subscriber);
         if (subscription && !subscription.closed) {
@@ -87519,11 +87876,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InnerSubscriber", function() { return InnerSubscriber; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class InnerSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(parent, outerValue, outerIndex) {
         super();
@@ -87564,20 +87916,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Represents a push-based event or value that an {@link Observable} can emit.
- * This class is particularly useful for operators that manage notifications,
- * like {@link materialize}, {@link dematerialize}, {@link observeOn}, and
- * others. Besides wrapping the actual delivered value, it also annotates it
- * with metadata of, for instance, what type of push message it is (`next`,
- * `error`, or `complete`).
- *
- * @see {@link materialize}
- * @see {@link dematerialize}
- * @see {@link observeOn}
- *
- * @class Notification<T>
- */
 class Notification {
     constructor(kind, value, error) {
         this.kind = kind;
@@ -87585,11 +87923,6 @@ class Notification {
         this.error = error;
         this.hasValue = kind === 'N';
     }
-    /**
-     * Delivers to the given `observer` the value wrapped by this Notification.
-     * @param {Observer} observer
-     * @return
-     */
     observe(observer) {
         switch (this.kind) {
             case 'N':
@@ -87600,14 +87933,6 @@ class Notification {
                 return observer.complete && observer.complete();
         }
     }
-    /**
-     * Given some {@link Observer} callbacks, deliver the value represented by the
-     * current Notification to the correctly corresponding callback.
-     * @param {function(value: T): void} next An Observer `next` callback.
-     * @param {function(err: any): void} [error] An Observer `error` callback.
-     * @param {function(): void} [complete] An Observer `complete` callback.
-     * @return {any}
-     */
     do(next, error, complete) {
         const kind = this.kind;
         switch (kind) {
@@ -87619,15 +87944,6 @@ class Notification {
                 return complete && complete();
         }
     }
-    /**
-     * Takes an Observer or its individual callback functions, and calls `observe`
-     * or `do` methods accordingly.
-     * @param {Observer|function(value: T): void} nextOrObserver An Observer or
-     * the `next` callback.
-     * @param {function(err: any): void} [error] An Observer `error` callback.
-     * @param {function(): void} [complete] An Observer `complete` callback.
-     * @return {any}
-     */
     accept(nextOrObserver, error, complete) {
         if (nextOrObserver && typeof nextOrObserver.next === 'function') {
             return this.observe(nextOrObserver);
@@ -87636,11 +87952,6 @@ class Notification {
             return this.do(nextOrObserver, error, complete);
         }
     }
-    /**
-     * Returns a simple Observable that just delivers the notification represented
-     * by this Notification instance.
-     * @return {any}
-     */
     toObservable() {
         const kind = this.kind;
         switch (kind) {
@@ -87653,36 +87964,15 @@ class Notification {
         }
         throw new Error('unexpected notification kind value');
     }
-    /**
-     * A shortcut to create a Notification instance of the type `next` from a
-     * given value.
-     * @param {T} value The `next` value.
-     * @return {Notification<T>} The "next" Notification representing the
-     * argument.
-     * @nocollapse
-     */
     static createNext(value) {
         if (typeof value !== 'undefined') {
             return new Notification('N', value);
         }
         return Notification.undefinedValueNotification;
     }
-    /**
-     * A shortcut to create a Notification instance of the type `error` from a
-     * given error.
-     * @param {any} [err] The `error` error.
-     * @return {Notification<T>} The "error" Notification representing the
-     * argument.
-     * @nocollapse
-     */
     static createError(err) {
         return new Notification('E', undefined, err);
     }
-    /**
-     * A shortcut to create a Notification instance of the type `complete`.
-     * @return {Notification<any>} The valueless "complete" Notification.
-     * @nocollapse
-     */
     static createComplete() {
         return Notification.completeNotification;
     }
@@ -87711,154 +88001,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * A representation of any set of values over any amount of time. This is the most basic building block
- * of RxJS.
- *
- * @class Observable<T>
- */
 class Observable {
-    /**
-     * @constructor
-     * @param {Function} subscribe the function that is called when the Observable is
-     * initially subscribed to. This function is given a Subscriber, to which new values
-     * can be `next`ed, or an `error` method can be called to raise an error, or
-     * `complete` can be called to notify of a successful completion.
-     */
     constructor(subscribe) {
-        /** Internal implementation detail, do not use directly. */
         this._isScalar = false;
         if (subscribe) {
             this._subscribe = subscribe;
         }
     }
-    /**
-     * Creates a new Observable, with this Observable as the source, and the passed
-     * operator defined as the new observable's operator.
-     * @method lift
-     * @param {Operator} operator the operator defining the operation to take on the observable
-     * @return {Observable} a new observable with the Operator applied
-     */
     lift(operator) {
         const observable = new Observable();
         observable.source = this;
         observable.operator = operator;
         return observable;
     }
-    /**
-     * Invokes an execution of an Observable and registers Observer handlers for notifications it will emit.
-     *
-     * <span class="informal">Use it when you have all these Observables, but still nothing is happening.</span>
-     *
-     * `subscribe` is not a regular operator, but a method that calls Observable's internal `subscribe` function. It
-     * might be for example a function that you passed to a {@link create} static factory, but most of the time it is
-     * a library implementation, which defines what and when will be emitted by an Observable. This means that calling
-     * `subscribe` is actually the moment when Observable starts its work, not when it is created, as it is often
-     * thought.
-     *
-     * Apart from starting the execution of an Observable, this method allows you to listen for values
-     * that an Observable emits, as well as for when it completes or errors. You can achieve this in two
-     * following ways.
-     *
-     * The first way is creating an object that implements {@link Observer} interface. It should have methods
-     * defined by that interface, but note that it should be just a regular JavaScript object, which you can create
-     * yourself in any way you want (ES6 class, classic function constructor, object literal etc.). In particular do
-     * not attempt to use any RxJS implementation details to create Observers - you don't need them. Remember also
-     * that your object does not have to implement all methods. If you find yourself creating a method that doesn't
-     * do anything, you can simply omit it. Note however, that if `error` method is not provided, all errors will
-     * be left uncaught.
-     *
-     * The second way is to give up on Observer object altogether and simply provide callback functions in place of its methods.
-     * This means you can provide three functions as arguments to `subscribe`, where first function is equivalent
-     * of a `next` method, second of an `error` method and third of a `complete` method. Just as in case of Observer,
-     * if you do not need to listen for something, you can omit a function, preferably by passing `undefined` or `null`,
-     * since `subscribe` recognizes these functions by where they were placed in function call. When it comes
-     * to `error` function, just as before, if not provided, errors emitted by an Observable will be thrown.
-     *
-     * Whatever style of calling `subscribe` you use, in both cases it returns a Subscription object.
-     * This object allows you to call `unsubscribe` on it, which in turn will stop work that an Observable does and will clean
-     * up all resources that an Observable used. Note that cancelling a subscription will not call `complete` callback
-     * provided to `subscribe` function, which is reserved for a regular completion signal that comes from an Observable.
-     *
-     * Remember that callbacks provided to `subscribe` are not guaranteed to be called asynchronously.
-     * It is an Observable itself that decides when these functions will be called. For example {@link of}
-     * by default emits all its values synchronously. Always check documentation for how given Observable
-     * will behave when subscribed and if its default behavior can be modified with a {@link Scheduler}.
-     *
-     * @example <caption>Subscribe with an Observer</caption>
-     * const sumObserver = {
-     *   sum: 0,
-     *   next(value) {
-     *     console.log('Adding: ' + value);
-     *     this.sum = this.sum + value;
-     *   },
-     *   error() { // We actually could just remove this method,
-     *   },        // since we do not really care about errors right now.
-     *   complete() {
-     *     console.log('Sum equals: ' + this.sum);
-     *   }
-     * };
-     *
-     * Rx.Observable.of(1, 2, 3) // Synchronously emits 1, 2, 3 and then completes.
-     * .subscribe(sumObserver);
-     *
-     * // Logs:
-     * // "Adding: 1"
-     * // "Adding: 2"
-     * // "Adding: 3"
-     * // "Sum equals: 6"
-     *
-     *
-     * @example <caption>Subscribe with functions</caption>
-     * let sum = 0;
-     *
-     * Rx.Observable.of(1, 2, 3)
-     * .subscribe(
-     *   function(value) {
-     *     console.log('Adding: ' + value);
-     *     sum = sum + value;
-     *   },
-     *   undefined,
-     *   function() {
-     *     console.log('Sum equals: ' + sum);
-     *   }
-     * );
-     *
-     * // Logs:
-     * // "Adding: 1"
-     * // "Adding: 2"
-     * // "Adding: 3"
-     * // "Sum equals: 6"
-     *
-     *
-     * @example <caption>Cancel a subscription</caption>
-     * const subscription = Rx.Observable.interval(1000).subscribe(
-     *   num => console.log(num),
-     *   undefined,
-     *   () => console.log('completed!') // Will not be called, even
-     * );                                // when cancelling subscription
-     *
-     *
-     * setTimeout(() => {
-     *   subscription.unsubscribe();
-     *   console.log('unsubscribed!');
-     * }, 2500);
-     *
-     * // Logs:
-     * // 0 after 1s
-     * // 1 after 2s
-     * // "unsubscribed!" after 2.5s
-     *
-     *
-     * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
-     *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
-     *  Observable.
-     * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
-     *  the error will be thrown as unhandled.
-     * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
-     * @return {ISubscription} a subscription reference to the registered handlers
-     * @method subscribe
-     */
     subscribe(observerOrNext, error, complete) {
         const { operator } = this;
         const sink = Object(_util_toSubscriber__WEBPACK_IMPORTED_MODULE_0__["toSubscriber"])(observerOrNext, error, complete);
@@ -87866,7 +88021,9 @@ class Observable {
             operator.call(sink, this.source);
         }
         else {
-            sink.add(this.source || !sink.syncErrorThrowable ? this._subscribe(sink) : this._trySubscribe(sink));
+            sink.add(this.source || (_config__WEBPACK_IMPORTED_MODULE_3__["config"].useDeprecatedSynchronousErrorHandling && !sink.syncErrorThrowable) ?
+                this._subscribe(sink) :
+                this._trySubscribe(sink));
         }
         if (_config__WEBPACK_IMPORTED_MODULE_3__["config"].useDeprecatedSynchronousErrorHandling) {
             if (sink.syncErrorThrowable) {
@@ -87878,7 +88035,6 @@ class Observable {
         }
         return sink;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _trySubscribe(sink) {
         try {
             return this._subscribe(sink);
@@ -87891,18 +88047,9 @@ class Observable {
             sink.error(err);
         }
     }
-    /**
-     * @method forEach
-     * @param {Function} next a handler for each value emitted by the observable
-     * @param {PromiseConstructor} [promiseCtor] a constructor function used to instantiate the Promise
-     * @return {Promise} a promise that either resolves on observable completion or
-     *  rejects with the handled error
-     */
     forEach(next, promiseCtor) {
         promiseCtor = getPromiseCtor(promiseCtor);
         return new promiseCtor((resolve, reject) => {
-            // Must be declared in a separate statement to avoid a RefernceError when
-            // accessing subscription below in the closure due to Temporal Dead Zone.
             let subscription;
             subscription = this.subscribe((value) => {
                 try {
@@ -87917,45 +88064,19 @@ class Observable {
             }, reject, resolve);
         });
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         const { source } = this;
         return source && source.subscribe(subscriber);
     }
-    /**
-     * An interop point defined by the es7-observable spec https://github.com/zenparsing/es-observable
-     * @method Symbol.observable
-     * @return {Observable} this instance of the observable
-     */
     [_internal_symbol_observable__WEBPACK_IMPORTED_MODULE_1__["observable"]]() {
         return this;
     }
-    /* tslint:enable:max-line-length */
-    /**
-     * Used to stitch together functional operators into a chain.
-     * @method pipe
-     * @return {Observable} the Observable result of all of the operators having
-     * been called in the order they were passed in.
-     *
-     * @example
-     *
-     * import { map, filter, scan } from 'rxjs/operators';
-     *
-     * Rx.Observable.interval(1000)
-     *   .pipe(
-     *     filter(x => x % 2 === 0),
-     *     map(x => x + x),
-     *     scan((acc, x) => acc + x)
-     *   )
-     *   .subscribe(x => console.log(x))
-     */
     pipe(...operations) {
         if (operations.length === 0) {
             return this;
         }
         return Object(_util_pipe__WEBPACK_IMPORTED_MODULE_2__["pipeFromArray"])(operations)(this);
     }
-    /* tslint:enable:max-line-length */
     toPromise(promiseCtor) {
         promiseCtor = getPromiseCtor(promiseCtor);
         return new promiseCtor((resolve, reject) => {
@@ -87964,27 +88085,9 @@ class Observable {
         });
     }
 }
-// HACK: Since TypeScript inherits static properties too, we have to
-// fight against TypeScript here so Subject can have a different static create signature
-/**
- * Creates a new cold Observable by calling the Observable constructor
- * @static true
- * @owner Observable
- * @method create
- * @param {Function} subscribe? the subscriber function to be passed to the Observable constructor
- * @return {Observable} a new cold observable
- * @nocollapse
- */
 Observable.create = (subscribe) => {
     return new Observable(subscribe);
 };
-/**
- * Decides between a passed promise constructor from consuming code,
- * A default configured promise constructor, and the native promise
- * constructor and returns it. If nothing can be found, it will throw
- * an error.
- * @param promiseCtor The optional promise constructor to passed by consuming code
- */
 function getPromiseCtor(promiseCtor) {
     if (!promiseCtor) {
         promiseCtor = _config__WEBPACK_IMPORTED_MODULE_3__["config"].Promise || Promise;
@@ -88041,11 +88144,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OuterSubscriber", function() { return OuterSubscriber; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class OuterSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     notifyNext(outerValue, innerValue, outerIndex, innerIndex, innerSub) {
         this.destination.next(innerValue);
@@ -88083,9 +88181,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * @class ReplaySubject<T>
- */
 class ReplaySubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
     constructor(bufferSize = Number.POSITIVE_INFINITY, windowTime = Number.POSITIVE_INFINITY, scheduler) {
         super();
@@ -88105,8 +88200,6 @@ class ReplaySubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
     nextInfiniteTimeWindow(value) {
         const _events = this._events;
         _events.push(value);
-        // Since this method is invoked in every next() call than the buffer
-        // can overgrow the max size only by one item
         if (_events.length > this._bufferSize) {
             _events.shift();
         }
@@ -88117,9 +88210,7 @@ class ReplaySubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
         this._trimBufferThenGetEvents();
         super.next(value);
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
-        // When `_infiniteTimeWindow === true` then the buffer is already trimmed
         const _infiniteTimeWindow = this._infiniteTimeWindow;
         const _events = _infiniteTimeWindow ? this._events : this._trimBufferThenGetEvents();
         const scheduler = this.scheduler;
@@ -88166,9 +88257,6 @@ class ReplaySubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
         const _events = this._events;
         const eventsCount = _events.length;
         let spliceCount = 0;
-        // Trim events that fall out of the time window.
-        // Start at the front of the list. Break early once
-        // we encounter an event that falls within the window.
         while (spliceCount < eventsCount) {
             if ((now - _events[spliceCount].time) < _windowTime) {
                 break;
@@ -88204,52 +88292,15 @@ class ReplayEvent {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scheduler", function() { return Scheduler; });
-/**
- * An execution context and a data structure to order tasks and schedule their
- * execution. Provides a notion of (potentially virtual) time, through the
- * `now()` getter method.
- *
- * Each unit of work in a Scheduler is called an {@link Action}.
- *
- * ```ts
- * class Scheduler {
- *   now(): number;
- *   schedule(work, delay?, state?): Subscription;
- * }
- * ```
- *
- * @class Scheduler
- * @deprecated Scheduler is an internal implementation detail of RxJS, and
- * should not be used directly. Rather, create your own class and implement
- * {@link SchedulerLike}
- */
 class Scheduler {
     constructor(SchedulerAction, now = Scheduler.now) {
         this.SchedulerAction = SchedulerAction;
         this.now = now;
     }
-    /**
-     * Schedules a function, `work`, for execution. May happen at some point in
-     * the future, according to the `delay` parameter, if specified. May be passed
-     * some context object, `state`, which will be passed to the `work` function.
-     *
-     * The given arguments will be processed an stored as an Action object in a
-     * queue of actions.
-     *
-     * @param {function(state: ?T): ?Subscription} work A function representing a
-     * task, or some unit of work to be executed by the Scheduler.
-     * @param {number} [delay] Time to wait before executing the work, where the
-     * time unit is implicit and defined by the Scheduler itself.
-     * @param {T} [state] Some contextual data that the `work` function uses when
-     * called by the Scheduler.
-     * @return {Subscription} A subscription in order to be able to unsubscribe
-     * the scheduled work.
-     */
     schedule(work, delay = 0, state) {
         return new this.SchedulerAction(this, work).schedule(state, delay);
     }
 }
-/** @nocollapse */
 Scheduler.now = Date.now ? Date.now : () => +new Date();
 //# sourceMappingURL=Scheduler.js.map
 
@@ -88279,18 +88330,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * @class SubjectSubscriber<T>
- */
 class SubjectSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_1__["Subscriber"] {
     constructor(destination) {
         super(destination);
         this.destination = destination;
     }
 }
-/**
- * @class Subject<T>
- */
 class Subject extends _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"] {
     constructor() {
         super();
@@ -88354,7 +88399,6 @@ class Subject extends _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"] {
         this.closed = true;
         this.observers = null;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _trySubscribe(subscriber) {
         if (this.closed) {
             throw new _util_ObjectUnsubscribedError__WEBPACK_IMPORTED_MODULE_3__["ObjectUnsubscribedError"]();
@@ -88363,7 +88407,6 @@ class Subject extends _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"] {
             return super._trySubscribe(subscriber);
         }
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         if (this.closed) {
             throw new _util_ObjectUnsubscribedError__WEBPACK_IMPORTED_MODULE_3__["ObjectUnsubscribedError"]();
@@ -88387,13 +88430,9 @@ class Subject extends _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"] {
         return observable;
     }
 }
-/**@nocollapse */
 Subject.create = (destination, source) => {
     return new AnonymousSubject(destination, source);
 };
-/**
- * @class AnonymousSubject<T>
- */
 class AnonymousSubject extends Subject {
     constructor(destination, source) {
         super();
@@ -88418,7 +88457,6 @@ class AnonymousSubject extends Subject {
             this.destination.complete();
         }
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         const { source } = this;
         if (source) {
@@ -88445,11 +88483,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SubjectSubscription", function() { return SubjectSubscription; });
 /* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Subscription */ "./node_modules/rxjs/_esm2015/internal/Subscription.js");
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SubjectSubscription extends _Subscription__WEBPACK_IMPORTED_MODULE_0__["Subscription"] {
     constructor(subject, subscriber) {
         super();
@@ -88500,30 +88533,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Implements the {@link Observer} interface and extends the
- * {@link Subscription} class. While the {@link Observer} is the public API for
- * consuming the values of an {@link Observable}, all Observers get converted to
- * a Subscriber, in order to provide Subscription-like capabilities such as
- * `unsubscribe`. Subscriber is a common type in RxJS, and crucial for
- * implementing operators, but it is rarely used as a public API.
- *
- * @class Subscriber<T>
- */
 class Subscriber extends _Subscription__WEBPACK_IMPORTED_MODULE_2__["Subscription"] {
-    /**
-     * @param {Observer|function(value: T): void} [destinationOrNext] A partially
-     * defined Observer or a `next` callback function.
-     * @param {function(e: ?any): void} [error] The `error` callback of an
-     * Observer.
-     * @param {function(): void} [complete] The `complete` callback of an
-     * Observer.
-     */
     constructor(destinationOrNext, error, complete) {
         super();
-        /** @internal */ this.syncErrorValue = null;
-        /** @internal */ this.syncErrorThrown = false;
-        /** @internal */ this.syncErrorThrowable = false;
+        this.syncErrorValue = null;
+        this.syncErrorThrown = false;
+        this.syncErrorThrowable = false;
         this.isStopped = false;
         switch (arguments.length) {
             case 0:
@@ -88535,8 +88550,6 @@ class Subscriber extends _Subscription__WEBPACK_IMPORTED_MODULE_2__["Subscriptio
                     break;
                 }
                 if (typeof destinationOrNext === 'object') {
-                    // HACK(benlesh): For situations where Node has multiple copies of rxjs in
-                    // node_modules, we cannot rely on `instanceof` checks
                     if (isTrustedSubscriber(destinationOrNext)) {
                         const trustedSubscriber = destinationOrNext[_internal_symbol_rxSubscriber__WEBPACK_IMPORTED_MODULE_3__["rxSubscriber"]]();
                         this.syncErrorThrowable = trustedSubscriber.syncErrorThrowable;
@@ -88556,54 +88569,22 @@ class Subscriber extends _Subscription__WEBPACK_IMPORTED_MODULE_2__["Subscriptio
         }
     }
     [_internal_symbol_rxSubscriber__WEBPACK_IMPORTED_MODULE_3__["rxSubscriber"]]() { return this; }
-    /**
-     * A static factory for a Subscriber, given a (potentially partial) definition
-     * of an Observer.
-     * @param {function(x: ?T): void} [next] The `next` callback of an Observer.
-     * @param {function(e: ?any): void} [error] The `error` callback of an
-     * Observer.
-     * @param {function(): void} [complete] The `complete` callback of an
-     * Observer.
-     * @return {Subscriber<T>} A Subscriber wrapping the (partially defined)
-     * Observer represented by the given arguments.
-     * @nocollapse
-     */
     static create(next, error, complete) {
         const subscriber = new Subscriber(next, error, complete);
         subscriber.syncErrorThrowable = false;
         return subscriber;
     }
-    /**
-     * The {@link Observer} callback to receive notifications of type `next` from
-     * the Observable, with a value. The Observable may call this method 0 or more
-     * times.
-     * @param {T} [value] The `next` value.
-     * @return {void}
-     */
     next(value) {
         if (!this.isStopped) {
             this._next(value);
         }
     }
-    /**
-     * The {@link Observer} callback to receive notifications of type `error` from
-     * the Observable, with an attached {@link Error}. Notifies the Observer that
-     * the Observable has experienced an error condition.
-     * @param {any} [err] The `error` exception.
-     * @return {void}
-     */
     error(err) {
         if (!this.isStopped) {
             this.isStopped = true;
             this._error(err);
         }
     }
-    /**
-     * The {@link Observer} callback to receive a valueless notification of type
-     * `complete` from the Observable. Notifies the Observer that the Observable
-     * has finished sending push-based notifications.
-     * @return {void}
-     */
     complete() {
         if (!this.isStopped) {
             this.isStopped = true;
@@ -88628,7 +88609,6 @@ class Subscriber extends _Subscription__WEBPACK_IMPORTED_MODULE_2__["Subscriptio
         this.destination.complete();
         this.unsubscribe();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribeAndRecycle() {
         const { _parent, _parents } = this;
         this._parent = null;
@@ -88641,11 +88621,6 @@ class Subscriber extends _Subscription__WEBPACK_IMPORTED_MODULE_2__["Subscriptio
         return this;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SafeSubscriber extends Subscriber {
     constructor(_parentSubscriber, observerOrNext, error, complete) {
         super();
@@ -88769,7 +88744,6 @@ class SafeSubscriber extends Subscriber {
         }
         return false;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         const { _parentSubscriber } = this;
         this._context = null;
@@ -88806,45 +88780,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Represents a disposable resource, such as the execution of an Observable. A
- * Subscription has one important method, `unsubscribe`, that takes no argument
- * and just disposes the resource held by the subscription.
- *
- * Additionally, subscriptions may be grouped together through the `add()`
- * method, which will attach a child Subscription to the current Subscription.
- * When a Subscription is unsubscribed, all its children (and its grandchildren)
- * will be unsubscribed as well.
- *
- * @class Subscription
- */
 class Subscription {
-    /**
-     * @param {function(): void} [unsubscribe] A function describing how to
-     * perform the disposal of resources when the `unsubscribe` method is called.
-     */
     constructor(unsubscribe) {
-        /**
-         * A flag to indicate whether this Subscription has already been unsubscribed.
-         * @type {boolean}
-         */
         this.closed = false;
-        /** @internal */
         this._parent = null;
-        /** @internal */
         this._parents = null;
-        /** @internal */
         this._subscriptions = null;
         if (unsubscribe) {
             this._unsubscribe = unsubscribe;
         }
     }
-    /**
-     * Disposes the resources held by the subscription. May, for instance, cancel
-     * an ongoing Observable execution or cancel any other type of work that
-     * started when the Subscription was created.
-     * @return {void}
-     */
     unsubscribe() {
         let hasErrors = false;
         let errors;
@@ -88855,17 +88800,11 @@ class Subscription {
         this.closed = true;
         this._parent = null;
         this._parents = null;
-        // null out _subscriptions first so any child subscriptions that attempt
-        // to remove themselves from this subscription will noop
         this._subscriptions = null;
         let index = -1;
         let len = _parents ? _parents.length : 0;
-        // if this._parent is null, then so is this._parents, and we
-        // don't have to remove ourselves from any parent subscriptions.
         while (_parent) {
             _parent.remove(this);
-            // if this._parents is null or index >= len,
-            // then _parent is set to null, and the loop exits
             _parent = ++index < len && _parents[index] || null;
         }
         if (Object(_util_isFunction__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(_unsubscribe)) {
@@ -88901,24 +88840,6 @@ class Subscription {
             throw new _util_UnsubscriptionError__WEBPACK_IMPORTED_MODULE_5__["UnsubscriptionError"](errors);
         }
     }
-    /**
-     * Adds a tear down to be called during the unsubscribe() of this
-     * Subscription.
-     *
-     * If the tear down being added is a subscription that is already
-     * unsubscribed, is the same reference `add` is being called on, or is
-     * `Subscription.EMPTY`, it will not be added.
-     *
-     * If this subscription is already in an `closed` state, the passed
-     * tear down logic will be executed immediately.
-     *
-     * @param {TeardownLogic} teardown The additional logic to execute on
-     * teardown.
-     * @return {Subscription} Returns the Subscription used or created to be
-     * added to the inner subscriptions list. This Subscription can be used with
-     * `remove()` to remove the passed teardown logic from the inner subscriptions
-     * list.
-     */
     add(teardown) {
         if (!teardown || (teardown === Subscription.EMPTY)) {
             return Subscription.EMPTY;
@@ -88938,7 +88859,7 @@ class Subscription {
                     subscription.unsubscribe();
                     return subscription;
                 }
-                else if (typeof subscription._addParent !== 'function' /* quack quack */) {
+                else if (typeof subscription._addParent !== 'function') {
                     const tmp = subscription;
                     subscription = new Subscription();
                     subscription._subscriptions = [tmp];
@@ -88952,12 +88873,6 @@ class Subscription {
         subscription._addParent(this);
         return subscription;
     }
-    /**
-     * Removes a Subscription from the internal list of subscriptions that will
-     * unsubscribe during the unsubscribe process of this Subscription.
-     * @param {Subscription} subscription The subscription to remove.
-     * @return {void}
-     */
     remove(subscription) {
         const subscriptions = this._subscriptions;
         if (subscriptions) {
@@ -88967,26 +88882,19 @@ class Subscription {
             }
         }
     }
-    /** @internal */
     _addParent(parent) {
         let { _parent, _parents } = this;
         if (!_parent || _parent === parent) {
-            // If we don't have a parent, or the new parent is the same as the
-            // current parent, then set this._parent to the new parent.
             this._parent = parent;
         }
         else if (!_parents) {
-            // If there's already one parent, but not multiple, allocate an Array to
-            // store the rest of the parent Subscriptions.
             this._parents = [parent];
         }
         else if (_parents.indexOf(parent) === -1) {
-            // Only add the new parent to the _parents list if it's not already there.
             _parents.push(parent);
         }
     }
 }
-/** @nocollapse */
 Subscription.EMPTY = (function (empty) {
     empty.closed = true;
     return empty;
@@ -89009,24 +88917,8 @@ function flattenUnsubscriptionErrors(errors) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
 let _enable_super_gross_mode_that_will_cause_bad_things = false;
-/**
- * The global configuration object for RxJS, used to configure things
- * like what Promise contructor should used to create Promises
- */
 const config = {
-    /**
-     * The promise constructor used by default for methods such as
-     * {@link toPromise} and {@link forEach}
-     */
     Promise: undefined,
-    /**
-     * If true, turns on synchronous error rethrowing, which is a deprecated behavior
-     * in v6 and higher. This behavior enables bad patterns like wrapping a subscribe
-     * call in a try/catch block. It also enables producer interference, a nasty bug
-     * where a multicast can be broken for all observers by a downstream consumer with
-     * an unhandled error. DO NOT USE THIS FLAG UNLESS IT'S NEEDED TO BY TIME
-     * FOR MIGRATION REASONS.
-     */
     set useDeprecatedSynchronousErrorHandling(value) {
         if (value) {
             const error = new Error();
@@ -89066,19 +88958,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * @class ConnectableObservable<T>
- */
 class ConnectableObservable extends _Observable__WEBPACK_IMPORTED_MODULE_1__["Observable"] {
     constructor(source, subjectFactory) {
         super();
         this.source = source;
         this.subjectFactory = subjectFactory;
         this._refCount = 0;
-        /** @internal */
         this._isComplete = false;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         return this.getSubject().subscribe(subscriber);
     }
@@ -89187,29 +89074,6 @@ class RefCountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subsc
             this.connection = null;
             return;
         }
-        ///
-        // Compare the local RefCountSubscriber's connection Subscription to the
-        // connection Subscription on the shared ConnectableObservable. In cases
-        // where the ConnectableObservable source synchronously emits values, and
-        // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
-        // execution continues to here before the RefCountOperator has a chance to
-        // supply the RefCountSubscriber with the shared connection Subscription.
-        // For example:
-        // ```
-        // Observable.range(0, 10)
-        //   .publish()
-        //   .refCount()
-        //   .take(5)
-        //   .subscribe();
-        // ```
-        // In order to account for this case, RefCountSubscriber should only dispose
-        // the ConnectableObservable's shared connection Subscription if the
-        // connection Subscription exists, *and* either:
-        //   a. RefCountSubscriber doesn't have a reference to the shared connection
-        //      Subscription yet, or,
-        //   b. RefCountSubscriber's connection Subscription reference is identical
-        //      to the shared connection Subscription
-        ///
         const { connection } = this;
         const sharedConnection = connectable._connection;
         this.connection = null;
@@ -89238,11 +89102,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @extends {Ignored}
- * @hide true
- */
 class SubscribeOnObservable extends _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"] {
     constructor(source, delayTime = 0, scheduler = _scheduler_asap__WEBPACK_IMPORTED_MODULE_1__["asap"]) {
         super();
@@ -89256,16 +89115,13 @@ class SubscribeOnObservable extends _Observable__WEBPACK_IMPORTED_MODULE_0__["Ob
             this.scheduler = _scheduler_asap__WEBPACK_IMPORTED_MODULE_1__["asap"];
         }
     }
-    /** @nocollapse */
     static create(source, delay = 0, scheduler = _scheduler_asap__WEBPACK_IMPORTED_MODULE_1__["asap"]) {
         return new SubscribeOnObservable(source, delay, scheduler);
     }
-    /** @nocollapse */
     static dispatch(arg) {
         const { source, subscriber } = arg;
         return this.add(source.subscribe(subscriber));
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         const delay = this.delayTime;
         const source = this.source;
@@ -89299,124 +89155,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// tslint:enable:max-line-length
-/**
- * Converts a callback API to a function that returns an Observable.
- *
- * <span class="informal">Give it a function `f` of type `f(x, callback)` and
- * it will return a function `g` that when called as `g(x)` will output an
- * Observable.</span>
- *
- * `bindCallback` is not an operator because its input and output are not
- * Observables. The input is a function `func` with some parameters, the
- * last parameter must be a callback function that `func` calls when it is
- * done.
- *
- * The output of `bindCallback` is a function that takes the same parameters
- * as `func`, except the last one (the callback). When the output function
- * is called with arguments it will return an Observable. If function `func`
- * calls its callback with one argument the Observable will emit that value.
- * If on the other hand the callback is called with multiple values the resulting
- * Observable will emit an array with said values as arguments.
- *
- * It is very important to remember that input function `func` is not called
- * when the output function is, but rather when the Observable returned by the output
- * function is subscribed. This means if `func` makes an AJAX request, that request
- * will be made every time someone subscribes to the resulting Observable, but not before.
- *
- * The last optional parameter - {@link Scheduler} - can be used to control when the call
- * to `func` happens after someone subscribes to Observable, as well as when results
- * passed to callback will be emitted. By default, the subscription to  an Observable calls `func`
- * synchronously, but using `Scheduler.async` as the last parameter will defer the call to `func`,
- * just like wrapping the call in `setTimeout` with a timeout of `0` would. If you use the async Scheduler
- * and call `subscribe` on the output Observable all function calls that are currently executing
- * will end before `func` is invoked.
- *
- * By default results passed to the callback are emitted immediately after `func` invokes the callback.
- * In particular, if the callback is called synchronously the subscription of the resulting Observable
- * will call the `next` function synchronously as well.  If you want to defer that call,
- * you may use `Scheduler.async` just as before.  This means that by using `Scheduler.async` you can
- * ensure that `func` always calls its callback asynchronously, thus avoiding terrifying Zalgo.
- *
- * Note that the Observable created by the output function will always emit a single value
- * and then complete immediately. If `func` calls the callback multiple times, values from subsequent
- * calls will not appear in the stream. If you need to listen for multiple calls,
- *  you probably want to use {@link fromEvent} or {@link fromEventPattern} instead.
- *
- * If `func` depends on some context (`this` property) and is not already bound the context of `func`
- * will be the context that the output function has at call time. In particular, if `func`
- * is called as a method of some objec and if `func` is not already bound, in order to preserve the context
- * it is recommended that the context of the output function is set to that object as well.
- *
- * If the input function calls its callback in the "node style" (i.e. first argument to callback is
- * optional error parameter signaling whether the call failed or not), {@link bindNodeCallback}
- * provides convenient error handling and probably is a better choice.
- * `bindCallback` will treat such functions the same as any other and error parameters
- * (whether passed or not) will always be interpreted as regular callback argument.
- *
- *
- * @example <caption>Convert jQuery's getJSON to an Observable API</caption>
- * // Suppose we have jQuery.getJSON('/my/url', callback)
- * var getJSONAsObservable = bindCallback(jQuery.getJSON);
- * var result = getJSONAsObservable('/my/url');
- * result.subscribe(x => console.log(x), e => console.error(e));
- *
- *
- * @example <caption>Receive an array of arguments passed to a callback</caption>
- * someFunction((a, b, c) => {
- *   console.log(a); // 5
- *   console.log(b); // 'some string'
- *   console.log(c); // {someProperty: 'someValue'}
- * });
- *
- * const boundSomeFunction = bindCallback(someFunction);
- * boundSomeFunction().subscribe(values => {
- *   console.log(values) // [5, 'some string', {someProperty: 'someValue'}]
- * });
- *
- *
- * @example <caption>Compare behaviour with and without async Scheduler</caption>
- * function iCallMyCallbackSynchronously(cb) {
- *   cb();
- * }
- *
- * const boundSyncFn = bindCallback(iCallMyCallbackSynchronously);
- * const boundAsyncFn = bindCallback(iCallMyCallbackSynchronously, null, Rx.Scheduler.async);
- *
- * boundSyncFn().subscribe(() => console.log('I was sync!'));
- * boundAsyncFn().subscribe(() => console.log('I was async!'));
- * console.log('This happened...');
- *
- * // Logs:
- * // I was sync!
- * // This happened...
- * // I was async!
- *
- *
- * @example <caption>Use bindCallback on an object method</caption>
- * const boundMethod = bindCallback(someObject.methodWithCallback);
- * boundMethod.call(someObject) // make sure methodWithCallback has access to someObject
- * .subscribe(subscriber);
- *
- *
- * @see {@link bindNodeCallback}
- * @see {@link from}
- * @see {@link fromPromise}
- *
- * @param {function} func A function with a callback as the last parameter.
- * @param {Scheduler} [scheduler] The scheduler on which to schedule the
- * callbacks.
- * @return {function(...params: *): Observable} A function which returns the
- * Observable that delivers the same values the callback would deliver.
- * @name bindCallback
- */
 function bindCallback(callbackFunc, resultSelector, scheduler) {
     if (resultSelector) {
         if (Object(_util_isScheduler__WEBPACK_IMPORTED_MODULE_4__["isScheduler"])(resultSelector)) {
             scheduler = resultSelector;
         }
         else {
-            // DEPRECATED PATH
             return (...args) => bindCallback(callbackFunc, scheduler)(...args).pipe(Object(_operators_map__WEBPACK_IMPORTED_MODULE_2__["map"])((args) => Object(_util_isArray__WEBPACK_IMPORTED_MODULE_3__["isArray"])(args) ? resultSelector(...args) : resultSelector(args)));
         }
     }
@@ -89508,115 +89252,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Converts a Node.js-style callback API to a function that returns an
- * Observable.
- *
- * <span class="informal">It's just like {@link bindCallback}, but the
- * callback is expected to be of type `callback(error, result)`.</span>
- *
- * `bindNodeCallback` is not an operator because its input and output are not
- * Observables. The input is a function `func` with some parameters, but the
- * last parameter must be a callback function that `func` calls when it is
- * done. The callback function is expected to follow Node.js conventions,
- * where the first argument to the callback is an error object, signaling
- * whether call was successful. If that object is passed to callback, it means
- * something went wrong.
- *
- * The output of `bindNodeCallback` is a function that takes the same
- * parameters as `func`, except the last one (the callback). When the output
- * function is called with arguments, it will return an Observable.
- * If `func` calls its callback with error parameter present, Observable will
- * error with that value as well. If error parameter is not passed, Observable will emit
- * second parameter. If there are more parameters (third and so on),
- * Observable will emit an array with all arguments, except first error argument.
- *
- * Note that `func` will not be called at the same time output function is,
- * but rather whenever resulting Observable is subscribed. By default call to
- * `func` will happen synchronously after subscription, but that can be changed
- * with proper {@link Scheduler} provided as optional third parameter. Scheduler
- * can also control when values from callback will be emitted by Observable.
- * To find out more, check out documentation for {@link bindCallback}, where
- * Scheduler works exactly the same.
- *
- * As in {@link bindCallback}, context (`this` property) of input function will be set to context
- * of returned function, when it is called.
- *
- * After Observable emits value, it will complete immediately. This means
- * even if `func` calls callback again, values from second and consecutive
- * calls will never appear on the stream. If you need to handle functions
- * that call callbacks multiple times, check out {@link fromEvent} or
- * {@link fromEventPattern} instead.
- *
- * Note that `bindNodeCallback` can be used in non-Node.js environments as well.
- * "Node.js-style" callbacks are just a convention, so if you write for
- * browsers or any other environment and API you use implements that callback style,
- * `bindNodeCallback` can be safely used on that API functions as well.
- *
- * Remember that Error object passed to callback does not have to be an instance
- * of JavaScript built-in `Error` object. In fact, it does not even have to an object.
- * Error parameter of callback function is interpreted as "present", when value
- * of that parameter is truthy. It could be, for example, non-zero number, non-empty
- * string or boolean `true`. In all of these cases resulting Observable would error
- * with that value. This means usually regular style callbacks will fail very often when
- * `bindNodeCallback` is used. If your Observable errors much more often then you
- * would expect, check if callback really is called in Node.js-style and, if not,
- * switch to {@link bindCallback} instead.
- *
- * Note that even if error parameter is technically present in callback, but its value
- * is falsy, it still won't appear in array emitted by Observable.
- *
- *
- * @example <caption>Read a file from the filesystem and get the data as an Observable</caption>
- * import * as fs from 'fs';
- * var readFileAsObservable = bindNodeCallback(fs.readFile);
- * var result = readFileAsObservable('./roadNames.txt', 'utf8');
- * result.subscribe(x => console.log(x), e => console.error(e));
- *
- *
- * @example <caption>Use on function calling callback with multiple arguments</caption>
- * someFunction((err, a, b) => {
- *   console.log(err); // null
- *   console.log(a); // 5
- *   console.log(b); // "some string"
- * });
- * var boundSomeFunction = bindNodeCallback(someFunction);
- * boundSomeFunction()
- * .subscribe(value => {
- *   console.log(value); // [5, "some string"]
- * });
- *
- * @example <caption>Use on function calling callback in regular style</caption>
- * someFunction(a => {
- *   console.log(a); // 5
- * });
- * var boundSomeFunction = bindNodeCallback(someFunction);
- * boundSomeFunction()
- * .subscribe(
- *   value => {}             // never gets called
- *   err => console.log(err) // 5
- * );
- *
- *
- * @see {@link bindCallback}
- * @see {@link from}
- * @see {@link fromPromise}
- *
- * @param {function} func Function with a Node.js-style callback as the last parameter.
- * @param {Scheduler} [scheduler] The scheduler on which to schedule the
- * callbacks.
- * @return {function(...params: *): Observable} A function which returns the
- * Observable that delivers the same values the Node.js callback would
- * deliver.
- * @name bindNodeCallback
- */
 function bindNodeCallback(callbackFunc, resultSelector, scheduler) {
     if (resultSelector) {
         if (Object(_util_isScheduler__WEBPACK_IMPORTED_MODULE_3__["isScheduler"])(resultSelector)) {
             scheduler = resultSelector;
         }
         else {
-            // DEPRECATED PATH
             return (...args) => bindNodeCallback(callbackFunc, scheduler)(...args).pipe(Object(_operators_map__WEBPACK_IMPORTED_MODULE_2__["map"])(args => Object(_util_isArray__WEBPACK_IMPORTED_MODULE_4__["isArray"])(args) ? resultSelector(...args) : resultSelector(args)));
         }
     }
@@ -89719,112 +89360,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const NONE = {};
-/* tslint:enable:max-line-length */
-/**
- * Combines multiple Observables to create an Observable whose values are
- * calculated from the latest values of each of its input Observables.
- *
- * <span class="informal">Whenever any input Observable emits a value, it
- * computes a formula using the latest values from all the inputs, then emits
- * the output of that formula.</span>
- *
- * <img src="./img/combineLatest.png" width="100%">
- *
- * `combineLatest` combines the values from all the Observables passed as
- * arguments. This is done by subscribing to each Observable in order and,
- * whenever any Observable emits, collecting an array of the most recent
- * values from each Observable. So if you pass `n` Observables to operator,
- * returned Observable will always emit an array of `n` values, in order
- * corresponding to order of passed Observables (value from the first Observable
- * on the first place and so on).
- *
- * Static version of `combineLatest` accepts either an array of Observables
- * or each Observable can be put directly as an argument. Note that array of
- * Observables is good choice, if you don't know beforehand how many Observables
- * you will combine. Passing empty array will result in Observable that
- * completes immediately.
- *
- * To ensure output array has always the same length, `combineLatest` will
- * actually wait for all input Observables to emit at least once,
- * before it starts emitting results. This means if some Observable emits
- * values before other Observables started emitting, all that values but last
- * will be lost. On the other hand, is some Observable does not emit value but
- * completes, resulting Observable will complete at the same moment without
- * emitting anything, since it will be now impossible to include value from
- * completed Observable in resulting array. Also, if some input Observable does
- * not emit any value and never completes, `combineLatest` will also never emit
- * and never complete, since, again, it will wait for all streams to emit some
- * value.
- *
- * If at least one Observable was passed to `combineLatest` and all passed Observables
- * emitted something, resulting Observable will complete when all combined
- * streams complete. So even if some Observable completes, result of
- * `combineLatest` will still emit values when other Observables do. In case
- * of completed Observable, its value from now on will always be the last
- * emitted value. On the other hand, if any Observable errors, `combineLatest`
- * will error immediately as well, and all other Observables will be unsubscribed.
- *
- * `combineLatest` accepts as optional parameter `project` function, which takes
- * as arguments all values that would normally be emitted by resulting Observable.
- * `project` can return any kind of value, which will be then emitted by Observable
- * instead of default array. Note that `project` does not take as argument that array
- * of values, but values themselves. That means default `project` can be imagined
- * as function that takes all its arguments and puts them into an array.
- *
- *
- * @example <caption>Combine two timer Observables</caption>
- * const firstTimer = Rx.Observable.timer(0, 1000); // emit 0, 1, 2... after every second, starting from now
- * const secondTimer = Rx.Observable.timer(500, 1000); // emit 0, 1, 2... after every second, starting 0,5s from now
- * const combinedTimers = Rx.Observable.combineLatest(firstTimer, secondTimer);
- * combinedTimers.subscribe(value => console.log(value));
- * // Logs
- * // [0, 0] after 0.5s
- * // [1, 0] after 1s
- * // [1, 1] after 1.5s
- * // [2, 1] after 2s
- *
- *
- * @example <caption>Combine an array of Observables</caption>
- * const observables = [1, 5, 10].map(
- *   n => Rx.Observable.of(n).delay(n * 1000).startWith(0) // emit 0 and then emit n after n seconds
- * );
- * const combined = Rx.Observable.combineLatest(observables);
- * combined.subscribe(value => console.log(value));
- * // Logs
- * // [0, 0, 0] immediately
- * // [1, 0, 0] after 1s
- * // [1, 5, 0] after 5s
- * // [1, 5, 10] after 10s
- *
- *
- * @example <caption>Use project function to dynamically calculate the Body-Mass Index</caption>
- * var weight = Rx.Observable.of(70, 72, 76, 79, 75);
- * var height = Rx.Observable.of(1.76, 1.77, 1.78);
- * var bmi = Rx.Observable.combineLatest(weight, height, (w, h) => w / (h * h));
- * bmi.subscribe(x => console.log('BMI is ' + x));
- *
- * // With output to console:
- * // BMI is 24.212293388429753
- * // BMI is 23.93948099205209
- * // BMI is 23.671253629592222
- *
- *
- * @see {@link combineAll}
- * @see {@link merge}
- * @see {@link withLatestFrom}
- *
- * @param {ObservableInput} observable1 An input Observable to combine with other Observables.
- * @param {ObservableInput} observable2 An input Observable to combine with other Observables.
- * More than one input Observables may be given as arguments
- * or an array of Observables may be given as the first argument.
- * @param {function} [project] An optional function to project the values from
- * the combined latest values into a new value on the output Observable.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for subscribing to
- * each input Observable.
- * @return {Observable} An Observable of projected values from the most recent
- * values from each input Observable, or an array of the most recent values from
- * each input Observable.
- */
 function combineLatest(...observables) {
     let resultSelector = null;
     let scheduler = null;
@@ -89834,8 +89369,6 @@ function combineLatest(...observables) {
     if (typeof observables[observables.length - 1] === 'function') {
         resultSelector = observables.pop();
     }
-    // if the first and only other argument besides the resultSelector is an array
-    // assume it's been called with `combineLatest([obs1, obs2, obs3], resultSelector)`
     if (observables.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_1__["isArray"])(observables[0])) {
         observables = observables[0];
     }
@@ -89849,11 +89382,6 @@ class CombineLatestOperator {
         return source.subscribe(new CombineLatestSubscriber(subscriber, this.resultSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class CombineLatestSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination, resultSelector) {
         super(destination);
@@ -89936,100 +89464,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which sequentially emits all values from given
- * Observable and then moves on to the next.
- *
- * <span class="informal">Concatenates multiple Observables together by
- * sequentially emitting their values, one Observable after the other.</span>
- *
- * <img src="./img/concat.png" width="100%">
- *
- * `concat` joins multiple Observables together, by subscribing to them one at a time and
- * merging their results into the output Observable. You can pass either an array of
- * Observables, or put them directly as arguments. Passing an empty array will result
- * in Observable that completes immediately.
- *
- * `concat` will subscribe to first input Observable and emit all its values, without
- * changing or affecting them in any way. When that Observable completes, it will
- * subscribe to then next Observable passed and, again, emit its values. This will be
- * repeated, until the operator runs out of Observables. When last input Observable completes,
- * `concat` will complete as well. At any given moment only one Observable passed to operator
- * emits values. If you would like to emit values from passed Observables concurrently, check out
- * {@link merge} instead, especially with optional `concurrent` parameter. As a matter of fact,
- * `concat` is an equivalent of `merge` operator with `concurrent` parameter set to `1`.
- *
- * Note that if some input Observable never completes, `concat` will also never complete
- * and Observables following the one that did not complete will never be subscribed. On the other
- * hand, if some Observable simply completes immediately after it is subscribed, it will be
- * invisible for `concat`, which will just move on to the next Observable.
- *
- * If any Observable in chain errors, instead of passing control to the next Observable,
- * `concat` will error immediately as well. Observables that would be subscribed after
- * the one that emitted error, never will.
- *
- * If you pass to `concat` the same Observable many times, its stream of values
- * will be "replayed" on every subscription, which means you can repeat given Observable
- * as many times as you like. If passing the same Observable to `concat` 1000 times becomes tedious,
- * you can always use {@link repeat}.
- *
- * @example <caption>Concatenate a timer counting from 0 to 3 with a synchronous sequence from 1 to 10</caption>
- * var timer = Rx.Observable.interval(1000).take(4);
- * var sequence = Rx.Observable.range(1, 10);
- * var result = Rx.Observable.concat(timer, sequence);
- * result.subscribe(x => console.log(x));
- *
- * // results in:
- * // 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
- *
- *
- * @example <caption>Concatenate an array of 3 Observables</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var result = Rx.Observable.concat([timer1, timer2, timer3]); // note that array is passed
- * result.subscribe(x => console.log(x));
- *
- * // results in the following:
- * // (Prints to console sequentially)
- * // -1000ms-> 0 -1000ms-> 1 -1000ms-> ... 9
- * // -2000ms-> 0 -2000ms-> 1 -2000ms-> ... 5
- * // -500ms-> 0 -500ms-> 1 -500ms-> ... 9
- *
- *
- * @example <caption>Concatenate the same Observable to repeat it</caption>
- * const timer = Rx.Observable.interval(1000).take(2);
- *
- * Rx.Observable.concat(timer, timer) // concating the same Observable!
- * .subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('...and it is done!')
- * );
- *
- * // Logs:
- * // 0 after 1s
- * // 1 after 2s
- * // 0 after 3s
- * // 1 after 4s
- * // "...and it is done!" also after 4s
- *
- * @see {@link concatAll}
- * @see {@link concatMap}
- * @see {@link concatMapTo}
- *
- * @param {ObservableInput} input1 An input Observable to concatenate with others.
- * @param {ObservableInput} input2 An input Observable to concatenate with others.
- * More than one input Observables may be given as argument.
- * @param {Scheduler} [scheduler=null] An optional IScheduler to schedule each
- * Observable subscription on.
- * @return {Observable} All values of each passed Observable merged into a
- * single Observable, in order, in serial fashion.
- * @static true
- * @name concat
- * @owner Observable
- */
 function concat(...observables) {
     if (observables.length === 1 || (observables.length === 2 && Object(_util_isScheduler__WEBPACK_IMPORTED_MODULE_0__["isScheduler"])(observables[1]))) {
         return Object(_from__WEBPACK_IMPORTED_MODULE_2__["from"])(observables[0]);
@@ -90054,54 +89488,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _from__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./from */ "./node_modules/rxjs/_esm2015/internal/observable/from.js");
 /* harmony import */ var _empty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./empty */ "./node_modules/rxjs/_esm2015/internal/observable/empty.js");
 
- // lol
 
-/**
- * Creates an Observable that, on subscribe, calls an Observable factory to
- * make an Observable for each new Observer.
- *
- * <span class="informal">Creates the Observable lazily, that is, only when it
- * is subscribed.
- * </span>
- *
- * <img src="./img/defer.png" width="100%">
- *
- * `defer` allows you to create the Observable only when the Observer
- * subscribes, and create a fresh Observable for each Observer. It waits until
- * an Observer subscribes to it, and then it generates an Observable,
- * typically with an Observable factory function. It does this afresh for each
- * subscriber, so although each subscriber may think it is subscribing to the
- * same Observable, in fact each subscriber gets its own individual
- * Observable.
- *
- * @example <caption>Subscribe to either an Observable of clicks or an Observable of interval, at random</caption>
- * var clicksOrInterval = Rx.Observable.defer(function () {
- *   if (Math.random() > 0.5) {
- *     return Rx.Observable.fromEvent(document, 'click');
- *   } else {
- *     return Rx.Observable.interval(1000);
- *   }
- * });
- * clicksOrInterval.subscribe(x => console.log(x));
- *
- * // Results in the following behavior:
- * // If the result of Math.random() is greater than 0.5 it will listen
- * // for clicks anywhere on the "document"; when document is clicked it
- * // will log a MouseEvent object to the console. If the result is less
- * // than 0.5 it will emit ascending numbers, one every second(1000ms).
- *
- * @see {@link create}
- *
- * @param {function(): SubscribableOrPromise} observableFactory The Observable
- * factory function to invoke for each Observer that subscribes to the output
- * Observable. May also return a Promise, which will be converted on the fly
- * to an Observable.
- * @return {Observable} An Observable whose Observers' subscriptions trigger
- * an invocation of the given Observable factory function.
- * @static true
- * @name defer
- * @owner Observable
- */
+
 function defer(observableFactory) {
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
         let input;
@@ -90134,55 +89522,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "emptyScheduled", function() { return emptyScheduled; });
 /* harmony import */ var _Observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Observable */ "./node_modules/rxjs/_esm2015/internal/Observable.js");
 
-/**
- * The same Observable instance returned by any call to {@link empty} without a
- * {@link Scheduler}. It is preferrable to use this over `empty()`.
- */
 const EMPTY = new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => subscriber.complete());
-/**
- * Creates an Observable that emits no items to the Observer and immediately
- * emits a complete notification.
- *
- * <span class="informal">Just emits 'complete', and nothing else.
- * </span>
- *
- * <img src="./img/empty.png" width="100%">
- *
- * This static operator is useful for creating a simple Observable that only
- * emits the complete notification. It can be used for composing with other
- * Observables, such as in a {@link mergeMap}.
- *
- * @example <caption>Emit the number 7, then complete.</caption>
- * var result = Rx.Observable.empty().startWith(7);
- * result.subscribe(x => console.log(x));
- *
- * @example <caption>Map and flatten only odd numbers to the sequence 'a', 'b', 'c'</caption>
- * var interval = Rx.Observable.interval(1000);
- * var result = interval.mergeMap(x =>
- *   x % 2 === 1 ? Rx.Observable.of('a', 'b', 'c') : Rx.Observable.empty()
- * );
- * result.subscribe(x => console.log(x));
- *
- * // Results in the following to the console:
- * // x is equal to the count on the interval eg(0,1,2,3,...)
- * // x will occur every 1000ms
- * // if x % 2 is equal to 1 print abc
- * // if x % 2 is not equal to 1 nothing will be output
- *
- * @see {@link create}
- * @see {@link never}
- * @see {@link of}
- * @see {@link throw}
- *
- * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
- * the emission of the complete notification.
- * @return {Observable} An "empty" Observable: emits only the complete
- * notification.
- * @static true
- * @name empty
- * @owner Observable
- * @deprecated Deprecated in favor of using EMPTY constant.
- */
 function empty(scheduler) {
     return scheduler ? emptyScheduled(scheduler) : EMPTY;
 }
@@ -90215,117 +89555,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Joins last values emitted by passed Observables.
- *
- * <span class="informal">Wait for Observables to complete and then combine last values they emitted.</span>
- *
- * <img src="./img/forkJoin.png" width="100%">
- *
- * `forkJoin` is an operator that takes any number of Observables which can be passed either as an array
- * or directly as arguments. If no input Observables are provided, resulting stream will complete
- * immediately.
- *
- * `forkJoin` will wait for all passed Observables to complete and then it will emit an array with last
- * values from corresponding Observables. So if you pass `n` Observables to the operator, resulting
- * array will have `n` values, where first value is the last thing emitted by the first Observable,
- * second value is the last thing emitted by the second Observable and so on. That means `forkJoin` will
- * not emit more than once and it will complete after that. If you need to emit combined values not only
- * at the end of lifecycle of passed Observables, but also throughout it, try out {@link combineLatest}
- * or {@link zip} instead.
- *
- * In order for resulting array to have the same length as the number of input Observables, whenever any of
- * that Observables completes without emitting any value, `forkJoin` will complete at that moment as well
- * and it will not emit anything either, even if it already has some last values from other Observables.
- * Conversely, if there is an Observable that never completes, `forkJoin` will never complete as well,
- * unless at any point some other Observable completes without emitting value, which brings us back to
- * the previous case. Overall, in order for `forkJoin` to emit a value, all Observables passed as arguments
- * have to emit something at least once and complete.
- *
- * If any input Observable errors at some point, `forkJoin` will error as well and all other Observables
- * will be immediately unsubscribed.
- *
- * Optionally `forkJoin` accepts project function, that will be called with values which normally
- * would land in emitted array. Whatever is returned by project function, will appear in output
- * Observable instead. This means that default project can be thought of as a function that takes
- * all its arguments and puts them into an array. Note that project function will be called only
- * when output Observable is supposed to emit a result.
- *
- * @example <caption>Use forkJoin with operator emitting immediately</caption>
- * import { forkJoin, of } from 'rxjs';
- *
- * const observable = forkJoin(
- *   of(1, 2, 3, 4),
- *   of(5, 6, 7, 8)
- * );
- * observable.subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('This is how it ends!')
- * );
- *
- * // Logs:
- * // [4, 8]
- * // "This is how it ends!"
- *
- *
- * @example <caption>Use forkJoin with operator emitting after some time</caption>
- * import { forkJoin, interval } from 'rxjs';
- * import { take } from 'rxjs/operators';
- *
- * const observable = forkJoin(
- *   interval(1000).pipe(take(3)), // emit 0, 1, 2 every second and complete
- *   interval(500).pipe(take(4)) // emit 0, 1, 2, 3 every half a second and complete
- * );
- * observable.subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('This is how it ends!')
- * );
- *
- * // Logs:
- * // [2, 3] after 3 seconds
- * // "This is how it ends!" immediately after
- *
- *
- * @example <caption>Use forkJoin with project function</caption>
- * import { jorkJoin, interval } from 'rxjs';
- * import { take } from 'rxjs/operators';
- *
- * const observable = forkJoin(
- *   interval(1000).pipe(take(3)), // emit 0, 1, 2 every second and complete
- *   interval(500).pipe(take(4)), // emit 0, 1, 2, 3 every half a second and complete
- *   (n, m) => n + m
- * );
- * observable.subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('This is how it ends!')
- * );
- *
- * // Logs:
- * // 5 after 3 seconds
- * // "This is how it ends!" immediately after
- *
- * @see {@link combineLatest}
- * @see {@link zip}
- *
- * @param {...ObservableInput} sources Any number of Observables provided either as an array or as an arguments
- * passed directly to the operator.
- * @param {function} [project] Function that takes values emitted by input Observables and returns value
- * that will appear in resulting Observable instead of default array.
- * @return {Observable} Observable emitting either an array of last values emitted by passed Observables
- * or value from project function.
- */
 function forkJoin(...sources) {
     let resultSelector;
     if (typeof sources[sources.length - 1] === 'function') {
-        // DEPRECATED PATH
         resultSelector = sources.pop();
     }
-    // if the first and only other argument is an array
-    // assume it's been called with `forkJoin([obs1, obs2, obs3])`
     if (sources.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_1__["isArray"])(sources[0])) {
         sources = sources[0];
     }
@@ -90333,18 +89567,12 @@ function forkJoin(...sources) {
         return _empty__WEBPACK_IMPORTED_MODULE_2__["EMPTY"];
     }
     if (resultSelector) {
-        // DEPRECATED PATH
         return forkJoin(sources).pipe(Object(_operators_map__WEBPACK_IMPORTED_MODULE_5__["map"])(args => resultSelector(...args)));
     }
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
         return new ForkJoinSubscriber(subscriber, sources);
     });
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ForkJoinSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_4__["OuterSubscriber"] {
     constructor(destination, sources) {
         super(destination);
@@ -90507,126 +89735,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const toString = Object.prototype.toString;
-/* tslint:enable:max-line-length */
-/**
- * Creates an Observable that emits events of a specific type coming from the
- * given event target.
- *
- * <span class="informal">Creates an Observable from DOM events, or Node.js
- * EventEmitter events or others.</span>
- *
- * <img src="./img/fromEvent.png" width="100%">
- *
- * `fromEvent` accepts as a first argument event target, which is an object with methods
- * for registering event handler functions. As a second argument it takes string that indicates
- * type of event we want to listen for. `fromEvent` supports selected types of event targets,
- * which are described in detail below. If your event target does not match any of the ones listed,
- * you should use {@link fromEventPattern}, which can be used on arbitrary APIs.
- * When it comes to APIs supported by `fromEvent`, their methods for adding and removing event
- * handler functions have different names, but they all accept a string describing event type
- * and function itself, which will be called whenever said event happens.
- *
- * Every time resulting Observable is subscribed, event handler function will be registered
- * to event target on given event type. When that event fires, value
- * passed as a first argument to registered function will be emitted by output Observable.
- * When Observable is unsubscribed, function will be unregistered from event target.
- *
- * Note that if event target calls registered function with more than one argument, second
- * and following arguments will not appear in resulting stream. In order to get access to them,
- * you can pass to `fromEvent` optional project function, which will be called with all arguments
- * passed to event handler. Output Observable will then emit value returned by project function,
- * instead of the usual value.
- *
- * Remember that event targets listed below are checked via duck typing. It means that
- * no matter what kind of object you have and no matter what environment you work in,
- * you can safely use `fromEvent` on that object if it exposes described methods (provided
- * of course they behave as was described above). So for example if Node.js library exposes
- * event target which has the same method names as DOM EventTarget, `fromEvent` is still
- * a good choice.
- *
- * If the API you use is more callback then event handler oriented (subscribed
- * callback function fires only once and thus there is no need to manually
- * unregister it), you should use {@link bindCallback} or {@link bindNodeCallback}
- * instead.
- *
- * `fromEvent` supports following types of event targets:
- *
- * **DOM EventTarget**
- *
- * This is an object with `addEventListener` and `removeEventListener` methods.
- *
- * In the browser, `addEventListener` accepts - apart from event type string and event
- * handler function arguments - optional third parameter, which is either an object or boolean,
- * both used for additional configuration how and when passed function will be called. When
- * `fromEvent` is used with event target of that type, you can provide this values
- * as third parameter as well.
- *
- * **Node.js EventEmitter**
- *
- * An object with `addListener` and `removeListener` methods.
- *
- * **JQuery-style event target**
- *
- * An object with `on` and `off` methods
- *
- * **DOM NodeList**
- *
- * List of DOM Nodes, returned for example by `document.querySelectorAll` or `Node.childNodes`.
- *
- * Although this collection is not event target in itself, `fromEvent` will iterate over all Nodes
- * it contains and install event handler function in every of them. When returned Observable
- * is unsubscribed, function will be removed from all Nodes.
- *
- * **DOM HtmlCollection**
- *
- * Just as in case of NodeList it is a collection of DOM nodes. Here as well event handler function is
- * installed and removed in each of elements.
- *
- *
- * @example <caption>Emits clicks happening on the DOM document</caption>
- * var clicks = fromEvent(document, 'click');
- * clicks.subscribe(x => console.log(x));
- *
- * // Results in:
- * // MouseEvent object logged to console every time a click
- * // occurs on the document.
- *
- *
- * @example <caption>Use addEventListener with capture option</caption>
- * var clicksInDocument = fromEvent(document, 'click', true); // note optional configuration parameter
- *                                                                          // which will be passed to addEventListener
- * var clicksInDiv = fromEvent(someDivInDocument, 'click');
- *
- * clicksInDocument.subscribe(() => console.log('document'));
- * clicksInDiv.subscribe(() => console.log('div'));
- *
- * // By default events bubble UP in DOM tree, so normally
- * // when we would click on div in document
- * // "div" would be logged first and then "document".
- * // Since we specified optional `capture` option, document
- * // will catch event when it goes DOWN DOM tree, so console
- * // will log "document" and then "div".
- *
- * @see {@link bindCallback}
- * @see {@link bindNodeCallback}
- * @see {@link fromEventPattern}
- *
- * @param {FromEventTarget<T>} target The DOM EventTarget, Node.js
- * EventEmitter, JQuery-like event target, NodeList or HTMLCollection to attach the event handler to.
- * @param {string} eventName The event name of interest, being emitted by the
- * `target`.
- * @param {EventListenerOptions} [options] Options to pass through to addEventListener
- * @return {Observable<T>}
- * @name fromEvent
- */
 function fromEvent(target, eventName, options, resultSelector) {
     if (Object(_util_isFunction__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(options)) {
-        // DEPRECATED PATH
         resultSelector = options;
         options = undefined;
     }
     if (resultSelector) {
-        // DEPRECATED PATH
         return fromEvent(target, eventName, options).pipe(Object(_operators_map__WEBPACK_IMPORTED_MODULE_3__["map"])(args => Object(_util_isArray__WEBPACK_IMPORTED_MODULE_1__["isArray"])(args) ? resultSelector(...args) : resultSelector(args)));
     }
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
@@ -90699,52 +89813,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Creates an Observable from an API based on addHandler/removeHandler
- * functions.
- *
- * <span class="informal">Converts any addHandler/removeHandler API to an
- * Observable.</span>
- *
- * <img src="./img/fromEventPattern.png" width="100%">
- *
- * Creates an Observable by using the `addHandler` and `removeHandler`
- * functions to add and remove the handlers. The `addHandler` is
- * called when the output Observable is subscribed, and `removeHandler` is
- * called when the Subscription is unsubscribed.
- *
- * @example <caption>Emits clicks happening on the DOM document</caption>
- * function addClickHandler(handler) {
- *   document.addEventListener('click', handler);
- * }
- *
- * function removeClickHandler(handler) {
- *   document.removeEventListener('click', handler);
- * }
- *
- * var clicks = fromEventPattern(
- *   addClickHandler,
- *   removeClickHandler
- * );
- * clicks.subscribe(x => console.log(x));
- *
- * @see {@link from}
- * @see {@link fromEvent}
- *
- * @param {function(handler: Function): any} addHandler A function that takes
- * a `handler` function as argument and attaches it somehow to the actual
- * source of events.
- * @param {function(handler: Function, signal?: any): void} [removeHandler] An optional function that
- * takes a `handler` function as argument and removes it in case it was
- * previously attached using `addHandler`. if addHandler returns signal to teardown when remove,
- * removeHandler function will forward it.
- * @return {Observable<T>}
- * @name fromEventPattern
- */
 function fromEventPattern(addHandler, removeHandler, resultSelector) {
     if (resultSelector) {
-        // DEPRECATED PATH
         return fromEventPattern(addHandler, removeHandler).pipe(Object(_operators_map__WEBPACK_IMPORTED_MODULE_3__["map"])(args => Object(_util_isArray__WEBPACK_IMPORTED_MODULE_1__["isArray"])(args) ? resultSelector(...args) : resultSelector(args)));
     }
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
@@ -90797,7 +89867,6 @@ function fromIterable(input, scheduler) {
             const sub = new _Subscription__WEBPACK_IMPORTED_MODULE_1__["Subscription"]();
             let iterator;
             sub.add(() => {
-                // Finalize generators
                 if (iterator && typeof iterator.return === 'function') {
                     iterator.return();
                 }
@@ -91070,87 +90139,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _empty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./empty */ "./node_modules/rxjs/_esm2015/internal/observable/empty.js");
 
 
-/**
- * Decides at subscription time which Observable will actually be subscribed.
- *
- * <span class="informal">`If` statement for Observables.</span>
- *
- * `if` accepts a condition function and two Observables. When
- * an Observable returned by the operator is subscribed, condition function will be called.
- * Based on what boolean it returns at that moment, consumer will subscribe either to
- * the first Observable (if condition was true) or to the second (if condition was false). Condition
- * function may also not return anything - in that case condition will be evaluated as false and
- * second Observable will be subscribed.
- *
- * Note that Observables for both cases (true and false) are optional. If condition points to an Observable that
- * was left undefined, resulting stream will simply complete immediately. That allows you to, rather
- * then controlling which Observable will be subscribed, decide at runtime if consumer should have access
- * to given Observable or not.
- *
- * If you have more complex logic that requires decision between more than two Observables, {@link defer}
- * will probably be a better choice. Actually `if` can be easily implemented with {@link defer}
- * and exists only for convenience and readability reasons.
- *
- *
- * @example <caption>Change at runtime which Observable will be subscribed</caption>
- * let subscribeToFirst;
- * const firstOrSecond = Rx.Observable.if(
- *   () => subscribeToFirst,
- *   Rx.Observable.of('first'),
- *   Rx.Observable.of('second')
- * );
- *
- * subscribeToFirst = true;
- * firstOrSecond.subscribe(value => console.log(value));
- *
- * // Logs:
- * // "first"
- *
- * subscribeToFirst = false;
- * firstOrSecond.subscribe(value => console.log(value));
- *
- * // Logs:
- * // "second"
- *
- *
- * @example <caption>Control an access to an Observable</caption>
- * let accessGranted;
- * const observableIfYouHaveAccess = Rx.Observable.if(
- *   () => accessGranted,
- *   Rx.Observable.of('It seems you have an access...') // Note that only one Observable is passed to the operator.
- * );
- *
- * accessGranted = true;
- * observableIfYouHaveAccess.subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('The end')
- * );
- *
- * // Logs:
- * // "It seems you have an access..."
- * // "The end"
- *
- * accessGranted = false;
- * observableIfYouHaveAccess.subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('The end')
- * );
- *
- * // Logs:
- * // "The end"
- *
- * @see {@link defer}
- *
- * @param {function(): boolean} condition Condition which Observable should be chosen.
- * @param {Observable} [trueObservable] An Observable that will be subscribed if condition is true.
- * @param {Observable} [falseObservable] An Observable that will be subscribed if condition is false.
- * @return {Observable} Either first or second Observable, depending on condition.
- * @static true
- * @name iif
- * @owner Observable
- */
 function iif(condition, trueResult = _empty__WEBPACK_IMPORTED_MODULE_1__["EMPTY"], falseResult = _empty__WEBPACK_IMPORTED_MODULE_1__["EMPTY"]) {
     return Object(_defer__WEBPACK_IMPORTED_MODULE_0__["defer"])(() => condition() ? trueResult : falseResult);
 }
@@ -91174,39 +90162,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Creates an Observable that emits sequential numbers every specified
- * interval of time, on a specified IScheduler.
- *
- * <span class="informal">Emits incremental numbers periodically in time.
- * </span>
- *
- * <img src="./img/interval.png" width="100%">
- *
- * `interval` returns an Observable that emits an infinite sequence of
- * ascending integers, with a constant interval of time of your choosing
- * between those emissions. The first emission is not sent immediately, but
- * only after the first period has passed. By default, this operator uses the
- * `async` IScheduler to provide a notion of time, but you may pass any
- * IScheduler to it.
- *
- * @example <caption>Emits ascending numbers, one every second (1000ms)</caption>
- * var numbers = Rx.Observable.interval(1000);
- * numbers.subscribe(x => console.log(x));
- *
- * @see {@link timer}
- * @see {@link delay}
- *
- * @param {number} [period=0] The interval size in milliseconds (by default)
- * or the time unit determined by the scheduler's clock.
- * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
- * the emission of values, and providing a notion of "time".
- * @return {Observable} An Observable that emits a sequential number each time
- * interval.
- * @static true
- * @name interval
- * @owner Observable
- */
 function interval(period = 0, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_1__["async"]) {
     if (!Object(_util_isNumeric__WEBPACK_IMPORTED_MODULE_2__["isNumeric"])(period) || period < 0) {
         period = 0;
@@ -91246,67 +90201,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which concurrently emits all values from every
- * given input Observable.
- *
- * <span class="informal">Flattens multiple Observables together by blending
- * their values into one Observable.</span>
- *
- * <img src="./img/merge.png" width="100%">
- *
- * `merge` subscribes to each given input Observable (as arguments), and simply
- * forwards (without doing any transformation) all the values from all the input
- * Observables to the output Observable. The output Observable only completes
- * once all input Observables have completed. Any error delivered by an input
- * Observable will be immediately emitted on the output Observable.
- *
- * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
- * clicksOrTimer.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // timer will emit ascending values, one every second(1000ms) to console
- * // clicks logs MouseEvents to console everytime the "document" is clicked
- * // Since the two streams are merged you see these happening
- * // as they occur.
- *
- * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var concurrent = 2; // the argument
- * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
- * merged.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // - First timer1 and timer2 will run concurrently
- * // - timer1 will emit a value every 1000ms for 10 iterations
- * // - timer2 will emit a value every 2000ms for 6 iterations
- * // - after timer1 hits it's max iteration, timer2 will
- * //   continue, and timer3 will start to run concurrently with timer2
- * // - when timer2 hits it's max iteration it terminates, and
- * //   timer3 will continue to emit a value every 500ms until it is complete
- *
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- *
- * @param {...ObservableInput} observables Input Observables to merge together.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
- * concurrency of input Observables.
- * @return {Observable} an Observable that emits items that are the result of
- * every input Observable.
- * @static true
- * @name merge
- * @owner Observable
- */
 function merge(...observables) {
     let concurrent = Number.POSITIVE_INFINITY;
     let scheduler = null;
@@ -91344,33 +90238,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_noop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/noop */ "./node_modules/rxjs/_esm2015/internal/util/noop.js");
 
 
-/**
- * An Observable that emits no items to the Observer and never completes.
- *
- * <img src="./img/never.png" width="100%">
- *
- * A simple Observable that emits neither values nor errors nor the completion
- * notification. It can be used for testing purposes or for composing with other
- * Observables. Please note that by never emitting a complete notification, this
- * Observable keeps the subscription from being disposed automatically.
- * Subscriptions need to be manually disposed.
- *
- * @example <caption>Emit the number 7, then never emit anything else (not even complete).</caption>
- * function info() {
- *   console.log('Will not be called');
- * }
- * var result = NEVER.startWith(7);
- * result.subscribe(x => console.log(x), info, info);
- *
- * @see {@link create}
- * @see {@link EMPTY}
- * @see {@link of}
- * @see {@link throwError}
- */
 const NEVER = new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](_util_noop__WEBPACK_IMPORTED_MODULE_1__["noop"]);
-/**
- * @deprecated Deprecated in favor of using NEVER constant.
- */
 function never() {
     return NEVER;
 }
@@ -91435,63 +90303,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * When any of the provided Observable emits an complete or error notification, it immediately subscribes to the next one
- * that was passed.
- *
- * <span class="informal">Execute series of Observables no matter what, even if it means swallowing errors.</span>
- *
- * <img src="./img/onErrorResumeNext.png" width="100%">
- *
- * `onErrorResumeNext` Will subscribe to each observable source it is provided, in order.
- * If the source it's subscribed to emits an error or completes, it will move to the next source
- * without error.
- *
- * If `onErrorResumeNext` is provided no arguments, or a single, empty array, it will return {@link EMPTY}.
- *
- * `onErrorResumeNext` is basically {@link concat}, only it will continue, even if one of its
- * sources emits an error.
- *
- * Note that there is no way to handle any errors thrown by sources via the resuult of
- * `onErrorResumeNext`. If you want to handle errors thrown in any given source, you can
- * always use the {@link catchError} operator on them before passing them into `onErrorResumeNext`.
- *
- * @example <caption>Subscribe to the next Observable after map fails</caption>
- * import { onErrorResumeNext, of } from 'rxjs/create';
- * import { map } from 'rxjs/operators';
- *
- * onErrorResumeNext(
- *  of(1, 2, 3, 0).pipe(
- *    map(x => {
- *      if (x === 0) throw Error();
- *      return 10 / x;
- *    })
- *  ),
- *  of(1, 2, 3),
- * )
- * .subscribe(
- *   val => console.log(val),
- *   err => console.log(err),          // Will never be called.
- *   () => console.log('done')
- * );
- *
- * // Logs:
- * // 10
- * // 5
- * // 3.3333333333333335
- * // 1
- * // 2
- * // 3
- * // "done"
- *
- * @see {@link concat}
- * @see {@link catch}
- *
- * @param {...ObservableInput} sources Observables (or anything that *is* observable) passed either directly or as an array.
- * @return {Observable} An Observable that concatenates all sources, one after the other,
- * ignoring all errors, such that any error causes it to move on to the next source.
- */
 function onErrorResumeNext(...sources) {
     if (sources.length === 0) {
         return _empty__WEBPACK_IMPORTED_MODULE_3__["EMPTY"];
@@ -91528,37 +90339,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Subscription */ "./node_modules/rxjs/_esm2015/internal/Subscription.js");
 
 
-/**
- * Convert an object into an observable sequence of [key, value] pairs
- * using an optional IScheduler to enumerate the object.
- *
- * @example <caption>Converts a javascript object to an Observable</caption>
- * var obj = {
- *   foo: 42,
- *   bar: 56,
- *   baz: 78
- * };
- *
- * var source = Rx.Observable.pairs(obj);
- *
- * var subscription = source.subscribe(
- *   function (x) {
- *     console.log('Next: %s', x);
- *   },
- *   function (err) {
- *     console.log('Error: %s', err);
- *   },
- *   function () {
- *     console.log('Completed');
- *   });
- *
- * @param {Object} obj The object to inspect and turn into an
- * Observable sequence.
- * @param {Scheduler} [scheduler] An optional IScheduler to run the
- * enumeration of the input sequence on.
- * @returns {(Observable<[string, T]>)} An observable sequence of
- * [key, value] pairs from the object.
- */
 function pairs(obj, scheduler) {
     if (!scheduler) {
         return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
@@ -91581,7 +90361,6 @@ function pairs(obj, scheduler) {
         });
     }
 }
-/** @internal */
 function dispatch(state) {
     const { keys, index, subscriber, subscription, obj } = state;
     if (!subscriber.closed) {
@@ -91620,8 +90399,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function race(...observables) {
-    // if the only argument is an array, it was most likely called with
-    // `race([obs1, obs2, ...])`
     if (observables.length === 1) {
         if (Object(_util_isArray__WEBPACK_IMPORTED_MODULE_0__["isArray"])(observables[0])) {
             observables = observables[0];
@@ -91637,11 +90414,6 @@ class RaceOperator {
         return source.subscribe(new RaceSubscriber(subscriber));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class RaceSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination) {
         super(destination);
@@ -91702,36 +90474,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatch", function() { return dispatch; });
 /* harmony import */ var _Observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Observable */ "./node_modules/rxjs/_esm2015/internal/Observable.js");
 
-/**
- * Creates an Observable that emits a sequence of numbers within a specified
- * range.
- *
- * <span class="informal">Emits a sequence of numbers in a range.</span>
- *
- * <img src="./img/range.png" width="100%">
- *
- * `range` operator emits a range of sequential integers, in order, where you
- * select the `start` of the range and its `length`. By default, uses no
- * IScheduler and just delivers the notifications synchronously, but may use
- * an optional IScheduler to regulate those deliveries.
- *
- * @example <caption>Emits the numbers 1 to 10</caption>
- * var numbers = Rx.Observable.range(1, 10);
- * numbers.subscribe(x => console.log(x));
- *
- * @see {@link timer}
- * @see {@link interval}
- *
- * @param {number} [start=0] The value of the first integer in the sequence.
- * @param {number} [count=0] The number of sequential integers to generate.
- * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
- * the emissions of the notifications.
- * @return {Observable} An Observable of numbers that emits a finite range of
- * sequential integers.
- * @static true
- * @name range
- * @owner Observable
- */
 function range(start = 0, count = 0, scheduler) {
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
         let index = 0;
@@ -91756,7 +90498,6 @@ function range(start = 0, count = 0, scheduler) {
         return undefined;
     });
 }
-/** @internal */
 function dispatch(state) {
     const { start, index, count, subscriber } = state;
     if (index >= count) {
@@ -91812,50 +90553,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "throwError", function() { return throwError; });
 /* harmony import */ var _Observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Observable */ "./node_modules/rxjs/_esm2015/internal/Observable.js");
 
-/**
- * Creates an Observable that emits no items to the Observer and immediately
- * emits an error notification.
- *
- * <span class="informal">Just emits 'error', and nothing else.
- * </span>
- *
- * <img src="./img/throw.png" width="100%">
- *
- * This static operator is useful for creating a simple Observable that only
- * emits the error notification. It can be used for composing with other
- * Observables, such as in a {@link mergeMap}.
- *
- * @example <caption>Emit the number 7, then emit an error.</caption>
- * import { throwError, concat, of } from 'rxjs/create';
- *
- * const result = concat(of(7), throwError(new Error('oops!')));
- * result.subscribe(x => console.log(x), e => console.error(e));
- *
- * @example <caption>Map and flatten numbers to the sequence 'a', 'b', 'c', but throw an error for 13</caption>
- * import { throwError, interval, of } from 'rxjs/create';
- * import { mergeMap } from 'rxjs/operators';
- *
- * interval(1000).pipe(
- *   mergeMap(x => x === 13 ?
- *     throwError('Thirteens are bad') :
- *     of('a', 'b', 'c')
- *   )
- * ).subscribe(x => console.log(x), e => console.error(e));
- *
- * @see {@link create}
- * @see {@link empty}
- * @see {@link never}
- * @see {@link of}
- *
- * @param {any} error The particular Error to pass to the error notification.
- * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
- * the emission of the error notification.
- * @return {Observable} An error Observable: emits only the error notification
- * using the given error argument.
- * @static true
- * @name throw
- * @owner Observable
- */
 function throwError(error, scheduler) {
     if (!scheduler) {
         return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => subscriber.error(error));
@@ -91889,48 +90586,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Creates an Observable that starts emitting after an `initialDelay` and
- * emits ever increasing numbers after each `period` of time thereafter.
- *
- * <span class="informal">Its like {@link interval}, but you can specify when
- * should the emissions start.</span>
- *
- * <img src="./img/timer.png" width="100%">
- *
- * `timer` returns an Observable that emits an infinite sequence of ascending
- * integers, with a constant interval of time, `period` of your choosing
- * between those emissions. The first emission happens after the specified
- * `initialDelay`. The initial delay may be a {@link Date}. By default, this
- * operator uses the `async` IScheduler to provide a notion of time, but you
- * may pass any IScheduler to it. If `period` is not specified, the output
- * Observable emits only one value, `0`. Otherwise, it emits an infinite
- * sequence.
- *
- * @example <caption>Emits ascending numbers, one every second (1000ms), starting after 3 seconds</caption>
- * var numbers = Rx.Observable.timer(3000, 1000);
- * numbers.subscribe(x => console.log(x));
- *
- * @example <caption>Emits one number after five seconds</caption>
- * var numbers = Rx.Observable.timer(5000);
- * numbers.subscribe(x => console.log(x));
- *
- * @see {@link interval}
- * @see {@link delay}
- *
- * @param {number|Date} [dueTime] The initial delay time to wait before
- * emitting the first value of `0`.
- * @param {number|SchedulerLike} [periodOrScheduler] The period of time between emissions of the
- * subsequent numbers.
- * @param {SchedulerLike} [scheduler=async] The IScheduler to use for scheduling
- * the emission of values, and providing a notion of "time".
- * @return {Observable} An Observable that emits a `0` after the
- * `initialDelay` and ever increasing numbers after each `period` of time
- * thereafter.
- * @static true
- * @name timer
- * @owner Observable
- */
 function timer(dueTime = 0, periodOrScheduler, scheduler) {
     let period = -1;
     if (Object(_util_isNumeric__WEBPACK_IMPORTED_MODULE_2__["isNumeric"])(periodOrScheduler)) {
@@ -91981,36 +90636,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _from__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./from */ "./node_modules/rxjs/_esm2015/internal/observable/from.js");
 /* harmony import */ var _empty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./empty */ "./node_modules/rxjs/_esm2015/internal/observable/empty.js");
 
- // from from from! LAWL
 
-/**
- * Creates an Observable that uses a resource which will be disposed at the same time as the Observable.
- *
- * <span class="informal">Use it when you catch yourself cleaning up after an Observable.</span>
- *
- * `using` is a factory operator, which accepts two functions. First function returns a disposable resource.
- * It can be an arbitrary object that implements `unsubscribe` method. Second function will be injected with
- * that object and should return an Observable. That Observable can use resource object during its execution.
- * Both functions passed to `using` will be called every time someone subscribes - neither an Observable nor
- * resource object will be shared in any way between subscriptions.
- *
- * When Observable returned by `using` is subscribed, Observable returned from the second function will be subscribed
- * as well. All its notifications (nexted values, completion and error events) will be emitted unchanged by the output
- * Observable. If however someone unsubscribes from the Observable or source Observable completes or errors by itself,
- * the `unsubscribe` method on resource object will be called. This can be used to do any necessary clean up, which
- * otherwise would have to be handled by hand. Note that complete or error notifications are not emitted when someone
- * cancels subscription to an Observable via `unsubscribe`, so `using` can be used as a hook, allowing you to make
- * sure that all resources which need to exist during an Observable execution will be disposed at appropriate time.
- *
- * @see {@link defer}
- *
- * @param {function(): ISubscription} resourceFactory A function which creates any resource object
- * that implements `unsubscribe` method.
- * @param {function(resource: ISubscription): Observable<T>} observableFactory A function which
- * creates an Observable, that can use injected resource object.
- * @return {Observable<T>} An Observable that behaves the same as Observable returned by `observableFactory`, but
- * which - when completed, errored or unsubscribed - will also call `unsubscribe` on created resource object.
- */
+
 function using(resourceFactory, observableFactory) {
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](subscriber => {
         let resource;
@@ -92067,38 +90694,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Combines multiple Observables to create an Observable whose values are calculated from the values, in order, of each
- * of its input Observables.
- *
- * If the latest parameter is a function, this function is used to compute the created value from the input values.
- * Otherwise, an array of the input values is returned.
- *
- * @example <caption>Combine age and name from different sources</caption>
- *
- * let age$ = Observable.of<number>(27, 25, 29);
- * let name$ = Observable.of<string>('Foo', 'Bar', 'Beer');
- * let isDev$ = Observable.of<boolean>(true, true, false);
- *
- * Observable
- *     .zip(age$,
- *          name$,
- *          isDev$,
- *          (age: number, name: string, isDev: boolean) => ({ age, name, isDev }))
- *     .subscribe(x => console.log(x));
- *
- * // outputs
- * // { age: 27, name: 'Foo', isDev: true }
- * // { age: 25, name: 'Bar', isDev: true }
- * // { age: 29, name: 'Beer', isDev: false }
- *
- * @param observables
- * @return {Observable<R>}
- * @static true
- * @name zip
- * @owner Observable
- */
 function zip(...observables) {
     const resultSelector = observables[observables.length - 1];
     if (typeof resultSelector === 'function') {
@@ -92114,11 +90709,6 @@ class ZipOperator {
         return source.subscribe(new ZipSubscriber(subscriber, this.resultSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ZipSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber"] {
     constructor(destination, resultSelector, values = Object.create(null)) {
         super(destination);
@@ -92153,7 +90743,7 @@ class ZipSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber
                 this.add(iterator.subscribe(iterator, i));
             }
             else {
-                this.active--; // not an observable
+                this.active--;
             }
         }
     }
@@ -92167,7 +90757,6 @@ class ZipSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber
         const iterators = this.iterators;
         const len = iterators.length;
         const destination = this.destination;
-        // abort if not all of them have values
         for (let i = 0; i < len; i++) {
             let iterator = iterators[i];
             if (typeof iterator.hasValue === 'function' && !iterator.hasValue()) {
@@ -92179,8 +90768,6 @@ class ZipSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber
         for (let i = 0; i < len; i++) {
             let iterator = iterators[i];
             let result = iterator.next();
-            // check to see if it's completed now that you've gotten
-            // the next value.
             if (iterator.hasCompleted()) {
                 shouldComplete = true;
             }
@@ -92252,11 +90839,6 @@ class StaticArrayIterator {
         return this.array.length === this.index;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ZipBufferIterator extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["OuterSubscriber"] {
     constructor(destination, parent, observable) {
         super(destination);
@@ -92269,8 +90851,6 @@ class ZipBufferIterator extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["O
     [_internal_symbol_iterator__WEBPACK_IMPORTED_MODULE_5__["iterator"]]() {
         return this;
     }
-    // NOTE: there is actually a name collision here with Subscriber.next and Iterator.next
-    //    this is legit because `next()` will never be called by a subscription in this case.
     next() {
         const buffer = this.buffer;
         if (buffer.length === 0 && this.isComplete) {
@@ -92325,46 +90905,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Ignores source values for a duration determined by another Observable, then
- * emits the most recent value from the source Observable, then repeats this
- * process.
- *
- * <span class="informal">It's like {@link auditTime}, but the silencing
- * duration is determined by a second Observable.</span>
- *
- * <img src="./img/audit.png" width="100%">
- *
- * `audit` is similar to `throttle`, but emits the last value from the silenced
- * time window, instead of the first value. `audit` emits the most recent value
- * from the source Observable on the output Observable as soon as its internal
- * timer becomes disabled, and ignores source values while the timer is enabled.
- * Initially, the timer is disabled. As soon as the first source value arrives,
- * the timer is enabled by calling the `durationSelector` function with the
- * source value, which returns the "duration" Observable. When the duration
- * Observable emits a value or completes, the timer is disabled, then the most
- * recent source value is emitted on the output Observable, and this process
- * repeats for the next source value.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.audit(ev => Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link auditTime}
- * @see {@link debounce}
- * @see {@link delayWhen}
- * @see {@link sample}
- * @see {@link throttle}
- *
- * @param {function(value: T): SubscribableOrPromise} durationSelector A function
- * that receives a value from the source Observable, for computing the silencing
- * duration, returned as an Observable or a Promise.
- * @return {Observable<T>} An Observable that performs rate-limiting of
- * emissions from the source Observable.
- * @method audit
- * @owner Observable
- */
 function audit(durationSelector) {
     return function auditOperatorFunction(source) {
         return source.lift(new AuditOperator(durationSelector));
@@ -92378,11 +90918,6 @@ class AuditOperator {
         return source.subscribe(new AuditSubscriber(subscriber, this.durationSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class AuditSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination, durationSelector) {
         super(destination);
@@ -92448,48 +90983,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Ignores source values for `duration` milliseconds, then emits the most recent
- * value from the source Observable, then repeats this process.
- *
- * <span class="informal">When it sees a source values, it ignores that plus
- * the next ones for `duration` milliseconds, and then it emits the most recent
- * value from the source.</span>
- *
- * <img src="./img/auditTime.png" width="100%">
- *
- * `auditTime` is similar to `throttleTime`, but emits the last value from the
- * silenced time window, instead of the first value. `auditTime` emits the most
- * recent value from the source Observable on the output Observable as soon as
- * its internal timer becomes disabled, and ignores source values while the
- * timer is enabled. Initially, the timer is disabled. As soon as the first
- * source value arrives, the timer is enabled. After `duration` milliseconds (or
- * the time unit determined internally by the optional `scheduler`) has passed,
- * the timer is disabled, then the most recent source value is emitted on the
- * output Observable, and this process repeats for the next source value.
- * Optionally takes a {@link IScheduler} for managing timers.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.auditTime(1000);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link audit}
- * @see {@link debounceTime}
- * @see {@link delay}
- * @see {@link sampleTime}
- * @see {@link throttleTime}
- *
- * @param {number} duration Time to wait before emitting the most recent source
- * value, measured in milliseconds or the time unit determined internally
- * by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
- * managing the timers that handle the rate-limiting behavior.
- * @return {Observable<T>} An Observable that performs rate-limiting of
- * emissions from the source Observable.
- * @method auditTime
- * @owner Observable
- */
 function auditTime(duration, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"]) {
     return Object(_audit__WEBPACK_IMPORTED_MODULE_1__["audit"])(() => Object(_observable_timer__WEBPACK_IMPORTED_MODULE_2__["timer"])(duration, scheduler));
 }
@@ -92511,38 +91004,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Buffers the source Observable values until `closingNotifier` emits.
- *
- * <span class="informal">Collects values from the past as an array, and emits
- * that array only when another Observable emits.</span>
- *
- * <img src="./img/buffer.png" width="100%">
- *
- * Buffers the incoming Observable values until the given `closingNotifier`
- * Observable emits a value, at which point it emits the buffer on the output
- * Observable and starts a new buffer internally, awaiting the next time
- * `closingNotifier` emits.
- *
- * @example <caption>On every click, emit array of most recent interval events</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var interval = Rx.Observable.interval(1000);
- * var buffered = interval.buffer(clicks);
- * buffered.subscribe(x => console.log(x));
- *
- * @see {@link bufferCount}
- * @see {@link bufferTime}
- * @see {@link bufferToggle}
- * @see {@link bufferWhen}
- * @see {@link window}
- *
- * @param {Observable<any>} closingNotifier An Observable that signals the
- * buffer to be emitted on the output Observable.
- * @return {Observable<T[]>} An Observable of buffers, which are arrays of
- * values.
- * @method buffer
- * @owner Observable
- */
 function buffer(closingNotifier) {
     return function bufferOperatorFunction(source) {
         return source.lift(new BufferOperator(closingNotifier));
@@ -92556,11 +91017,6 @@ class BufferOperator {
         return source.subscribe(new BufferSubscriber(subscriber, this.closingNotifier));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class BufferSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, closingNotifier) {
         super(destination);
@@ -92592,47 +91048,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bufferCount", function() { return bufferCount; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Buffers the source Observable values until the size hits the maximum
- * `bufferSize` given.
- *
- * <span class="informal">Collects values from the past as an array, and emits
- * that array only when its size reaches `bufferSize`.</span>
- *
- * <img src="./img/bufferCount.png" width="100%">
- *
- * Buffers a number of values from the source Observable by `bufferSize` then
- * emits the buffer and clears it, and starts a new buffer each
- * `startBufferEvery` values. If `startBufferEvery` is not provided or is
- * `null`, then new buffers are started immediately at the start of the source
- * and when each buffer closes and is emitted.
- *
- * @example <caption>Emit the last two click events as an array</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var buffered = clicks.bufferCount(2);
- * buffered.subscribe(x => console.log(x));
- *
- * @example <caption>On every click, emit the last two click events as an array</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var buffered = clicks.bufferCount(2, 1);
- * buffered.subscribe(x => console.log(x));
- *
- * @see {@link buffer}
- * @see {@link bufferTime}
- * @see {@link bufferToggle}
- * @see {@link bufferWhen}
- * @see {@link pairwise}
- * @see {@link windowCount}
- *
- * @param {number} bufferSize The maximum size of the buffer emitted.
- * @param {number} [startBufferEvery] Interval at which to start a new buffer.
- * For example if `startBufferEvery` is `2`, then a new buffer will be started
- * on every other value from the source. A new buffer is started at the
- * beginning of the source by default.
- * @return {Observable<T[]>} An Observable of arrays of buffered values.
- * @method bufferCount
- * @owner Observable
- */
 function bufferCount(bufferSize, startBufferEvery = null) {
     return function bufferCountOperatorFunction(source) {
         return source.lift(new BufferCountOperator(bufferSize, startBufferEvery));
@@ -92653,11 +91068,6 @@ class BufferCountOperator {
         return source.subscribe(new this.subscriberClass(subscriber, this.bufferSize, this.startBufferEvery));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class BufferCountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, bufferSize) {
         super(destination);
@@ -92680,11 +91090,6 @@ class BufferCountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Su
         super._complete();
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class BufferSkipCountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, bufferSize, startBufferEvery) {
         super(destination);
@@ -92739,50 +91144,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Buffers the source Observable values for a specific time period.
- *
- * <span class="informal">Collects values from the past as an array, and emits
- * those arrays periodically in time.</span>
- *
- * <img src="./img/bufferTime.png" width="100%">
- *
- * Buffers values from the source for a specific time duration `bufferTimeSpan`.
- * Unless the optional argument `bufferCreationInterval` is given, it emits and
- * resets the buffer every `bufferTimeSpan` milliseconds. If
- * `bufferCreationInterval` is given, this operator opens the buffer every
- * `bufferCreationInterval` milliseconds and closes (emits and resets) the
- * buffer every `bufferTimeSpan` milliseconds. When the optional argument
- * `maxBufferSize` is specified, the buffer will be closed either after
- * `bufferTimeSpan` milliseconds or when it contains `maxBufferSize` elements.
- *
- * @example <caption>Every second, emit an array of the recent click events</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var buffered = clicks.bufferTime(1000);
- * buffered.subscribe(x => console.log(x));
- *
- * @example <caption>Every 5 seconds, emit the click events from the next 2 seconds</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var buffered = clicks.bufferTime(2000, 5000);
- * buffered.subscribe(x => console.log(x));
- *
- * @see {@link buffer}
- * @see {@link bufferCount}
- * @see {@link bufferToggle}
- * @see {@link bufferWhen}
- * @see {@link windowTime}
- *
- * @param {number} bufferTimeSpan The amount of time to fill each buffer array.
- * @param {number} [bufferCreationInterval] The interval at which to start new
- * buffers.
- * @param {number} [maxBufferSize] The maximum buffer size.
- * @param {Scheduler} [scheduler=async] The scheduler on which to schedule the
- * intervals that determine buffer boundaries.
- * @return {Observable<T[]>} An observable of arrays of buffered values.
- * @method bufferTime
- * @owner Observable
- */
 function bufferTime(bufferTimeSpan) {
     let length = arguments.length;
     let scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"];
@@ -92818,11 +91179,6 @@ class Context {
         this.buffer = [];
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class BufferTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_1__["Subscriber"] {
     constructor(destination, bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler) {
         super(destination);
@@ -92872,7 +91228,6 @@ class BufferTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_1__["Sub
         }
         super._complete();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         this.contexts = null;
     }
@@ -92946,44 +91301,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Buffers the source Observable values starting from an emission from
- * `openings` and ending when the output of `closingSelector` emits.
- *
- * <span class="informal">Collects values from the past as an array. Starts
- * collecting only when `opening` emits, and calls the `closingSelector`
- * function to get an Observable that tells when to close the buffer.</span>
- *
- * <img src="./img/bufferToggle.png" width="100%">
- *
- * Buffers values from the source by opening the buffer via signals from an
- * Observable provided to `openings`, and closing and sending the buffers when
- * a Subscribable or Promise returned by the `closingSelector` function emits.
- *
- * @example <caption>Every other second, emit the click events from the next 500ms</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var openings = Rx.Observable.interval(1000);
- * var buffered = clicks.bufferToggle(openings, i =>
- *   i % 2 ? Rx.Observable.interval(500) : Rx.Observable.empty()
- * );
- * buffered.subscribe(x => console.log(x));
- *
- * @see {@link buffer}
- * @see {@link bufferCount}
- * @see {@link bufferTime}
- * @see {@link bufferWhen}
- * @see {@link windowToggle}
- *
- * @param {SubscribableOrPromise<O>} openings A Subscribable or Promise of notifications to start new
- * buffers.
- * @param {function(value: O): SubscribableOrPromise} closingSelector A function that takes
- * the value emitted by the `openings` observable and returns a Subscribable or Promise,
- * which, when it emits, signals that the associated buffer should be emitted
- * and cleared.
- * @return {Observable<T[]>} An observable of arrays of buffered values.
- * @method bufferToggle
- * @owner Observable
- */
 function bufferToggle(openings, closingSelector) {
     return function bufferToggleOperatorFunction(source) {
         return source.lift(new BufferToggleOperator(openings, closingSelector));
@@ -92998,11 +91315,6 @@ class BufferToggleOperator {
         return source.subscribe(new BufferToggleSubscriber(subscriber, this.openings, this.closingSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class BufferToggleSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination, openings, closingSelector) {
         super(destination);
@@ -93110,39 +91422,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Buffers the source Observable values, using a factory function of closing
- * Observables to determine when to close, emit, and reset the buffer.
- *
- * <span class="informal">Collects values from the past as an array. When it
- * starts collecting values, it calls a function that returns an Observable that
- * tells when to close the buffer and restart collecting.</span>
- *
- * <img src="./img/bufferWhen.png" width="100%">
- *
- * Opens a buffer immediately, then closes the buffer when the observable
- * returned by calling `closingSelector` function emits a value. When it closes
- * the buffer, it immediately opens a new buffer and repeats the process.
- *
- * @example <caption>Emit an array of the last clicks every [1-5] random seconds</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var buffered = clicks.bufferWhen(() =>
- *   Rx.Observable.interval(1000 + Math.random() * 4000)
- * );
- * buffered.subscribe(x => console.log(x));
- *
- * @see {@link buffer}
- * @see {@link bufferCount}
- * @see {@link bufferTime}
- * @see {@link bufferToggle}
- * @see {@link windowWhen}
- *
- * @param {function(): Observable} closingSelector A function that takes no
- * arguments and returns an Observable that signals buffer closure.
- * @return {Observable<T[]>} An observable of arrays of buffered values.
- * @method bufferWhen
- * @owner Observable
- */
 function bufferWhen(closingSelector) {
     return function (source) {
         return source.lift(new BufferWhenOperator(closingSelector));
@@ -93156,11 +91435,6 @@ class BufferWhenOperator {
         return source.subscribe(new BufferWhenSubscriber(subscriber, this.closingSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class BufferWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["OuterSubscriber"] {
     constructor(destination, closingSelector) {
         super(destination);
@@ -93178,7 +91452,6 @@ class BufferWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__
         }
         super._complete();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         this.buffer = null;
         this.subscribing = false;
@@ -93252,22 +91525,12 @@ class CatchOperator {
         return source.subscribe(new CatchSubscriber(subscriber, this.selector, this.caught));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class CatchSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, selector, caught) {
         super(destination);
         this.selector = selector;
         this.caught = caught;
     }
-    // NOTE: overriding `error` instead of `_error` because we don't want
-    // to have this flag this subscriber as `isStopped`. We can mimic the
-    // behavior of the RetrySubscriber (from the `retry` operator), where
-    // we unsubscribe from our source chain, reset our Subscriber flags,
-    // then subscribe to the selector result.
     error(err) {
         if (!this.isStopped) {
             let result;
@@ -93323,17 +91586,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const none = {};
-/* tslint:enable:max-line-length */
-/**
- * @deprecated Deprecated in favor of static combineLatest.
- */
 function combineLatest(...observables) {
     let project = null;
     if (typeof observables[observables.length - 1] === 'function') {
         project = observables.pop();
     }
-    // if the first and only other argument besides the resultSelector is an array
-    // assume it's been called with `combineLatest([obs1, obs2, obs3], project)`
     if (observables.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_0__["isArray"])(observables[0])) {
         observables = observables[0].slice();
     }
@@ -93355,10 +91612,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return concat; });
 /* harmony import */ var _observable_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../observable/concat */ "./node_modules/rxjs/_esm2015/internal/observable/concat.js");
 
-/* tslint:enable:max-line-length */
-/**
- * @deprecated Deprecated in favor of static concat.
- */
 function concat(...observables) {
     return (source) => source.lift.call(Object(_observable_concat__WEBPACK_IMPORTED_MODULE_0__["concat"])(source, ...observables));
 }
@@ -93378,54 +91631,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concatAll", function() { return concatAll; });
 /* harmony import */ var _mergeAll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mergeAll */ "./node_modules/rxjs/_esm2015/internal/operators/mergeAll.js");
 
-/**
- * Converts a higher-order Observable into a first-order Observable by
- * concatenating the inner Observables in order.
- *
- * <span class="informal">Flattens an Observable-of-Observables by putting one
- * inner Observable after the other.</span>
- *
- * <img src="./img/concatAll.png" width="100%">
- *
- * Joins every Observable emitted by the source (a higher-order Observable), in
- * a serial fashion. It subscribes to each inner Observable only after the
- * previous inner Observable has completed, and merges all of their values into
- * the returned observable.
- *
- * __Warning:__ If the source Observable emits Observables quickly and
- * endlessly, and the inner Observables it emits generally complete slower than
- * the source emits, you can run into memory issues as the incoming Observables
- * collect in an unbounded buffer.
- *
- * Note: `concatAll` is equivalent to `mergeAll` with concurrency parameter set
- * to `1`.
- *
- * @example <caption>For each click event, tick every second from 0 to 3, with no concurrency</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var higherOrder = clicks.map(ev => Rx.Observable.interval(1000).take(4));
- * var firstOrder = higherOrder.concatAll();
- * firstOrder.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // (results are not concurrent)
- * // For every click on the "document" it will emit values 0 to 3 spaced
- * // on a 1000ms interval
- * // one click = 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3
- *
- * @see {@link combineAll}
- * @see {@link concat}
- * @see {@link concatMap}
- * @see {@link concatMapTo}
- * @see {@link exhaust}
- * @see {@link mergeAll}
- * @see {@link switch}
- * @see {@link zipAll}
- *
- * @return {Observable} An Observable emitting values from all the inner
- * Observables concatenated.
- * @method concatAll
- * @owner Observable
- */
 function concatAll() {
     return Object(_mergeAll__WEBPACK_IMPORTED_MODULE_0__["mergeAll"])(1);
 }
@@ -93445,58 +91650,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concatMap", function() { return concatMap; });
 /* harmony import */ var _mergeMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mergeMap */ "./node_modules/rxjs/_esm2015/internal/operators/mergeMap.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to an Observable which is merged in the output
- * Observable, in a serialized fashion waiting for each one to complete before
- * merging the next.
- *
- * <span class="informal">Maps each value to an Observable, then flattens all of
- * these inner Observables using {@link concatAll}.</span>
- *
- * <img src="./img/concatMap.png" width="100%">
- *
- * Returns an Observable that emits items based on applying a function that you
- * supply to each item emitted by the source Observable, where that function
- * returns an (so-called "inner") Observable. Each new inner Observable is
- * concatenated with the previous inner Observable.
- *
- * __Warning:__ if source values arrive endlessly and faster than their
- * corresponding inner Observables can complete, it will result in memory issues
- * as inner Observables amass in an unbounded buffer waiting for their turn to
- * be subscribed to.
- *
- * Note: `concatMap` is equivalent to `mergeMap` with concurrency parameter set
- * to `1`.
- *
- * @example <caption>For each click event, tick every second from 0 to 3, with no concurrency</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.concatMap(ev => Rx.Observable.interval(1000).take(4));
- * result.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // (results are not concurrent)
- * // For every click on the "document" it will emit values 0 to 3 spaced
- * // on a 1000ms interval
- * // one click = 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3
- *
- * @see {@link concat}
- * @see {@link concatAll}
- * @see {@link concatMapTo}
- * @see {@link exhaustMap}
- * @see {@link mergeMap}
- * @see {@link switchMap}
- *
- * @param {function(value: T, ?index: number): ObservableInput} project A function
- * that, when applied to an item emitted by the source Observable, returns an
- * Observable.
- * @return {Observable} An Observable that emits the result of applying the
- * projection function (and the optional `resultSelector`) to each item emitted
- * by the source Observable and taking values from each projected inner
- * Observable sequentially.
- * @method concatMap
- * @owner Observable
- */
 function concatMap(project, resultSelector) {
     return Object(_mergeMap__WEBPACK_IMPORTED_MODULE_0__["mergeMap"])(project, resultSelector, 1);
 }
@@ -93516,55 +91669,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concatMapTo", function() { return concatMapTo; });
 /* harmony import */ var _concatMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./concatMap */ "./node_modules/rxjs/_esm2015/internal/operators/concatMap.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to the same Observable which is merged multiple
- * times in a serialized fashion on the output Observable.
- *
- * <span class="informal">It's like {@link concatMap}, but maps each value
- * always to the same inner Observable.</span>
- *
- * <img src="./img/concatMapTo.png" width="100%">
- *
- * Maps each source value to the given Observable `innerObservable` regardless
- * of the source value, and then flattens those resulting Observables into one
- * single Observable, which is the output Observable. Each new `innerObservable`
- * instance emitted on the output Observable is concatenated with the previous
- * `innerObservable` instance.
- *
- * __Warning:__ if source values arrive endlessly and faster than their
- * corresponding inner Observables can complete, it will result in memory issues
- * as inner Observables amass in an unbounded buffer waiting for their turn to
- * be subscribed to.
- *
- * Note: `concatMapTo` is equivalent to `mergeMapTo` with concurrency parameter
- * set to `1`.
- *
- * @example <caption>For each click event, tick every second from 0 to 3, with no concurrency</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.concatMapTo(Rx.Observable.interval(1000).take(4));
- * result.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // (results are not concurrent)
- * // For every click on the "document" it will emit values 0 to 3 spaced
- * // on a 1000ms interval
- * // one click = 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3
- *
- * @see {@link concat}
- * @see {@link concatAll}
- * @see {@link concatMap}
- * @see {@link mergeMapTo}
- * @see {@link switchMapTo}
- *
- * @param {ObservableInput} innerObservable An Observable to replace each value from
- * the source Observable.
- * @return {Observable} An observable of values merged together by joining the
- * passed observable with itself, one after the other, for each value emitted
- * from the source.
- * @method concatMapTo
- * @owner Observable
- */
 function concatMapTo(innerObservable, resultSelector) {
     return Object(_concatMap__WEBPACK_IMPORTED_MODULE_0__["concatMap"])(() => innerObservable, resultSelector);
 }
@@ -93584,54 +91688,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "count", function() { return count; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Counts the number of emissions on the source and emits that number when the
- * source completes.
- *
- * <span class="informal">Tells how many values were emitted, when the source
- * completes.</span>
- *
- * <img src="./img/count.png" width="100%">
- *
- * `count` transforms an Observable that emits values into an Observable that
- * emits a single value that represents the number of values emitted by the
- * source Observable. If the source Observable terminates with an error, `count`
- * will pass this error notification along without emitting a value first. If
- * the source Observable does not terminate at all, `count` will neither emit
- * a value nor terminate. This operator takes an optional `predicate` function
- * as argument, in which case the output emission will represent the number of
- * source values that matched `true` with the `predicate`.
- *
- * @example <caption>Counts how many seconds have passed before the first click happened</caption>
- * var seconds = Rx.Observable.interval(1000);
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var secondsBeforeClick = seconds.takeUntil(clicks);
- * var result = secondsBeforeClick.count();
- * result.subscribe(x => console.log(x));
- *
- * @example <caption>Counts how many odd numbers are there between 1 and 7</caption>
- * var numbers = Rx.Observable.range(1, 7);
- * var result = numbers.count(i => i % 2 === 1);
- * result.subscribe(x => console.log(x));
- *
- * // Results in:
- * // 4
- *
- * @see {@link max}
- * @see {@link min}
- * @see {@link reduce}
- *
- * @param {function(value: T, i: number, source: Observable<T>): boolean} [predicate] A
- * boolean function to select what values are to be counted. It is provided with
- * arguments of:
- * - `value`: the value from the source Observable.
- * - `index`: the (zero-based) "index" of the value from the source Observable.
- * - `source`: the source Observable instance itself.
- * @return {Observable} An Observable of one number that represents the count as
- * described above.
- * @method count
- * @owner Observable
- */
 function count(predicate) {
     return (source) => source.lift(new CountOperator(predicate, source));
 }
@@ -93644,11 +91700,6 @@ class CountOperator {
         return source.subscribe(new CountSubscriber(subscriber, this.predicate, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class CountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate, source) {
         super(destination);
@@ -93701,48 +91752,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Emits a value from the source Observable only after a particular time span
- * determined by another Observable has passed without another source emission.
- *
- * <span class="informal">It's like {@link debounceTime}, but the time span of
- * emission silence is determined by a second Observable.</span>
- *
- * <img src="./img/debounce.png" width="100%">
- *
- * `debounce` delays values emitted by the source Observable, but drops previous
- * pending delayed emissions if a new value arrives on the source Observable.
- * This operator keeps track of the most recent value from the source
- * Observable, and spawns a duration Observable by calling the
- * `durationSelector` function. The value is emitted only when the duration
- * Observable emits a value or completes, and if no other value was emitted on
- * the source Observable since the duration Observable was spawned. If a new
- * value appears before the duration Observable emits, the previous value will
- * be dropped and will not be emitted on the output Observable.
- *
- * Like {@link debounceTime}, this is a rate-limiting operator, and also a
- * delay-like operator since output emissions do not necessarily occur at the
- * same time as they did on the source Observable.
- *
- * @example <caption>Emit the most recent click after a burst of clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.debounce(() => Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link audit}
- * @see {@link debounceTime}
- * @see {@link delayWhen}
- * @see {@link throttle}
- *
- * @param {function(value: T): SubscribableOrPromise} durationSelector A function
- * that receives a value from the source Observable, for computing the timeout
- * duration for each source value, returned as an Observable or a Promise.
- * @return {Observable} An Observable that delays the emissions of the source
- * Observable by the specified duration Observable returned by
- * `durationSelector`, and may drop some values if they occur too frequently.
- * @method debounce
- * @owner Observable
- */
 function debounce(durationSelector) {
     return (source) => source.lift(new DebounceOperator(durationSelector));
 }
@@ -93754,11 +91763,6 @@ class DebounceOperator {
         return source.subscribe(new DebounceSubscriber(subscriber, this.durationSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DebounceSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, durationSelector) {
         super(destination);
@@ -93809,11 +91813,6 @@ class DebounceSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["
                 subscription.unsubscribe();
                 this.remove(subscription);
             }
-            // This must be done *before* passing the value
-            // along to the destination because it's possible for
-            // the value to synchronously re-enter this operator
-            // recursively if the duration selector Observable
-            // emits synchronously
             this.value = null;
             this.hasValue = false;
             super._next(value);
@@ -93838,52 +91837,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scheduler_async__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scheduler/async */ "./node_modules/rxjs/_esm2015/internal/scheduler/async.js");
 
 
-/**
- * Emits a value from the source Observable only after a particular time span
- * has passed without another source emission.
- *
- * <span class="informal">It's like {@link delay}, but passes only the most
- * recent value from each burst of emissions.</span>
- *
- * <img src="./img/debounceTime.png" width="100%">
- *
- * `debounceTime` delays values emitted by the source Observable, but drops
- * previous pending delayed emissions if a new value arrives on the source
- * Observable. This operator keeps track of the most recent value from the
- * source Observable, and emits that only when `dueTime` enough time has passed
- * without any other value appearing on the source Observable. If a new value
- * appears before `dueTime` silence occurs, the previous value will be dropped
- * and will not be emitted on the output Observable.
- *
- * This is a rate-limiting operator, because it is impossible for more than one
- * value to be emitted in any time window of duration `dueTime`, but it is also
- * a delay-like operator since output emissions do not occur at the same time as
- * they did on the source Observable. Optionally takes a {@link IScheduler} for
- * managing timers.
- *
- * @example <caption>Emit the most recent click after a burst of clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.debounceTime(1000);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link auditTime}
- * @see {@link debounce}
- * @see {@link delay}
- * @see {@link sampleTime}
- * @see {@link throttleTime}
- *
- * @param {number} dueTime The timeout duration in milliseconds (or the time
- * unit determined internally by the optional `scheduler`) for the window of
- * time required to wait for emission silence before emitting the most recent
- * source value.
- * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
- * managing the timers that handle the timeout for each value.
- * @return {Observable} An Observable that delays the emissions of the source
- * Observable by the specified `dueTime`, and may drop some values if they occur
- * too frequently.
- * @method debounceTime
- * @owner Observable
- */
 function debounceTime(dueTime, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_1__["async"]) {
     return (source) => source.lift(new DebounceTimeOperator(dueTime, scheduler));
 }
@@ -93896,11 +91849,6 @@ class DebounceTimeOperator {
         return source.subscribe(new DebounceTimeSubscriber(subscriber, this.dueTime, this.scheduler));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DebounceTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, dueTime, scheduler) {
         super(destination);
@@ -93924,11 +91872,6 @@ class DebounceTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["S
         this.clearDebounce();
         if (this.hasValue) {
             const { lastValue } = this;
-            // This must be done *before* passing the value
-            // along to the destination because it's possible for
-            // the value to synchronously re-enter this operator
-            // recursively when scheduled with things like
-            // VirtualScheduler/TestScheduler.
             this.lastValue = null;
             this.hasValue = false;
             this.destination.next(lastValue);
@@ -93962,37 +91905,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultIfEmpty", function() { return defaultIfEmpty; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Emits a given value if the source Observable completes without emitting any
- * `next` value, otherwise mirrors the source Observable.
- *
- * <span class="informal">If the source Observable turns out to be empty, then
- * this operator will emit a default value.</span>
- *
- * <img src="./img/defaultIfEmpty.png" width="100%">
- *
- * `defaultIfEmpty` emits the values emitted by the source Observable or a
- * specified default value if the source Observable is empty (completes without
- * having emitted any `next` value).
- *
- * @example <caption>If no clicks happen in 5 seconds, then emit "no clicks"</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var clicksBeforeFive = clicks.takeUntil(Rx.Observable.interval(5000));
- * var result = clicksBeforeFive.defaultIfEmpty('no clicks');
- * result.subscribe(x => console.log(x));
- *
- * @see {@link empty}
- * @see {@link last}
- *
- * @param {any} [defaultValue=null] The default value used if the source
- * Observable is empty.
- * @return {Observable} An Observable that emits either the specified
- * `defaultValue` if the source Observable emits no items, or the values emitted
- * by the source Observable.
- * @method defaultIfEmpty
- * @owner Observable
- */
 function defaultIfEmpty(defaultValue = null) {
     return (source) => source.lift(new DefaultIfEmptyOperator(defaultValue));
 }
@@ -94004,11 +91916,6 @@ class DefaultIfEmptyOperator {
         return source.subscribe(new DefaultIfEmptySubscriber(subscriber, this.defaultValue));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DefaultIfEmptySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, defaultValue) {
         super(destination);
@@ -94048,45 +91955,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Delays the emission of items from the source Observable by a given timeout or
- * until a given Date.
- *
- * <span class="informal">Time shifts each item by some specified amount of
- * milliseconds.</span>
- *
- * <img src="./img/delay.png" width="100%">
- *
- * If the delay argument is a Number, this operator time shifts the source
- * Observable by that amount of time expressed in milliseconds. The relative
- * time intervals between the values are preserved.
- *
- * If the delay argument is a Date, this operator time shifts the start of the
- * Observable execution until the given date occurs.
- *
- * @example <caption>Delay each click by one second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var delayedClicks = clicks.delay(1000); // each click emitted after 1 second
- * delayedClicks.subscribe(x => console.log(x));
- *
- * @example <caption>Delay all clicks until a future date happens</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var date = new Date('March 15, 2050 12:00:00'); // in the future
- * var delayedClicks = clicks.delay(date); // click emitted only after that date
- * delayedClicks.subscribe(x => console.log(x));
- *
- * @see {@link debounceTime}
- * @see {@link delayWhen}
- *
- * @param {number|Date} delay The delay duration in milliseconds (a `number`) or
- * a `Date` until which the emission of the source items is delayed.
- * @param {Scheduler} [scheduler=async] The IScheduler to use for
- * managing the timers that handle the time-shift for each item.
- * @return {Observable} An Observable that delays the emissions of the source
- * Observable by the specified timeout or Date.
- * @method delay
- * @owner Observable
- */
 function delay(delay, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"]) {
     const absoluteDelay = Object(_util_isDate__WEBPACK_IMPORTED_MODULE_1__["isDate"])(delay);
     const delayFor = absoluteDelay ? (+delay - scheduler.now()) : Math.abs(delay);
@@ -94101,11 +91969,6 @@ class DelayOperator {
         return source.subscribe(new DelaySubscriber(subscriber, this.delay, this.scheduler));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DelaySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber"] {
     constructor(destination, delay, scheduler) {
         super(destination);
@@ -94189,51 +92052,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Delays the emission of items from the source Observable by a given time span
- * determined by the emissions of another Observable.
- *
- * <span class="informal">It's like {@link delay}, but the time span of the
- * delay duration is determined by a second Observable.</span>
- *
- * <img src="./img/delayWhen.png" width="100%">
- *
- * `delayWhen` time shifts each emitted value from the source Observable by a
- * time span determined by another Observable. When the source emits a value,
- * the `delayDurationSelector` function is called with the source value as
- * argument, and should return an Observable, called the "duration" Observable.
- * The source value is emitted on the output Observable only when the duration
- * Observable emits a value or completes.
- *
- * Optionally, `delayWhen` takes a second argument, `subscriptionDelay`, which
- * is an Observable. When `subscriptionDelay` emits its first value or
- * completes, the source Observable is subscribed to and starts behaving like
- * described in the previous paragraph. If `subscriptionDelay` is not provided,
- * `delayWhen` will subscribe to the source Observable as soon as the output
- * Observable is subscribed.
- *
- * @example <caption>Delay each click by a random amount of time, between 0 and 5 seconds</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var delayedClicks = clicks.delayWhen(event =>
- *   Rx.Observable.interval(Math.random() * 5000)
- * );
- * delayedClicks.subscribe(x => console.log(x));
- *
- * @see {@link debounce}
- * @see {@link delay}
- *
- * @param {function(value: T): Observable} delayDurationSelector A function that
- * returns an Observable for each value emitted by the source Observable, which
- * is then used to delay the emission of that item on the output Observable
- * until the Observable returned from this function emits a value.
- * @param {Observable} subscriptionDelay An Observable that triggers the
- * subscription to the source Observable once it emits any value.
- * @return {Observable} An Observable that delays the emissions of the source
- * Observable by an amount of time specified by the Observable returned by
- * `delayDurationSelector`.
- * @method delayWhen
- * @owner Observable
- */
 function delayWhen(delayDurationSelector, subscriptionDelay) {
     if (subscriptionDelay) {
         return (source) => new SubscriptionDelayObservable(source, subscriptionDelay)
@@ -94249,18 +92067,12 @@ class DelayWhenOperator {
         return source.subscribe(new DelayWhenSubscriber(subscriber, this.delayDurationSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DelayWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination, delayDurationSelector) {
         super(destination);
         this.delayDurationSelector = delayDurationSelector;
         this.completed = false;
         this.delayNotifierSubscriptions = [];
-        this.values = [];
     }
     notifyNext(outerValue, innerValue, outerIndex, innerIndex, innerSub) {
         this.destination.next(outerValue);
@@ -94295,13 +92107,10 @@ class DelayWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__[
     removeSubscription(subscription) {
         subscription.unsubscribe();
         const subscriptionIdx = this.delayNotifierSubscriptions.indexOf(subscription);
-        let value = null;
         if (subscriptionIdx !== -1) {
-            value = this.values[subscriptionIdx];
             this.delayNotifierSubscriptions.splice(subscriptionIdx, 1);
-            this.values.splice(subscriptionIdx, 1);
         }
-        return value;
+        return subscription.outerValue;
     }
     tryDelay(delayNotifier, value) {
         const notifierSubscription = Object(_util_subscribeToResult__WEBPACK_IMPORTED_MODULE_3__["subscribeToResult"])(this, delayNotifier, value);
@@ -94309,7 +92118,6 @@ class DelayWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__[
             this.add(notifierSubscription);
             this.delayNotifierSubscriptions.push(notifierSubscription);
         }
-        this.values.push(value);
     }
     tryComplete() {
         if (this.completed && this.delayNotifierSubscriptions.length === 0) {
@@ -94317,27 +92125,16 @@ class DelayWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__[
         }
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SubscriptionDelayObservable extends _Observable__WEBPACK_IMPORTED_MODULE_1__["Observable"] {
     constructor(source, subscriptionDelay) {
         super();
         this.source = source;
         this.subscriptionDelay = subscriptionDelay;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         this.subscriptionDelay.subscribe(new SubscriptionDelaySubscriber(subscriber, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SubscriptionDelaySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(parent, source) {
         super();
@@ -94379,46 +92176,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dematerialize", function() { return dematerialize; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Converts an Observable of {@link Notification} objects into the emissions
- * that they represent.
- *
- * <span class="informal">Unwraps {@link Notification} objects as actual `next`,
- * `error` and `complete` emissions. The opposite of {@link materialize}.</span>
- *
- * <img src="./img/dematerialize.png" width="100%">
- *
- * `dematerialize` is assumed to operate an Observable that only emits
- * {@link Notification} objects as `next` emissions, and does not emit any
- * `error`. Such Observable is the output of a `materialize` operation. Those
- * notifications are then unwrapped using the metadata they contain, and emitted
- * as `next`, `error`, and `complete` on the output Observable.
- *
- * Use this operator in conjunction with {@link materialize}.
- *
- * @example <caption>Convert an Observable of Notifications to an actual Observable</caption>
- * var notifA = new Rx.Notification('N', 'A');
- * var notifB = new Rx.Notification('N', 'B');
- * var notifE = new Rx.Notification('E', void 0,
- *   new TypeError('x.toUpperCase is not a function')
- * );
- * var materialized = Rx.Observable.of(notifA, notifB, notifE);
- * var upperCase = materialized.dematerialize();
- * upperCase.subscribe(x => console.log(x), e => console.error(e));
- *
- * // Results in:
- * // A
- * // B
- * // TypeError: x.toUpperCase is not a function
- *
- * @see {@link Notification}
- * @see {@link materialize}
- *
- * @return {Observable} An Observable that emits items and notifications
- * embedded in Notification objects emitted by the source Observable.
- * @method dematerialize
- * @owner Observable
- */
 function dematerialize() {
     return function dematerializeOperatorFunction(source) {
         return source.lift(new DeMaterializeOperator());
@@ -94429,11 +92186,6 @@ class DeMaterializeOperator {
         return source.subscribe(new DeMaterializeSubscriber(subscriber));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DeMaterializeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination) {
         super(destination);
@@ -94461,51 +92213,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from previous items.
- *
- * If a keySelector function is provided, then it will project each value from the source observable into a new value that it will
- * check for equality with previously projected values. If a keySelector function is not provided, it will use each value from the
- * source observable directly with an equality check against previous values.
- *
- * In JavaScript runtimes that support `Set`, this operator will use a `Set` to improve performance of the distinct value checking.
- *
- * In other runtimes, this operator will use a minimal implementation of `Set` that relies on an `Array` and `indexOf` under the
- * hood, so performance will degrade as more values are checked for distinction. Even in newer browsers, a long-running `distinct`
- * use might result in memory leaks. To help alleviate this in some scenarios, an optional `flushes` parameter is also provided so
- * that the internal `Set` can be "flushed", basically clearing it of values.
- *
- * @example <caption>A simple example with numbers</caption>
- * Observable.of(1, 1, 2, 2, 2, 1, 2, 3, 4, 3, 2, 1)
- *   .distinct()
- *   .subscribe(x => console.log(x)); // 1, 2, 3, 4
- *
- * @example <caption>An example using a keySelector function</caption>
- * interface Person {
- *    age: number,
- *    name: string
- * }
- *
- * Observable.of<Person>(
- *     { age: 4, name: 'Foo'},
- *     { age: 7, name: 'Bar'},
- *     { age: 5, name: 'Foo'})
- *     .distinct((p: Person) => p.name)
- *     .subscribe(x => console.log(x));
- *
- * // displays:
- * // { age: 4, name: 'Foo' }
- * // { age: 7, name: 'Bar' }
- *
- * @see {@link distinctUntilChanged}
- * @see {@link distinctUntilKeyChanged}
- *
- * @param {function} [keySelector] Optional function to select which value you want to check as distinct.
- * @param {Observable} [flushes] Optional Observable for flushing the internal HashSet of the operator.
- * @return {Observable} An Observable that emits items from the source Observable with distinct values.
- * @method distinct
- * @owner Observable
- */
 function distinct(keySelector, flushes) {
     return (source) => source.lift(new DistinctOperator(keySelector, flushes));
 }
@@ -94518,11 +92225,6 @@ class DistinctOperator {
         return source.subscribe(new DistinctSubscriber(subscriber, this.keySelector, this.flushes));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DistinctSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, keySelector, flushes) {
         super(destination);
@@ -94586,46 +92288,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item.
- *
- * If a comparator function is provided, then it will be called for each item to test for whether or not that value should be emitted.
- *
- * If a comparator function is not provided, an equality check is used by default.
- *
- * @example <caption>A simple example with numbers</caption>
- * Observable.of(1, 1, 2, 2, 2, 1, 1, 2, 3, 3, 4)
- *   .distinctUntilChanged()
- *   .subscribe(x => console.log(x)); // 1, 2, 1, 2, 3, 4
- *
- * @example <caption>An example using a compare function</caption>
- * interface Person {
- *    age: number,
- *    name: string
- * }
- *
- * Observable.of<Person>(
- *     { age: 4, name: 'Foo'},
- *     { age: 7, name: 'Bar'},
- *     { age: 5, name: 'Foo'})
- *     { age: 6, name: 'Foo'})
- *     .distinctUntilChanged((p: Person, q: Person) => p.name === q.name)
- *     .subscribe(x => console.log(x));
- *
- * // displays:
- * // { age: 4, name: 'Foo' }
- * // { age: 7, name: 'Bar' }
- * // { age: 5, name: 'Foo' }
- *
- * @see {@link distinct}
- * @see {@link distinctUntilKeyChanged}
- *
- * @param {function} [compare] Optional comparison function called to test if an item is distinct from the previous item in the source.
- * @return {Observable} An Observable that emits items from the source Observable with distinct values.
- * @method distinctUntilChanged
- * @owner Observable
- */
 function distinctUntilChanged(compare, keySelector) {
     return (source) => source.lift(new DistinctUntilChangedOperator(compare, keySelector));
 }
@@ -94638,11 +92300,6 @@ class DistinctUntilChangedOperator {
         return source.subscribe(new DistinctUntilChangedSubscriber(subscriber, this.compare, this.keySelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class DistinctUntilChangedSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, compare, keySelector) {
         super(destination);
@@ -94696,64 +92353,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distinctUntilKeyChanged", function() { return distinctUntilKeyChanged; });
 /* harmony import */ var _distinctUntilChanged__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./distinctUntilChanged */ "./node_modules/rxjs/_esm2015/internal/operators/distinctUntilChanged.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item,
- * using a property accessed by using the key provided to check if the two items are distinct.
- *
- * If a comparator function is provided, then it will be called for each item to test for whether or not that value should be emitted.
- *
- * If a comparator function is not provided, an equality check is used by default.
- *
- * @example <caption>An example comparing the name of persons</caption>
- *
- *  interface Person {
- *     age: number,
- *     name: string
- *  }
- *
- * Observable.of<Person>(
- *     { age: 4, name: 'Foo'},
- *     { age: 7, name: 'Bar'},
- *     { age: 5, name: 'Foo'},
- *     { age: 6, name: 'Foo'})
- *     .distinctUntilKeyChanged('name')
- *     .subscribe(x => console.log(x));
- *
- * // displays:
- * // { age: 4, name: 'Foo' }
- * // { age: 7, name: 'Bar' }
- * // { age: 5, name: 'Foo' }
- *
- * @example <caption>An example comparing the first letters of the name</caption>
- *
- * interface Person {
- *     age: number,
- *     name: string
- *  }
- *
- * Observable.of<Person>(
- *     { age: 4, name: 'Foo1'},
- *     { age: 7, name: 'Bar'},
- *     { age: 5, name: 'Foo2'},
- *     { age: 6, name: 'Foo3'})
- *     .distinctUntilKeyChanged('name', (x: string, y: string) => x.substring(0, 3) === y.substring(0, 3))
- *     .subscribe(x => console.log(x));
- *
- * // displays:
- * // { age: 4, name: 'Foo1' }
- * // { age: 7, name: 'Bar' }
- * // { age: 5, name: 'Foo2' }
- *
- * @see {@link distinct}
- * @see {@link distinctUntilChanged}
- *
- * @param {string} key String key for object property lookup on each item.
- * @param {function} [compare] Optional comparison function called to test if an item is distinct from the previous item in the source.
- * @return {Observable} An Observable that emits items from the source Observable with distinct values based on the key specified.
- * @method distinctUntilKeyChanged
- * @owner Observable
- */
 function distinctUntilKeyChanged(key, compare) {
     return Object(_distinctUntilChanged__WEBPACK_IMPORTED_MODULE_0__["distinctUntilChanged"])((x, y) => compare ? compare(x[key], y[key]) : x[key] === y[key]);
 }
@@ -94781,48 +92380,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Emits the single value at the specified `index` in a sequence of emissions
- * from the source Observable.
- *
- * <span class="informal">Emits only the i-th value, then completes.</span>
- *
- * <img src="./img/elementAt.png" width="100%">
- *
- * `elementAt` returns an Observable that emits the item at the specified
- * `index` in the source Observable, or a default value if that `index` is out
- * of range and the `default` argument is provided. If the `default` argument is
- * not given and the `index` is out of range, the output Observable will emit an
- * `ArgumentOutOfRangeError` error.
- *
- * @example <caption>Emit only the third click event</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.elementAt(2);
- * result.subscribe(x => console.log(x));
- *
- * // Results in:
- * // click 1 = nothing
- * // click 2 = nothing
- * // click 3 = MouseEvent object logged to console
- *
- * @see {@link first}
- * @see {@link last}
- * @see {@link skip}
- * @see {@link single}
- * @see {@link take}
- *
- * @throws {ArgumentOutOfRangeError} When using `elementAt(i)`, it delivers an
- * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0` or the
- * Observable has completed before emitting the i-th `next` notification.
- *
- * @param {number} index Is the number `i` for the i-th source emission that has
- * happened since the subscription, starting from the number `0`.
- * @param {T} [defaultValue] The default value returned for missing indices.
- * @return {Observable} An Observable that emits a single item, if it is found.
- * Otherwise, will emit the default value if given. If not, then emits an error.
- * @method elementAt
- * @owner Observable
- */
 function elementAt(index, defaultValue) {
     if (index < 0) {
         throw new _util_ArgumentOutOfRangeError__WEBPACK_IMPORTED_MODULE_0__["ArgumentOutOfRangeError"]();
@@ -94856,19 +92413,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Returns an Observable that emits the items you specify as arguments after it finishes emitting
- * items emitted by the source Observable.
- *
- * @param {...T} values - Items you want the modified Observable to emit last.
- * @param {Scheduler} [scheduler] - A {@link IScheduler} to use for scheduling
- * the emissions of the `next` notifications.
- * @return {Observable} An Observable that emits the items emitted by the source Observable
- *  and then emits the items in the specified Iterable.
- * @method endWith
- * @owner Observable
- */
 function endWith(...array) {
     return (source) => {
         let scheduler = array[array.length - 1];
@@ -94906,20 +92450,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "every", function() { return every; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Returns an Observable that emits whether or not every item of the source satisfies the condition specified.
- *
- * @example <caption>A simple example emitting true if all elements are less than 5, false otherwise</caption>
- *  Observable.of(1, 2, 3, 4, 5, 6)
- *     .every(x => x < 5)
- *     .subscribe(x => console.log(x)); // -> false
- *
- * @param {function} predicate A function for determining if an item meets a specified condition.
- * @param {any} [thisArg] Optional object to use for `this` in the callback.
- * @return {Observable} An Observable of booleans that determines if all items of the source Observable meet the condition specified.
- * @method every
- * @owner Observable
- */
 function every(predicate, thisArg) {
     return (source) => source.lift(new EveryOperator(predicate, thisArg, source));
 }
@@ -94933,11 +92463,6 @@ class EveryOperator {
         return source.subscribe(new EverySubscriber(observer, this.predicate, this.thisArg, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class EverySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate, thisArg, source) {
         super(destination);
@@ -94986,41 +92511,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Converts a higher-order Observable into a first-order Observable by dropping
- * inner Observables while the previous inner Observable has not yet completed.
- *
- * <span class="informal">Flattens an Observable-of-Observables by dropping the
- * next inner Observables while the current inner is still executing.</span>
- *
- * <img src="./img/exhaust.png" width="100%">
- *
- * `exhaust` subscribes to an Observable that emits Observables, also known as a
- * higher-order Observable. Each time it observes one of these emitted inner
- * Observables, the output Observable begins emitting the items emitted by that
- * inner Observable. So far, it behaves like {@link mergeAll}. However,
- * `exhaust` ignores every new inner Observable if the previous Observable has
- * not yet completed. Once that one completes, it will accept and flatten the
- * next inner Observable and repeat this process.
- *
- * @example <caption>Run a finite timer for each click, only if there is no currently active timer</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000).take(5));
- * var result = higherOrder.exhaust();
- * result.subscribe(x => console.log(x));
- *
- * @see {@link combineAll}
- * @see {@link concatAll}
- * @see {@link switch}
- * @see {@link mergeAll}
- * @see {@link exhaustMap}
- * @see {@link zipAll}
- *
- * @return {Observable} An Observable that takes a source of Observables and propagates the first observable
- * exclusively until it completes before subscribing to the next.
- * @method exhaust
- * @owner Observable
- */
 function exhaust() {
     return (source) => source.lift(new SwitchFirstOperator());
 }
@@ -95029,11 +92519,6 @@ class SwitchFirstOperator {
         return source.subscribe(new SwitchFirstSubscriber(subscriber));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SwitchFirstSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination) {
         super(destination);
@@ -95082,47 +92567,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to an Observable which is merged in the output
- * Observable only if the previous projected Observable has completed.
- *
- * <span class="informal">Maps each value to an Observable, then flattens all of
- * these inner Observables using {@link exhaust}.</span>
- *
- * <img src="./img/exhaustMap.png" width="100%">
- *
- * Returns an Observable that emits items based on applying a function that you
- * supply to each item emitted by the source Observable, where that function
- * returns an (so-called "inner") Observable. When it projects a source value to
- * an Observable, the output Observable begins emitting the items emitted by
- * that projected Observable. However, `exhaustMap` ignores every new projected
- * Observable if the previous projected Observable has not yet completed. Once
- * that one completes, it will accept and flatten the next projected Observable
- * and repeat this process.
- *
- * @example <caption>Run a finite timer for each click, only if there is no currently active timer</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.exhaustMap((ev) => Rx.Observable.interval(1000).take(5));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link concatMap}
- * @see {@link exhaust}
- * @see {@link mergeMap}
- * @see {@link switchMap}
- *
- * @param {function(value: T, ?index: number): ObservableInput} project A function
- * that, when applied to an item emitted by the source Observable, returns an
- * Observable.
- * @return {Observable} An Observable containing projected Observables
- * of each item of the source, ignoring projected Observables that start before
- * their preceding Observable has completed.
- * @method exhaustMap
- * @owner Observable
- */
 function exhaustMap(project, resultSelector) {
     if (resultSelector) {
-        // DEPRECATED PATH
         return (source) => source.pipe(exhaustMap((a, i) => Object(_observable_from__WEBPACK_IMPORTED_MODULE_3__["from"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_2__["map"])((b, ii) => resultSelector(a, b, i, ii)))));
     }
     return (source) => source.lift(new ExhauseMapOperator(project));
@@ -95135,11 +92581,6 @@ class ExhauseMapOperator {
         return source.subscribe(new ExhaustMapSubscriber(subscriber, this.project));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ExhaustMapSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, project) {
         super(destination);
@@ -95209,52 +92650,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Recursively projects each source value to an Observable which is merged in
- * the output Observable.
- *
- * <span class="informal">It's similar to {@link mergeMap}, but applies the
- * projection function to every source value as well as every output value.
- * It's recursive.</span>
- *
- * <img src="./img/expand.png" width="100%">
- *
- * Returns an Observable that emits items based on applying a function that you
- * supply to each item emitted by the source Observable, where that function
- * returns an Observable, and then merging those resulting Observables and
- * emitting the results of this merger. *Expand* will re-emit on the output
- * Observable every source value. Then, each output value is given to the
- * `project` function which returns an inner Observable to be merged on the
- * output Observable. Those output values resulting from the projection are also
- * given to the `project` function to produce new output values. This is how
- * *expand* behaves recursively.
- *
- * @example <caption>Start emitting the powers of two on every click, at most 10 of them</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var powersOfTwo = clicks
- *   .mapTo(1)
- *   .expand(x => Rx.Observable.of(2 * x).delay(1000))
- *   .take(10);
- * powersOfTwo.subscribe(x => console.log(x));
- *
- * @see {@link mergeMap}
- * @see {@link mergeScan}
- *
- * @param {function(value: T, index: number) => Observable} project A function
- * that, when applied to an item emitted by the source or the output Observable,
- * returns an Observable.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for subscribing to
- * each projected inner Observable.
- * @return {Observable} An Observable that emits the source values and also
- * result of applying the projection function to each value emitted on the
- * output Observable and and merging the results of the Observables obtained
- * from this transformation.
- * @method expand
- * @owner Observable
- */
 function expand(project, concurrent = Number.POSITIVE_INFINITY, scheduler = undefined) {
     concurrent = (concurrent || 0) < 1 ? Number.POSITIVE_INFINITY : concurrent;
     return (source) => source.lift(new ExpandOperator(project, concurrent, scheduler));
@@ -95269,11 +92664,6 @@ class ExpandOperator {
         return source.subscribe(new ExpandSubscriber(subscriber, this.project, this.concurrent, this.scheduler));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ExpandSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination, project, concurrent, scheduler) {
         super(destination);
@@ -95357,46 +92747,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filter", function() { return filter; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Filter items emitted by the source Observable by only emitting those that
- * satisfy a specified predicate.
- *
- * <span class="informal">Like
- * [Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter),
- * it only emits a value from the source if it passes a criterion function.</span>
- *
- * <img src="./img/filter.png" width="100%">
- *
- * Similar to the well-known `Array.prototype.filter` method, this operator
- * takes values from the source Observable, passes them through a `predicate`
- * function and only emits those values that yielded `true`.
- *
- * @example <caption>Emit only click events whose target was a DIV element</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var clicksOnDivs = clicks.filter(ev => ev.target.tagName === 'DIV');
- * clicksOnDivs.subscribe(x => console.log(x));
- *
- * @see {@link distinct}
- * @see {@link distinctUntilChanged}
- * @see {@link distinctUntilKeyChanged}
- * @see {@link ignoreElements}
- * @see {@link partition}
- * @see {@link skip}
- *
- * @param {function(value: T, index: number): boolean} predicate A function that
- * evaluates each value emitted by the source Observable. If it returns `true`,
- * the value is emitted, if `false` the value is not passed to the output
- * Observable. The `index` parameter is the number `i` for the i-th source
- * emission that has happened since the subscription, starting from the number
- * `0`.
- * @param {any} [thisArg] An optional argument to determine the value of `this`
- * in the `predicate` function.
- * @return {Observable} An Observable of values from the source that were
- * allowed by the `predicate` function.
- * @method filter
- * @owner Observable
- */
 function filter(predicate, thisArg) {
     return function filterOperatorFunction(source) {
         return source.lift(new FilterOperator(predicate, thisArg));
@@ -95411,11 +92761,6 @@ class FilterOperator {
         return source.subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class FilterSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate, thisArg) {
         super(destination);
@@ -95423,8 +92768,6 @@ class FilterSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscri
         this.thisArg = thisArg;
         this.count = 0;
     }
-    // the try catch block below is left specifically for
-    // optimization and perf reasons. a tryCatcher is not necessary here.
     _next(value) {
         let result;
         try {
@@ -95457,14 +92800,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Subscription */ "./node_modules/rxjs/_esm2015/internal/Subscription.js");
 
 
-/**
- * Returns an Observable that mirrors the source Observable, but will call a specified function when
- * the source terminates on complete or error.
- * @param {function} callback Function to be called when source terminates.
- * @return {Observable} An Observable that mirrors the source, but will call the specified function on termination.
- * @method finally
- * @owner Observable
- */
 function finalize(callback) {
     return (source) => source.lift(new FinallyOperator(callback));
 }
@@ -95476,11 +92811,6 @@ class FinallyOperator {
         return source.subscribe(new FinallySubscriber(subscriber, this.callback));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class FinallySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, callback) {
         super(destination);
@@ -95505,39 +92835,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FindValueSubscriber", function() { return FindValueSubscriber; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Emits only the first value emitted by the source Observable that meets some
- * condition.
- *
- * <span class="informal">Finds the first value that passes some test and emits
- * that.</span>
- *
- * <img src="./img/find.png" width="100%">
- *
- * `find` searches for the first item in the source Observable that matches the
- * specified condition embodied by the `predicate`, and returns the first
- * occurrence in the source. Unlike {@link first}, the `predicate` is required
- * in `find`, and does not emit an error if a valid value is not found.
- *
- * @example <caption>Find and emit the first click that happens on a DIV element</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.find(ev => ev.target.tagName === 'DIV');
- * result.subscribe(x => console.log(x));
- *
- * @see {@link filter}
- * @see {@link first}
- * @see {@link findIndex}
- * @see {@link take}
- *
- * @param {function(value: T, index: number, source: Observable<T>): boolean} predicate
- * A function called with each item to test for condition matching.
- * @param {any} [thisArg] An optional argument to determine the value of `this`
- * in the `predicate` function.
- * @return {Observable<T>} An Observable of the first item that matches the
- * condition.
- * @method find
- * @owner Observable
- */
 function find(predicate, thisArg) {
     if (typeof predicate !== 'function') {
         throw new TypeError('predicate is not a function');
@@ -95555,11 +92852,6 @@ class FindValueOperator {
         return source.subscribe(new FindValueSubscriber(observer, this.predicate, this.source, this.yieldIndex, this.thisArg));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class FindValueSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate, source, yieldIndex, thisArg) {
         super(destination);
@@ -95607,40 +92899,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findIndex", function() { return findIndex; });
 /* harmony import */ var _operators_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../operators/find */ "./node_modules/rxjs/_esm2015/internal/operators/find.js");
 
-/**
- * Emits only the index of the first value emitted by the source Observable that
- * meets some condition.
- *
- * <span class="informal">It's like {@link find}, but emits the index of the
- * found value, not the value itself.</span>
- *
- * <img src="./img/findIndex.png" width="100%">
- *
- * `findIndex` searches for the first item in the source Observable that matches
- * the specified condition embodied by the `predicate`, and returns the
- * (zero-based) index of the first occurrence in the source. Unlike
- * {@link first}, the `predicate` is required in `findIndex`, and does not emit
- * an error if a valid value is not found.
- *
- * @example <caption>Emit the index of first click that happens on a DIV element</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.findIndex(ev => ev.target.tagName === 'DIV');
- * result.subscribe(x => console.log(x));
- *
- * @see {@link filter}
- * @see {@link find}
- * @see {@link first}
- * @see {@link take}
- *
- * @param {function(value: T, index: number, source: Observable<T>): boolean} predicate
- * A function called with each item to test for condition matching.
- * @param {any} [thisArg] An optional argument to determine the value of `this`
- * in the `predicate` function.
- * @return {Observable} An Observable of the index of the first item that
- * matches the condition.
- * @method find
- * @owner Observable
- */
 function findIndex(predicate, thisArg) {
     return (source) => source.lift(new _operators_find__WEBPACK_IMPORTED_MODULE_0__["FindValueOperator"](predicate, source, true, thisArg));
 }
@@ -95670,49 +92928,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Emits only the first value (or the first value that meets some condition)
- * emitted by the source Observable.
- *
- * <span class="informal">Emits only the first value. Or emits only the first
- * value that passes some test.</span>
- *
- * <img src="./img/first.png" width="100%">
- *
- * If called with no arguments, `first` emits the first value of the source
- * Observable, then completes. If called with a `predicate` function, `first`
- * emits the first value of the source that matches the specified condition. It
- * may also take a `resultSelector` function to produce the output value from
- * the input value, and a `defaultValue` to emit in case the source completes
- * before it is able to emit a valid value. Throws an error if `defaultValue`
- * was not provided and a matching element is not found.
- *
- * @example <caption>Emit only the first click that happens on the DOM</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.first();
- * result.subscribe(x => console.log(x));
- *
- * @example <caption>Emits the first click that happens on a DIV</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.first(ev => ev.target.tagName === 'DIV');
- * result.subscribe(x => console.log(x));
- *
- * @see {@link filter}
- * @see {@link find}
- * @see {@link take}
- *
- * @throws {EmptyError} Delivers an EmptyError to the Observer's `error`
- * callback if the Observable completes before any `next` notification was sent.
- *
- * @param {function(value: T, index: number, source: Observable<T>): boolean} [predicate]
- * An optional function called with each item to test for condition matching.
- * @param {R} [defaultValue] The default value emitted in case no valid value
- * was found on the source.
- * @return {Observable<T|R>} An Observable of the first item that matches the
- * condition.
- * @method first
- * @owner Observable
- */
 function first(predicate, defaultValue) {
     const hasDefaultValue = arguments.length >= 2;
     return (source) => source.pipe(predicate ? Object(_filter__WEBPACK_IMPORTED_MODULE_1__["filter"])((v, i) => predicate(v, i, source)) : _util_identity__WEBPACK_IMPORTED_MODULE_5__["identity"], Object(_take__WEBPACK_IMPORTED_MODULE_2__["take"])(1), hasDefaultValue ? Object(_defaultIfEmpty__WEBPACK_IMPORTED_MODULE_3__["defaultIfEmpty"])(defaultValue) : Object(_throwIfEmpty__WEBPACK_IMPORTED_MODULE_4__["throwIfEmpty"])(() => new _util_EmptyError__WEBPACK_IMPORTED_MODULE_0__["EmptyError"]()));
@@ -95740,74 +92955,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Groups the items emitted by an Observable according to a specified criterion,
- * and emits these grouped items as `GroupedObservables`, one
- * {@link GroupedObservable} per group.
- *
- * <img src="./img/groupBy.png" width="100%">
- *
- * @example <caption>Group objects by id and return as array</caption>
- * Observable.of<Obj>({id: 1, name: 'aze1'},
- *                    {id: 2, name: 'sf2'},
- *                    {id: 2, name: 'dg2'},
- *                    {id: 1, name: 'erg1'},
- *                    {id: 1, name: 'df1'},
- *                    {id: 2, name: 'sfqfb2'},
- *                    {id: 3, name: 'qfs3'},
- *                    {id: 2, name: 'qsgqsfg2'}
- *     )
- *     .groupBy(p => p.id)
- *     .flatMap( (group$) => group$.reduce((acc, cur) => [...acc, cur], []))
- *     .subscribe(p => console.log(p));
- *
- * // displays:
- * // [ { id: 1, name: 'aze1' },
- * //   { id: 1, name: 'erg1' },
- * //   { id: 1, name: 'df1' } ]
- * //
- * // [ { id: 2, name: 'sf2' },
- * //   { id: 2, name: 'dg2' },
- * //   { id: 2, name: 'sfqfb2' },
- * //   { id: 2, name: 'qsgqsfg2' } ]
- * //
- * // [ { id: 3, name: 'qfs3' } ]
- *
- * @example <caption>Pivot data on the id field</caption>
- * Observable.of<Obj>({id: 1, name: 'aze1'},
- *                    {id: 2, name: 'sf2'},
- *                    {id: 2, name: 'dg2'},
- *                    {id: 1, name: 'erg1'},
- *                    {id: 1, name: 'df1'},
- *                    {id: 2, name: 'sfqfb2'},
- *                    {id: 3, name: 'qfs1'},
- *                    {id: 2, name: 'qsgqsfg2'}
- *                   )
- *     .groupBy(p => p.id, p => p.name)
- *     .flatMap( (group$) => group$.reduce((acc, cur) => [...acc, cur], ["" + group$.key]))
- *     .map(arr => ({'id': parseInt(arr[0]), 'values': arr.slice(1)}))
- *     .subscribe(p => console.log(p));
- *
- * // displays:
- * // { id: 1, values: [ 'aze1', 'erg1', 'df1' ] }
- * // { id: 2, values: [ 'sf2', 'dg2', 'sfqfb2', 'qsgqsfg2' ] }
- * // { id: 3, values: [ 'qfs1' ] }
- *
- * @param {function(value: T): K} keySelector A function that extracts the key
- * for each item.
- * @param {function(value: T): R} [elementSelector] A function that extracts the
- * return element for each item.
- * @param {function(grouped: GroupedObservable<K,R>): Observable<any>} [durationSelector]
- * A function that returns an Observable to determine how long each group should
- * exist.
- * @return {Observable<GroupedObservable<K,R>>} An Observable that emits
- * GroupedObservables, each of which corresponds to a unique key value and each
- * of which emits those items from the source Observable that share that key
- * value.
- * @method groupBy
- * @owner Observable
- */
 function groupBy(keySelector, elementSelector, durationSelector, subjectSelector) {
     return (source) => source.lift(new GroupByOperator(keySelector, elementSelector, durationSelector, subjectSelector));
 }
@@ -95822,11 +92969,6 @@ class GroupByOperator {
         return source.subscribe(new GroupBySubscriber(subscriber, this.keySelector, this.elementSelector, this.durationSelector, this.subjectSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class GroupBySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, keySelector, elementSelector, durationSelector, subjectSelector) {
         super(destination);
@@ -95920,11 +93062,6 @@ class GroupBySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscr
         }
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class GroupDurationSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(key, group, parent) {
         super(group);
@@ -95935,7 +93072,6 @@ class GroupDurationSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["
     _next(value) {
         this.complete();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         const { parent, key } = this;
         this.key = this.parent = null;
@@ -95944,23 +93080,13 @@ class GroupDurationSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["
         }
     }
 }
-/**
- * An Observable representing values belonging to the same group represented by
- * a common key. The values emitted by a GroupedObservable come from the source
- * Observable. The common key is available as the field `key` on a
- * GroupedObservable instance.
- *
- * @class GroupedObservable<K, T>
- */
 class GroupedObservable extends _Observable__WEBPACK_IMPORTED_MODULE_2__["Observable"] {
-    /** @deprecated Do not construct this type. Internal use only */
     constructor(key, groupSubject, refCountSubscription) {
         super();
         this.key = key;
         this.groupSubject = groupSubject;
         this.refCountSubscription = refCountSubscription;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _subscribe(subscriber) {
         const subscription = new _Subscription__WEBPACK_IMPORTED_MODULE_1__["Subscription"]();
         const { refCountSubscription, groupSubject } = this;
@@ -95971,11 +93097,6 @@ class GroupedObservable extends _Observable__WEBPACK_IMPORTED_MODULE_2__["Observ
         return subscription;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class InnerRefCountSubscription extends _Subscription__WEBPACK_IMPORTED_MODULE_1__["Subscription"] {
     constructor(parent) {
         super();
@@ -96009,16 +93130,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ignoreElements", function() { return ignoreElements; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Ignores all items emitted by the source Observable and only passes calls of `complete` or `error`.
- *
- * <img src="./img/ignoreElements.png" width="100%">
- *
- * @return {Observable} An empty Observable that only calls `complete`
- * or `error`, based on which one is called by the source Observable.
- * @method ignoreElements
- * @owner Observable
- */
 function ignoreElements() {
     return function ignoreElementsOperatorFunction(source) {
         return source.lift(new IgnoreElementsOperator());
@@ -96029,14 +93140,8 @@ class IgnoreElementsOperator {
         return source.subscribe(new IgnoreElementsSubscriber(subscriber));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class IgnoreElementsSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     _next(unused) {
-        // Do nothing
     }
 }
 //# sourceMappingURL=ignoreElements.js.map
@@ -96063,11 +93168,6 @@ class IsEmptyOperator {
         return source.subscribe(new IsEmptySubscriber(observer));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class IsEmptySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination) {
         super(destination);
@@ -96110,23 +93210,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Returns an Observable that emits only the last item emitted by the source Observable.
- * It optionally takes a predicate function as a parameter, in which case, rather than emitting
- * the last item from the source Observable, the resulting Observable will emit the last item
- * from the source Observable that satisfies the predicate.
- *
- * <img src="./img/last.png" width="100%">
- *
- * @throws {EmptyError} Delivers an EmptyError to the Observer's `error`
- * callback if the Observable completes before any `next` notification was sent.
- * @param {function} [predicate] - The condition any source emitted item has to satisfy.
- * @param {any} [defaultValue] - An optional default value to provide if last
- * predicate isn't met or no values were emitted.
- * @return {Observable} An Observable that emits only the last item satisfying the given condition
- * from the source, or an NoSuchElementException if no such items are emitted.
- * @throws - Throws if no items that match the predicate are emitted by the source Observable.
- */
 function last(predicate, defaultValue) {
     const hasDefaultValue = arguments.length >= 2;
     return (source) => source.pipe(predicate ? Object(_filter__WEBPACK_IMPORTED_MODULE_1__["filter"])((v, i) => predicate(v, i, source)) : _util_identity__WEBPACK_IMPORTED_MODULE_5__["identity"], Object(_takeLast__WEBPACK_IMPORTED_MODULE_2__["takeLast"])(1), hasDefaultValue ? Object(_defaultIfEmpty__WEBPACK_IMPORTED_MODULE_4__["defaultIfEmpty"])(defaultValue) : Object(_throwIfEmpty__WEBPACK_IMPORTED_MODULE_3__["throwIfEmpty"])(() => new _util_EmptyError__WEBPACK_IMPORTED_MODULE_0__["EmptyError"]()));
@@ -96148,39 +93231,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapOperator", function() { return MapOperator; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Applies a given `project` function to each value emitted by the source
- * Observable, and emits the resulting values as an Observable.
- *
- * <span class="informal">Like [Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map),
- * it passes each source value through a transformation function to get
- * corresponding output values.</span>
- *
- * <img src="./img/map.png" width="100%">
- *
- * Similar to the well known `Array.prototype.map` function, this operator
- * applies a projection to each value and emits that projection in the output
- * Observable.
- *
- * @example <caption>Map every click to the clientX position of that click</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var positions = clicks.map(ev => ev.clientX);
- * positions.subscribe(x => console.log(x));
- *
- * @see {@link mapTo}
- * @see {@link pluck}
- *
- * @param {function(value: T, index: number): R} project The function to apply
- * to each `value` emitted by the source Observable. The `index` parameter is
- * the number `i` for the i-th emission that has happened since the
- * subscription, starting from the number `0`.
- * @param {any} [thisArg] An optional argument to define what `this` is in the
- * `project` function.
- * @return {Observable<R>} An Observable that emits the values from the source
- * Observable transformed by the given `project` function.
- * @method map
- * @owner Observable
- */
 function map(project, thisArg) {
     return function mapOperation(source) {
         if (typeof project !== 'function') {
@@ -96198,11 +93248,6 @@ class MapOperator {
         return source.subscribe(new MapSubscriber(subscriber, this.project, this.thisArg));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class MapSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, project, thisArg) {
         super(destination);
@@ -96210,8 +93255,6 @@ class MapSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber
         this.count = 0;
         this.thisArg = thisArg || this;
     }
-    // NOTE: This looks unoptimized, but it's actually purposefully NOT
-    // using try/catch optimizations.
     _next(value) {
         let result;
         try {
@@ -96240,32 +93283,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapTo", function() { return mapTo; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Emits the given constant value on the output Observable every time the source
- * Observable emits a value.
- *
- * <span class="informal">Like {@link map}, but it maps every source value to
- * the same output value every time.</span>
- *
- * <img src="./img/mapTo.png" width="100%">
- *
- * Takes a constant `value` as argument, and emits that whenever the source
- * Observable emits a value. In other words, ignores the actual source value,
- * and simply uses the emission moment to know when to emit the given `value`.
- *
- * @example <caption>Map every click to the string 'Hi'</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var greetings = clicks.mapTo('Hi');
- * greetings.subscribe(x => console.log(x));
- *
- * @see {@link map}
- *
- * @param {any} value The value to map each source value to.
- * @return {Observable} An Observable that emits the given `value` every time
- * the source Observable emits something.
- * @method mapTo
- * @owner Observable
- */
 function mapTo(value) {
     return (source) => source.lift(new MapToOperator(value));
 }
@@ -96277,11 +93294,6 @@ class MapToOperator {
         return source.subscribe(new MapToSubscriber(subscriber, this.value));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class MapToSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, value) {
         super(destination);
@@ -96309,50 +93321,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Notification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Notification */ "./node_modules/rxjs/_esm2015/internal/Notification.js");
 
 
-/**
- * Represents all of the notifications from the source Observable as `next`
- * emissions marked with their original types within {@link Notification}
- * objects.
- *
- * <span class="informal">Wraps `next`, `error` and `complete` emissions in
- * {@link Notification} objects, emitted as `next` on the output Observable.
- * </span>
- *
- * <img src="./img/materialize.png" width="100%">
- *
- * `materialize` returns an Observable that emits a `next` notification for each
- * `next`, `error`, or `complete` emission of the source Observable. When the
- * source Observable emits `complete`, the output Observable will emit `next` as
- * a Notification of type "complete", and then it will emit `complete` as well.
- * When the source Observable emits `error`, the output will emit `next` as a
- * Notification of type "error", and then `complete`.
- *
- * This operator is useful for producing metadata of the source Observable, to
- * be consumed as `next` emissions. Use it in conjunction with
- * {@link dematerialize}.
- *
- * @example <caption>Convert a faulty Observable to an Observable of Notifications</caption>
- * var letters = Rx.Observable.of('a', 'b', 13, 'd');
- * var upperCase = letters.map(x => x.toUpperCase());
- * var materialized = upperCase.materialize();
- * materialized.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // - Notification {kind: "N", value: "A", error: undefined, hasValue: true}
- * // - Notification {kind: "N", value: "B", error: undefined, hasValue: true}
- * // - Notification {kind: "E", value: undefined, error: TypeError:
- * //   x.toUpperCase is not a function at MapSubscriber.letters.map.x
- * //   [as project] (http://1…, hasValue: false}
- *
- * @see {@link Notification}
- * @see {@link dematerialize}
- *
- * @return {Observable<Notification<T>>} An Observable that emits
- * {@link Notification} objects that wrap the original emissions from the source
- * Observable with metadata.
- * @method materialize
- * @owner Observable
- */
 function materialize() {
     return function materializeOperatorFunction(source) {
         return source.lift(new MaterializeOperator());
@@ -96363,11 +93331,6 @@ class MaterializeOperator {
         return source.subscribe(new MaterializeSubscriber(subscriber));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class MaterializeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination) {
         super(destination);
@@ -96402,37 +93365,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "max", function() { return max; });
 /* harmony import */ var _reduce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reduce */ "./node_modules/rxjs/_esm2015/internal/operators/reduce.js");
 
-/**
- * The Max operator operates on an Observable that emits numbers (or items that can be compared with a provided function),
- * and when source Observable completes it emits a single item: the item with the largest value.
- *
- * <img src="./img/max.png" width="100%">
- *
- * @example <caption>Get the maximal value of a series of numbers</caption>
- * Rx.Observable.of(5, 4, 7, 2, 8)
- *   .max()
- *   .subscribe(x => console.log(x)); // -> 8
- *
- * @example <caption>Use a comparer function to get the maximal item</caption>
- * interface Person {
- *   age: number,
- *   name: string
- * }
- * Observable.of<Person>({age: 7, name: 'Foo'},
- *                       {age: 5, name: 'Bar'},
- *                       {age: 9, name: 'Beer'})
- *           .max<Person>((a: Person, b: Person) => a.age < b.age ? -1 : 1)
- *           .subscribe((x: Person) => console.log(x.name)); // -> 'Beer'
- * }
- *
- * @see {@link min}
- *
- * @param {Function} [comparer] - Optional comparer function that it will use instead of its default to compare the
- * value of two items.
- * @return {Observable} An Observable that emits item with the largest value.
- * @method max
- * @owner Observable
- */
 function max(comparer) {
     const max = (typeof comparer === 'function')
         ? (x, y) => comparer(x, y) > 0 ? x : y
@@ -96455,10 +93387,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "merge", function() { return merge; });
 /* harmony import */ var _observable_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../observable/merge */ "./node_modules/rxjs/_esm2015/internal/observable/merge.js");
 
-/* tslint:enable:max-line-length */
-/**
- * @deprecated Deprecated in favor of static merge.
- */
 function merge(...observables) {
     return (source) => source.lift.call(Object(_observable_merge__WEBPACK_IMPORTED_MODULE_0__["merge"])(source, ...observables));
 }
@@ -96480,50 +93408,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_identity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/identity */ "./node_modules/rxjs/_esm2015/internal/util/identity.js");
 
 
-/**
- * Converts a higher-order Observable into a first-order Observable which
- * concurrently delivers all values that are emitted on the inner Observables.
- *
- * <span class="informal">Flattens an Observable-of-Observables.</span>
- *
- * <img src="./img/mergeAll.png" width="100%">
- *
- * `mergeAll` subscribes to an Observable that emits Observables, also known as
- * a higher-order Observable. Each time it observes one of these emitted inner
- * Observables, it subscribes to that and delivers all the values from the
- * inner Observable on the output Observable. The output Observable only
- * completes once all inner Observables have completed. Any error delivered by
- * a inner Observable will be immediately emitted on the output Observable.
- *
- * @example <caption>Spawn a new interval Observable for each click event, and blend their outputs as one Observable</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000));
- * var firstOrder = higherOrder.mergeAll();
- * firstOrder.subscribe(x => console.log(x));
- *
- * @example <caption>Count from 0 to 9 every second for each click, but only allow 2 concurrent timers</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000).take(10));
- * var firstOrder = higherOrder.mergeAll(2);
- * firstOrder.subscribe(x => console.log(x));
- *
- * @see {@link combineAll}
- * @see {@link concatAll}
- * @see {@link exhaust}
- * @see {@link merge}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- * @see {@link switch}
- * @see {@link zipAll}
- *
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of inner
- * Observables being subscribed to concurrently.
- * @return {Observable} An Observable that emits values coming from all the
- * inner Observables emitted by the source Observable.
- * @method mergeAll
- * @owner Observable
- */
 function mergeAll(concurrent = Number.POSITIVE_INFINITY) {
     return Object(_mergeMap__WEBPACK_IMPORTED_MODULE_0__["mergeMap"])(_util_identity__WEBPACK_IMPORTED_MODULE_1__["identity"], concurrent);
 }
@@ -96551,60 +93435,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to an Observable which is merged in the output
- * Observable.
- *
- * <span class="informal">Maps each value to an Observable, then flattens all of
- * these inner Observables using {@link mergeAll}.</span>
- *
- * <img src="./img/mergeMap.png" width="100%">
- *
- * Returns an Observable that emits items based on applying a function that you
- * supply to each item emitted by the source Observable, where that function
- * returns an Observable, and then merging those resulting Observables and
- * emitting the results of this merger.
- *
- * @example <caption>Map and flatten each letter to an Observable ticking every 1 second</caption>
- * var letters = Rx.Observable.of('a', 'b', 'c');
- * var result = letters.mergeMap(x =>
- *   Rx.Observable.interval(1000).map(i => x+i)
- * );
- * result.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // a0
- * // b0
- * // c0
- * // a1
- * // b1
- * // c1
- * // continues to list a,b,c with respective ascending integers
- *
- * @see {@link concatMap}
- * @see {@link exhaustMap}
- * @see {@link merge}
- * @see {@link mergeAll}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- * @see {@link switchMap}
- *
- * @param {function(value: T, ?index: number): ObservableInput} project A function
- * that, when applied to an item emitted by the source Observable, returns an
- * Observable.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @return {Observable} An Observable that emits the result of applying the
- * projection function (and the optional `resultSelector`) to each item emitted
- * by the source Observable and merging the results of the Observables obtained
- * from this transformation.
- * @method mergeMap
- * @owner Observable
- */
 function mergeMap(project, resultSelector, concurrent = Number.POSITIVE_INFINITY) {
     if (typeof resultSelector === 'function') {
-        // DEPRECATED PATH
         return (source) => source.pipe(mergeMap((a, i) => Object(_observable_from__WEBPACK_IMPORTED_MODULE_3__["from"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_2__["map"])((b, ii) => resultSelector(a, b, i, ii))), concurrent));
     }
     else if (typeof resultSelector === 'number') {
@@ -96621,11 +93453,6 @@ class MergeMapOperator {
         return source.subscribe(new MergeMapSubscriber(observer, this.project, this.concurrent));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class MergeMapSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_1__["OuterSubscriber"] {
     constructor(destination, project, concurrent = Number.POSITIVE_INFINITY) {
         super(destination);
@@ -96697,41 +93524,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeMapTo", function() { return mergeMapTo; });
 /* harmony import */ var _mergeMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mergeMap */ "./node_modules/rxjs/_esm2015/internal/operators/mergeMap.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to the same Observable which is merged multiple
- * times in the output Observable.
- *
- * <span class="informal">It's like {@link mergeMap}, but maps each value always
- * to the same inner Observable.</span>
- *
- * <img src="./img/mergeMapTo.png" width="100%">
- *
- * Maps each source value to the given Observable `innerObservable` regardless
- * of the source value, and then merges those resulting Observables into one
- * single Observable, which is the output Observable.
- *
- * @example <caption>For each click event, start an interval Observable ticking every 1 second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.mergeMapTo(Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link concatMapTo}
- * @see {@link merge}
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeScan}
- * @see {@link switchMapTo}
- *
- * @param {ObservableInput} innerObservable An Observable to replace each value from
- * the source Observable.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @return {Observable} An Observable that emits items from the given
- * `innerObservable`
- * @method mergeMapTo
- * @owner Observable
- */
 function mergeMapTo(innerObservable, resultSelector, concurrent = Number.POSITIVE_INFINITY) {
     if (typeof resultSelector === 'function') {
         return Object(_mergeMap__WEBPACK_IMPORTED_MODULE_0__["mergeMap"])(() => innerObservable, resultSelector, concurrent);
@@ -96765,37 +93557,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Applies an accumulator function over the source Observable where the
- * accumulator function itself returns an Observable, then each intermediate
- * Observable returned is merged into the output Observable.
- *
- * <span class="informal">It's like {@link scan}, but the Observables returned
- * by the accumulator are merged into the outer Observable.</span>
- *
- * @example <caption>Count the number of click events</caption>
- * const click$ = Rx.Observable.fromEvent(document, 'click');
- * const one$ = click$.mapTo(1);
- * const seed = 0;
- * const count$ = one$.mergeScan((acc, one) => Rx.Observable.of(acc + one), seed);
- * count$.subscribe(x => console.log(x));
- *
- * // Results:
- * 1
- * 2
- * 3
- * 4
- * // ...and so on for each click
- *
- * @param {function(acc: R, value: T): Observable<R>} accumulator
- * The accumulator function called on each source value.
- * @param seed The initial accumulation value.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of
- * input Observables being subscribed to concurrently.
- * @return {Observable<R>} An observable of the accumulated values.
- * @method mergeScan
- * @owner Observable
- */
 function mergeScan(accumulator, seed, concurrent = Number.POSITIVE_INFINITY) {
     return (source) => source.lift(new MergeScanOperator(accumulator, seed, concurrent));
 }
@@ -96809,11 +93570,6 @@ class MergeScanOperator {
         return source.subscribe(new MergeScanSubscriber(subscriber, this.accumulator, this.seed, this.concurrent));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class MergeScanSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["OuterSubscriber"] {
     constructor(destination, accumulator, acc, concurrent) {
         super(destination);
@@ -96892,37 +93648,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "min", function() { return min; });
 /* harmony import */ var _reduce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reduce */ "./node_modules/rxjs/_esm2015/internal/operators/reduce.js");
 
-/**
- * The Min operator operates on an Observable that emits numbers (or items that can be compared with a provided function),
- * and when source Observable completes it emits a single item: the item with the smallest value.
- *
- * <img src="./img/min.png" width="100%">
- *
- * @example <caption>Get the minimal value of a series of numbers</caption>
- * Rx.Observable.of(5, 4, 7, 2, 8)
- *   .min()
- *   .subscribe(x => console.log(x)); // -> 2
- *
- * @example <caption>Use a comparer function to get the minimal item</caption>
- * interface Person {
- *   age: number,
- *   name: string
- * }
- * Observable.of<Person>({age: 7, name: 'Foo'},
- *                       {age: 5, name: 'Bar'},
- *                       {age: 9, name: 'Beer'})
- *           .min<Person>( (a: Person, b: Person) => a.age < b.age ? -1 : 1)
- *           .subscribe((x: Person) => console.log(x.name)); // -> 'Bar'
- * }
- *
- * @see {@link max}
- *
- * @param {Function} [comparer] - Optional comparer function that it will use instead of its default to compare the
- * value of two items.
- * @return {Observable<R>} An Observable that emits item with the smallest value.
- * @method min
- * @owner Observable
- */
 function min(comparer) {
     const min = (typeof comparer === 'function')
         ? (x, y) => comparer(x, y) < 0 ? x : y
@@ -96946,26 +93671,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MulticastOperator", function() { return MulticastOperator; });
 /* harmony import */ var _observable_ConnectableObservable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../observable/ConnectableObservable */ "./node_modules/rxjs/_esm2015/internal/observable/ConnectableObservable.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Returns an Observable that emits the results of invoking a specified selector on items
- * emitted by a ConnectableObservable that shares a single subscription to the underlying stream.
- *
- * <img src="./img/multicast.png" width="100%">
- *
- * @param {Function|Subject} subjectOrSubjectFactory - Factory function to create an intermediate subject through
- * which the source sequence's elements will be multicast to the selector function
- * or Subject to push source elements into.
- * @param {Function} [selector] - Optional selector function that can use the multicasted source stream
- * as many times as needed, without causing multiple subscriptions to the source stream.
- * Subscribers to the given source will receive all notifications of the source from the
- * time of the subscription forward.
- * @return {Observable} An Observable that emits the results of invoking the selector
- * on the items emitted by a `ConnectableObservable` that shares a single subscription to
- * the underlying stream.
- * @method multicast
- * @owner Observable
- */
 function multicast(subjectOrSubjectFactory, selector) {
     return function multicastOperatorFunction(source) {
         let subjectFactory;
@@ -97020,52 +93725,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Notification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Notification */ "./node_modules/rxjs/_esm2015/internal/Notification.js");
 
 
-/**
- *
- * Re-emits all notifications from source Observable with specified scheduler.
- *
- * <span class="informal">Ensure a specific scheduler is used, from outside of an Observable.</span>
- *
- * `observeOn` is an operator that accepts a scheduler as a first parameter, which will be used to reschedule
- * notifications emitted by the source Observable. It might be useful, if you do not have control over
- * internal scheduler of a given Observable, but want to control when its values are emitted nevertheless.
- *
- * Returned Observable emits the same notifications (nexted values, complete and error events) as the source Observable,
- * but rescheduled with provided scheduler. Note that this doesn't mean that source Observables internal
- * scheduler will be replaced in any way. Original scheduler still will be used, but when the source Observable emits
- * notification, it will be immediately scheduled again - this time with scheduler passed to `observeOn`.
- * An anti-pattern would be calling `observeOn` on Observable that emits lots of values synchronously, to split
- * that emissions into asynchronous chunks. For this to happen, scheduler would have to be passed into the source
- * Observable directly (usually into the operator that creates it). `observeOn` simply delays notifications a
- * little bit more, to ensure that they are emitted at expected moments.
- *
- * As a matter of fact, `observeOn` accepts second parameter, which specifies in milliseconds with what delay notifications
- * will be emitted. The main difference between {@link delay} operator and `observeOn` is that `observeOn`
- * will delay all notifications - including error notifications - while `delay` will pass through error
- * from source Observable immediately when it is emitted. In general it is highly recommended to use `delay` operator
- * for any kind of delaying of values in the stream, while using `observeOn` to specify which scheduler should be used
- * for notification emissions in general.
- *
- * @example <caption>Ensure values in subscribe are called just before browser repaint.</caption>
- * const intervals = Rx.Observable.interval(10); // Intervals are scheduled
- *                                               // with async scheduler by default...
- *
- * intervals
- * .observeOn(Rx.Scheduler.animationFrame)       // ...but we will observe on animationFrame
- * .subscribe(val => {                           // scheduler to ensure smooth animation.
- *   someDiv.style.height = val + 'px';
- * });
- *
- * @see {@link delay}
- *
- * @param {SchedulerLike} scheduler Scheduler that will be used to reschedule notifications from source Observable.
- * @param {number} [delay] Number of milliseconds that states with what delay every notification should be rescheduled.
- * @return {Observable<T>} Observable that emits the same notifications as the source Observable,
- * but with provided scheduler.
- *
- * @method observeOn
- * @owner Observable
- */
 function observeOn(scheduler, delay = 0) {
     return function observeOnOperatorFunction(source) {
         return source.lift(new ObserveOnOperator(scheduler, delay));
@@ -97080,18 +93739,12 @@ class ObserveOnOperator {
         return source.subscribe(new ObserveOnSubscriber(subscriber, this.scheduler, this.delay));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ObserveOnSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, scheduler, delay = 0) {
         super(destination);
         this.scheduler = scheduler;
         this.delay = delay;
     }
-    /** @nocollapse */
     static dispatch(arg) {
         const { notification, destination } = arg;
         notification.observe(destination);
@@ -97139,75 +93792,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * When any of the provided Observable emits an complete or error notification, it immediately subscribes to the next one
- * that was passed.
- *
- * <span class="informal">Execute series of Observables no matter what, even if it means swallowing errors.</span>
- *
- * <img src="./img/onErrorResumeNext.png" width="100%">
- *
- * `onErrorResumeNext` is an operator that accepts a series of Observables, provided either directly as
- * arguments or as an array. If no single Observable is provided, returned Observable will simply behave the same
- * as the source.
- *
- * `onErrorResumeNext` returns an Observable that starts by subscribing and re-emitting values from the source Observable.
- * When its stream of values ends - no matter if Observable completed or emitted an error - `onErrorResumeNext`
- * will subscribe to the first Observable that was passed as an argument to the method. It will start re-emitting
- * its values as well and - again - when that stream ends, `onErrorResumeNext` will proceed to subscribing yet another
- * Observable in provided series, no matter if previous Observable completed or ended with an error. This will
- * be happening until there is no more Observables left in the series, at which point returned Observable will
- * complete - even if the last subscribed stream ended with an error.
- *
- * `onErrorResumeNext` can be therefore thought of as version of {@link concat} operator, which is more permissive
- * when it comes to the errors emitted by its input Observables. While `concat` subscribes to the next Observable
- * in series only if previous one successfully completed, `onErrorResumeNext` subscribes even if it ended with
- * an error.
- *
- * Note that you do not get any access to errors emitted by the Observables. In particular do not
- * expect these errors to appear in error callback passed to {@link subscribe}. If you want to take
- * specific actions based on what error was emitted by an Observable, you should try out {@link catch} instead.
- *
- *
- * @example <caption>Subscribe to the next Observable after map fails</caption>
- * Rx.Observable.of(1, 2, 3, 0)
- *   .map(x => {
- *       if (x === 0) { throw Error(); }
-         return 10 / x;
- *   })
- *   .onErrorResumeNext(Rx.Observable.of(1, 2, 3))
- *   .subscribe(
- *     val => console.log(val),
- *     err => console.log(err),          // Will never be called.
- *     () => console.log('that\'s it!')
- *   );
- *
- * // Logs:
- * // 10
- * // 5
- * // 3.3333333333333335
- * // 1
- * // 2
- * // 3
- * // "that's it!"
- *
- * @see {@link concat}
- * @see {@link catch}
- *
- * @param {...ObservableInput} observables Observables passed either directly or as an array.
- * @return {Observable} An Observable that emits values from source Observable, but - if it errors - subscribes
- * to the next passed Observable and so on, until it completes or runs out of Observables.
- * @method onErrorResumeNext
- * @owner Observable
- */
 function onErrorResumeNext(...nextSources) {
     if (nextSources.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_1__["isArray"])(nextSources[0])) {
         nextSources = nextSources[0];
     }
     return (source) => source.lift(new OnErrorResumeNextOperator(nextSources));
 }
-/* tslint:enable:max-line-length */
 function onErrorResumeNextStatic(...nextSources) {
     let source = null;
     if (nextSources.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_1__["isArray"])(nextSources[0])) {
@@ -97268,41 +93858,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pairwise", function() { return pairwise; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Groups pairs of consecutive emissions together and emits them as an array of
- * two values.
- *
- * <span class="informal">Puts the current value and previous value together as
- * an array, and emits that.</span>
- *
- * <img src="./img/pairwise.png" width="100%">
- *
- * The Nth emission from the source Observable will cause the output Observable
- * to emit an array [(N-1)th, Nth] of the previous and the current value, as a
- * pair. For this reason, `pairwise` emits on the second and subsequent
- * emissions from the source Observable, but not on the first emission, because
- * there is no previous value in that case.
- *
- * @example <caption>On every click (starting from the second), emit the relative distance to the previous click</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var pairs = clicks.pairwise();
- * var distance = pairs.map(pair => {
- *   var x0 = pair[0].clientX;
- *   var y0 = pair[0].clientY;
- *   var x1 = pair[1].clientX;
- *   var y1 = pair[1].clientY;
- *   return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
- * });
- * distance.subscribe(x => console.log(x));
- *
- * @see {@link buffer}
- * @see {@link bufferCount}
- *
- * @return {Observable<Array<T>>} An Observable of pairs (as arrays) of
- * consecutive values from the source Observable.
- * @method pairwise
- * @owner Observable
- */
 function pairwise() {
     return (source) => source.lift(new PairwiseOperator());
 }
@@ -97311,11 +93866,6 @@ class PairwiseOperator {
         return source.subscribe(new PairwiseSubscriber(subscriber));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class PairwiseSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination) {
         super(destination);
@@ -97349,47 +93899,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./filter */ "./node_modules/rxjs/_esm2015/internal/operators/filter.js");
 
 
-/**
- * Splits the source Observable into two, one with values that satisfy a
- * predicate, and another with values that don't satisfy the predicate.
- *
- * <span class="informal">It's like {@link filter}, but returns two Observables:
- * one like the output of {@link filter}, and the other with values that did not
- * pass the condition.</span>
- *
- * <img src="./img/partition.png" width="100%">
- *
- * `partition` outputs an array with two Observables that partition the values
- * from the source Observable through the given `predicate` function. The first
- * Observable in that array emits source values for which the predicate argument
- * returns true. The second Observable emits source values for which the
- * predicate returns false. The first behaves like {@link filter} and the second
- * behaves like {@link filter} with the predicate negated.
- *
- * @example <caption>Partition click events into those on DIV elements and those elsewhere</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var parts = clicks.partition(ev => ev.target.tagName === 'DIV');
- * var clicksOnDivs = parts[0];
- * var clicksElsewhere = parts[1];
- * clicksOnDivs.subscribe(x => console.log('DIV clicked: ', x));
- * clicksElsewhere.subscribe(x => console.log('Other clicked: ', x));
- *
- * @see {@link filter}
- *
- * @param {function(value: T, index: number): boolean} predicate A function that
- * evaluates each value emitted by the source Observable. If it returns `true`,
- * the value is emitted on the first Observable in the returned array, if
- * `false` the value is emitted on the second Observable in the array. The
- * `index` parameter is the number `i` for the i-th source emission that has
- * happened since the subscription, starting from the number `0`.
- * @param {any} [thisArg] An optional argument to determine the value of `this`
- * in the `predicate` function.
- * @return {[Observable<T>, Observable<T>]} An array with two Observables: one
- * with values that passed the predicate, and another with values that did not
- * pass the predicate.
- * @method partition
- * @owner Observable
- */
 function partition(predicate, thisArg) {
     return (source) => [
         Object(_filter__WEBPACK_IMPORTED_MODULE_1__["filter"])(predicate, thisArg)(source),
@@ -97412,32 +93921,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pluck", function() { return pluck; });
 /* harmony import */ var _map__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./map */ "./node_modules/rxjs/_esm2015/internal/operators/map.js");
 
-/**
- * Maps each source value (an object) to its specified nested property.
- *
- * <span class="informal">Like {@link map}, but meant only for picking one of
- * the nested properties of every emitted object.</span>
- *
- * <img src="./img/pluck.png" width="100%">
- *
- * Given a list of strings describing a path to an object property, retrieves
- * the value of a specified nested property from all values in the source
- * Observable. If a property can't be resolved, it will return `undefined` for
- * that value.
- *
- * @example <caption>Map every click to the tagName of the clicked target element</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var tagNames = clicks.pluck('target', 'tagName');
- * tagNames.subscribe(x => console.log(x));
- *
- * @see {@link map}
- *
- * @param {...string} properties The nested properties to pluck from each source
- * value (an object).
- * @return {Observable} A new Observable of property values from the source values.
- * @method pluck
- * @owner Observable
- */
 function pluck(...properties) {
     const length = properties.length;
     if (length === 0) {
@@ -97479,20 +93962,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _multicast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./multicast */ "./node_modules/rxjs/_esm2015/internal/operators/multicast.js");
 
 
-/* tslint:enable:max-line-length */
-/**
- * Returns a ConnectableObservable, which is a variety of Observable that waits until its connect method is called
- * before it begins emitting items to those Observers that have subscribed to it.
- *
- * <img src="./img/publish.png" width="100%">
- *
- * @param {Function} [selector] - Optional selector function which can use the multicasted source sequence as many times
- * as needed, without causing multiple subscriptions to the source sequence.
- * Subscribers to the given source will receive all notifications of the source from the time of the subscription on.
- * @return A ConnectableObservable that upon connection causes the source Observable to emit items to its Observers.
- * @method publish
- * @owner Observable
- */
 function publish(selector) {
     return selector ?
         Object(_multicast__WEBPACK_IMPORTED_MODULE_1__["multicast"])(() => new _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"](), selector) :
@@ -97516,12 +93985,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _multicast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./multicast */ "./node_modules/rxjs/_esm2015/internal/operators/multicast.js");
 
 
-/**
- * @param value
- * @return {ConnectableObservable<T>}
- * @method publishBehavior
- * @owner Observable
- */
 function publishBehavior(value) {
     return (source) => Object(_multicast__WEBPACK_IMPORTED_MODULE_1__["multicast"])(new _BehaviorSubject__WEBPACK_IMPORTED_MODULE_0__["BehaviorSubject"](value))(source);
 }
@@ -97564,7 +94027,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _multicast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./multicast */ "./node_modules/rxjs/_esm2015/internal/operators/multicast.js");
 
 
-/* tslint:enable:max-line-length */
 function publishReplay(bufferSize, windowTime, selectorOrScheduler, scheduler) {
     if (selectorOrScheduler && typeof selectorOrScheduler !== 'function') {
         scheduler = selectorOrScheduler;
@@ -97591,20 +94053,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _observable_race__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../observable/race */ "./node_modules/rxjs/_esm2015/internal/observable/race.js");
 
 
-/* tslint:enable:max-line-length */
-/**
- * Returns an Observable that mirrors the first source Observable to emit an item
- * from the combination of this Observable and supplied Observables.
- * @param {...Observables} ...observables Sources used to race for which Observable emits first.
- * @return {Observable} An Observable that mirrors the output of the first Observable to emit an item.
- * @method race
- * @owner Observable
- * @deprecated Deprecated in favor of static race.
- */
 function race(...observables) {
     return function raceOperatorFunction(source) {
-        // if the only argument is an array, it was most likely called with
-        // `pair([obs1, obs2, ...])`
         if (observables.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_0__["isArray"])(observables[0])) {
             observables = observables[0];
         }
@@ -97633,57 +94083,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Applies an accumulator function over the source Observable, and returns the
- * accumulated result when the source completes, given an optional seed value.
- *
- * <span class="informal">Combines together all values emitted on the source,
- * using an accumulator function that knows how to join a new source value into
- * the accumulation from the past.</span>
- *
- * <img src="./img/reduce.png" width="100%">
- *
- * Like
- * [Array.prototype.reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce),
- * `reduce` applies an `accumulator` function against an accumulation and each
- * value of the source Observable (from the past) to reduce it to a single
- * value, emitted on the output Observable. Note that `reduce` will only emit
- * one value, only when the source Observable completes. It is equivalent to
- * applying operator {@link scan} followed by operator {@link last}.
- *
- * Returns an Observable that applies a specified `accumulator` function to each
- * item emitted by the source Observable. If a `seed` value is specified, then
- * that value will be used as the initial value for the accumulator. If no seed
- * value is specified, the first item of the source is used as the seed.
- *
- * @example <caption>Count the number of click events that happened in 5 seconds</caption>
- * var clicksInFiveSeconds = Rx.Observable.fromEvent(document, 'click')
- *   .takeUntil(Rx.Observable.interval(5000));
- * var ones = clicksInFiveSeconds.mapTo(1);
- * var seed = 0;
- * var count = ones.reduce((acc, one) => acc + one, seed);
- * count.subscribe(x => console.log(x));
- *
- * @see {@link count}
- * @see {@link expand}
- * @see {@link mergeScan}
- * @see {@link scan}
- *
- * @param {function(acc: R, value: T, index: number): R} accumulator The accumulator function
- * called on each source value.
- * @param {R} [seed] The initial accumulation value.
- * @return {Observable<R>} An Observable that emits a single value that is the
- * result of accumulating the values emitted by the source Observable.
- * @method reduce
- * @owner Observable
- */
 function reduce(accumulator, seed) {
-    // providing a seed of `undefined` *should* be valid and trigger
-    // hasSeed! so don't use `seed !== undefined` checks!
-    // For this reason, we have to check it here at the original call site
-    // otherwise inside Operator/Subscriber we won't know if `undefined`
-    // means they didn't provide anything or if they literally provided `undefined`
     if (arguments.length >= 2) {
         return function reduceOperatorFunctionWithSeed(source) {
             return Object(_util_pipe__WEBPACK_IMPORTED_MODULE_3__["pipe"])(Object(_scan__WEBPACK_IMPORTED_MODULE_0__["scan"])(accumulator, seed), Object(_takeLast__WEBPACK_IMPORTED_MODULE_1__["takeLast"])(1), Object(_defaultIfEmpty__WEBPACK_IMPORTED_MODULE_2__["defaultIfEmpty"])(seed))(source);
@@ -97753,29 +94153,6 @@ class RefCountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subsc
             this.connection = null;
             return;
         }
-        ///
-        // Compare the local RefCountSubscriber's connection Subscription to the
-        // connection Subscription on the shared ConnectableObservable. In cases
-        // where the ConnectableObservable source synchronously emits values, and
-        // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
-        // execution continues to here before the RefCountOperator has a chance to
-        // supply the RefCountSubscriber with the shared connection Subscription.
-        // For example:
-        // ```
-        // Observable.range(0, 10)
-        //   .publish()
-        //   .refCount()
-        //   .take(5)
-        //   .subscribe();
-        // ```
-        // In order to account for this case, RefCountSubscriber should only dispose
-        // the ConnectableObservable's shared connection Subscription if the
-        // connection Subscription exists, *and* either:
-        //   a. RefCountSubscriber doesn't have a reference to the shared connection
-        //      Subscription yet, or,
-        //   b. RefCountSubscriber's connection Subscription reference is identical
-        //      to the shared connection Subscription
-        ///
         const { connection } = this;
         const sharedConnection = connectable._connection;
         this.connection = null;
@@ -97802,18 +94179,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _observable_empty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../observable/empty */ "./node_modules/rxjs/_esm2015/internal/observable/empty.js");
 
 
-/**
- * Returns an Observable that repeats the stream of items emitted by the source Observable at most count times.
- *
- * <img src="./img/repeat.png" width="100%">
- *
- * @param {number} [count] The number of times the source Observable items are repeated, a count of 0 will yield
- * an empty Observable.
- * @return {Observable} An Observable that repeats the stream of items emitted by the source Observable at most
- * count times.
- * @method repeat
- * @owner Observable
- */
 function repeat(count = -1) {
     return (source) => {
         if (count === 0) {
@@ -97836,11 +94201,6 @@ class RepeatOperator {
         return source.subscribe(new RepeatSubscriber(subscriber, this.count, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class RepeatSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, count, source) {
         super(destination);
@@ -97884,20 +94244,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Returns an Observable that mirrors the source Observable with the exception of a `complete`. If the source
- * Observable calls `complete`, this method will emit to the Observable returned from `notifier`. If that Observable
- * calls `complete` or `error`, then this method will call `complete` or `error` on the child subscription. Otherwise
- * this method will resubscribe to the source Observable.
- *
- * <img src="./img/repeatWhen.png" width="100%">
- *
- * @param {function(notifications: Observable): Observable} notifier - Receives an Observable of notifications with
- * which a user can `complete` or `error`, aborting the repetition.
- * @return {Observable} The source Observable modified with repeat logic.
- * @method repeatWhen
- * @owner Observable
- */
 function repeatWhen(notifier) {
     return (source) => source.lift(new RepeatWhenOperator(notifier));
 }
@@ -97909,11 +94255,6 @@ class RepeatWhenOperator {
         return source.subscribe(new RepeatWhenSubscriber(subscriber, this.notifier, source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class RepeatWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["OuterSubscriber"] {
     constructor(destination, notifier, source) {
         super(destination);
@@ -97943,7 +94284,6 @@ class RepeatWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__
             this.notifications.next();
         }
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         const { notifications, retriesSubscription } = this;
         if (notifications) {
@@ -97956,7 +94296,6 @@ class RepeatWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__
         }
         this.retries = null;
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribeAndRecycle() {
         const { _unsubscribe } = this;
         this._unsubscribe = null;
@@ -97990,22 +94329,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "retry", function() { return retry; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Returns an Observable that mirrors the source Observable with the exception of an `error`. If the source Observable
- * calls `error`, this method will resubscribe to the source Observable for a maximum of `count` resubscriptions (given
- * as a number parameter) rather than propagating the `error` call.
- *
- * <img src="./img/retry.png" width="100%">
- *
- * Any and all items emitted by the source Observable will be emitted by the resulting Observable, even those emitted
- * during failed subscriptions. For example, if an Observable fails at first but emits [1, 2] then succeeds the second
- * time and emits: [1, 2, 3, 4, 5] then the complete stream of emissions and notifications
- * would be: [1, 2, 1, 2, 3, 4, 5, `complete`].
- * @param {number} count - Number of retry attempts before failing.
- * @return {Observable} The source Observable modified with the retry logic.
- * @method retry
- * @owner Observable
- */
 function retry(count = -1) {
     return (source) => source.lift(new RetryOperator(count, source));
 }
@@ -98018,11 +94341,6 @@ class RetryOperator {
         return source.subscribe(new RetrySubscriber(subscriber, this.count, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class RetrySubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, count, source) {
         super(destination);
@@ -98066,20 +94384,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Returns an Observable that mirrors the source Observable with the exception of an `error`. If the source Observable
- * calls `error`, this method will emit the Throwable that caused the error to the Observable returned from `notifier`.
- * If that Observable calls `complete` or `error` then this method will call `complete` or `error` on the child
- * subscription. Otherwise this method will resubscribe to the source Observable.
- *
- * <img src="./img/retryWhen.png" width="100%">
- *
- * @param {function(errors: Observable): Observable} notifier - Receives an Observable of notifications with which a
- * user can `complete` or `error`, aborting the retry.
- * @return {Observable} The source Observable modified with retry logic.
- * @method retryWhen
- * @owner Observable
- */
 function retryWhen(notifier) {
     return (source) => source.lift(new RetryWhenOperator(notifier, source));
 }
@@ -98092,11 +94396,6 @@ class RetryWhenOperator {
         return source.subscribe(new RetryWhenSubscriber(subscriber, this.notifier, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class RetryWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["OuterSubscriber"] {
     constructor(destination, notifier, source) {
         super(destination);
@@ -98127,7 +94426,6 @@ class RetryWhenSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__[
             errors.next(err);
         }
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         const { errors, retriesSubscription } = this;
         if (errors) {
@@ -98166,40 +94464,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Emits the most recently emitted value from the source Observable whenever
- * another Observable, the `notifier`, emits.
- *
- * <span class="informal">It's like {@link sampleTime}, but samples whenever
- * the `notifier` Observable emits something.</span>
- *
- * <img src="./img/sample.png" width="100%">
- *
- * Whenever the `notifier` Observable emits a value or completes, `sample`
- * looks at the source Observable and emits whichever value it has most recently
- * emitted since the previous sampling, unless the source has not emitted
- * anything since the previous sampling. The `notifier` is subscribed to as soon
- * as the output Observable is subscribed.
- *
- * @example <caption>On every click, sample the most recent "seconds" timer</caption>
- * var seconds = Rx.Observable.interval(1000);
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = seconds.sample(clicks);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link audit}
- * @see {@link debounce}
- * @see {@link sampleTime}
- * @see {@link throttle}
- *
- * @param {Observable<any>} notifier The Observable to use for sampling the
- * source Observable.
- * @return {Observable<T>} An Observable that emits the results of sampling the
- * values emitted by the source Observable whenever the notifier Observable
- * emits value or completes.
- * @method sample
- * @owner Observable
- */
 function sample(notifier) {
     return (source) => source.lift(new SampleOperator(notifier));
 }
@@ -98214,11 +94478,6 @@ class SampleOperator {
         return subscription;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SampleSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor() {
         super(...arguments);
@@ -98259,42 +94518,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scheduler_async__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scheduler/async */ "./node_modules/rxjs/_esm2015/internal/scheduler/async.js");
 
 
-/**
- * Emits the most recently emitted value from the source Observable within
- * periodic time intervals.
- *
- * <span class="informal">Samples the source Observable at periodic time
- * intervals, emitting what it samples.</span>
- *
- * <img src="./img/sampleTime.png" width="100%">
- *
- * `sampleTime` periodically looks at the source Observable and emits whichever
- * value it has most recently emitted since the previous sampling, unless the
- * source has not emitted anything since the previous sampling. The sampling
- * happens periodically in time every `period` milliseconds (or the time unit
- * defined by the optional `scheduler` argument). The sampling starts as soon as
- * the output Observable is subscribed.
- *
- * @example <caption>Every second, emit the most recent click at most once</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.sampleTime(1000);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link auditTime}
- * @see {@link debounceTime}
- * @see {@link delay}
- * @see {@link sample}
- * @see {@link throttleTime}
- *
- * @param {number} period The sampling period expressed in milliseconds or the
- * time unit determined internally by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
- * managing the timers that handle the sampling.
- * @return {Observable<T>} An Observable that emits the results of sampling the
- * values emitted by the source Observable at the specified time interval.
- * @method sampleTime
- * @owner Observable
- */
 function sampleTime(period, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_1__["async"]) {
     return (source) => source.lift(new SampleTimeOperator(period, scheduler));
 }
@@ -98307,11 +94530,6 @@ class SampleTimeOperator {
         return source.subscribe(new SampleTimeSubscriber(subscriber, this.period, this.scheduler));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SampleTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, period, scheduler) {
         super(destination);
@@ -98352,51 +94570,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scan", function() { return scan; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Applies an accumulator function over the source Observable, and returns each
- * intermediate result, with an optional seed value.
- *
- * <span class="informal">It's like {@link reduce}, but emits the current
- * accumulation whenever the source emits a value.</span>
- *
- * <img src="./img/scan.png" width="100%">
- *
- * Combines together all values emitted on the source, using an accumulator
- * function that knows how to join a new source value into the accumulation from
- * the past. Is similar to {@link reduce}, but emits the intermediate
- * accumulations.
- *
- * Returns an Observable that applies a specified `accumulator` function to each
- * item emitted by the source Observable. If a `seed` value is specified, then
- * that value will be used as the initial value for the accumulator. If no seed
- * value is specified, the first item of the source is used as the seed.
- *
- * @example <caption>Count the number of click events</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var ones = clicks.mapTo(1);
- * var seed = 0;
- * var count = ones.scan((acc, one) => acc + one, seed);
- * count.subscribe(x => console.log(x));
- *
- * @see {@link expand}
- * @see {@link mergeScan}
- * @see {@link reduce}
- *
- * @param {function(acc: R, value: T, index: number): R} accumulator
- * The accumulator function called on each source value.
- * @param {T|R} [seed] The initial accumulation value.
- * @return {Observable<R>} An observable of the accumulated values.
- * @method scan
- * @owner Observable
- */
 function scan(accumulator, seed) {
     let hasSeed = false;
-    // providing a seed of `undefined` *should* be valid and trigger
-    // hasSeed! so don't use `seed !== undefined` checks!
-    // For this reason, we have to check it here at the original call site
-    // otherwise inside Operator/Subscriber we won't know if `undefined`
-    // means they didn't provide anything or if they literally provided `undefined`
     if (arguments.length >= 2) {
         hasSeed = true;
     }
@@ -98414,11 +94589,6 @@ class ScanOperator {
         return source.subscribe(new ScanSubscriber(subscriber, this.accumulator, this.seed, this.hasSeed));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ScanSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, accumulator, _seed, hasSeed) {
         super(destination);
@@ -98478,58 +94648,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Compares all values of two observables in sequence using an optional comparor function
- * and returns an observable of a single boolean value representing whether or not the two sequences
- * are equal.
- *
- * <span class="informal">Checks to see of all values emitted by both observables are equal, in order.</span>
- *
- * <img src="./img/sequenceEqual.png" width="100%">
- *
- * `sequenceEqual` subscribes to two observables and buffers incoming values from each observable. Whenever either
- * observable emits a value, the value is buffered and the buffers are shifted and compared from the bottom
- * up; If any value pair doesn't match, the returned observable will emit `false` and complete. If one of the
- * observables completes, the operator will wait for the other observable to complete; If the other
- * observable emits before completing, the returned observable will emit `false` and complete. If one observable never
- * completes or emits after the other complets, the returned observable will never complete.
- *
- * @example <caption>figure out if the Konami code matches</caption>
- * var code = Rx.Observable.from([
- *  "ArrowUp",
- *  "ArrowUp",
- *  "ArrowDown",
- *  "ArrowDown",
- *  "ArrowLeft",
- *  "ArrowRight",
- *  "ArrowLeft",
- *  "ArrowRight",
- *  "KeyB",
- *  "KeyA",
- *  "Enter" // no start key, clearly.
- * ]);
- *
- * var keys = Rx.Observable.fromEvent(document, 'keyup')
- *  .map(e => e.code);
- * var matches = keys.bufferCount(11, 1)
- *  .mergeMap(
- *    last11 =>
- *      Rx.Observable.from(last11)
- *        .sequenceEqual(code)
- *   );
- * matches.subscribe(matched => console.log('Successful cheat at Contra? ', matched));
- *
- * @see {@link combineLatest}
- * @see {@link zip}
- * @see {@link withLatestFrom}
- *
- * @param {Observable} compareTo The observable sequence to compare the source sequence to.
- * @param {function} [comparor] An optional function to compare each value pair
- * @return {Observable} An Observable of a single boolean value representing whether or not
- * the values emitted by both observables were equal in sequence.
- * @method sequenceEqual
- * @owner Observable
- */
 function sequenceEqual(compareTo, comparor) {
     return (source) => source.lift(new SequenceEqualOperator(compareTo, comparor));
 }
@@ -98542,11 +94660,6 @@ class SequenceEqualOperator {
         return source.subscribe(new SequenceEqualSubscriber(subscriber, this.compareTo, this.comparor));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SequenceEqualSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, compareTo, comparor) {
         super(destination);
@@ -98647,18 +94760,6 @@ __webpack_require__.r(__webpack_exports__);
 function shareSubjectFactory() {
     return new _Subject__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
 }
-/**
- * Returns a new Observable that multicasts (shares) the original Observable. As long as there is at least one
- * Subscriber this Observable will be subscribed and emitting data. When all subscribers have unsubscribed it will
- * unsubscribe from the source Observable. Because the Observable is multicasting it makes the stream `hot`.
- * This is an alias for .multicast(() => new Subject()).refCount().
- *
- * <img src="./img/share.png" width="100%">
- *
- * @return {Observable<T>} An Observable that upon connection causes the source Observable to emit items to its Observers.
- * @method share
- * @owner Observable
- */
 function share() {
     return (source) => Object(_refCount__WEBPACK_IMPORTED_MODULE_1__["refCount"])()(Object(_multicast__WEBPACK_IMPORTED_MODULE_0__["multicast"])(shareSubjectFactory)(source));
 }
@@ -98678,10 +94779,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shareReplay", function() { return shareReplay; });
 /* harmony import */ var _ReplaySubject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ReplaySubject */ "./node_modules/rxjs/_esm2015/internal/ReplaySubject.js");
 
-/**
- * @method shareReplay
- * @owner Observable
- */
 function shareReplay(bufferSize, windowTime, scheduler) {
     return (source) => source.lift(shareReplayOperator(bufferSize, windowTime, scheduler));
 }
@@ -98736,23 +94833,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_EmptyError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/EmptyError */ "./node_modules/rxjs/_esm2015/internal/util/EmptyError.js");
 
 
-/**
- * Returns an Observable that emits the single item emitted by the source Observable that matches a specified
- * predicate, if that Observable emits one such item. If the source Observable emits more than one such item or no
- * items, notify of an IllegalArgumentException or NoSuchElementException respectively. If the source Observable
- * emits items but none match the specified predicate then `undefined` is emiited.
- *
- * <img src="./img/single.png" width="100%">
- *
- * @throws {EmptyError} Delivers an EmptyError to the Observer's `error`
- * callback if the Observable completes before any `next` notification was sent.
- * @param {Function} predicate - A predicate function to evaluate items emitted by the source Observable.
- * @return {Observable<T>} An Observable that emits the single item emitted by the source Observable that matches
- * the predicate or `undefined` when no items match.
- *
- * @method single
- * @owner Observable
- */
 function single(predicate) {
     return (source) => source.lift(new SingleOperator(predicate, source));
 }
@@ -98765,11 +94845,6 @@ class SingleOperator {
         return source.subscribe(new SingleSubscriber(subscriber, this.predicate, this.source));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SingleSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate, source) {
         super(destination);
@@ -98833,17 +94908,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "skip", function() { return skip; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Returns an Observable that skips the first `count` items emitted by the source Observable.
- *
- * <img src="./img/skip.png" width="100%">
- *
- * @param {Number} count - The number of times, items emitted by source Observable should be skipped.
- * @return {Observable} An Observable that skips values emitted by the source Observable.
- *
- * @method skip
- * @owner Observable
- */
 function skip(count) {
     return (source) => source.lift(new SkipOperator(count));
 }
@@ -98855,11 +94919,6 @@ class SkipOperator {
         return source.subscribe(new SkipSubscriber(subscriber, this.total));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SkipSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, total) {
         super(destination);
@@ -98890,38 +94949,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_ArgumentOutOfRangeError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/ArgumentOutOfRangeError */ "./node_modules/rxjs/_esm2015/internal/util/ArgumentOutOfRangeError.js");
 
 
-/**
- * Skip the last `count` values emitted by the source Observable.
- *
- * <img src="./img/skipLast.png" width="100%">
- *
- * `skipLast` returns an Observable that accumulates a queue with a length
- * enough to store the first `count` values. As more values are received,
- * values are taken from the front of the queue and produced on the result
- * sequence. This causes values to be delayed.
- *
- * @example <caption>Skip the last 2 values of an Observable with many values</caption>
- * var many = Rx.Observable.range(1, 5);
- * var skipLastTwo = many.skipLast(2);
- * skipLastTwo.subscribe(x => console.log(x));
- *
- * // Results in:
- * // 1 2 3
- *
- * @see {@link skip}
- * @see {@link skipUntil}
- * @see {@link skipWhile}
- * @see {@link take}
- *
- * @throws {ArgumentOutOfRangeError} When using `skipLast(i)`, it throws
- * ArgumentOutOrRangeError if `i < 0`.
- *
- * @param {number} count Number of elements to skip from the end of the source Observable.
- * @returns {Observable<T>} An Observable that skips the last count values
- * emitted by the source Observable.
- * @method skipLast
- * @owner Observable
- */
 function skipLast(count) {
     return (source) => source.lift(new SkipLastOperator(count));
 }
@@ -98934,8 +94961,6 @@ class SkipLastOperator {
     }
     call(subscriber, source) {
         if (this._skipCount === 0) {
-            // If we don't want to skip any values then just subscribe
-            // to Subscriber without any further logic.
             return source.subscribe(new _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"](subscriber));
         }
         else {
@@ -98943,11 +94968,6 @@ class SkipLastOperator {
         }
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SkipLastSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, _skipCount) {
         super(destination);
@@ -98988,18 +95008,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Returns an Observable that skips items emitted by the source Observable until a second Observable emits an item.
- *
- * <img src="./img/skipUntil.png" width="100%">
- *
- * @param {Observable} notifier - The second Observable that has to emit an item before the source Observable's elements begin to
- * be mirrored by the resulting Observable.
- * @return {Observable<T>} An Observable that skips items from the source Observable until the second Observable emits
- * an item, then emits the remaining items.
- * @method skipUntil
- * @owner Observable
- */
 function skipUntil(notifier) {
     return (source) => source.lift(new SkipUntilOperator(notifier));
 }
@@ -99011,11 +95019,6 @@ class SkipUntilOperator {
         return source.subscribe(new SkipUntilSubscriber(destination, this.notifier));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SkipUntilSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, notifier) {
         super(destination);
@@ -99034,7 +95037,6 @@ class SkipUntilSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__[
         }
     }
     notifyComplete() {
-        /* do nothing */
     }
 }
 //# sourceMappingURL=skipUntil.js.map
@@ -99053,18 +95055,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "skipWhile", function() { return skipWhile; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Returns an Observable that skips all items emitted by the source Observable as long as a specified condition holds
- * true, but emits all further source items as soon as the condition becomes false.
- *
- * <img src="./img/skipWhile.png" width="100%">
- *
- * @param {Function} predicate - A function to test each item emitted from the source Observable.
- * @return {Observable<T>} An Observable that begins emitting items emitted by the source Observable when the
- * specified predicate becomes false.
- * @method skipWhile
- * @owner Observable
- */
 function skipWhile(predicate) {
     return (source) => source.lift(new SkipWhileOperator(predicate));
 }
@@ -99076,11 +95066,6 @@ class SkipWhileOperator {
         return source.subscribe(new SkipWhileSubscriber(subscriber, this.predicate));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SkipWhileSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate) {
         super(destination);
@@ -99131,21 +95116,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Returns an Observable that emits the items you specify as arguments before it begins to emit
- * items emitted by the source Observable.
- *
- * <img src="./img/startWith.png" width="100%">
- *
- * @param {...T} values - Items you want the modified Observable to emit first.
- * @param {Scheduler} [scheduler] - A {@link IScheduler} to use for scheduling
- * the emissions of the `next` notifications.
- * @return {Observable} An Observable that emits the items in the specified Iterable and then emits the items
- * emitted by the source Observable.
- * @method startWith
- * @owner Observable
- */
 function startWith(...array) {
     return (source) => {
         let scheduler = array[array.length - 1];
@@ -99183,17 +95153,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeOn", function() { return subscribeOn; });
 /* harmony import */ var _observable_SubscribeOnObservable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../observable/SubscribeOnObservable */ "./node_modules/rxjs/_esm2015/internal/observable/SubscribeOnObservable.js");
 
-/**
- * Asynchronously subscribes Observers to this Observable on the specified IScheduler.
- *
- * <img src="./img/subscribeOn.png" width="100%">
- *
- * @param {Scheduler} scheduler - The IScheduler to perform subscription actions on.
- * @return {Observable<T>} The source Observable modified so that its subscriptions happen on the specified IScheduler.
- .
- * @method subscribeOn
- * @owner Observable
- */
 function subscribeOn(scheduler, delay = 0) {
     return function subscribeOnOperatorFunction(source) {
         return source.lift(new SubscribeOnOperator(scheduler, delay));
@@ -99251,46 +95210,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to an Observable which is merged in the output
- * Observable, emitting values only from the most recently projected Observable.
- *
- * <span class="informal">Maps each value to an Observable, then flattens all of
- * these inner Observables using {@link switch}.</span>
- *
- * <img src="./img/switchMap.png" width="100%">
- *
- * Returns an Observable that emits items based on applying a function that you
- * supply to each item emitted by the source Observable, where that function
- * returns an (so-called "inner") Observable. Each time it observes one of these
- * inner Observables, the output Observable begins emitting the items emitted by
- * that inner Observable. When a new inner Observable is emitted, `switchMap`
- * stops emitting items from the earlier-emitted inner Observable and begins
- * emitting items from the new one. It continues to behave like this for
- * subsequent inner Observables.
- *
- * @example <caption>Rerun an interval Observable on every click event</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.switchMap((ev) => Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link concatMap}
- * @see {@link exhaustMap}
- * @see {@link mergeMap}
- * @see {@link switch}
- * @see {@link switchMapTo}
- *
- * @param {function(value: T, ?index: number): ObservableInput} project A function
- * that, when applied to an item emitted by the source Observable, returns an
- * Observable.
- * @return {Observable} An Observable that emits the result of applying the
- * projection function (and the optional `resultSelector`) to each item emitted
- * by the source Observable and taking only the values from the most recently
- * projected inner Observable.
- * @method switchMap
- * @owner Observable
- */
 function switchMap(project, resultSelector) {
     if (typeof resultSelector === 'function') {
         return (source) => source.pipe(switchMap((a, i) => Object(_observable_from__WEBPACK_IMPORTED_MODULE_3__["from"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_2__["map"])((b, ii) => resultSelector(a, b, i, ii)))));
@@ -99305,11 +95224,6 @@ class SwitchMapOperator {
         return source.subscribe(new SwitchMapSubscriber(subscriber, this.project));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class SwitchMapSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, project) {
         super(destination);
@@ -99371,41 +95285,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchMapTo", function() { return switchMapTo; });
 /* harmony import */ var _switchMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./switchMap */ "./node_modules/rxjs/_esm2015/internal/operators/switchMap.js");
 
-/* tslint:enable:max-line-length */
-/**
- * Projects each source value to the same Observable which is flattened multiple
- * times with {@link switch} in the output Observable.
- *
- * <span class="informal">It's like {@link switchMap}, but maps each value
- * always to the same inner Observable.</span>
- *
- * <img src="./img/switchMapTo.png" width="100%">
- *
- * Maps each source value to the given Observable `innerObservable` regardless
- * of the source value, and then flattens those resulting Observables into one
- * single Observable, which is the output Observable. The output Observables
- * emits values only from the most recently emitted instance of
- * `innerObservable`.
- *
- * @example <caption>Rerun an interval Observable on every click event</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.switchMapTo(Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link concatMapTo}
- * @see {@link switch}
- * @see {@link switchMap}
- * @see {@link mergeMapTo}
- *
- * @param {ObservableInput} innerObservable An Observable to replace each value from
- * the source Observable.
- * @return {Observable} An Observable that emits items from the given
- * `innerObservable` (and optionally transformed through `resultSelector`) every
- * time a value is emitted on the source Observable, and taking only the values
- * from the most recently projected inner Observable.
- * @method switchMapTo
- * @owner Observable
- */
 function switchMapTo(innerObservable, resultSelector) {
     return resultSelector ? Object(_switchMap__WEBPACK_IMPORTED_MODULE_0__["switchMap"])(() => innerObservable, resultSelector) : Object(_switchMap__WEBPACK_IMPORTED_MODULE_0__["switchMap"])(() => innerObservable);
 }
@@ -99429,39 +95308,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Emits only the first `count` values emitted by the source Observable.
- *
- * <span class="informal">Takes the first `count` values from the source, then
- * completes.</span>
- *
- * <img src="./img/take.png" width="100%">
- *
- * `take` returns an Observable that emits only the first `count` values emitted
- * by the source Observable. If the source emits fewer than `count` values then
- * all of its values are emitted. After that, it completes, regardless if the
- * source completes.
- *
- * @example <caption>Take the first 5 seconds of an infinite 1-second interval Observable</caption>
- * var interval = Rx.Observable.interval(1000);
- * var five = interval.take(5);
- * five.subscribe(x => console.log(x));
- *
- * @see {@link takeLast}
- * @see {@link takeUntil}
- * @see {@link takeWhile}
- * @see {@link skip}
- *
- * @throws {ArgumentOutOfRangeError} When using `take(i)`, it delivers an
- * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
- *
- * @param {number} count The maximum number of `next` values to emit.
- * @return {Observable<T>} An Observable that emits only the first `count`
- * values emitted by the source Observable, or all of the values from the source
- * if the source emits fewer than `count` values.
- * @method take
- * @owner Observable
- */
 function take(count) {
     return (source) => {
         if (count === 0) {
@@ -99483,11 +95329,6 @@ class TakeOperator {
         return source.subscribe(new TakeSubscriber(subscriber, this.total));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class TakeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, total) {
         super(destination);
@@ -99526,42 +95367,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Emits only the last `count` values emitted by the source Observable.
- *
- * <span class="informal">Remembers the latest `count` values, then emits those
- * only when the source completes.</span>
- *
- * <img src="./img/takeLast.png" width="100%">
- *
- * `takeLast` returns an Observable that emits at most the last `count` values
- * emitted by the source Observable. If the source emits fewer than `count`
- * values then all of its values are emitted. This operator must wait until the
- * `complete` notification emission from the source in order to emit the `next`
- * values on the output Observable, because otherwise it is impossible to know
- * whether or not more values will be emitted on the source. For this reason,
- * all values are emitted synchronously, followed by the complete notification.
- *
- * @example <caption>Take the last 3 values of an Observable with many values</caption>
- * var many = Rx.Observable.range(1, 100);
- * var lastThree = many.pipe(takeLast(3));
- * lastThree.subscribe(x => console.log(x));
- *
- * @see {@link take}
- * @see {@link takeUntil}
- * @see {@link takeWhile}
- * @see {@link skip}
- *
- * @throws {ArgumentOutOfRangeError} When using `takeLast(i)`, it delivers an
- * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
- *
- * @param {number} count The maximum number of values to emit from the end of
- * the sequence of values emitted by the source Observable.
- * @return {Observable<T>} An Observable that emits at most the last count
- * values emitted by the source Observable.
- * @method takeLast
- * @owner Observable
- */
 function takeLast(count) {
     return function takeLastOperatorFunction(source) {
         if (count === 0) {
@@ -99583,11 +95388,6 @@ class TakeLastOperator {
         return source.subscribe(new TakeLastSubscriber(subscriber, this.total));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class TakeLastSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, total) {
         super(destination);
@@ -99639,40 +95439,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/**
- * Emits the values emitted by the source Observable until a `notifier`
- * Observable emits a value.
- *
- * <span class="informal">Lets values pass until a second Observable,
- * `notifier`, emits a value. Then, it completes.</span>
- *
- * <img src="./img/takeUntil.png" width="100%">
- *
- * `takeUntil` subscribes and begins mirroring the source Observable. It also
- * monitors a second Observable, `notifier` that you provide. If the `notifier`
- * emits a value, the output Observable stops mirroring the source Observable
- * and completes. If the `notifier` doesn't emit any value and completes
- * then `takeUntil` will pass all values.
- *
- * @example <caption>Tick every second until the first click happens</caption>
- * var interval = Rx.Observable.interval(1000);
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = interval.takeUntil(clicks);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link take}
- * @see {@link takeLast}
- * @see {@link takeWhile}
- * @see {@link skip}
- *
- * @param {Observable} notifier The Observable whose first emitted value will
- * cause the output Observable of `takeUntil` to stop emitting values from the
- * source Observable.
- * @return {Observable<T>} An Observable that emits the values from the source
- * Observable until such time as `notifier` emits its first value.
- * @method takeUntil
- * @owner Observable
- */
 function takeUntil(notifier) {
     return (source) => source.lift(new TakeUntilOperator(notifier));
 }
@@ -99690,11 +95456,6 @@ class TakeUntilOperator {
         return takeUntilSubscriber;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class TakeUntilSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination) {
         super(destination);
@@ -99703,7 +95464,6 @@ class TakeUntilSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__[
         this.complete();
     }
     notifyComplete() {
-        // noop
     }
 }
 //# sourceMappingURL=takeUntil.js.map
@@ -99722,42 +95482,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "takeWhile", function() { return takeWhile; });
 /* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscriber */ "./node_modules/rxjs/_esm2015/internal/Subscriber.js");
 
-/**
- * Emits values emitted by the source Observable so long as each value satisfies
- * the given `predicate`, and then completes as soon as this `predicate` is not
- * satisfied.
- *
- * <span class="informal">Takes values from the source only while they pass the
- * condition given. When the first value does not satisfy, it completes.</span>
- *
- * <img src="./img/takeWhile.png" width="100%">
- *
- * `takeWhile` subscribes and begins mirroring the source Observable. Each value
- * emitted on the source is given to the `predicate` function which returns a
- * boolean, representing a condition to be satisfied by the source values. The
- * output Observable emits the source values until such time as the `predicate`
- * returns false, at which point `takeWhile` stops mirroring the source
- * Observable and completes the output Observable.
- *
- * @example <caption>Emit click events only while the clientX property is greater than 200</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.takeWhile(ev => ev.clientX > 200);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link take}
- * @see {@link takeLast}
- * @see {@link takeUntil}
- * @see {@link skip}
- *
- * @param {function(value: T, index: number): boolean} predicate A function that
- * evaluates a value emitted by the source Observable and returns a boolean.
- * Also takes the (zero-based) index as the second argument.
- * @return {Observable<T>} An Observable that emits the values from the source
- * Observable so long as each value satisfies the condition defined by the
- * `predicate`, then completes.
- * @method takeWhile
- * @owner Observable
- */
 function takeWhile(predicate) {
     return (source) => source.lift(new TakeWhileOperator(predicate));
 }
@@ -99769,11 +95493,6 @@ class TakeWhileOperator {
         return source.subscribe(new TakeWhileSubscriber(subscriber, this.predicate));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class TakeWhileSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, predicate) {
         super(destination);
@@ -99822,48 +95541,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- * Perform a side effect for every emission on the source Observable, but return
- * an Observable that is identical to the source.
- *
- * <span class="informal">Intercepts each emission on the source and runs a
- * function, but returns an output which is identical to the source as long as errors don't occur.</span>
- *
- * <img src="./img/do.png" width="100%">
- *
- * Returns a mirrored Observable of the source Observable, but modified so that
- * the provided Observer is called to perform a side effect for every value,
- * error, and completion emitted by the source. Any errors that are thrown in
- * the aforementioned Observer or handlers are safely sent down the error path
- * of the output Observable.
- *
- * This operator is useful for debugging your Observables for the correct values
- * or performing other side effects.
- *
- * Note: this is different to a `subscribe` on the Observable. If the Observable
- * returned by `do` is not subscribed, the side effects specified by the
- * Observer will never happen. `do` therefore simply spies on existing
- * execution, it does not trigger an execution to happen like `subscribe` does.
- *
- * @example <caption>Map every click to the clientX position of that click, while also logging the click event</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var positions = clicks
- *   .do(ev => console.log(ev))
- *   .map(ev => ev.clientX);
- * positions.subscribe(x => console.log(x));
- *
- * @see {@link map}
- * @see {@link subscribe}
- *
- * @param {Observer|function} [nextOrObserver] A normal Observer object or a
- * callback for `next`.
- * @param {function} [error] Callback for errors in the source.
- * @param {function} [complete] Callback for the completion of the source.
- * @return {Observable} An Observable identical to the source, but runs the
- * specified Observer or callback(s) for each item.
- * @name tap
- */
 function tap(nextOrObserver, error, complete) {
     return function tapOperatorFunction(source) {
         return source.lift(new DoOperator(nextOrObserver, error, complete));
@@ -99879,11 +95556,6 @@ class DoOperator {
         return source.subscribe(new TapSubscriber(subscriber, this.nextOrObserver, this.error, this.complete));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class TapSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, observerOrNext, error, complete) {
         super(destination);
@@ -99957,46 +95629,6 @@ const defaultThrottleConfig = {
     leading: true,
     trailing: false
 };
-/**
- * Emits a value from the source Observable, then ignores subsequent source
- * values for a duration determined by another Observable, then repeats this
- * process.
- *
- * <span class="informal">It's like {@link throttleTime}, but the silencing
- * duration is determined by a second Observable.</span>
- *
- * <img src="./img/throttle.png" width="100%">
- *
- * `throttle` emits the source Observable values on the output Observable
- * when its internal timer is disabled, and ignores source values when the timer
- * is enabled. Initially, the timer is disabled. As soon as the first source
- * value arrives, it is forwarded to the output Observable, and then the timer
- * is enabled by calling the `durationSelector` function with the source value,
- * which returns the "duration" Observable. When the duration Observable emits a
- * value or completes, the timer is disabled, and this process repeats for the
- * next source value.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.throttle(ev => Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link audit}
- * @see {@link debounce}
- * @see {@link delayWhen}
- * @see {@link sample}
- * @see {@link throttleTime}
- *
- * @param {function(value: T): SubscribableOrPromise} durationSelector A function
- * that receives a value from the source Observable, for computing the silencing
- * duration for each source value, returned as an Observable or a Promise.
- * @param {Object} config a configuration object to define `leading` and `trailing` behavior. Defaults
- * to `{ leading: true, trailing: false }`.
- * @return {Observable<T>} An Observable that performs the throttle operation to
- * limit the rate of emissions from the source.
- * @method throttle
- * @owner Observable
- */
 function throttle(durationSelector, config = defaultThrottleConfig) {
     return (source) => source.lift(new ThrottleOperator(durationSelector, config.leading, config.trailing));
 }
@@ -100010,11 +95642,6 @@ class ThrottleOperator {
         return source.subscribe(new ThrottleSubscriber(subscriber, this.durationSelector, this.leading, this.trailing));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc
- * @ignore
- * @extends {Ignored}
- */
 class ThrottleSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, durationSelector, _leading, _trailing) {
         super(destination);
@@ -100097,47 +95724,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Emits a value from the source Observable, then ignores subsequent source
- * values for `duration` milliseconds, then repeats this process.
- *
- * <span class="informal">Lets a value pass, then ignores source values for the
- * next `duration` milliseconds.</span>
- *
- * <img src="./img/throttleTime.png" width="100%">
- *
- * `throttleTime` emits the source Observable values on the output Observable
- * when its internal timer is disabled, and ignores source values when the timer
- * is enabled. Initially, the timer is disabled. As soon as the first source
- * value arrives, it is forwarded to the output Observable, and then the timer
- * is enabled. After `duration` milliseconds (or the time unit determined
- * internally by the optional `scheduler`) has passed, the timer is disabled,
- * and this process repeats for the next source value. Optionally takes a
- * {@link IScheduler} for managing timers.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.throttleTime(1000);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link auditTime}
- * @see {@link debounceTime}
- * @see {@link delay}
- * @see {@link sampleTime}
- * @see {@link throttle}
- *
- * @param {number} duration Time to wait before emitting another value after
- * emitting the last value, measured in milliseconds or the time unit determined
- * internally by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
- * managing the timers that handle the throttling.
- * @param {Object} config a configuration object to define `leading` and
- * `trailing` behavior. Defaults to `{ leading: true, trailing: false }`.
- * @return {Observable<T>} An Observable that performs the throttle operation to
- * limit the rate of emissions from the source.
- * @method throttleTime
- * @owner Observable
- */
 function throttleTime(duration, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_1__["async"], config = _throttle__WEBPACK_IMPORTED_MODULE_2__["defaultThrottleConfig"]) {
     return (source) => source.lift(new ThrottleTimeOperator(duration, scheduler, config.leading, config.trailing));
 }
@@ -100152,11 +95738,6 @@ class ThrottleTimeOperator {
         return source.subscribe(new ThrottleTimeSubscriber(subscriber, this.duration, this.scheduler, this.leading, this.trailing));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class ThrottleTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, duration, scheduler, leading, trailing) {
         super(destination);
@@ -100226,29 +95807,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_EmptyError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/EmptyError */ "./node_modules/rxjs/_esm2015/internal/util/EmptyError.js");
 
 
-/**
- * If the source observable completes without emitting a value, it will emit
- * an error. The error will be created at that time by the optional
- * `errorFactory` argument, otherwise, the error will be {@link ErrorEmpty}.
- *
- * @example
- *
- * const click$ = fromEvent(button, 'click');
- *
- * clicks$.pipe(
- *   takeUntil(timer(1000)),
- *   throwIfEmpty(
- *     () => new Error('the button was not clicked within 1 second')
- *   ),
- * )
- * .subscribe({
- *   next() { console.log('The button was clicked'); },
- *   error(err) { console.error(err); },
- * });
- * @param {Function} [errorFactory] A factory function called to produce the
- * error to be thrown when the source observable completes without emitting a
- * value.
- */
 const throwIfEmpty = (errorFactory = defaultErrorFactory) => Object(_tap__WEBPACK_IMPORTED_MODULE_0__["tap"])({
     hasValue: false,
     next() { this.hasValue = true; },
@@ -100286,9 +95844,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function timeInterval(scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"]) {
     return (source) => Object(_observable_defer__WEBPACK_IMPORTED_MODULE_2__["defer"])(() => {
-        return source.pipe(
-        // HACK: the typings seem off with scan
-        Object(_scan__WEBPACK_IMPORTED_MODULE_1__["scan"])(({ current }, value) => ({ value, current: scheduler.now(), last: current }), { current: scheduler.now(), value: undefined, last: undefined }), Object(_map__WEBPACK_IMPORTED_MODULE_3__["map"])(({ current, last, value }) => new TimeInterval(value, current - last)));
+        return source.pipe(Object(_scan__WEBPACK_IMPORTED_MODULE_1__["scan"])(({ current }, value) => ({ value, current: scheduler.now(), last: current }), { current: scheduler.now(), value: undefined, last: undefined }), Object(_map__WEBPACK_IMPORTED_MODULE_3__["map"])(({ current, last, value }) => new TimeInterval(value, current - last)));
     });
 }
 class TimeInterval {
@@ -100319,71 +95875,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- *
- * Errors if Observable does not emit a value in given time span.
- *
- * <span class="informal">Timeouts on Observable that doesn't emit values fast enough.</span>
- *
- * <img src="./img/timeout.png" width="100%">
- *
- * `timeout` operator accepts as an argument either a number or a Date.
- *
- * If number was provided, it returns an Observable that behaves like a source
- * Observable, unless there is a period of time where there is no value emitted.
- * So if you provide `100` as argument and first value comes after 50ms from
- * the moment of subscription, this value will be simply re-emitted by the resulting
- * Observable. If however after that 100ms passes without a second value being emitted,
- * stream will end with an error and source Observable will be unsubscribed.
- * These checks are performed throughout whole lifecycle of Observable - from the moment
- * it was subscribed to, until it completes or errors itself. Thus every value must be
- * emitted within specified period since previous value.
- *
- * If provided argument was Date, returned Observable behaves differently. It throws
- * if Observable did not complete before provided Date. This means that periods between
- * emission of particular values do not matter in this case. If Observable did not complete
- * before provided Date, source Observable will be unsubscribed. Other than that, resulting
- * stream behaves just as source Observable.
- *
- * `timeout` accepts also a Scheduler as a second parameter. It is used to schedule moment (or moments)
- * when returned Observable will check if source stream emitted value or completed.
- *
- * @example <caption>Check if ticks are emitted within certain timespan</caption>
- * const seconds = Rx.Observable.interval(1000);
- *
- * seconds.timeout(1100) // Let's use bigger timespan to be safe,
- *                       // since `interval` might fire a bit later then scheduled.
- * .subscribe(
- *     value => console.log(value), // Will emit numbers just as regular `interval` would.
- *     err => console.log(err) // Will never be called.
- * );
- *
- * seconds.timeout(900).subscribe(
- *     value => console.log(value), // Will never be called.
- *     err => console.log(err) // Will emit error before even first value is emitted,
- *                             // since it did not arrive within 900ms period.
- * );
- *
- * @example <caption>Use Date to check if Observable completed</caption>
- * const seconds = Rx.Observable.interval(1000);
- *
- * seconds.timeout(new Date("December 17, 2020 03:24:00"))
- * .subscribe(
- *     value => console.log(value), // Will emit values as regular `interval` would
- *                                  // until December 17, 2020 at 03:24:00.
- *     err => console.log(err) // On December 17, 2020 at 03:24:00 it will emit an error,
- *                             // since Observable did not complete by then.
- * );
- *
- * @see {@link timeoutWith}
- *
- * @param {number|Date} due Number specifying period within which Observable must emit values
- *                          or Date specifying before when Observable should complete
- * @param {Scheduler} [scheduler] Scheduler controlling when timeout checks occur.
- * @return {Observable<T>} Observable that mirrors behaviour of source, unless timeout checks fail.
- * @method timeout
- * @owner Observable
- */
 function timeout(due, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"]) {
     return Object(_timeoutWith__WEBPACK_IMPORTED_MODULE_2__["timeoutWith"])(due, Object(_observable_throwError__WEBPACK_IMPORTED_MODULE_3__["throwError"])(new _util_TimeoutError__WEBPACK_IMPORTED_MODULE_1__["TimeoutError"]()), scheduler);
 }
@@ -100409,54 +95900,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* tslint:enable:max-line-length */
-/**
- *
- * Errors if Observable does not emit a value in given time span, in case of which
- * subscribes to the second Observable.
- *
- * <span class="informal">It's a version of `timeout` operator that let's you specify fallback Observable.</span>
- *
- * <img src="./img/timeoutWith.png" width="100%">
- *
- * `timeoutWith` is a variation of `timeout` operator. It behaves exactly the same,
- * still accepting as a first argument either a number or a Date, which control - respectively -
- * when values of source Observable should be emitted or when it should complete.
- *
- * The only difference is that it accepts a second, required parameter. This parameter
- * should be an Observable which will be subscribed when source Observable fails any timeout check.
- * So whenever regular `timeout` would emit an error, `timeoutWith` will instead start re-emitting
- * values from second Observable. Note that this fallback Observable is not checked for timeouts
- * itself, so it can emit values and complete at arbitrary points in time. From the moment of a second
- * subscription, Observable returned from `timeoutWith` simply mirrors fallback stream. When that
- * stream completes, it completes as well.
- *
- * Scheduler, which in case of `timeout` is provided as as second argument, can be still provided
- * here - as a third, optional parameter. It still is used to schedule timeout checks and -
- * as a consequence - when second Observable will be subscribed, since subscription happens
- * immediately after failing check.
- *
- * @example <caption>Add fallback observable</caption>
- * const seconds = Rx.Observable.interval(1000);
- * const minutes = Rx.Observable.interval(60 * 1000);
- *
- * seconds.timeoutWith(900, minutes)
- *     .subscribe(
- *         value => console.log(value), // After 900ms, will start emitting `minutes`,
- *                                      // since first value of `seconds` will not arrive fast enough.
- *         err => console.log(err) // Would be called after 900ms in case of `timeout`,
- *                                 // but here will never be called.
- *     );
- *
- * @param {number|Date} due Number specifying period within which Observable must emit values
- *                          or Date specifying before when Observable should complete
- * @param {Observable<T>} withObservable Observable which will be subscribed if source fails timeout check.
- * @param {Scheduler} [scheduler] Scheduler controlling when timeout checks occur.
- * @return {Observable<T>} Observable that mirrors behaviour of source or, when timeout check fails, of an Observable
- *                          passed as a second parameter.
- * @method timeoutWith
- * @owner Observable
- */
 function timeoutWith(due, withObservable, scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"]) {
     return (source) => {
         let absoluteTimeout = Object(_util_isDate__WEBPACK_IMPORTED_MODULE_1__["isDate"])(due);
@@ -100475,11 +95918,6 @@ class TimeoutWithOperator {
         return source.subscribe(new TimeoutWithSubscriber(subscriber, this.absoluteTimeout, this.waitFor, this.withObservable, this.scheduler));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class TimeoutWithSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2__["OuterSubscriber"] {
     constructor(destination, absoluteTimeout, waitFor, withObservable, scheduler) {
         super(destination);
@@ -100498,11 +95936,6 @@ class TimeoutWithSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2_
     scheduleTimeout() {
         const { action } = this;
         if (action) {
-            // Recycle the action if we've already scheduled one. All the production
-            // Scheduler Actions mutate their state/delay time and return themeselves.
-            // VirtualActions are immutable, so they create and return a clone. In this
-            // case, we need to set the action reference to the most recent VirtualAction,
-            // to ensure that's the one we clone from next time.
             this.action = action.schedule(this, this.waitFor);
         }
         else {
@@ -100515,7 +95948,6 @@ class TimeoutWithSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_2_
         }
         super._next(value);
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         this.action = null;
         this.scheduler = null;
@@ -100541,15 +95973,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./map */ "./node_modules/rxjs/_esm2015/internal/operators/map.js");
 
 
-/**
- * @param scheduler
- * @return {Observable<Timestamp<any>>|WebSocketSubject<T>|Observable<T>}
- * @method timestamp
- * @owner Observable
- */
 function timestamp(scheduler = _scheduler_async__WEBPACK_IMPORTED_MODULE_0__["async"]) {
     return Object(_map__WEBPACK_IMPORTED_MODULE_1__["map"])((value) => new Timestamp(value, scheduler.now()));
-    // return (source: Observable<T>) => source.lift(new TimestampOperator(scheduler));
 }
 class Timestamp {
     constructor(value, timestamp) {
@@ -100603,42 +96028,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Branch out the source Observable values as a nested Observable whenever
- * `windowBoundaries` emits.
- *
- * <span class="informal">It's like {@link buffer}, but emits a nested Observable
- * instead of an array.</span>
- *
- * <img src="./img/window.png" width="100%">
- *
- * Returns an Observable that emits windows of items it collects from the source
- * Observable. The output Observable emits connected, non-overlapping
- * windows. It emits the current window and opens a new one whenever the
- * Observable `windowBoundaries` emits an item. Because each window is an
- * Observable, the output is a higher-order Observable.
- *
- * @example <caption>In every window of 1 second each, emit at most 2 click events</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var interval = Rx.Observable.interval(1000);
- * var result = clicks.window(interval)
- *   .map(win => win.take(2)) // each window has at most 2 emissions
- *   .mergeAll(); // flatten the Observable-of-Observables
- * result.subscribe(x => console.log(x));
- *
- * @see {@link windowCount}
- * @see {@link windowTime}
- * @see {@link windowToggle}
- * @see {@link windowWhen}
- * @see {@link buffer}
- *
- * @param {Observable<any>} windowBoundaries An Observable that completes the
- * previous window and starts a new window.
- * @return {Observable<Observable<T>>} An Observable of windows, which are
- * Observables emitting values of the source Observable.
- * @method window
- * @owner Observable
- */
 function window(windowBoundaries) {
     return function windowOperatorFunction(source) {
         return source.lift(new WindowOperator(windowBoundaries));
@@ -100657,11 +96046,6 @@ class WindowOperator {
         return sourceSubscription;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class WindowSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_1__["OuterSubscriber"] {
     constructor(destination) {
         super(destination);
@@ -100688,7 +96072,6 @@ class WindowSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_1__["Ou
         this.window.complete();
         this.destination.complete();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         this.window = null;
     }
@@ -100720,54 +96103,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Subject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Subject */ "./node_modules/rxjs/_esm2015/internal/Subject.js");
 
 
-/**
- * Branch out the source Observable values as a nested Observable with each
- * nested Observable emitting at most `windowSize` values.
- *
- * <span class="informal">It's like {@link bufferCount}, but emits a nested
- * Observable instead of an array.</span>
- *
- * <img src="./img/windowCount.png" width="100%">
- *
- * Returns an Observable that emits windows of items it collects from the source
- * Observable. The output Observable emits windows every `startWindowEvery`
- * items, each containing no more than `windowSize` items. When the source
- * Observable completes or encounters an error, the output Observable emits
- * the current window and propagates the notification from the source
- * Observable. If `startWindowEvery` is not provided, then new windows are
- * started immediately at the start of the source and when each window completes
- * with size `windowSize`.
- *
- * @example <caption>Ignore every 3rd click event, starting from the first one</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.windowCount(3)
- *   .map(win => win.skip(1)) // skip first of every 3 clicks
- *   .mergeAll(); // flatten the Observable-of-Observables
- * result.subscribe(x => console.log(x));
- *
- * @example <caption>Ignore every 3rd click event, starting from the third one</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.windowCount(2, 3)
- *   .mergeAll(); // flatten the Observable-of-Observables
- * result.subscribe(x => console.log(x));
- *
- * @see {@link window}
- * @see {@link windowTime}
- * @see {@link windowToggle}
- * @see {@link windowWhen}
- * @see {@link bufferCount}
- *
- * @param {number} windowSize The maximum number of values emitted by each
- * window.
- * @param {number} [startWindowEvery] Interval at which to start a new window.
- * For example if `startWindowEvery` is `2`, then a new window will be started
- * on every other value from the source. A new window is started at the
- * beginning of the source by default.
- * @return {Observable<Observable<T>>} An Observable of windows, which in turn
- * are Observable of values.
- * @method windowCount
- * @owner Observable
- */
 function windowCount(windowSize, startWindowEvery = 0) {
     return function windowCountOperatorFunction(source) {
         return source.lift(new WindowCountOperator(windowSize, startWindowEvery));
@@ -100782,11 +96117,6 @@ class WindowCountOperator {
         return source.subscribe(new WindowCountSubscriber(subscriber, this.windowSize, this.startWindowEvery));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class WindowCountSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_0__["Subscriber"] {
     constructor(destination, windowSize, startWindowEvery) {
         super(destination);
@@ -100910,11 +96240,6 @@ class CountedSubject extends _Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"] {
         return this._numberOfNextedValues;
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class WindowTimeSubscriber extends _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber"] {
     constructor(destination, windowTimeSpan, windowCreationInterval, maxWindowSize, scheduler) {
         super(destination);
@@ -101030,47 +96355,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Branch out the source Observable values as a nested Observable starting from
- * an emission from `openings` and ending when the output of `closingSelector`
- * emits.
- *
- * <span class="informal">It's like {@link bufferToggle}, but emits a nested
- * Observable instead of an array.</span>
- *
- * <img src="./img/windowToggle.png" width="100%">
- *
- * Returns an Observable that emits windows of items it collects from the source
- * Observable. The output Observable emits windows that contain those items
- * emitted by the source Observable between the time when the `openings`
- * Observable emits an item and when the Observable returned by
- * `closingSelector` emits an item.
- *
- * @example <caption>Every other second, emit the click events from the next 500ms</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var openings = Rx.Observable.interval(1000);
- * var result = clicks.windowToggle(openings, i =>
- *   i % 2 ? Rx.Observable.interval(500) : Rx.Observable.empty()
- * ).mergeAll();
- * result.subscribe(x => console.log(x));
- *
- * @see {@link window}
- * @see {@link windowCount}
- * @see {@link windowTime}
- * @see {@link windowWhen}
- * @see {@link bufferToggle}
- *
- * @param {Observable<O>} openings An observable of notifications to start new
- * windows.
- * @param {function(value: O): Observable} closingSelector A function that takes
- * the value emitted by the `openings` observable and returns an Observable,
- * which, when it emits (either `next` or `complete`), signals that the
- * associated window should complete.
- * @return {Observable<Observable<T>>} An observable of windows, which in turn
- * are Observables.
- * @method windowToggle
- * @owner Observable
- */
 function windowToggle(openings, closingSelector) {
     return (source) => source.lift(new WindowToggleOperator(openings, closingSelector));
 }
@@ -101083,11 +96367,6 @@ class WindowToggleOperator {
         return source.subscribe(new WindowToggleSubscriber(subscriber, this.openings, this.closingSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class WindowToggleSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_4__["OuterSubscriber"] {
     constructor(destination, openings, closingSelector) {
         super(destination);
@@ -101133,7 +96412,6 @@ class WindowToggleSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_4
         }
         super._complete();
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         const { contexts } = this;
         this.contexts = null;
@@ -101218,44 +96496,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Branch out the source Observable values as a nested Observable using a
- * factory function of closing Observables to determine when to start a new
- * window.
- *
- * <span class="informal">It's like {@link bufferWhen}, but emits a nested
- * Observable instead of an array.</span>
- *
- * <img src="./img/windowWhen.png" width="100%">
- *
- * Returns an Observable that emits windows of items it collects from the source
- * Observable. The output Observable emits connected, non-overlapping windows.
- * It emits the current window and opens a new one whenever the Observable
- * produced by the specified `closingSelector` function emits an item. The first
- * window is opened immediately when subscribing to the output Observable.
- *
- * @example <caption>Emit only the first two clicks events in every window of [1-5] random seconds</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks
- *   .windowWhen(() => Rx.Observable.interval(1000 + Math.random() * 4000))
- *   .map(win => win.take(2)) // each window has at most 2 emissions
- *   .mergeAll(); // flatten the Observable-of-Observables
- * result.subscribe(x => console.log(x));
- *
- * @see {@link window}
- * @see {@link windowCount}
- * @see {@link windowTime}
- * @see {@link windowToggle}
- * @see {@link bufferWhen}
- *
- * @param {function(): Observable} closingSelector A function that takes no
- * arguments and returns an Observable that signals (on either `next` or
- * `complete`) when to close the previous window and start a new one.
- * @return {Observable<Observable<T>>} An observable of windows, which in turn
- * are Observables.
- * @method windowWhen
- * @owner Observable
- */
 function windowWhen(closingSelector) {
     return function windowWhenOperatorFunction(source) {
         return source.lift(new WindowOperator(closingSelector));
@@ -101269,11 +96509,6 @@ class WindowOperator {
         return source.subscribe(new WindowSubscriber(subscriber, this.closingSelector));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class WindowSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_3__["OuterSubscriber"] {
     constructor(destination, closingSelector) {
         super(destination);
@@ -101348,45 +96583,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_subscribeToResult__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/subscribeToResult */ "./node_modules/rxjs/_esm2015/internal/util/subscribeToResult.js");
 
 
-/* tslint:enable:max-line-length */
-/**
- * Combines the source Observable with other Observables to create an Observable
- * whose values are calculated from the latest values of each, only when the
- * source emits.
- *
- * <span class="informal">Whenever the source Observable emits a value, it
- * computes a formula using that value plus the latest values from other input
- * Observables, then emits the output of that formula.</span>
- *
- * <img src="./img/withLatestFrom.png" width="100%">
- *
- * `withLatestFrom` combines each value from the source Observable (the
- * instance) with the latest values from the other input Observables only when
- * the source emits a value, optionally using a `project` function to determine
- * the value to be emitted on the output Observable. All input Observables must
- * emit at least one value before the output Observable will emit a value.
- *
- * @example <caption>On every click event, emit an array with the latest timer event plus the click event</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var result = clicks.withLatestFrom(timer);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link combineLatest}
- *
- * @param {ObservableInput} other An input Observable to combine with the source
- * Observable. More than one input Observables may be given as argument.
- * @param {Function} [project] Projection function for combining values
- * together. Receives all values in order of the Observables passed, where the
- * first parameter is a value from the source Observable. (e.g.
- * `a.withLatestFrom(b, c, (a1, b1, c1) => a1 + b1 + c1)`). If this is not
- * passed, arrays will be emitted on the output Observable.
- * @return {Observable} An Observable of projected values from the most recent
- * values from each input Observable, or an array of the most recent values from
- * each input Observable.
- * @method withLatestFrom
- * @owner Observable
- */
 function withLatestFrom(...args) {
     return (source) => {
         let project;
@@ -101406,11 +96602,6 @@ class WithLatestFromOperator {
         return source.subscribe(new WithLatestFromSubscriber(subscriber, this.observables, this.project));
     }
 }
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class WithLatestFromSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE_0__["OuterSubscriber"] {
     constructor(destination, observables, project) {
         super(destination);
@@ -101438,7 +96629,6 @@ class WithLatestFromSubscriber extends _OuterSubscriber__WEBPACK_IMPORTED_MODULE
         }
     }
     notifyComplete() {
-        // noop
     }
     _next(value) {
         if (this.toRespond.length === 0) {
@@ -101479,10 +96669,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zip", function() { return zip; });
 /* harmony import */ var _observable_zip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../observable/zip */ "./node_modules/rxjs/_esm2015/internal/observable/zip.js");
 
-/* tslint:enable:max-line-length */
-/**
- * @deprecated Deprecated in favor of static zip.
- */
 function zip(...observables) {
     return function zipOperatorFunction(source) {
         return source.lift.call(Object(_observable_zip__WEBPACK_IMPORTED_MODULE_0__["zip"])(source, ...observables));
@@ -101523,34 +96709,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Action", function() { return Action; });
 /* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Subscription */ "./node_modules/rxjs/_esm2015/internal/Subscription.js");
 
-/**
- * A unit of work to be executed in a {@link Scheduler}. An action is typically
- * created from within a Scheduler and an RxJS user does not need to concern
- * themselves about creating and manipulating an Action.
- *
- * ```ts
- * class Action<T> extends Subscription {
- *   new (scheduler: Scheduler, work: (state?: T) => void);
- *   schedule(state?: T, delay: number = 0): Subscription;
- * }
- * ```
- *
- * @class Action<T>
- */
 class Action extends _Subscription__WEBPACK_IMPORTED_MODULE_0__["Subscription"] {
     constructor(scheduler, work) {
         super();
     }
-    /**
-     * Schedules this action on its parent Scheduler for execution. May be passed
-     * some context object, `state`. May happen at some point in the future,
-     * according to the `delay` parameter, if specified.
-     * @param {T} [state] Some contextual data that the `work` function uses when
-     * called by the Scheduler.
-     * @param {number} [delay] Time to wait before executing the work, where the
-     * time unit is implicit and defined by the Scheduler.
-     * @return {void}
-     */
     schedule(state, delay = 0) {
         return this;
     }
@@ -101571,11 +96733,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AnimationFrameAction", function() { return AnimationFrameAction; });
 /* harmony import */ var _AsyncAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AsyncAction */ "./node_modules/rxjs/_esm2015/internal/scheduler/AsyncAction.js");
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class AnimationFrameAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_0__["AsyncAction"] {
     constructor(scheduler, work) {
         super(scheduler, work);
@@ -101583,32 +96740,20 @@ class AnimationFrameAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_0__["As
         this.work = work;
     }
     requestAsyncId(scheduler, id, delay = 0) {
-        // If delay is greater than 0, request as an async action.
         if (delay !== null && delay > 0) {
             return super.requestAsyncId(scheduler, id, delay);
         }
-        // Push the action to the end of the scheduler queue.
         scheduler.actions.push(this);
-        // If an animation frame has already been requested, don't request another
-        // one. If an animation frame hasn't been requested yet, request one. Return
-        // the current animation frame request id.
         return scheduler.scheduled || (scheduler.scheduled = requestAnimationFrame(() => scheduler.flush(null)));
     }
     recycleAsyncId(scheduler, id, delay = 0) {
-        // If delay exists and is greater than 0, or if the delay is null (the
-        // action wasn't rescheduled) but was originally scheduled as an async
-        // action, then recycle as an async action.
         if ((delay !== null && delay > 0) || (delay === null && this.delay > 0)) {
             return super.recycleAsyncId(scheduler, id, delay);
         }
-        // If the scheduler queue is empty, cancel the requested animation frame and
-        // set the scheduled flag to undefined so the next AnimationFrameAction will
-        // request its own.
         if (scheduler.actions.length === 0) {
             cancelAnimationFrame(id);
             scheduler.scheduled = undefined;
         }
-        // Return undefined so the action knows to request a new async id if it's rescheduled.
         return undefined;
     }
 }
@@ -101669,11 +96814,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AsyncAction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AsyncAction */ "./node_modules/rxjs/_esm2015/internal/scheduler/AsyncAction.js");
 
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class AsapAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_1__["AsyncAction"] {
     constructor(scheduler, work) {
         super(scheduler, work);
@@ -101681,32 +96821,20 @@ class AsapAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_1__["AsyncAction"
         this.work = work;
     }
     requestAsyncId(scheduler, id, delay = 0) {
-        // If delay is greater than 0, request as an async action.
         if (delay !== null && delay > 0) {
             return super.requestAsyncId(scheduler, id, delay);
         }
-        // Push the action to the end of the scheduler queue.
         scheduler.actions.push(this);
-        // If a microtask has already been scheduled, don't schedule another
-        // one. If a microtask hasn't been scheduled yet, schedule one now. Return
-        // the current scheduled microtask id.
         return scheduler.scheduled || (scheduler.scheduled = _util_Immediate__WEBPACK_IMPORTED_MODULE_0__["Immediate"].setImmediate(scheduler.flush.bind(scheduler, null)));
     }
     recycleAsyncId(scheduler, id, delay = 0) {
-        // If delay exists and is greater than 0, or if the delay is null (the
-        // action wasn't rescheduled) but was originally scheduled as an async
-        // action, then recycle as an async action.
         if ((delay !== null && delay > 0) || (delay === null && this.delay > 0)) {
             return super.recycleAsyncId(scheduler, id, delay);
         }
-        // If the scheduler queue is empty, cancel the requested microtask and
-        // set the scheduled flag to undefined so the next AsapAction will schedule
-        // its own.
         if (scheduler.actions.length === 0) {
             _util_Immediate__WEBPACK_IMPORTED_MODULE_0__["Immediate"].clearImmediate(id);
             scheduler.scheduled = undefined;
         }
-        // Return undefined so the action knows to request a new async id if it's rescheduled.
         return undefined;
     }
 }
@@ -101765,11 +96893,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsyncAction", function() { return AsyncAction; });
 /* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Action */ "./node_modules/rxjs/_esm2015/internal/scheduler/Action.js");
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class AsyncAction extends _Action__WEBPACK_IMPORTED_MODULE_0__["Action"] {
     constructor(scheduler, work) {
         super(scheduler, work);
@@ -101781,39 +96904,14 @@ class AsyncAction extends _Action__WEBPACK_IMPORTED_MODULE_0__["Action"] {
         if (this.closed) {
             return this;
         }
-        // Always replace the current state with the new state.
         this.state = state;
         const id = this.id;
         const scheduler = this.scheduler;
-        //
-        // Important implementation note:
-        //
-        // Actions only execute once by default, unless rescheduled from within the
-        // scheduled callback. This allows us to implement single and repeat
-        // actions via the same code path, without adding API surface area, as well
-        // as mimic traditional recursion but across asynchronous boundaries.
-        //
-        // However, JS runtimes and timers distinguish between intervals achieved by
-        // serial `setTimeout` calls vs. a single `setInterval` call. An interval of
-        // serial `setTimeout` calls can be individually delayed, which delays
-        // scheduling the next `setTimeout`, and so on. `setInterval` attempts to
-        // guarantee the interval callback will be invoked more precisely to the
-        // interval period, regardless of load.
-        //
-        // Therefore, we use `setInterval` to schedule single and repeat actions.
-        // If the action reschedules itself with the same delay, the interval is not
-        // canceled. If the action doesn't reschedule, or reschedules with a
-        // different delay, the interval will be canceled after scheduled callback
-        // execution.
-        //
         if (id != null) {
             this.id = this.recycleAsyncId(scheduler, id, delay);
         }
-        // Set the pending flag indicating that this action has been scheduled, or
-        // has recursively rescheduled itself.
         this.pending = true;
         this.delay = delay;
-        // If this action has already an async Id, don't request a new one.
         this.id = this.id || this.requestAsyncId(scheduler, this.id, delay);
         return this;
     }
@@ -101821,18 +96919,11 @@ class AsyncAction extends _Action__WEBPACK_IMPORTED_MODULE_0__["Action"] {
         return setInterval(scheduler.flush.bind(scheduler, this), delay);
     }
     recycleAsyncId(scheduler, id, delay = 0) {
-        // If this action is rescheduled with the same delay time, don't clear the interval id.
         if (delay !== null && this.delay === delay && this.pending === false) {
             return id;
         }
-        // Otherwise, if the action's delay time is different from the current delay,
-        // or the action has been rescheduled before it's executed, clear the interval id
         return clearInterval(id) && undefined || undefined;
     }
-    /**
-     * Immediately executes this action and the `work` it contains.
-     * @return {any}
-     */
     execute(state, delay) {
         if (this.closed) {
             return new Error('executing a cancelled action');
@@ -101843,19 +96934,6 @@ class AsyncAction extends _Action__WEBPACK_IMPORTED_MODULE_0__["Action"] {
             return error;
         }
         else if (this.pending === false && this.id != null) {
-            // Dequeue if the action didn't reschedule itself. Don't call
-            // unsubscribe(), because the action could reschedule later.
-            // For example:
-            // ```
-            // scheduler.schedule(function doWork(counter) {
-            //   /* ... I'm a busy worker bee ... */
-            //   var originalAction = this;
-            //   /* wait 100ms before rescheduling the action */
-            //   setTimeout(function () {
-            //     originalAction.schedule(counter + 1);
-            //   }, 100);
-            // }, 1000);
-            // ```
             this.id = this.recycleAsyncId(this.scheduler, this.id, null);
         }
     }
@@ -101874,7 +96952,6 @@ class AsyncAction extends _Action__WEBPACK_IMPORTED_MODULE_0__["Action"] {
             return errorValue;
         }
     }
-    /** @deprecated This is an internal implementation detail, do not use. */
     _unsubscribe() {
         const id = this.id;
         const scheduler = this.scheduler;
@@ -101920,20 +96997,7 @@ class AsyncScheduler extends _Scheduler__WEBPACK_IMPORTED_MODULE_0__["Scheduler"
             }
         });
         this.actions = [];
-        /**
-         * A flag to indicate whether the Scheduler is currently executing a batch of
-         * queued actions.
-         * @type {boolean}
-         * @deprecated internal use only
-         */
         this.active = false;
-        /**
-         * An internal ID used to track the latest asynchronous task such as those
-         * coming from `setTimeout`, `setInterval`, `requestAnimationFrame`, and
-         * others.
-         * @type {any}
-         * @deprecated internal use only
-         */
         this.scheduled = undefined;
     }
     schedule(work, delay = 0, state) {
@@ -101956,7 +97020,7 @@ class AsyncScheduler extends _Scheduler__WEBPACK_IMPORTED_MODULE_0__["Scheduler"
             if (error = action.execute(action.state, action.delay)) {
                 break;
             }
-        } while (action = actions.shift()); // exhaust the scheduler queue
+        } while (action = actions.shift());
         this.active = false;
         if (error) {
             while (action = actions.shift()) {
@@ -101982,11 +97046,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "QueueAction", function() { return QueueAction; });
 /* harmony import */ var _AsyncAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AsyncAction */ "./node_modules/rxjs/_esm2015/internal/scheduler/AsyncAction.js");
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class QueueAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_0__["AsyncAction"] {
     constructor(scheduler, work) {
         super(scheduler, work);
@@ -102008,13 +97067,9 @@ class QueueAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_0__["AsyncAction
             this._execute(state, delay);
     }
     requestAsyncId(scheduler, id, delay = 0) {
-        // If delay exists and is greater than 0, or if the delay is null (the
-        // action wasn't rescheduled) but was originally scheduled as an async
-        // action, then recycle as an async action.
         if ((delay !== null && delay > 0) || (delay === null && this.delay > 0)) {
             return super.requestAsyncId(scheduler, id, delay);
         }
-        // Otherwise flush the scheduler starting with this action.
         return scheduler.flush(this);
     }
 }
@@ -102062,11 +97117,6 @@ class VirtualTimeScheduler extends _AsyncScheduler__WEBPACK_IMPORTED_MODULE_1__[
         this.frame = 0;
         this.index = -1;
     }
-    /**
-     * Prompt the Scheduler to execute all of its queued actions, therefore
-     * clearing its queue.
-     * @return {void}
-     */
     flush() {
         const { actions, maxFrames } = this;
         let error, action;
@@ -102084,11 +97134,6 @@ class VirtualTimeScheduler extends _AsyncScheduler__WEBPACK_IMPORTED_MODULE_1__[
     }
 }
 VirtualTimeScheduler.frameTimeFactor = 10;
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 class VirtualAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_0__["AsyncAction"] {
     constructor(scheduler, work, index = scheduler.index += 1) {
         super(scheduler, work);
@@ -102103,10 +97148,6 @@ class VirtualAction extends _AsyncAction__WEBPACK_IMPORTED_MODULE_0__["AsyncActi
             return super.schedule(state, delay);
         }
         this.active = false;
-        // If an action is rescheduled, we save allocations by mutating its state,
-        // pushing it to the end of the scheduler queue, and recycling the action.
-        // But since the VirtualTimeScheduler is used for testing, VirtualActions
-        // must be immutable so they can be inspected later.
         const action = new VirtualAction(this.scheduler, this.work);
         this.add(action);
         return action.schedule(state, delay);
@@ -102164,36 +97205,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AnimationFrameScheduler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AnimationFrameScheduler */ "./node_modules/rxjs/_esm2015/internal/scheduler/AnimationFrameScheduler.js");
 
 
-/**
- *
- * Animation Frame Scheduler
- *
- * <span class="informal">Perform task when `window.requestAnimationFrame` would fire</span>
- *
- * When `animationFrame` scheduler is used with delay, it will fall back to {@link async} scheduler
- * behaviour.
- *
- * Without delay, `animationFrame` scheduler can be used to create smooth browser animations.
- * It makes sure scheduled task will happen just before next browser content repaint,
- * thus performing animations as efficiently as possible.
- *
- * @example <caption>Schedule div height animation</caption>
- * const div = document.querySelector('.some-div');
- *
- * Rx.Scheduler.animationFrame.schedule(function(height) {
- *   div.style.height = height + "px";
- *
- *   this.schedule(height + 1);  // `this` references currently executing Action,
- *                               // which we reschedule with new state
- * }, 0, 0);
- *
- * // You will see .some-div element growing in height
- *
- *
- * @static true
- * @name animationFrame
- * @owner Scheduler
- */
 const animationFrame = new _AnimationFrameScheduler__WEBPACK_IMPORTED_MODULE_1__["AnimationFrameScheduler"](_AnimationFrameAction__WEBPACK_IMPORTED_MODULE_0__["AnimationFrameAction"]);
 //# sourceMappingURL=animationFrame.js.map
 
@@ -102213,40 +97224,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AsapScheduler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AsapScheduler */ "./node_modules/rxjs/_esm2015/internal/scheduler/AsapScheduler.js");
 
 
-/**
- *
- * Asap Scheduler
- *
- * <span class="informal">Perform task as fast as it can be performed asynchronously</span>
- *
- * `asap` scheduler behaves the same as {@link async} scheduler when you use it to delay task
- * in time. If however you set delay to `0`, `asap` will wait for current synchronously executing
- * code to end and then it will try to execute given task as fast as possible.
- *
- * `asap` scheduler will do its best to minimize time between end of currently executing code
- * and start of scheduled task. This makes it best candidate for performing so called "deferring".
- * Traditionally this was achieved by calling `setTimeout(deferredTask, 0)`, but that technique involves
- * some (although minimal) unwanted delay.
- *
- * Note that using `asap` scheduler does not necessarily mean that your task will be first to process
- * after currently executing code. In particular, if some task was also scheduled with `asap` before,
- * that task will execute first. That being said, if you need to schedule task asynchronously, but
- * as soon as possible, `asap` scheduler is your best bet.
- *
- * @example <caption>Compare async and asap scheduler</caption>
- *
- * Rx.Scheduler.async.schedule(() => console.log('async')); // scheduling 'async' first...
- * Rx.Scheduler.asap.schedule(() => console.log('asap'));
- *
- * // Logs:
- * // "asap"
- * // "async"
- * // ... but 'asap' goes first!
- *
- * @static true
- * @name asap
- * @owner Scheduler
- */
 const asap = new _AsapScheduler__WEBPACK_IMPORTED_MODULE_1__["AsapScheduler"](_AsapAction__WEBPACK_IMPORTED_MODULE_0__["AsapAction"]);
 //# sourceMappingURL=asap.js.map
 
@@ -102266,48 +97243,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AsyncScheduler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AsyncScheduler */ "./node_modules/rxjs/_esm2015/internal/scheduler/AsyncScheduler.js");
 
 
-/**
- *
- * Async Scheduler
- *
- * <span class="informal">Schedule task as if you used setTimeout(task, duration)</span>
- *
- * `async` scheduler schedules tasks asynchronously, by putting them on the JavaScript
- * event loop queue. It is best used to delay tasks in time or to schedule tasks repeating
- * in intervals.
- *
- * If you just want to "defer" task, that is to perform it right after currently
- * executing synchronous code ends (commonly achieved by `setTimeout(deferredTask, 0)`),
- * better choice will be the {@link asap} scheduler.
- *
- * @example <caption>Use async scheduler to delay task</caption>
- * const task = () => console.log('it works!');
- *
- * Rx.Scheduler.async.schedule(task, 2000);
- *
- * // After 2 seconds logs:
- * // "it works!"
- *
- *
- * @example <caption>Use async scheduler to repeat task in intervals</caption>
- * function task(state) {
- *   console.log(state);
- *   this.schedule(state + 1, 1000); // `this` references currently executing Action,
- *                                   // which we reschedule with new state and delay
- * }
- *
- * Rx.Scheduler.async.schedule(task, 3000, 0);
- *
- * // Logs:
- * // 0 after 3s
- * // 1 after 4s
- * // 2 after 5s
- * // 3 after 6s
- *
- * @static true
- * @name async
- * @owner Scheduler
- */
 const async = new _AsyncScheduler__WEBPACK_IMPORTED_MODULE_1__["AsyncScheduler"](_AsyncAction__WEBPACK_IMPORTED_MODULE_0__["AsyncAction"]);
 //# sourceMappingURL=async.js.map
 
@@ -102327,67 +97262,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _QueueScheduler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QueueScheduler */ "./node_modules/rxjs/_esm2015/internal/scheduler/QueueScheduler.js");
 
 
-/**
- *
- * Queue Scheduler
- *
- * <span class="informal">Put every next task on a queue, instead of executing it immediately</span>
- *
- * `queue` scheduler, when used with delay, behaves the same as {@link async} scheduler.
- *
- * When used without delay, it schedules given task synchronously - executes it right when
- * it is scheduled. However when called recursively, that is when inside the scheduled task,
- * another task is scheduled with queue scheduler, instead of executing immediately as well,
- * that task will be put on a queue and wait for current one to finish.
- *
- * This means that when you execute task with `queue` scheduler, you are sure it will end
- * before any other task scheduled with that scheduler will start.
- *
- * @examples <caption>Schedule recursively first, then do something</caption>
- *
- * Rx.Scheduler.queue.schedule(() => {
- *   Rx.Scheduler.queue.schedule(() => console.log('second')); // will not happen now, but will be put on a queue
- *
- *   console.log('first');
- * });
- *
- * // Logs:
- * // "first"
- * // "second"
- *
- *
- * @example <caption>Reschedule itself recursively</caption>
- *
- * Rx.Scheduler.queue.schedule(function(state) {
- *   if (state !== 0) {
- *     console.log('before', state);
- *     this.schedule(state - 1); // `this` references currently executing Action,
- *                               // which we reschedule with new state
- *     console.log('after', state);
- *   }
- * }, 0, 3);
- *
- * // In scheduler that runs recursively, you would expect:
- * // "before", 3
- * // "before", 2
- * // "before", 1
- * // "after", 1
- * // "after", 2
- * // "after", 3
- *
- * // But with queue it logs:
- * // "before", 3
- * // "after", 3
- * // "before", 2
- * // "after", 2
- * // "before", 1
- * // "after", 1
- *
- *
- * @static true
- * @name queue
- * @owner Scheduler
- */
 const queue = new _QueueScheduler__WEBPACK_IMPORTED_MODULE_1__["QueueScheduler"](_QueueAction__WEBPACK_IMPORTED_MODULE_0__["QueueAction"]);
 //# sourceMappingURL=queue.js.map
 
@@ -102412,9 +97286,6 @@ function getSymbolIterator() {
     return Symbol.iterator;
 }
 const iterator = getSymbolIterator();
-/**
- * @deprecated use {@link iterator} instead
- */
 const $$iterator = iterator;
 //# sourceMappingURL=iterator.js.map
 
@@ -102430,7 +97301,6 @@ const $$iterator = iterator;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "observable", function() { return observable; });
-/** Symbol.observable or a string "@@observable". Used for interop */
 const observable = typeof Symbol === 'function' && Symbol.observable || '@@observable';
 //# sourceMappingURL=observable.js.map
 
@@ -102450,9 +97320,6 @@ __webpack_require__.r(__webpack_exports__);
 const rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function')
     ? Symbol.for('rxSubscriber')
     : '@@rxSubscriber';
-/**
- * @deprecated use rxSubscriber instead
- */
 const $$rxSubscriber = rxSubscriber;
 //# sourceMappingURL=rxSubscriber.js.map
 
@@ -102468,16 +97335,6 @@ const $$rxSubscriber = rxSubscriber;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArgumentOutOfRangeError", function() { return ArgumentOutOfRangeError; });
-/**
- * An error thrown when an element was queried at a certain index of an
- * Observable, but no such index or position exists in that sequence.
- *
- * @see {@link elementAt}
- * @see {@link take}
- * @see {@link takeLast}
- *
- * @class ArgumentOutOfRangeError
- */
 class ArgumentOutOfRangeError extends Error {
     constructor() {
         super('argument out of range');
@@ -102499,16 +97356,6 @@ class ArgumentOutOfRangeError extends Error {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EmptyError", function() { return EmptyError; });
-/**
- * An error thrown when an Observable or a sequence was queried but has no
- * elements.
- *
- * @see {@link first}
- * @see {@link last}
- * @see {@link single}
- *
- * @class EmptyError
- */
 class EmptyError extends Error {
     constructor() {
         super('no elements in sequence');
@@ -102563,15 +97410,6 @@ const Immediate = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ObjectUnsubscribedError", function() { return ObjectUnsubscribedError; });
-/**
- * An error thrown when an action is invalid because the object has been
- * unsubscribed.
- *
- * @see {@link Subject}
- * @see {@link BehaviorSubject}
- *
- * @class ObjectUnsubscribedError
- */
 class ObjectUnsubscribedError extends Error {
     constructor() {
         super('object unsubscribed');
@@ -102593,13 +97431,6 @@ class ObjectUnsubscribedError extends Error {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TimeoutError", function() { return TimeoutError; });
-/**
- * An error thrown when duetime elapses.
- *
- * @see {@link timeout}
- *
- * @class TimeoutError
- */
 class TimeoutError extends Error {
     constructor() {
         super('Timeout has occurred');
@@ -102621,10 +97452,6 @@ class TimeoutError extends Error {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UnsubscriptionError", function() { return UnsubscriptionError; });
-/**
- * An error thrown when one or more errors have occurred during the
- * `unsubscribe` of a {@link Subscription}.
- */
 class UnsubscriptionError extends Error {
     constructor(errors) {
         super(errors ?
@@ -102649,7 +97476,6 @@ class UnsubscriptionError extends Error {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "errorObject", function() { return errorObject; });
-// typeof any so that it we don't have to cast when comparing a result to the error object
 const errorObject = { e: {} };
 //# sourceMappingURL=errorObject.js.map
 
@@ -102665,11 +97491,6 @@ const errorObject = { e: {} };
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hostReportError", function() { return hostReportError; });
-/**
- * Throws an error on another job so that it's picked up by the runtime's
- * uncaught error handling mechanism.
- * @param err the error to throw
- */
 function hostReportError(err) {
     setTimeout(() => { throw err; });
 }
@@ -102770,7 +97591,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isInteropObservable", function() { return isInteropObservable; });
 /* harmony import */ var _symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../symbol/observable */ "./node_modules/rxjs/_esm2015/internal/symbol/observable.js");
 
-/** Identifies an input as being Observable (but not necessary an Rx Observable) */
 function isInteropObservable(input) {
     return input && typeof input[_symbol_observable__WEBPACK_IMPORTED_MODULE_0__["observable"]] === 'function';
 }
@@ -102790,7 +97610,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIterable", function() { return isIterable; });
 /* harmony import */ var _symbol_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../symbol/iterator */ "./node_modules/rxjs/_esm2015/internal/symbol/iterator.js");
 
-/** Identifies an input as being an Iterable */
 function isIterable(input) {
     return input && typeof input[_symbol_iterator__WEBPACK_IMPORTED_MODULE_0__["iterator"]] === 'function';
 }
@@ -102811,10 +97630,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _isArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isArray */ "./node_modules/rxjs/_esm2015/internal/util/isArray.js");
 
 function isNumeric(val) {
-    // parseFloat NaNs numeric-cast false positives (null|true|false|"")
-    // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
-    // subtraction forces infinities to NaN
-    // adding 1 corrects loss of precision from parseFloat (#15100)
     return !Object(_isArray__WEBPACK_IMPORTED_MODULE_0__["isArray"])(val) && (val - parseFloat(val) + 1) >= 0;
 }
 //# sourceMappingURL=isNumeric.js.map
@@ -102850,10 +97665,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isObservable", function() { return isObservable; });
 /* harmony import */ var _Observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Observable */ "./node_modules/rxjs/_esm2015/internal/Observable.js");
 
-/**
- * Tests to see if the object is an RxJS {@link Observable}
- * @param obj the object to test
- */
 function isObservable(obj) {
     return !!obj && (obj instanceof _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"] || (typeof obj.lift === 'function' && typeof obj.subscribe === 'function'));
 }
@@ -102905,7 +97716,6 @@ function isScheduler(value) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "noop", function() { return noop; });
-/* tslint:disable:no-empty */
 function noop() { }
 //# sourceMappingURL=noop.js.map
 
@@ -102946,11 +97756,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pipeFromArray", function() { return pipeFromArray; });
 /* harmony import */ var _noop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./noop */ "./node_modules/rxjs/_esm2015/internal/util/noop.js");
 
-/* tslint:enable:max-line-length */
 function pipe(...fns) {
     return pipeFromArray(fns);
 }
-/* @internal */
 function pipeFromArray(fns) {
     if (!fns) {
         return _noop__WEBPACK_IMPORTED_MODULE_0__["noop"];
@@ -103009,6 +97817,9 @@ const subscribeTo = (result) => {
             }
         };
     }
+    else if (result && typeof result[_symbol_observable__WEBPACK_IMPORTED_MODULE_9__["observable"]] === 'function') {
+        return Object(_subscribeToObservable__WEBPACK_IMPORTED_MODULE_4__["subscribeToObservable"])(result);
+    }
     else if (Object(_isArrayLike__WEBPACK_IMPORTED_MODULE_5__["isArrayLike"])(result)) {
         return Object(_subscribeToArray__WEBPACK_IMPORTED_MODULE_1__["subscribeToArray"])(result);
     }
@@ -103017,9 +97828,6 @@ const subscribeTo = (result) => {
     }
     else if (result && typeof result[_symbol_iterator__WEBPACK_IMPORTED_MODULE_8__["iterator"]] === 'function') {
         return Object(_subscribeToIterable__WEBPACK_IMPORTED_MODULE_3__["subscribeToIterable"])(result);
-    }
-    else if (result && typeof result[_symbol_observable__WEBPACK_IMPORTED_MODULE_9__["observable"]] === 'function') {
-        return Object(_subscribeToObservable__WEBPACK_IMPORTED_MODULE_4__["subscribeToObservable"])(result);
     }
     else {
         const value = Object(_isObject__WEBPACK_IMPORTED_MODULE_7__["isObject"])(result) ? 'an invalid object' : `'${result}'`;
@@ -103042,10 +97850,6 @@ const subscribeTo = (result) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeToArray", function() { return subscribeToArray; });
-/**
- * Subscribes to an ArrayLike with a subscriber
- * @param array The array or array-like to subscribe to
- */
 const subscribeToArray = (array) => (subscriber) => {
     for (let i = 0, len = array.length; i < len && !subscriber.closed; i++) {
         subscriber.next(array[i]);
@@ -103083,7 +97887,6 @@ const subscribeToIterable = (iterable) => (subscriber) => {
             break;
         }
     } while (true);
-    // Finalize the iterator if it happens to be a Generator
     if (typeof iterator.return === 'function') {
         subscriber.add(() => {
             if (iterator.return) {
@@ -103109,15 +97912,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeToObservable", function() { return subscribeToObservable; });
 /* harmony import */ var _symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../symbol/observable */ "./node_modules/rxjs/_esm2015/internal/symbol/observable.js");
 
-/**
- * Subscribes to an object that implements Symbol.observable with the given
- * Subscriber.
- * @param obj An object that implements Symbol.observable
- */
 const subscribeToObservable = (obj) => (subscriber) => {
     const obs = obj[_symbol_observable__WEBPACK_IMPORTED_MODULE_0__["observable"]]();
     if (typeof obs.subscribe !== 'function') {
-        // Should be caught by observable subscribe function error handling.
         throw new TypeError('Provided object does not correctly implement Symbol.observable');
     }
     else {
@@ -103560,7 +98357,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _internal_operators_zipAll__WEBPACK_IMPORTED_MODULE_102__ = __webpack_require__(/*! ../internal/operators/zipAll */ "./node_modules/rxjs/_esm2015/internal/operators/zipAll.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "zipAll", function() { return _internal_operators_zipAll__WEBPACK_IMPORTED_MODULE_102__["zipAll"]; });
 
-/* Operator exports */
 
 
 
