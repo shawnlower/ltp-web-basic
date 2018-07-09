@@ -188,52 +188,48 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
   }
 
-  loadItem(item: Item, lock = true) {
+  async loadItem(item: Item, lock = true) {
     /*
      * Can be called at any time, to clear the editor and load a new item
      * lock: controls whether to lock the typeUrl control
      */
-    console.log('[rdfEditor:loadItem]', item);
+    // console.log('[rdfEditor:loadItem]', item);
 
     if (item) {
       this.store.dispatch(new editorActions.LoadItem(item));
       // Set expandedJson which is used by the item-section component,
       // then update the type field
-      jsonld.expand(item.data).then(expanded => {
-        this.expandedJson = expanded;
-        const typeUrl = expanded[0]['@type'][0];
-        this.schema.getLabelForType(typeUrl).then(label => {
-          this.form.controls['typeUrl'].setValue(label);
-          if (lock) {
-            this.form.controls['typeUrl'].disable();
-          }
-        });
-      });
+      const expanded = await jsonld.expand(item.data);
+      this.expandedJson = expanded;
+      const typeUrl = expanded[0]['@type'][0];
+
+      // Set readable label for Item type
+      this.schema.getLabelForType(typeUrl).then(label =>
+        this.form.controls['typeUrl'].setValue(label));
+
+      if (lock) {
+        this.form.controls['typeUrl'].disable();
+      }
     }
   }
 
   handleTypeChange(typeUrl: string): void {
-    // console.log('[handleTypeChange] called w/', arguments);
-    if (!typeUrl.startsWith('http')) { // ignore existing labels
-      return;
-    }
+    /*
+     * Called when the 'typeUrl' control changes.
+     *
+     * If an item is not loaded, load the default.
+     *
+     * We only allow the type to be changed once, which triggers the other
+     * form controls to be populated.
+     *
+     */
 
-    this.schema.getLabelForType(typeUrl).then(label => {
-
-      /*
-       * Currently, we won't allow changing the type after it's been
-       * selected. In the future, we'll allow it, prompt to clear the form
-       * or handle conversions between compatible classes, etc.
-       * For now, just close and re-open :-/
-       */
-      this.form.controls['typeUrl'].setValue(label);
-      this.form.controls['typeUrl'].disable();
-
+    if (this.currentItem === null) {
       this.loadDefaultItem(typeUrl);
-    });
+    }
   }
 
-  loadDefaultItem(typeUrl: string) {
+  loadDefaultItem(typeUrl: string): void {
     /*
      * Construct an empty Item from a given Type URL
      * this item should contain the default properties for that
@@ -258,7 +254,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     item.observed = new Date(Date.now()).toUTCString();
     item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
     */
-    // console.log('[loadDefaultItem] with', item);
     this.loadItem(item, false);
   }
 
