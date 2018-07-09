@@ -249,7 +249,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     };
     if (defProperties) {
       for (const property of defProperties) {
-        data[property.id] = '<default>';
+        data[property.id] = '';
       }
     }
 
@@ -273,7 +273,12 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       this.loadItem(editorState.item);
     }
 
+    const DEFAULT_TYPE = 'http://schema.org/NoteDigitalDocument';
+
+    this.form.controls['typeUrl'].setValue(DEFAULT_TYPE);
     this.typeUrl.nativeElement.focus();
+    this.typeUrl.nativeElement.select();
+
     this.contentLoaded = true;
 
   }

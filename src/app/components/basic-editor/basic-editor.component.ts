@@ -126,7 +126,7 @@ export class BasicEditorComponent implements OnInit {
 
   handleTypeChange(typeUrl: string) {
     this.loadDefaultItem();
-    this.properties$ = from(this.schema.getProps(typeUrl));
+    this.properties$ = from(this.schema.getProperties(typeUrl));
     // this.properties$.subscribe();
 
   }

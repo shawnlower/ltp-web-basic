@@ -16,18 +16,38 @@
     </div>
   </nav>
 </header>
+<!--
+
+  Main screen [turn on].
+
+-->
 <main role="main" class="container">
 <router-outlet></router-outlet>
 </main>
+
+<!--
+
+  Usage screen (aka help)
+
+-->
+<app-usage *ngIf="showUsage$ | async"
+                  [visible]="true">
+</app-usage>
+<!--
+
+  Item editor modal; for new and existing items
+
+-->
 <app-modal-editor *ngIf="showEditor$ | async"
                   [visible]="showEditor$ | async"
-				  (init)="initEditor()"
-></app-modal-editor>
+				  (init)="initEditor()">
+</app-modal-editor>
+<!--
+
+  Footer: Legalese, toasts and terminals.
+
+-->
 <footer class="footer">
-  <div>
-    <span>&copy; 2018 Shawn Lower</span>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://unpkg.com/jsonld@1.0.0/dist/jsonld.min.js"></script>
+  <p>&copy; 2018 Shawn Lower  |  Press '?' for help
 
 </footer>

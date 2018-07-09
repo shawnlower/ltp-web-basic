@@ -97,7 +97,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
          * Submit dialog
          */
 
-        console.log( 'Handler[ 0 ]: ', event);
+        console.log( 'Handler [ 100 ]: ', event);
         event.preventDefault();
 
       },
@@ -123,7 +123,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
          * Show help dialog
          */
 
-        alert('Halp.');
+        console.log( 'Handler [ 100 ]: ', event);
         event.preventDefault();
 
       },
@@ -132,7 +132,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
          * Submit dialog
          */
 
-        console.log( 'Handler[ 0 ]: ', event);
+        console.log( 'Handler [ 100 ]: ', event);
         event.preventDefault();
 
       },

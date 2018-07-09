@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   @ViewChildren('searchBox') vc;
 
   showEditor$: Observable<boolean>;
+  showUsage$: Observable<boolean>;
 
   selectedItem$: Observable<Item>;
   selectedItem: Item;
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
   constructor(public keyboardShortcuts: KeyboardShortcutsService,
               public store: Store<fromRoot.State>) {
     this.showEditor$ = store.select(state => state.app.showEditor);
+    this.showUsage$ = store.select(state => state.app.showUsage);
     this.selectedItem$ = store.select(state => state.item.selectedItem);
 
     this.keyboardShortcuts = keyboardShortcuts;
@@ -83,7 +85,7 @@ export class AppComponent implements OnInit {
            */
 
           console.log( 'Handler [app-component][ 0 ]: ', event);
-          alert('Halp.');
+          this.store.dispatch(new appActions.ToggleUsage());
           event.preventDefault();
 
         },

@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import * as actions from '../actions/app.actions';
 
 export const TOGGLE_EDITOR = '[Action] Toggle Editor';
+export const TOGGLE_USAGE = '[Action] Toggle Usage';
 
 export const SELECT_NEXT_ITEM = '[Action] Select Next Item';
 export const SELECT_PREV_ITEM = '[Action] Select Prev Item';
@@ -13,6 +14,16 @@ export const ACTIVATE_ITEM = '[Action] Activate Item';
  */
 export class ToggleEditor implements Action {
   readonly type = TOGGLE_EDITOR;
+
+  constructor() {
+  }
+}
+
+/**
+ * Toggle the usage screen
+ */
+export class ToggleUsage implements Action {
+  readonly type = TOGGLE_USAGE;
 
   constructor() {
   }
@@ -51,6 +62,7 @@ export class ActivateItem implements Action {
 
 export type Actions
   = ToggleEditor
+  | ToggleUsage
   | SelectNextItem
   | SelectPrevItem
   | ActivateItem;

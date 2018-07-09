@@ -20,6 +20,7 @@ import { ItemHeaderComponent } from './components/item-header/item-header.compon
 import { ItemSectionComponent } from './components/item-section/item-section.component';
 import { ModalEditorComponent } from './components/modal-editor/modal-editor.component';
 import { RdfaEditorComponent } from './components/rdfa-editor/rdfa-editor.component';
+import { UsageComponent } from './components/usage/usage.component';
 
 import { ItemDirective } from './directives/item.directive';
 
@@ -31,15 +32,16 @@ import { FormValidatorDirective } from './directives/form-validator.directive';
   declarations: [
     AppComponent,
     BasicEditorComponent,
-    RdfaEditorComponent,
     CardComponent,
+    FormValidatorDirective,
     HomeComponent,
+    ItemDirective,
     ItemHeaderComponent,
     ItemSectionComponent,
     ItemsListComponent,
     ModalEditorComponent,
-    ItemDirective,
-    FormValidatorDirective,
+    RdfaEditorComponent,
+    UsageComponent
   ],
   entryComponents: [
     ItemHeaderComponent,
