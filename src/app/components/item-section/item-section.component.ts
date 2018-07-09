@@ -1,3 +1,5 @@
+import * as uuid from 'uuid';
+
 import {
          AfterViewInit,
          Component,
@@ -23,7 +25,7 @@ import { SchemaService } from '../../services/schema.service';
     <div [ngSwitch]="subitem.component">
 
       <!-----------------
-        Item
+        Item (recursively embed sub-section)
       ------------------->
       <div
         *ngSwitchCase="'item'">
@@ -42,13 +44,13 @@ import { SchemaService } from '../../services/schema.service';
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <label for="content_key"
+            <label for="{{ subitem.label }}-{{ this.sectionPrefix }}"
                    class="input-group-text">
                    {{ subitem.label }}
             </label>
 
               <input [attr.property]="subitem.typeUrl"
-                     id="content_key"
+                     id="{{ subitem.label }}-{{ this.sectionPrefix }}"
                      class="form-control"
                      value="{{ subitem.value }}">
             </div>
@@ -76,10 +78,12 @@ export class ItemSectionComponent implements OnInit {
   header: HeaderSectionData;
   subitems = [];
   values = [];
+  sectionPrefix: string; // used to generate unique labels
 
   typeLabel: string;
 
   constructor(private schema: SchemaService) {
+    this.sectionPrefix = uuid.v4().substr(0, 8);
   }
 
   async initSection() {
