@@ -8,6 +8,7 @@ import {
        } from '@angular/core';
 
 import { Item } from '../../models/item.model';
+import { IRDFSClass, IRDFSProperty } from '../../models/schema.model';
 
 import { HeaderSectionData } from '../item-header/item-header.component';
 
@@ -44,15 +45,16 @@ import { SchemaService } from '../../services/schema.service';
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <label for="{{ subitem.label }}-{{ this.sectionPrefix }}"
+            <label
+                   for="{{ subitem.label }}-{{ this.sectionPrefix }}"
                    class="input-group-text">
                    {{ subitem.label }}
             </label>
 
-              <input [attr.property]="subitem.typeUrl"
-                     id="{{ subitem.label }}-{{ this.sectionPrefix }}"
-                     class="form-control"
-                     value="{{ subitem.value }}">
+            <input [attr.property]="subitem.typeUrl"
+                   id="{{ subitem.label }}-{{ this.sectionPrefix }}"
+                   class="form-control"
+                   value="{{ subitem.value }}">
             </div>
           </div>
       </ng-container>
@@ -132,42 +134,47 @@ export class ItemSectionComponent implements OnInit {
            * Our node should be a list
           /*
            * ex:
-           * { 'schema:text':
-           *   [
-           *     { '@value': 'example text' }
-           *   ],
-           * { 'schema:dateCreated':
-           *   [
-           *     { '@type': 'schema:date',
-           *       '@value': 'example text' }
-           *   ],
+           * { 'schema:text': [
+           *       { '@value': 'example text' } ],
+           *   'schema:dateCreated': [
+           *       { '@type': 'schema:date',
+           *         '@value': 'example text' } ],
            * }
            */
           // Fix data model to make lookups from DB explicitly;
           // obviously these can't be XHRs
           // const keyLabel = await this.schema.getLabelForType(key);
-          const keyLabel = key;
-          for (const property of this.data[key]) {
-            if (property) {
-              if (property['@type']) {
+          const keyLabel = await this.schema.getLabelForType(key);
+          for (const propertyData of this.data[key]) {
+            if (propertyData) {
+              if (propertyData['@type']) {
+                /* Lookup our property, so that we can get things like
+                 * - label
+                 * - default value
+                 */
+                const propTypeUrl = propertyData['@type'];
                 this.subitems.push({
-                  data: property,
+                  data: propertyData,
                   component: 'item'
                 });
-              } else if (property['@value']) {
+              } else if ('@value' in propertyData) {
                 this.subitems.push({
                   typeUrl: key,
                   label: keyLabel,
-                  value: property['@value'],
+                  value: propertyData['@value'],
+                  component: 'value'
+                });
+              } else if ('@id' in propertyData) {
+                const propLabel = await this.schema.getLabelForType(key);
+                this.subitems.push({
+                  typeUrl: key,
+                  label: keyLabel,
+                  value: propertyData['@id'],
                   component: 'value'
                 });
               } else {
-                this.subitems.push({
-                  typeUrl: key,
-                  label: keyLabel,
-                  value: property['@id'],
-                  component: 'value'
-                });
+                throw new Error('[initSection] invalid property data: '
+                  + JSON.stringify(propertyData));
               }
             }
           }
