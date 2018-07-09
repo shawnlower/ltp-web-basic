@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Subject, Observable, of, from, pipe } from 'rxjs';
-import { catchError, map, mergeMap, flatMap, take } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, flatMap, take } from 'rxjs/operators';
 
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
@@ -9,6 +9,10 @@ import { IRDFSClass, IRDFSProperty } from '../models/schema.model';
 
 import * as jsonld from '../../assets/js/jsonld.js';
 import * as _ from 'lodash';
+
+const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
+const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+const SCHEMA = 'http://schema.org/';
 
 @Injectable({
   providedIn: 'root'
@@ -18,50 +22,27 @@ export class SchemaService {
   schemaMap: {};           // Holds type -> property mappings
   classHierarchy: {};      // Linked list of class<->subclasses
 
+
+
   constructor(private http: HttpClient) {
     this.schemaMap = {};
     this.classHierarchy = {};
   }
 
   public getLabelForType(typeUrl: string): Promise<string>|null {
-
-    // Fetch our schema first
-    const resp = this.getSchema(typeUrl);
-
-    return resp.toPromise().then(
-      schema => {
-        return jsonld.flatten(schema)
-          .then(flat => {
-            // Assume http and https are the same type
-            const typeUrls = [ typeUrl, typeUrl.replace(/^https/, 'http')];
-            let typeSchema: string;
-            for (typeUrl of typeUrls) {
-                typeSchema = flat.filter(o => o['@id'] === typeUrl)[0];
-                if (typeSchema) {
-                  break;
-              }
-            }
-            if (!typeSchema) {
-              console.log('[getLabelForType] no match', typeUrl);
-            }
-            const rdfsLabel = 'http://www.w3.org/2000/01/rdf-schema#label';
-            let label: string;
-            if (typeSchema) {
-              // Use the RDFS class information to build an appropriate
-              // label
-              label = typeSchema[rdfsLabel];
-              if (label && label[0]['@value']) {
-                return label[0]['@value'];
-              } else {
-                console.log('[getLabelForType] invalid label', label, typeUrl);
-                throw new Error('Invalid label');
-              }
-            }
-          })
-          .catch(err => {
-            console.log('[getLabelForType]', 'Error', err);
-            return null;
-          });
+    console.log('[getLabelForType] args', arguments);
+    /*
+     * - Fetch schema as IRDFSClass
+     * - return schema.label
+    return new Promise((resolve, reject) => {
+      resolve('label test');
+    });
+     */
+    return this.getSchema(typeUrl)
+      .then(schema => schema.label)
+      .catch(error => {
+        console.warn('Unable to get label: ', error);
+        return null;
       });
   }
 
@@ -114,7 +95,37 @@ export class SchemaService {
 
   }
 
-  async getProperties(typeUrl: string, recurse = 10): Promise<any> {
+  async getProperty(propInfo: string, recurse = 10): Promise<IRDFSProperty> {
+    /*
+     * Return a single property object
+     */
+    console.log('[getProperty] args', arguments);
+    return null;
+
+    /*
+    const property: IRDFSProperty = {
+      id: string;
+      label: string;
+      comment: string;
+      domainIncludes: Array<IRDFSClass>;
+    }
+     */
+
+
+
+
+
+  }
+  async getProperties(typeInfo: string|IRDFSClass, recurse = 10): Promise<any> {
+    /*
+     * Return all properties for a given type
+     */
+    let typeUrl: string;
+    if (typeof(typeInfo) === 'string') {
+      typeUrl = typeInfo;
+    } else {
+      typeUrl = typeInfo.id;
+    }
 
     await this.updateProps(typeUrl);
 
@@ -126,10 +137,6 @@ export class SchemaService {
 
   updateProps(typeUrl: string, recurse = 30) {
     console.log('[updateProps] args', arguments);
-
-    const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-    const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
-    const SCHEMA = 'http://schema.org/';
 
 
     if (recurse < 1) {
@@ -172,7 +179,8 @@ export class SchemaService {
                   this.addProperty(domain['@id'], property);
                 }
               }
-            } else if (node['@type'] && node['@type'][0] === `${RDFS}Class` ) {
+            } else if (node['@type'] &&
+              node['@type'][0] === `${RDFS}Class` ) {
               /*
                * This is a CLASS. Now we want:
                * - Ensure the schema has an entry
@@ -259,20 +267,19 @@ export class SchemaService {
     console.log('[getDefaultProperties] args', arguments);
 
     if ( typeUrl.match('NoteDigitalDocument')) {
-      const noteClass = this.getRDFSClass(typeUrl);
-      noteClass.properties = [];
-      noteClass.properties.push({
+      const noteProps = []; // this.getRDFSClass(typeUrl);
+      noteProps.push({
         id: 'https://schema.org/dateCreated',
         label:  'Date Created',
         comment:  'Date whent the note was originally authored.'
       });
-      noteClass.properties.push({
+      noteProps.push({
         id: 'https://schema.org/text',
         label: 'Note text',
         comment: 'Textual content of the note.'
       });
-      console.log('[getDefaultProperties] returning', noteClass.properties);
-      return noteClass.properties;
+      console.log('[getDefaultProperties] returning', noteProps);
+      return noteProps;
     } else {
       return null;
     }
@@ -284,18 +291,18 @@ export class SchemaService {
       id: typeUrl,
       subClasses: [],
       superClasses: [],
-      properties: [],
     };
-    rdfClass.properties = this.getCachedProperties(typeUrl);
+    // rdfClass.properties = this.getCachedProperties(typeUrl);
     return rdfClass;
   }
 
-  getSchema(typeUrl: string): Observable<HttpResponse<any>> {
+  getSchemaJson(typeUrl: string): Promise<object> {
     /*
-     * Fetch the schema for a given type
+     * Fetch an item, either from cache, or via HTTP, and then return it as
+     * a JSON-LD object
      *
-     * Example:
-     *  getSchema('http://schema.org/Person')
+     * implementation notes:
+     *  - should be expanded?
      */
 
     const httpOptions = {
@@ -303,18 +310,213 @@ export class SchemaService {
         'Accept':  'application/ld+json',
       })
     };
-    // const resp = this.http.get<any>(typeUrl, httpOptions);
+
     // FIXME: schema.org sends 303 See Other, which results in us not caching
     // the response. Hack it by just requesting the JSON directly
     // See Other: https://stackoverflow.com/questions/47019571
-    // console.log('[getSchema]', typeUrl);
     if (!typeUrl.startsWith('http')) {
       throw new Error('invalid URL: ' + typeUrl);
     }
     if (typeUrl.match(/schema.org/)) {
-      return this.http.get<any>(typeUrl + '.jsonld', httpOptions);
+      return this.http.get(typeUrl + '.jsonld', httpOptions).toPromise();
     } else {
-      return this.http.get<any>(typeUrl, httpOptions);
+      return this.http.get(typeUrl, httpOptions).toPromise();
+    }
+  }
+
+  async normalizeJson(jld: object|string):
+  Promise<IRDFSClass[]|IRDFSProperty[]> {
+    /*
+     * Normalize an input schema in JSON-LD format, to an object of
+     *
+     *  export interface IRDFSClass {
+     *    id: string;
+     *    label?: string;
+     *    comment?: string;
+     *    subClasses: Array<IRDFSClass>;
+     *    superClasses: Array<IRDFSClass>;
+     *    // properties: Array<IRDFSProperty>;
+     *  }
+     *
+     */
+    // console.log('[normalizeJson] args', arguments);
+
+    let inSchema: object;
+
+    if (typeof(jld) === 'string') {
+      inSchema = JSON.parse(jld);
+    } else {
+      inSchema = jld;
+    }
+
+    const expanded: Array<object> = await jsonld.expand(inSchema);
+    if (expanded.length === 0) {
+      throw new Error('JSON-LD processor returned an empty list. Input: '
+        + JSON.stringify(inSchema));
+    } else if (expanded.length > 1) {
+      /*
+      console.error('traceback', new Error().stack);
+      throw new Error('Expected a SINGLE object back from JSON-LD processor.'
+        + ` Got ${expanded.length}. Input: ` + JSON.stringify(inSchema));
+       */
+      // Multiple objects back are okay, but we only return the one matching
+      // the ID we want
+    }
+
+    const outSchemas = [];
+
+    let rdfType: string; // = this.getValue(expanded.find(i => i['@type']));
+
+    for (const o of expanded) {
+      if (o) {
+        rdfType = this.getValue(o['@type']);
+        if (!rdfType) {
+          /*
+           * Guess the type. If @type is missing, but
+           * subPropertyOf is set, then it's a property
+           * otherwise: fail.
+           */
+          if (this.getValue(o[`${RDFS}subPropertyOf`])) {
+            rdfType = `${RDFS}Property`;
+          } else {
+            // console.warn('[normalizeJson] invald type', o['@type'], rdfType);
+            // throw new Error('All items must be of the same type');
+          }
+        }
+        if (rdfType === `${RDFS}Class`) {
+          outSchemas.push(await this._normalizeJsonClass(o));
+        } else if (rdfType === `${RDF}Property`) {
+          outSchemas.push(await this._normalizeJsonProperty(o));
+        } else {
+          // console.warn('[normalizeJson] ignoring unknown', o);
+          // throw new Error('normalizeJson: Invalid type: ' + rdfType);
+        }
+      }
+    }
+    return outSchemas;
+  }
+
+
+  private async _normalizeJsonClass (jlo: object): Promise<IRDFSClass> {
+
+    // Set initial properties
+    const outSchema = {
+      id:        jlo['@id'],
+      label:     this.getValue(jlo[`${RDFS}label`]),
+      comment:   this.getValue(jlo[`${RDFS}comment`]),
+      subClasses: null,
+      superClasses: null
+    };
+
+    /*
+     * Populate subClasses
+     */
+
+    /*
+     * Populate superClasses
+     */
+    const subClassNames = [`${RDFS}subClassOf`];
+    // this.getValue(o
+
+    // console.log('[normalizeJsonClass] returning', outSchema);
+    return outSchema;
+
+  }
+
+  private async _normalizeJsonProperty (jlo: object): Promise<IRDFSProperty> {
+
+    // Set initial properties
+    const outSchema: IRDFSProperty = {
+      id:        jlo['@id'],
+      label:     this.getValue(jlo[`${RDFS}label`]),
+      comment:   this.getValue(jlo[`${RDFS}comment`]),
+      domainIncludes: null
+    };
+
+    // console.log('[normalizeJsonProperty] returning', outSchema);
+    return outSchema;
+
+  }
+
+  getValue(input: any): string {
+    /*
+     * Input any of:
+     *   'something'
+     *   {'@value': 'something' }
+     *   {'@id': 'something' }
+     *   ['something']
+     *
+     * Output:
+     *  'something'
+     */
+    if (input) {
+      if (typeof(input) === 'string') {
+        return input;
+      } else if (Array.isArray(input)) {
+        return this.getValue(input[0]);
+      } else {
+        if (input['@value']) {
+          return input['@value'];
+        } else if (input['@id']) {
+          return input['@id'];
+        } else {
+          throw new Error('no @value or @id found in object');
+        }
+      }
+    } else {
+      return input;
+    }
+  }
+
+  async getSchema(typeUrl: string): Promise<IRDFSClass|IRDFSProperty> {
+    /*
+     * Fetch the schema for a given type
+     *
+     * Example:
+     *  getSchema('http://schema.org/Person')
+     */
+
+
+    /*
+     * First lookup in cache
+     */
+    console.log('[getSchema] unimplemented cache', typeUrl);
+    if (false) {
+      // meh
+    } else {
+
+      /*
+       * Make HTTP request to fetch schema
+       * NOTE: This /may/ return a graph of multiple items, if the
+       *       item has sub-properties, ex: schema:dateCreated has
+       *       schema:legislationDate which has a subPropertyOf
+       *       referring to dateCreated
+       */
+      console.log('[getSchema] fetching via HTTP: ', typeUrl);
+      const schemas = await this.getSchemaJson(typeUrl).then(
+        s => this.normalizeJson(s));
+
+      const schema = schemas.find(t =>
+        t.id.replace('https', 'http') === typeUrl.replace('https', 'http'));
+
+      // console.log('[getSchema] normalized: ', schemas, schema);
+      return schema;
+      /*
+      if (schema) {
+        console.log('[getSchema] now got ', schema);
+        if (Object.keys(schema).includes('subClassOf')) {
+          console.log('[getSchema] class', schema);
+          return schema;
+        } else {
+          console.log('[getSchema] property', schema);
+          return schema;
+        }
+      } else {
+        console.error('[getSchema] not found', schemas, typeUrl);
+      }
+      return schemas$;
+      */
+
     }
   }
 }
