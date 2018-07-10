@@ -304,29 +304,24 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
      * when the control becomes dirty, AKA: when data is added.
      */
     console.log('[addProperty] args', arguments);
-    this.propertySearchResults$.pipe(
-      last(),
-      map(properties =>
-        properties.filter(prop =>
-          prop && prop.label === propertyName)),
-      map(p => {
-        console.log('[addProperty]: ', p);
+    if (this.propertySearchResults$) {
+      this.propertySearchResults$.pipe(
+        last(),
+        map(properties =>
+          properties.filter(prop =>
+            prop && prop.label === propertyName)),
+        map(p => {
+          console.log('[addProperty]: ', p);
 
-        // test just updating the expandedJson
-        /*
+          // test just updating the expandedJson
+          /*
         if (p[0].id in this.expandedJson[0]){
           this.expandedJson[0][p[0].id]['@value'].push
-         */
-        this.expandedJson[0][p[0].id] = 'testing';
+           */
 
-
-      })
-    ).subscribe();
-
-    /*
-     * Re-do property lookups to find by label :-/
-     */
-
+        })
+      ).subscribe();
+    }
   }
 
   doSearch(term) {

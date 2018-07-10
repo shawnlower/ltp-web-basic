@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     setTimeout(() => this.toggleEditor(), 0);
   }
 
-  toggleEditor(msg = '') {
+  toggleEditor() {
     this.store.dispatch(new appActions.ToggleEditor());
   }
 
