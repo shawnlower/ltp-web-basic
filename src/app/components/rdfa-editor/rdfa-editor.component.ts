@@ -44,6 +44,7 @@ import * as appActions from '../../actions/app.actions';
 import { ItemDirective } from '../../directives/item.directive';
 
 import { Item, JsonLD } from '../../models/item.model';
+import { IRDFSClass, IRDFSProperty } from '../../models/schema.model';
 import { SchemaService } from '../../services/schema.service';
 
 import * as jsonld from '../../../assets/js/jsonld.js';
@@ -66,6 +67,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   staticSearchResults: string[];
   searchResults: Observable<string[]>;
+
+  // RDF properties of a given type
+  propertySearchResults$: Observable<IRDFSProperty[]>;
 
   currentItem: Item;
   currentItem$: Observable<Item>;
@@ -300,6 +304,28 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
      * when the control becomes dirty, AKA: when data is added.
      */
     console.log('[addProperty] args', arguments);
+    this.propertySearchResults$.pipe(
+      last(),
+      map(properties =>
+        properties.filter(prop =>
+          prop && prop.label === propertyName)),
+      map(p => {
+        console.log('[addProperty]: ', p);
+
+        // test just updating the expandedJson
+        /*
+        if (p[0].id in this.expandedJson[0]){
+          this.expandedJson[0][p[0].id]['@value'].push
+         */
+        this.expandedJson[0][p[0].id] = 'testing';
+
+
+      })
+    ).subscribe();
+
+    /*
+     * Re-do property lookups to find by label :-/
+     */
 
   }
 
@@ -315,25 +341,30 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   doPropertySearch(term) {
 
-    if (!this.currentItem) {
-      return ['<no item selected>'];
-    }
-
     const typeUrl = this.currentItem.data['@type'];
-
-    if (!typeUrl) {
-      return ['<no item selected>'];
+    if (!typeUrl.startsWith('http')) {
+      console.error(`Invalid type: ${typeUrl}. Expected http...`);
+      return of(['Invalid type']);
     }
 
-    // const properties = this.schema.getDefaultProperties(typeUrl);
-    const properties = this.schema.getCachedProperties(typeUrl);
-    const results = [];
-    if (properties) {
-      for (const p of properties) {
-        results.push(`${p.label} | ${p.id}`);
-      }
-    }
-    return [results];
+    this.propertySearchResults$ = from(this.schema.getProperties(typeUrl));
+
+    this.propertySearchResults$.subscribe(
+      results => console.log('xxxx propertySearchResults', results));
+
+
+    return this.propertySearchResults$.pipe(
+      map(properties =>
+         properties
+          .filter(property => property && 'label' in property)
+          .map(property =>
+             property.label
+          )
+          .filter(label =>
+            label.toLowerCase()
+              .indexOf(term.toLowerCase()) > -1)
+      )
+    );
   }
 
   search = (text$: Observable<string>) =>
@@ -348,7 +379,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(i => this.doPropertySearch(i)
+      flatMap(i => this.doPropertySearch(i)
       )
     )
 
