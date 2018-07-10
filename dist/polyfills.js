@@ -2341,7 +2341,6 @@ $metadata.exp({ metadata: function metadata(metadataKey, metadataValue) {
  * found in the LICENSE file at https://angular.io/license
  */
 var Zone$1 = (function (global) {
-
     var FUNCTION = 'function';
     var performance = global['performance'];
     function mark(name) {

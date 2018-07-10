@@ -27,20 +27,23 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*!****************************************!*\
   !*** ./src/app/actions/app.actions.ts ***!
   \****************************************/
-/*! exports provided: TOGGLE_EDITOR, SELECT_NEXT_ITEM, SELECT_PREV_ITEM, ACTIVATE_ITEM, ToggleEditor, SelectNextItem, SelectPrevItem, ActivateItem */
+/*! exports provided: TOGGLE_EDITOR, TOGGLE_USAGE, SELECT_NEXT_ITEM, SELECT_PREV_ITEM, ACTIVATE_ITEM, ToggleEditor, ToggleUsage, SelectNextItem, SelectPrevItem, ActivateItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_EDITOR", function() { return TOGGLE_EDITOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_USAGE", function() { return TOGGLE_USAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_NEXT_ITEM", function() { return SELECT_NEXT_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_PREV_ITEM", function() { return SELECT_PREV_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTIVATE_ITEM", function() { return ACTIVATE_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToggleEditor", function() { return ToggleEditor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToggleUsage", function() { return ToggleUsage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectNextItem", function() { return SelectNextItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectPrevItem", function() { return SelectPrevItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActivateItem", function() { return ActivateItem; });
 const TOGGLE_EDITOR = '[Action] Toggle Editor';
+const TOGGLE_USAGE = '[Action] Toggle Usage';
 const SELECT_NEXT_ITEM = '[Action] Select Next Item';
 const SELECT_PREV_ITEM = '[Action] Select Prev Item';
 const ACTIVATE_ITEM = '[Action] Activate Item';
@@ -50,6 +53,14 @@ const ACTIVATE_ITEM = '[Action] Activate Item';
 class ToggleEditor {
     constructor() {
         this.type = TOGGLE_EDITOR;
+    }
+}
+/**
+ * Toggle the usage screen
+ */
+class ToggleUsage {
+    constructor() {
+        this.type = TOGGLE_USAGE;
     }
 }
 /**
@@ -142,20 +153,23 @@ class LoadItem {
 /*!*****************************************!*\
   !*** ./src/app/actions/item.actions.ts ***!
   \*****************************************/
-/*! exports provided: LOADED_ITEM, REMOVE_ITEM, SELECT_ITEM, DESELECT_ITEM, ItemLoaded, SelectItem, RemoveItem */
+/*! exports provided: LOADED_ITEM, UPDATE_ITEM, REMOVE_ITEM, SELECT_ITEM, DESELECT_ITEM, ItemLoaded, SelectItem, UpdateItem, RemoveItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOADED_ITEM", function() { return LOADED_ITEM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_ITEM", function() { return UPDATE_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_ITEM", function() { return REMOVE_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_ITEM", function() { return SELECT_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DESELECT_ITEM", function() { return DESELECT_ITEM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ItemLoaded", function() { return ItemLoaded; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectItem", function() { return SelectItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateItem", function() { return UpdateItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RemoveItem", function() { return RemoveItem; });
 // Consts for actions
 const LOADED_ITEM = 'LOADED_ITEM';
+const UPDATE_ITEM = 'UPDATE_ITEM';
 const REMOVE_ITEM = 'REMOVE_ITEM';
 const SELECT_ITEM = 'SELECT_ITEM';
 const DESELECT_ITEM = 'DESELECT_ITEM';
@@ -169,12 +183,22 @@ class ItemLoaded {
     }
 }
 /*
- * Updates the currently selected item
+ * Changes the currently selected item
  */
 class SelectItem {
     constructor(payload) {
         this.payload = payload;
         this.type = SELECT_ITEM;
+    }
+}
+/**
+ * After an item has been updated *locally*
+ * Should trigger a save to our remote store
+ */
+class UpdateItem {
+    constructor(payload) {
+        this.payload = payload;
+        this.type = UPDATE_ITEM;
     }
 }
 /*
@@ -260,9 +284,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_item_section_item_section_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/item-section/item-section.component */ "./src/app/components/item-section/item-section.component.ts");
 /* harmony import */ var _components_modal_editor_modal_editor_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/modal-editor/modal-editor.component */ "./src/app/components/modal-editor/modal-editor.component.ts");
 /* harmony import */ var _components_rdfa_editor_rdfa_editor_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/rdfa-editor/rdfa-editor.component */ "./src/app/components/rdfa-editor/rdfa-editor.component.ts");
-/* harmony import */ var _directives_item_directive__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./directives/item.directive */ "./src/app/directives/item.directive.ts");
-/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./reducers */ "./src/app/reducers/index.ts");
-/* harmony import */ var _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./directives/form-validator.directive */ "./src/app/directives/form-validator.directive.ts");
+/* harmony import */ var _components_usage_usage_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/usage/usage.component */ "./src/app/components/usage/usage.component.ts");
+/* harmony import */ var _directives_item_directive__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./directives/item.directive */ "./src/app/directives/item.directive.ts");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./reducers */ "./src/app/reducers/index.ts");
+/* harmony import */ var _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./directives/form-validator.directive */ "./src/app/directives/form-validator.directive.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -293,6 +318,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 let AppModule = class AppModule {
     constructor() { }
 };
@@ -301,15 +327,16 @@ AppModule = __decorate([
         declarations: [
             _components_app_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"],
             _components_basic_editor_basic_editor_component__WEBPACK_IMPORTED_MODULE_10__["BasicEditorComponent"],
-            _components_rdfa_editor_rdfa_editor_component__WEBPACK_IMPORTED_MODULE_17__["RdfaEditorComponent"],
             _components_card_card_component__WEBPACK_IMPORTED_MODULE_11__["CardComponent"],
+            _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_21__["FormValidatorDirective"],
             _components_home_home_component__WEBPACK_IMPORTED_MODULE_12__["HomeComponent"],
+            _directives_item_directive__WEBPACK_IMPORTED_MODULE_19__["ItemDirective"],
             _components_item_header_item_header_component__WEBPACK_IMPORTED_MODULE_14__["ItemHeaderComponent"],
             _components_item_section_item_section_component__WEBPACK_IMPORTED_MODULE_15__["ItemSectionComponent"],
             _components_items_list_items_list_component__WEBPACK_IMPORTED_MODULE_13__["ItemsListComponent"],
             _components_modal_editor_modal_editor_component__WEBPACK_IMPORTED_MODULE_16__["ModalEditorComponent"],
-            _directives_item_directive__WEBPACK_IMPORTED_MODULE_18__["ItemDirective"],
-            _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_20__["FormValidatorDirective"],
+            _components_rdfa_editor_rdfa_editor_component__WEBPACK_IMPORTED_MODULE_17__["RdfaEditorComponent"],
+            _components_usage_usage_component__WEBPACK_IMPORTED_MODULE_18__["UsageComponent"]
         ],
         entryComponents: [
             _components_item_header_item_header_component__WEBPACK_IMPORTED_MODULE_14__["ItemHeaderComponent"],
@@ -331,7 +358,7 @@ AppModule = __decorate([
              * based application.
             StoreModule.forRoot(reducer),
              */
-            _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["StoreModule"].forRoot(Object.assign({}, _reducers__WEBPACK_IMPORTED_MODULE_19__["reducers"])),
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["StoreModule"].forRoot(Object.assign({}, _reducers__WEBPACK_IMPORTED_MODULE_20__["reducers"])),
             _ngrx_store_devtools__WEBPACK_IMPORTED_MODULE_7__["StoreDevtoolsModule"].instrument(),
         ],
         providers: [],
@@ -362,7 +389,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header>\n  <nav class=\"navbar navbar-dark bg-dark navbar-expand-md\">\n    <a class=\"navbar-brand\" href=\"#\">LTP Basic UI</a>\n    <div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n      <ul class=\"navbar-nav mr-auto\">\n        <li class=\"nav-item nav-link active\"><a class=\"nav-link\" routerLink='/items'>Items</a></li>\n        <li class=\"nav-item nav-link disabled\"><a class=\"nav-link\" routerLink='/activities'>Activities</a></li>\n      </ul>\n      <form class=\"form-inline my-2 my-lg-0\">\n      <input #searchBox class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\"\n           (ngModelChange)=\"filterSearch()\"\n           />\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\"\n        (click)=\"doSearch()\">Search</button>\n    </form>\n    </div>\n  </nav>\n</header>\n<main role=\"main\" class=\"container\">\n<router-outlet></router-outlet>\n</main>\n<app-modal-editor *ngIf=\"showEditor$ | async\"\n                  [visible]=\"showEditor$ | async\"\n\t\t\t\t  (init)=\"initEditor()\"\n></app-modal-editor>\n<footer class=\"footer\">\n  <div>\n    <span>&copy; 2018 Shawn Lower</span>\n  </div>\n  <script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\"></script>\n  <script src=\"https://unpkg.com/jsonld@1.0.0/dist/jsonld.min.js\"></script>\n\n</footer>\n"
+module.exports = "<header>\n  <nav class=\"navbar navbar-dark bg-dark navbar-expand-md\">\n    <a class=\"navbar-brand\" href=\"#\">LTP Basic UI</a>\n    <div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n      <ul class=\"navbar-nav mr-auto\">\n        <li class=\"nav-item nav-link active\"><a class=\"nav-link\" routerLink='/items'>Items</a></li>\n        <li class=\"nav-item nav-link disabled\"><a class=\"nav-link\" routerLink='/activities'>Activities</a></li>\n      </ul>\n      <form class=\"form-inline my-2 my-lg-0\">\n      <input #searchBox class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\"\n           (ngModelChange)=\"filterSearch()\"\n           />\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\"\n        (click)=\"doSearch()\">Search</button>\n    </form>\n    </div>\n  </nav>\n</header>\n<!--\n\n  Main screen [turn on].\n\n-->\n<main role=\"main\" class=\"container\">\n<router-outlet></router-outlet>\n</main>\n\n<!--\n\n  Usage screen (aka help)\n\n-->\n<app-usage *ngIf=\"showUsage$ | async\"\n                  [visible]=\"true\">\n</app-usage>\n<!--\n\n  Item editor modal; for new and existing items\n\n-->\n<app-modal-editor *ngIf=\"showEditor$ | async\"\n                  [visible]=\"showEditor$ | async\"\n\t\t\t\t  (init)=\"initEditor()\">\n</app-modal-editor>\n<!--\n\n  Footer: Legalese, toasts and terminals.\n\n-->\n<footer class=\"footer\">\n  <p>&copy; 2018 Shawn Lower  |  Press '?' for help\n\n</footer>\n"
 
 /***/ }),
 
@@ -402,6 +429,7 @@ let AppComponent = class AppComponent {
         this.keyboardShortcuts = keyboardShortcuts;
         this.store = store;
         this.showEditor$ = store.select(state => state.app.showEditor);
+        this.showUsage$ = store.select(state => state.app.showUsage);
         this.selectedItem$ = store.select(state => state.item.selectedItem);
         this.keyboardShortcuts = keyboardShortcuts;
         this.unlisten = null;
@@ -415,7 +443,7 @@ let AppComponent = class AppComponent {
         this.store.dispatch(new _actions_editor_actions__WEBPACK_IMPORTED_MODULE_3__["LoadItem"](null));
         setTimeout(() => this.toggleEditor(), 0);
     }
-    toggleEditor(msg = '') {
+    toggleEditor() {
         this.store.dispatch(new _actions_app_actions__WEBPACK_IMPORTED_MODULE_2__["ToggleEditor"]());
     }
     filterSearch() {
@@ -435,8 +463,8 @@ let AppComponent = class AppComponent {
                 /*
                  * Show help dialog
                  */
-                console.log('Handler [app-component][ 0 ]: ', event);
-                alert('Halp.');
+                // console.log( 'Handler [app-component][ 0 ]: ', event);
+                this.store.dispatch(new _actions_app_actions__WEBPACK_IMPORTED_MODULE_2__["ToggleUsage"]());
                 event.preventDefault();
             },
             'e': (event) => {
@@ -458,7 +486,7 @@ let AppComponent = class AppComponent {
                 /*
                  * Show empty editor modal
                  */
-                console.log('Handler [app-component][ 0 ]: ', event);
+                // console.log( 'Handler [app-component][ 0 ]: ', event);
                 const searchHasFocus = document.activeElement ===
                     document.getElementsByName('search')[0];
                 if (searchHasFocus) {
@@ -642,7 +670,7 @@ let BasicEditorComponent = class BasicEditorComponent {
     }
     handleTypeChange(typeUrl) {
         this.loadDefaultItem();
-        this.properties$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["from"])(this.schema.getProps(typeUrl));
+        this.properties$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["from"])(this.schema.getProperties(typeUrl));
         // this.properties$.subscribe();
     }
     loadItem(item, lock = true) {
@@ -720,7 +748,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "  <div class=\"card-body\"\n      id=\"elCard\"\n      (click)=\"selectItem()\"\n      [class.bg-secondary]=\"selected\"\n      [class.active]=\"selected\"\n      [attr.about]=\"item.data['@type']\">\n    <h5 class=\"card-title\">Card number</h5>\n    <p class=\"card-text\">{{ item.data['@type'] }}</p>\n    <a href=\"#\" class=\"btn btn-primary\"\n                (click)=\"editItem()\"\n    >Edit</a>\n    <a href=\"#\" class=\"btn btn-primary\"\n                (click)=\"!!removeItem()\"\n    >Remove</a>\n\n  </div>\n\n"
+module.exports = "  <div class=\"card-body\"\n       id=\"{{ 'card' + id }}\"\n       data-toggle=\"tooltip\"\n       title=\"{{ item.uri }}\"\n      [class.bg-secondary]=\"selected\"\n      (click)=\"selectItem()\"\n      [class.active]=\"selected\"\n      [attr.about]=\"item.data['@type']\">\n    <h5 class=\"card-title\">Card {{ id }}</h5>\n    <p class=\"card-text\">{{ item.data['@type'] }}</p>\n    <a href=\"#\" class=\"btn btn-primary\"\n                (click)=\"selectItem(); editItem(); false\"\n    >Edit</a>\n    <a href=\"#\" class=\"btn btn-primary\"\n                (click)=\"!!removeItem()\"\n    >Remove</a>\n\n  </div>\n\n"
 
 /***/ }),
 
@@ -737,8 +765,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm2015/store.js");
 /* harmony import */ var _actions_app_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/app.actions */ "./src/app/actions/app.actions.ts");
-/* harmony import */ var _actions_item_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/item.actions */ "./src/app/actions/item.actions.ts");
-/* harmony import */ var _models_item_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../models/item.model */ "./src/app/models/item.model.ts");
+/* harmony import */ var _actions_editor_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/editor.actions */ "./src/app/actions/editor.actions.ts");
+/* harmony import */ var _actions_item_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/item.actions */ "./src/app/actions/item.actions.ts");
+/* harmony import */ var _models_item_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../models/item.model */ "./src/app/models/item.model.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -753,35 +782,58 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 let CardComponent = class CardComponent {
     constructor(store) {
         this.store = store;
         this.store.select(state => state.item.selectedItem)
-            .subscribe(item => this.selectedItem = item);
+            .subscribe(selectedItem => {
+            if (selectedItem && selectedItem.uri === this.item.uri) {
+                this.selected = true;
+            }
+            else {
+                this.selected = false;
+            }
+        });
     }
     ngOnInit() {
     }
     selectItem() {
-        this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_3__["SelectItem"](this.item));
-        return false;
+        /*
+         * Select the current item by dispatching a message
+         */
+        // console.log('[card selectItem] args', arguments, this);
+        if (this.selected) {
+            this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_4__["SelectItem"](null));
+        }
+        else {
+            this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_4__["SelectItem"](this.item));
+        }
     }
     editItem() {
+        /*
+         * Edit the current item by dispatching a message
+         */
         this.store.dispatch(new _actions_app_actions__WEBPACK_IMPORTED_MODULE_2__["ToggleEditor"]());
+        this.store.dispatch(new _actions_editor_actions__WEBPACK_IMPORTED_MODULE_3__["LoadItem"](this.item));
         return false;
     }
     removeItem() {
-        this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_3__["RemoveItem"](this.selectedItem));
+        /*
+         * Remove the current item by dispatching a message
+         */
+        this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_4__["RemoveItem"](this.item));
         return false;
     }
 };
 __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-    __metadata("design:type", _models_item_model__WEBPACK_IMPORTED_MODULE_4__["Item"])
+    __metadata("design:type", _models_item_model__WEBPACK_IMPORTED_MODULE_5__["Item"])
 ], CardComponent.prototype, "item", void 0);
 __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-    __metadata("design:type", Boolean)
-], CardComponent.prototype, "selected", void 0);
+    __metadata("design:type", String)
+], CardComponent.prototype, "id", void 0);
 CardComponent = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
         selector: 'app-card',
@@ -941,8 +993,10 @@ ItemHeaderComponent = __decorate([
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ItemSectionComponent", function() { return ItemSectionComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _services_schema_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/schema.service */ "./src/app/services/schema.service.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _services_schema_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/schema.service */ "./src/app/services/schema.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -962,12 +1016,14 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
+
 let ItemSectionComponent = class ItemSectionComponent {
     constructor(schema) {
         this.schema = schema;
         this.showHeader = true;
         this.subitems = [];
         this.values = [];
+        this.sectionPrefix = uuid__WEBPACK_IMPORTED_MODULE_0__["v4"]().substr(0, 8);
     }
     initSection() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -1013,44 +1069,50 @@ let ItemSectionComponent = class ItemSectionComponent {
                          * Our node should be a list
                         /*
                          * ex:
-                         * { 'schema:text':
-                         *   [
-                         *     { '@value': 'example text' }
-                         *   ],
-                         * { 'schema:dateCreated':
-                         *   [
-                         *     { '@type': 'schema:date',
-                         *       '@value': 'example text' }
-                         *   ],
+                         * { 'schema:text': [
+                         *       { '@value': 'example text' } ],
+                         *   'schema:dateCreated': [
+                         *       { '@type': 'schema:date',
+                         *         '@value': 'example text' } ],
                          * }
                          */
                         // Fix data model to make lookups from DB explicitly;
                         // obviously these can't be XHRs
                         // const keyLabel = await this.schema.getLabelForType(key);
-                        const keyLabel = key;
-                        for (const property of this.data[key]) {
-                            if (property) {
-                                if (property['@type']) {
+                        const keyLabel = yield this.schema.getLabelForType(key);
+                        for (const propertyData of this.data[key]) {
+                            if (propertyData) {
+                                if (propertyData['@type']) {
+                                    /* Lookup our property, so that we can get things like
+                                     * - label
+                                     * - default value
+                                     */
+                                    const propTypeUrl = propertyData['@type'];
                                     this.subitems.push({
-                                        data: property,
+                                        data: propertyData,
                                         component: 'item'
                                     });
                                 }
-                                else if (property['@value']) {
+                                else if ('@value' in propertyData) {
                                     this.subitems.push({
                                         typeUrl: key,
                                         label: keyLabel,
-                                        value: property['@value'],
+                                        value: propertyData['@value'],
+                                        component: 'value'
+                                    });
+                                }
+                                else if ('@id' in propertyData) {
+                                    const propLabel = yield this.schema.getLabelForType(key);
+                                    this.subitems.push({
+                                        typeUrl: key,
+                                        label: keyLabel,
+                                        value: propertyData['@id'],
                                         component: 'value'
                                     });
                                 }
                                 else {
-                                    this.subitems.push({
-                                        typeUrl: key,
-                                        label: keyLabel,
-                                        value: property['@id'],
-                                        component: 'value'
-                                    });
+                                    throw new Error('[initSection] invalid property data: '
+                                        + JSON.stringify(propertyData));
                                 }
                             }
                         }
@@ -1067,19 +1129,19 @@ let ItemSectionComponent = class ItemSectionComponent {
     }
 };
 __decorate([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
     __metadata("design:type", Object)
 ], ItemSectionComponent.prototype, "data", void 0);
 __decorate([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
     __metadata("design:type", Object)
 ], ItemSectionComponent.prototype, "showHeader", void 0);
 __decorate([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
     __metadata("design:type", Object)
 ], ItemSectionComponent.prototype, "headerSize", void 0);
 ItemSectionComponent = __decorate([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-item-section',
         template: `
   <app-item-header
@@ -1091,7 +1153,7 @@ ItemSectionComponent = __decorate([
     <div [ngSwitch]="subitem.component">
 
       <!-----------------
-        Item
+        Item (recursively embed sub-section)
       ------------------->
       <div
         *ngSwitchCase="'item'">
@@ -1110,15 +1172,16 @@ ItemSectionComponent = __decorate([
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <label for="content_key"
+            <label
+                   for="{{ subitem.label }}-{{ this.sectionPrefix }}"
                    class="input-group-text">
                    {{ subitem.label }}
             </label>
 
-              <input [attr.property]="subitem.typeUrl"
-                     id="content_key"
-                     class="form-control"
-                     value="{{ subitem.value }}">
+            <input [attr.property]="subitem.typeUrl"
+                   id="{{ subitem.label }}-{{ this.sectionPrefix }}"
+                   class="form-control"
+                   value="{{ subitem.value }}">
             </div>
           </div>
       </ng-container>
@@ -1135,7 +1198,7 @@ ItemSectionComponent = __decorate([
   </div>
   `
     }),
-    __metadata("design:paramtypes", [_services_schema_service__WEBPACK_IMPORTED_MODULE_1__["SchemaService"]])
+    __metadata("design:paramtypes", [_services_schema_service__WEBPACK_IMPORTED_MODULE_2__["SchemaService"]])
 ], ItemSectionComponent);
 
 
@@ -1160,7 +1223,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "  <div #grid class=\"card-deck\">\n    <div class=\"card\"\n         *ngFor=\"let item of items$ | async; let i=index\">\n      <app-card [item]=\"item\"\n                [selected]=\"isSelected(item)\"\n                (click)='selectItem(item)'\n      ></app-card>\n    </div>\n  </div>\n"
+module.exports = "  <div #grid class=\"card-deck\">\n    <div class=\"card\"\n         *ngFor=\"let item of items$ | async; let i=index\">\n      <app-card [item]=\"item\"\n                [id]=\"i\"\n      ></app-card>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -1220,7 +1283,6 @@ let ItemsListComponent = class ItemsListComponent {
         });
         this.getItems();
         this.items$ = store.select(state => state.item.data);
-        this.visible$ = store.select(state => state.app.showEditor);
     }
     ngAfterViewInit() {
     }
@@ -1232,7 +1294,8 @@ let ItemsListComponent = class ItemsListComponent {
     }
     selectItem(item) {
         // Sets focused property on an item
-        console.log('[selectItem]', item);
+        console.log('[selectItem] args', arguments);
+        console.log('[selectItem] this', this);
         // Get the currently selected card (returned as array)
         const cards = this.cards.filter(card => card.selected);
         for (const card of cards) {
@@ -1290,7 +1353,6 @@ let ItemsListComponent = class ItemsListComponent {
                 break;
             case 'current':
                 index = cardIdx;
-                console.log('Reselecting current item', index);
                 break;
             default:
                 break;
@@ -1309,7 +1371,7 @@ let ItemsListComponent = class ItemsListComponent {
     isSelected(item) {
         // Return whether an item is the currently focused item
         if (this.currentItem) {
-            return this.currentItem.data['@type'] === item['@type'];
+            return this.currentItem.uri === item.uri;
         }
         else {
             return false;
@@ -1356,7 +1418,7 @@ module.exports = ".overlay {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  lef
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\"\n     [ngStyle]=\"{'display': visible ? 'block' : 'none', 'opacity': 1 }\"\n  >\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\"\n  >\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\"\n            id=\"exampleModalLabel\"\n            [innerHtml]=\"modalTitle\">\n        </h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\t<app-basic-editor\n      #editor\n\t></app-basic-editor>\n      <div class=\"modal-footer\">\n        <button type=\"button\" (click)=\"this.toggleEditor()\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        <button type=\"button\"\n          class=\"btn btn-primary\"\n          (click)=\"this.saveChanges()\"\n          [disabled]=\"!!this.currentItem$\"\n          \n          >Save changes</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n"
+module.exports = "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\"\n     [ngStyle]=\"{'display': visible ? 'block' : 'none', 'opacity': 1 }\"\n  >\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\"\n  >\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\"\n            id=\"exampleModalLabel\"\n            [innerHtml]=\"modalTitle\">\n        </h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\t<app-rdfa-editor\n      #editor\n\t></app-rdfa-editor>\n      <div class=\"modal-footer\">\n        <button type=\"button\" (click)=\"this.toggleEditor()\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        <button type=\"button\"\n          class=\"btn btn-primary\"\n          (click)=\"this.saveChanges()\"\n          [disabled]=\"!!this.currentItem$\"\n          \n          >Save changes</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -1436,7 +1498,8 @@ let ModalEditorComponent = class ModalEditorComponent {
                 /*
                  * Submit dialog
                  */
-                console.log('Handler[ 0 ]: ', event);
+                console.log('Handler [ 100 ]: ', event);
+                this.saveChanges();
                 event.preventDefault();
             },
             'Escape': (event) => {
@@ -1455,14 +1518,14 @@ let ModalEditorComponent = class ModalEditorComponent {
                 /*
                  * Show help dialog
                  */
-                alert('Halp.');
+                console.log('Handler [ 100 ]: ', event);
                 event.preventDefault();
             },
             'Control.Enter': (event) => {
                 /*
                  * Submit dialog
                  */
-                console.log('Handler[ 0 ]: ', event);
+                console.log('Handler [ 100 ]: ', event);
                 event.preventDefault();
             },
             'Escape': (event) => {
@@ -1489,11 +1552,10 @@ let ModalEditorComponent = class ModalEditorComponent {
     }
     saveChanges() {
         this.store.select(state => state.editor.item).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(item => {
-            this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_6__["ItemLoaded"](item));
-        })).subscribe(item => {
-            console.log('[saveChanges]', this.item);
+            this.store.dispatch(new _actions_item_actions__WEBPACK_IMPORTED_MODULE_6__["UpdateItem"](item));
             this.toggleEditor();
-        });
+            return item;
+        })).subscribe(item => console.log('[saveChanges] data', item));
     }
     toggleEditor() {
         this.store.dispatch(new _actions_app_actions__WEBPACK_IMPORTED_MODULE_4__["ToggleEditor"]());
@@ -1563,7 +1625,7 @@ module.exports = ".rawInput {\n    width: 100%\n}\n\n/* CSS spinner from https:/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-body\" id=\"modal-body\">\n  <form [formGroup]=\"form\">\n    <div class=\"input-group input-group-sm mb-3\">\n      <div class=\"input-group-prepend\">\n        <span class=\"input-group-text\" id=\"inputGroup-sizing-sm\">Type URL</span>\n      </div>\n      <input #typeUrl\n             id=\"inputTypeUrl\"\n             class=\"form-control custom-combobox-input ui-widget\n                    ui-widget-content ui-state-default ui-corner-left\n                    ui-autocomplete-input\"\n             autocomplete=\"off\"\n             (blur)=\"handleTypeChange(typeUrl.value)\"\n             [ngbTypeahead]=\"search\"\n             [class.alert-danger]=\"!!this.form.controls.typeUrl.errors\"\n             formControlName=\"typeUrl\"\n             autofocus\n             >\n    </div>\n    <div *ngIf=\"form.errors\"\n           class=\"alert alert-danger\">\n    </div>\n    <!-- Loader animation -->\n    <div class=\"loader\" *ngIf=\"!contentLoaded\">Loading...</div>\n\n    <!-- Temporary text input box for pasting raw JSON -->\n    <!-- and ngModel issues :-/ -->\n    <div *ngIf=\"this.form.controls.json?.invalid && (this.form.controls.json?.dirty || this.form.controls.json?.touched)\"\n     class=\"alert alert-danger\">\n      Invalid JSON document:\n    </div>\n\n    <app-item-section\n      [data]=\"this.expandedJson[0]\"\n      [showHeader]=\"false\"\n      *ngIf=\"this.expandedJson\">\n    </app-item-section>\n\n    <div *ngIf=\"this.showRawInputBox\">\n      <textarea\n        class=\"container\"\n        rows=10\n        autofocus\n        value=\"{{ this.expandedJson | json }}\"\n        #rawInput\n        formControlName=\"json\"\n        ></textarea>\n    </div>\n    <div>\n      <button type=\"button\" class=\"btn btn-primary\"\n       (click)=\"showRawInputBox = !showRawInputBox\">Show raw JSON-LD</button>\n    </div>\n\n  </form>\n</div>\n"
+module.exports = "<div class=\"modal-body\" id=\"modal-body\">\n  <form [formGroup]=\"form\">\n    <div class=\"input-group input-group-sm mb-3\">\n      <div class=\"input-group-prepend\">\n        <span class=\"input-group-text\" id=\"inputGroup-sizing-sm\">Type URL</span>\n      </div>\n      <input #typeUrl\n             id=\"inputTypeUrl\"\n             class=\"form-control custom-combobox-input ui-widget\n                    ui-widget-content ui-state-default ui-corner-left\n                    ui-autocomplete-input\"\n             autocomplete=\"off\"\n             (blur)=\"handleTypeChange(typeUrl.value)\"\n             [ngbTypeahead]=\"search\"\n             [class.alert-danger]=\"!!this.form.controls.typeUrl.errors\"\n             formControlName=\"typeUrl\"\n             autofocus\n             >\n    </div>\n    <div *ngIf=\"form.errors\"\n           class=\"alert alert-danger\">\n    </div>\n    <!-- Loader animation -->\n    <div class=\"loader\" *ngIf=\"!contentLoaded\">Loading...</div>\n\n    <!-- Temporary text input box for pasting raw JSON -->\n    <!-- and ngModel issues :-/ -->\n    <div *ngIf=\"this.form.controls.json?.invalid && (this.form.controls.json?.dirty || this.form.controls.json?.touched)\"\n     class=\"alert alert-danger\">\n      Invalid JSON document:\n    </div>\n\n    <app-item-section\n      [data]=\"this.expandedJson[0]\"\n      [showHeader]=\"false\"\n      *ngIf=\"this.expandedJson\">\n    </app-item-section>\n\n    <div>\n      <input #ctlAddProperty\n             id=\"ctlAddProperty\"\n             class=\"form-control custom-combobox-input ui-widget\n                    ui-widget-content ui-state-default ui-corner-left\n                    ui-autocomplete-input\"\n             autocomplete=\"off\"\n             (blur)=\"addProperty(ctlAddProperty.value)\"\n             [ngbTypeahead]=\"propertySearch\"\n             placeholder=\"add property...\"\n             formControlName=\"ctlAddProperty\"\n             >\n    </div>\n\n    <div *ngIf=\"this.showRawInputBox\">\n      <textarea\n        class=\"container\"\n        rows=10\n        autofocus\n        value=\"{{ this.expandedJson | json }}\"\n        #rawInput\n        formControlName=\"json\"\n        ></textarea>\n    </div>\n    <hr>\n    <div>\n      <button type=\"button\" class=\"btn btn-primary\"\n       (click)=\"showRawInputBox = !showRawInputBox\">Show raw JSON-LD</button>\n    </div>\n\n  </form>\n</div>\n"
 
 /***/ }),
 
@@ -1578,18 +1640,16 @@ module.exports = "<div class=\"modal-body\" id=\"modal-body\">\n  <form [formGro
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RdfaEditorComponent", function() { return RdfaEditorComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/index.js");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../directives/form-validator.directive */ "./src/app/directives/form-validator.directive.ts");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm2015/store.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var _actions_editor_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/editor.actions */ "./src/app/actions/editor.actions.ts");
-/* harmony import */ var _models_item_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../models/item.model */ "./src/app/models/item.model.ts");
-/* harmony import */ var _services_schema_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../services/schema.service */ "./src/app/services/schema.service.ts");
-/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../assets/js/jsonld.js */ "./src/assets/js/jsonld.js");
-/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../directives/form-validator.directive */ "./src/app/directives/form-validator.directive.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm2015/store.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _actions_editor_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/editor.actions */ "./src/app/actions/editor.actions.ts");
+/* harmony import */ var _models_item_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../models/item.model */ "./src/app/models/item.model.ts");
+/* harmony import */ var _services_schema_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../services/schema.service */ "./src/app/services/schema.service.ts");
+/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../assets/js/jsonld.js */ "./src/assets/js/jsonld.js");
+/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_9__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1599,7 +1659,14 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
@@ -1616,12 +1683,13 @@ let RdfaEditorComponent = class RdfaEditorComponent {
         this.componentFactoryResolver = componentFactoryResolver;
         this.schema = schema;
         this.store = store;
-        this.resultOptionsSubject = new rxjs__WEBPACK_IMPORTED_MODULE_5__["Subject"]();
-        this.search = (text$) => text$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["flatMap"])(i => this.doSearch(i)));
+        this.resultOptionsSubject = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
+        this.search = (text$) => text$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["flatMap"])(i => this.doSearch(i)));
+        this.propertySearch = (text$) => text$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["flatMap"])(i => this.doPropertySearch(i)));
         this.contentLoaded = false;
         this.showRawInputBox = false;
         this.setupForm();
-        this.searchResults = Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["of"])([
+        this.searchResults = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["of"])([
             'http://schema.org/Book',
             'http://schema.org/Movie',
             'http://schema.org/NoteDigitalDocument',
@@ -1630,24 +1698,29 @@ let RdfaEditorComponent = class RdfaEditorComponent {
             'http://schema.org/Restaurant',
             'http://schema.org/Thing',
         ]);
-        this.form.controls['typeUrl'].valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["distinctUntilChanged"])())
-            .subscribe(v => {
-            console.log('typeUrl updated to', v);
-        });
-        this.form.controls['json'].valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["distinctUntilChanged"])())
+        this.form.controls['json'].valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["distinctUntilChanged"])())
             .subscribe(v => {
             if (!this.form.controls.json.errors) {
                 /*
                  * Create 'item' from JSON
                  */
+                /*
+                 *
+                 * Disabled for now.
+                 *
+                 *
+      
                 const json = JSON.parse(v);
-                const item = new _models_item_model__WEBPACK_IMPORTED_MODULE_8__["Item"](json);
+      
+                const item    = new Item(json);
                 item.observed = new Date(Date.now()).toUTCString();
-                item.sameAs = 'http://shawnlower.net/o/' + uuid__WEBPACK_IMPORTED_MODULE_1__["v1"]();
+                item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
+      
                 // No type key found. See below for potential reasons
                 if ('@type' in item.data) {
-                    this.store.dispatch(new _actions_editor_actions__WEBPACK_IMPORTED_MODULE_7__["LoadItem"](item));
+                  this.store.dispatch(new editorActions.LoadItem(item));
                 }
+      
                 /*
                 *{
                 *  "@context": {
@@ -1681,68 +1754,81 @@ let RdfaEditorComponent = class RdfaEditorComponent {
          *
          */
         this.store.select(state => state.editor)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1))
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1))
             .subscribe(editorState => this.initEditor(editorState))
             .unsubscribe();
+        this.currentItem$ = this.store.select(state => state.editor.item)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["debounceTime"])(200), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["distinctUntilChanged"])());
+        /*
+         * Observable not working correctly in template
+         * :-(
+         */
+        this.currentItem$.subscribe(item => {
+            // console.log('[ngOnInit: editor.item]', item);
+            this.currentItem = item;
+        });
     }
     ngAfterViewInit() {
     }
     loadItem(item, lock = true) {
-        /*
-         * Can be called at any time, to clear the editor and load a new item
-         * lock: controls whether to lock the typeUrl control
-         */
-        console.log('[rdfEditor:loadItem]', item);
-        if (item) {
-            this.store.dispatch(new _actions_editor_actions__WEBPACK_IMPORTED_MODULE_7__["LoadItem"](item));
-            // Set expandedJson which is used by the item-section component,
-            // then update the type field
-            _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_10__["expand"](item.data).then(expanded => {
+        return __awaiter(this, void 0, void 0, function* () {
+            /*
+             * Can be called at any time, to clear the editor and load a new item
+             * lock: controls whether to lock the typeUrl control
+             */
+            // console.log('[rdfEditor:loadItem]', item);
+            if (item) {
+                this.store.dispatch(new _actions_editor_actions__WEBPACK_IMPORTED_MODULE_6__["LoadItem"](item));
+                // Set expandedJson which is used by the item-section component,
+                // then update the type field
+                const expanded = yield _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_9__["expand"](item.data);
                 this.expandedJson = expanded;
                 const typeUrl = expanded[0]['@type'][0];
-                this.schema.getLabelForType(typeUrl).then(label => {
-                    this.form.controls['typeUrl'].setValue(label);
-                    if (lock) {
-                        this.form.controls['typeUrl'].disable();
-                    }
-                });
-            });
-        }
-    }
-    handleTypeChange(typeUrl) {
-        // console.log('[handleTypeChange] called w/', arguments);
-        if (!typeUrl.startsWith('http')) {
-            return;
-        }
-        this.schema.getLabelForType(typeUrl).then(label => {
-            /*
-             * Currently, we won't allow changing the type after it's been
-             * selected. In the future, we'll allow it, prompt to clear the form
-             * or handle conversions between compatible classes, etc.
-             * For now, just close and re-open :-/
-             */
-            this.form.controls['typeUrl'].setValue(label);
-            this.loadDefaultItem();
+                // Set readable label for Item type
+                this.schema.getLabelForType(typeUrl).then(label => this.form.controls['typeUrl'].setValue(label));
+                if (lock) {
+                    this.form.controls['typeUrl'].disable();
+                }
+            }
         });
     }
-    loadDefaultItem() {
+    handleTypeChange(typeUrl) {
         /*
-         * Next, populate the inputs for this type.
+         * Called when the 'typeUrl' control changes.
          *
-         * 1) Get, for the set of vocabularies we are using (schema, etc):
-         *     { "@id": "xxx:some_type",
-         *       "schema:rangeIncludes": {
-         *       "@id": "${typeUrl}" }
+         * If an item is not loaded, load the default.
+         *
+         * We only allow the type to be changed once, which triggers the other
+         * form controls to be populated.
          *
          */
+        // console.log('[handleTypeChange] args', arguments);
+        if (this.currentItem === null) {
+            this.loadDefaultItem(typeUrl);
+        }
+    }
+    loadDefaultItem(typeUrl) {
+        /*
+         * Construct an empty Item from a given Type URL
+         * this item should contain the default properties for that
+         * type.
+         *
+         * loadItem() will then construct the form / DOM elements
+         */
+        const defProperties = this.schema.getDefaultProperties(typeUrl);
         const data = {
-            '@type': 'NoteDigitalDocument',
-            '@context': 'https://schema.org/',
-            'text': '',
+            '@type': typeUrl
         };
-        const item = new _models_item_model__WEBPACK_IMPORTED_MODULE_8__["Item"](data);
+        if (defProperties) {
+            for (const property of defProperties) {
+                data[property.id] = '';
+            }
+        }
+        const item = new _models_item_model__WEBPACK_IMPORTED_MODULE_7__["Item"](data);
+        /*
         item.observed = new Date(Date.now()).toUTCString();
-        item.sameAs = 'http://shawnlower.net/o/' + uuid__WEBPACK_IMPORTED_MODULE_1__["v1"]();
+        item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
+        */
         this.loadItem(item, false);
     }
     initEditor(editorState) {
@@ -1751,29 +1837,65 @@ let RdfaEditorComponent = class RdfaEditorComponent {
          */
         // console.log('[initEditor]', editorState);
         // Load a default item if we don't have one already loaded
-        if (!editorState.item) {
-            this.loadDefaultItem();
-            this.typeUrl.nativeElement.focus();
-        }
-        else {
+        if (editorState.item) {
             this.loadItem(editorState.item);
         }
+        const DEFAULT_TYPE = 'http://schema.org/NoteDigitalDocument';
+        this.form.controls['typeUrl'].setValue(DEFAULT_TYPE);
+        this.typeUrl.nativeElement.focus();
+        this.typeUrl.nativeElement.select();
         this.contentLoaded = true;
     }
     setupForm() {
         this.form = this.formBuilder.group({
-            typeUrl: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required
+            typeUrl: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required
             ]),
-            json: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
-                _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_3__["jsonValidator"]
+            ctlAddProperty: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', []),
+            json: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
+                _directives_form_validator_directive__WEBPACK_IMPORTED_MODULE_2__["jsonValidator"]
             ])
         });
     }
+    addProperty(propertyName) {
+        /*
+         * Called when we add a new property from the form
+         * We need to update the current item with the new property,
+         * BUT should likely do that as part of the blur event, or
+         * when the control becomes dirty, AKA: when data is added.
+         */
+        console.log('[addProperty] args', arguments);
+        if (this.propertySearchResults$) {
+            this.propertySearchResults$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["last"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(properties => properties.filter(prop => prop && prop.label === propertyName)), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(p => {
+                console.log('[addProperty]: ', p);
+                // test just updating the expandedJson
+                /*
+              if (p[0].id in this.expandedJson[0]){
+                this.expandedJson[0][p[0].id]['@value'].push
+                 */
+            })).subscribe();
+        }
+    }
     doSearch(term) {
         // Case-insensitive mock search
-        return this.searchResults.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(results => results.filter(result => result.toLowerCase()
+        return this.searchResults.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(results => results.filter(result => result.toLowerCase()
+            .indexOf(term.toLowerCase()) > -1)));
+    }
+    doPropertySearch(term) {
+        const typeUrl = this.schema.getValue(this.expandedJson[0]['@type']);
+        if (!typeUrl.startsWith('http')) {
+            console.error(`Invalid type: ${typeUrl}. Expected http...`);
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["of"])(['Invalid type']);
+        }
+        this.propertySearchResults$ = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["from"])(this.schema.getProperties(typeUrl));
+        // create a subscriber, so that we can use the structured objects
+        // in the addProperty() onBlur() handler
+        this.propertySearchResults$.subscribe();
+        return this.propertySearchResults$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(properties => properties
+            .filter(property => property && 'label' in property)
+            .map(property => property.label)
+            .filter(label => label.toLowerCase()
             .indexOf(term.toLowerCase()) > -1)));
     }
 };
@@ -1791,11 +1913,127 @@ RdfaEditorComponent = __decorate([
         template: __webpack_require__(/*! ./rdfa-editor.component.html */ "./src/app/components/rdfa-editor/rdfa-editor.component.html"),
         styles: [__webpack_require__(/*! ./rdfa-editor.component.css */ "./src/app/components/rdfa-editor/rdfa-editor.component.css")],
     }),
-    __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+    __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ComponentFactoryResolver"],
-        _services_schema_service__WEBPACK_IMPORTED_MODULE_9__["SchemaService"],
-        _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"]])
+        _services_schema_service__WEBPACK_IMPORTED_MODULE_8__["SchemaService"],
+        _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]])
 ], RdfaEditorComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/usage/usage.component.css":
+/*!******************************************************!*\
+  !*** ./src/app/components/usage/usage.component.css ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".overlay {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 999;\n}\n\n.usage {\n    top: auto;\n    bottom: auto;\n    overflow: visible;\n    position: absolute;\n}\n\n"
+
+/***/ }),
+
+/***/ "./src/app/components/usage/usage.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/components/usage/usage.component.ts ***!
+  \*****************************************************/
+/*! exports provided: UsageComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UsageComponent", function() { return UsageComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm2015/animations.js");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm2015/store.js");
+/* harmony import */ var _actions_app_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/app.actions */ "./src/app/actions/app.actions.ts");
+/* harmony import */ var _services_keyboard_shortcuts_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/keyboard-shortcuts.service */ "./src/app/services/keyboard-shortcuts.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+let UsageComponent = class UsageComponent {
+    constructor(keyboardShortcuts, store) {
+        this.keyboardShortcuts = keyboardShortcuts;
+        this.store = store;
+        this.keyboardShortcuts = keyboardShortcuts;
+    }
+    ngOnInit() {
+        this.unlisten = this.keyHandler();
+    }
+    keyHandler() {
+        // Handle shortcuts within an input dialog
+        return this.keyboardShortcuts.listen({
+            'Escape': (event) => {
+                this.store.dispatch(new _actions_app_actions__WEBPACK_IMPORTED_MODULE_3__["ToggleUsage"]());
+                event.preventDefault();
+            }
+        }, {
+            // Priority should be lower than our modal
+            priority: 0,
+            inputs: true
+        });
+    }
+    ngOnDestroy() {
+    }
+};
+__decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+    __metadata("design:type", Boolean)
+], UsageComponent.prototype, "visible", void 0);
+UsageComponent = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        selector: 'app-usage',
+        styles: [__webpack_require__(/*! ./usage.component.css */ "./src/app/components/usage/usage.component.css")],
+        animations: [
+            Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["trigger"])('modal-editor', [
+                Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["transition"])('void => *', [
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["style"])({ transform: 'scale3d(.3, .3, .3)' }),
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["animate"])(100)
+                ]),
+                Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["transition"])('* => void', [
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["animate"])(100, Object(_angular_animations__WEBPACK_IMPORTED_MODULE_1__["style"])({ transform: 'scale3d(.0, .0, .0)' }))
+                ])
+            ])
+        ],
+        template: `
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="usage" aria-hidden="true"
+     [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': 1 }">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Usage</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Keys: This application supports a wide range of vim key-bindings, including j and k (exclusive).</h5>
+        <p> j / k : Select next / previous card
+        <p> e     : [E]dit existing item
+        <p> n     : Create [N]ew item
+        <p> d     : [D]elete item.
+        <p> ?     : Usage[?]
+      </div>
+    </div>
+  </div>
+</div>
+  `
+    }),
+    __metadata("design:paramtypes", [_services_keyboard_shortcuts_service__WEBPACK_IMPORTED_MODULE_4__["KeyboardShortcutsService"],
+        _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]])
+], UsageComponent);
 
 
 
@@ -2095,11 +2333,15 @@ __webpack_require__.r(__webpack_exports__);
 const initialState = {
     loaded: false,
     showEditor: false,
+    showUsage: false,
 };
 function reducer(state = initialState, action) {
     switch (action.type) {
         case _actions_app_actions__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_EDITOR"]: {
             return Object.assign({}, state, { showEditor: !state.showEditor });
+        }
+        case _actions_app_actions__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_USAGE"]: {
+            return Object.assign({}, state, { showUsage: !state.showUsage });
         }
         case _actions_app_actions__WEBPACK_IMPORTED_MODULE_0__["SELECT_NEXT_ITEM"]:
         case _actions_app_actions__WEBPACK_IMPORTED_MODULE_0__["SELECT_PREV_ITEM"]: {
@@ -2230,6 +2472,13 @@ function reducer(state = initialState, action) {
         case _actions_item_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_ITEM"]: {
             const data = state.data.filter(item => item !== action.payload);
             return Object.assign({}, state, { data });
+        }
+        case _actions_item_actions__WEBPACK_IMPORTED_MODULE_0__["UPDATE_ITEM"]: {
+            const updated = action.payload;
+            const existing = state.data.find(i => i.uri === updated.uri);
+            state.data.splice(state.data.indexOf(existing), 1, updated);
+            console.log(action, action.payload);
+            return state;
         }
         case _actions_item_actions__WEBPACK_IMPORTED_MODULE_0__["SELECT_ITEM"]:
             return Object.assign({}, state, { selectedItem: action.payload });
@@ -2554,11 +2803,9 @@ KeyboardShortcutsService = __decorate([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SchemaService", function() { return SchemaService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/js/jsonld.js */ "./src/assets/js/jsonld.js");
-/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../assets/js/jsonld.js */ "./src/assets/js/jsonld.js");
+/* harmony import */ var _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2579,232 +2826,424 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-
-
+const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
+const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+const SCHEMA = 'http://schema.org/';
 let SchemaService = class SchemaService {
     constructor(http) {
         this.http = http;
+        // Init caches
+        this.schemaCache = {};
+        this.propertyCache = {};
         this.schemaMap = {};
         this.classHierarchy = {};
     }
     getLabelForType(typeUrl) {
-        // Fetch our schema first
-        const resp = this.getSchema(typeUrl);
-        return resp.toPromise().then(schema => {
-            return _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__["flatten"](schema)
-                .then(flat => {
-                // Assume http and https are the same type
-                const typeUrls = [typeUrl, typeUrl.replace(/^https/, 'http')];
-                let typeSchema;
-                for (typeUrl of typeUrls) {
-                    typeSchema = flat.filter(o => o['@id'] === typeUrl)[0];
-                    if (typeSchema) {
-                        break;
-                    }
-                }
-                if (!typeSchema) {
-                    console.log('[getLabelForType] no match', typeUrl);
-                }
-                const rdfsLabel = 'http://www.w3.org/2000/01/rdf-schema#label';
-                let label;
-                if (typeSchema) {
-                    // Use the RDFS class information to build an appropriate
-                    // label
-                    label = typeSchema[rdfsLabel];
-                    if (label && label[0]['@value']) {
-                        return label[0]['@value'];
-                    }
-                    else {
-                        console.log('[getLabelForType] invalid label', label, typeUrl);
-                        throw new Error('Invalid label');
-                    }
-                }
-            })
-                .catch(err => {
-                console.log('[getLabelForType]', 'Error', err);
-                return null;
-            });
+        // console.log('[getLabelForType] args', arguments);
+        /*
+         * - Fetch schema as IRDFSClass
+         * - return schema.label
+         */
+        return this.getSchema(typeUrl)
+            .then(schema => schema.label)
+            .catch(error => {
+            console.warn('Unable to get label: ', error);
+            return null;
         });
     }
-    addProp(typeUrl, property) {
-        // console.log('[addProp] ', property, typeUrl, this.schemaMap);
-        if (!Object.keys(this.schemaMap).includes(typeUrl)) {
-            this.schemaMap[typeUrl] = [];
-        }
-        if (property === '' || property === null) {
-            return;
-        }
-        this.schemaMap[typeUrl].push(property);
+    addProperty(property) {
+        // console.log('[addProperty] ', property, this.propertyCache);
+        this.propertyCache[property.id] = property;
     }
-    propExists(typeUrl, property) {
-        if (!Object.keys(this.schemaMap).includes(typeUrl)) {
-            return false;
+    getCachedSchema(typeUrl) {
+        // console.log('[getCached] args', arguments);
+        const schema = this.schemaCache[typeUrl];
+        if (schema) {
+            return schema;
         }
-        return this.schemaMap[typeUrl].includes(property);
-    }
-    getCachedProps(typeUrl, recurse = 20) {
-        if (recurse === -1) {
-            // Recursion disabled
-            return this.schemaMap[typeUrl];
-        }
-        else if (recurse < 1) {
-            throw new Error('Maximum recursion depth exceeded');
-        }
-        if (!this.schemaMap[typeUrl]) {
+        else {
             return null;
         }
-        const props = this.schemaMap[typeUrl];
-        console.log('[getCachedProps] classHierarchy ', typeUrl, this.classHierarchy);
-        console.log('[getCachedProps] schemaMap', this.schemaMap);
+    }
+    getCachedProperties(typeUrl, recurse = -1) {
+        /*
+         * Returns the properties for a given type from the cache
+         * Returns:
+         * null: No item found in cache
+         * []  : No properties for item
+         * [ IRDFSProperty, ...]
+         */
+        if (recurse === 0) {
+            throw new Error('Maximum recursion depth exceeded');
+        }
+        // get all cached properties
+        const props = [].concat(this.schemaMap[typeUrl])
+            .map(prop => this.propertyCache[prop]);
+        /*
+         * classHierarchy:
+         * child = classHierarchy[typeUrl];
+         * parent = child.parents[0];
+         */
         if (this.classHierarchy[typeUrl] && this.classHierarchy[typeUrl].parents) {
+            // found a superClass
             for (const parentUrl of this.classHierarchy[typeUrl].parents) {
                 if (parentUrl) {
-                    return props.concat(this.getCachedProps(parentUrl, --recurse));
+                    // recursively append any cachedProperties here
+                    return props.concat(this.getCachedProperties(parentUrl, --recurse));
                 }
             }
         }
+        // console.log(`[getCachedProperties] ${typeUrl}: ${props.length} properties`);
         return props;
     }
-    getProps(typeUrl, recurse = 10) {
+    getProperties(typeInfo, recurse = 10) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.updateProps(typeUrl);
-            return new Promise((resolve, reject) => {
-                resolve(this.getCachedProps(typeUrl));
-            });
-        });
-    }
-    updateProps(typeUrl, recurse = 200) {
-        console.log('[updateProps] args', arguments);
-        const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-        const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
-        const SCHEMA = 'http://schema.org/';
-        if (recurse < 1) {
-            throw new Error('[getProps] max recursion depth exceeded');
-        }
-        return this.getSchema(typeUrl).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["mergeMap"])(json => Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["from"])(_assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_4__["expand"](json))), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(_schema => {
-            // console.log('[updateProps] schema', schema);
             /*
-             * Add any direct properties to the DB
+             * Return: The RDF properties that are valid for a given type
+             *   The promise of an array of IRDFSProperty objects
+             *
+             * Arguments:
+             *   typeInfo: can be either
+             *     - a URL
+             *     - an RDF schema class object (IRDFSClass)
+             *
+             * Stack looks roughly like:
+             *   getProperties
+             *       getCachedProperties
+             *           updateProps
+             *               getSchema
+             *                   normalizeJson
+             *                       normalizeJsonProperty
+             *                         or
+             *                       normalizeJsonClass
              */
-            const schema = _schema;
-            for (const node of schema) {
-                if (node) {
-                    // console.log('[updateProps] node', node);
-                    if (node['@type'] && node['@type'][0] === `${RDF}Property`) {
-                        /*
-                         * This is a PROPERTY. Now we want:
-                         * - Domains (the types that this property is valid for)
-                         * - Comment
-                         * - Label
-                         */
-                        let property;
-                        if (node['@id']) {
-                            property = node['@id'];
-                        }
-                        else {
-                            property = typeUrl;
-                        }
-                        // TODO: Use RDFS as well as schema for domainIncludes, etc
-                        const domainIncludes = node[`${SCHEMA}domainIncludes`];
-                        if (domainIncludes) {
-                            for (const domain of domainIncludes) {
-                                this.addProp(domain['@id'], property);
-                            }
-                        }
-                    }
-                    else if (node['@type'] && node['@type'][0] === `${RDFS}Class`) {
-                        /*
-                         * This is a CLASS. Now we want:
-                         * - Ensure the schema has an entry
-                         * - Look up any sameAs entries (http v https, etc)
-                         * - Ensure we have the subclass information in our class hierarchy structure
-                         * - Walk the class hierarchy back, to get all properties
-                         */
-                        // Add empty property for now
-                        this.addProp(typeUrl, '');
-                        /*
-                         * Recurse into any 'sameAs' properties
-                         */
-                        const refs = node['http://schema.org/sameAs'];
-                        if (refs) {
-                            for (const ref of refs) {
-                                const refUrl = ref['@id'];
-                                if (!this.getCachedProps(refUrl, -1)) {
-                                    console.log('[updateProps] recursing', refUrl, recurse);
-                                    this.updateProps(refUrl, --recurse);
-                                }
-                            }
-                        }
-                        /*
-                         * Retrieve the entire tree back to the root
-                         */
-                        if (!this.classHierarchy[typeUrl]) {
-                            this.classHierarchy[typeUrl] = {};
-                            this.classHierarchy[typeUrl].parents = [];
-                            this.classHierarchy[typeUrl].children = [];
-                        }
-                        const superClasses = node[`${RDFS}subClassOf`];
-                        if (superClasses) {
-                            /*
-                             * First update the hierarchy tree
-                             */
-                            for (const s of superClasses) {
-                                const s_typeUrl = s['@id'];
-                                if (!this.classHierarchy[typeUrl].parents.includes(s_typeUrl) && s_typeUrl !== typeUrl) {
-                                    this.classHierarchy[typeUrl].parents.push(s_typeUrl);
-                                }
-                                if (!this.classHierarchy[s_typeUrl]) {
-                                    this.classHierarchy[s_typeUrl] = {};
-                                    this.classHierarchy[s_typeUrl].parents = [];
-                                    this.classHierarchy[s_typeUrl].children = [];
-                                }
-                                if (!this.classHierarchy[s_typeUrl].children.includes(typeUrl) && s_typeUrl !== typeUrl) {
-                                    this.classHierarchy[s_typeUrl].children.push(typeUrl);
-                                }
-                                if (!this.getCachedProps(s_typeUrl, -1)) {
-                                    console.log('[updateProps] adding superclass', s_typeUrl);
-                                    this.updateProps(s_typeUrl, --recurse);
-                                }
-                            }
+            let typeUrl;
+            if (typeof (typeInfo) === 'string') {
+                typeUrl = typeInfo;
+            }
+            else {
+                typeUrl = typeInfo.id;
+            }
+            const properties = [].concat(this.getCachedProperties(typeUrl, 20));
+            // console.log('[getProperties] from cache: ', properties);
+            if (properties.length > 0) {
+                // just promisify our cached props
+                const p = new Promise(resolve => {
+                    resolve(properties);
+                });
+                return p;
+            }
+            else {
+                // Update our own type first
+                yield this.updateProps(typeUrl);
+                //  .then(() => {
+                if (this.classHierarchy[typeUrl] &&
+                    this.classHierarchy[typeUrl].parents) {
+                    // found a superClass
+                    for (const parentUrl of this.classHierarchy[typeUrl].parents) {
+                        if (parentUrl) {
+                            // recursively append any cachedProperties here
+                            yield this.updateProps(parentUrl, --recurse);
                         }
                     }
                 }
+                console.error('[getProperties]', this.schemaCache, this.propertyCache, this.schemaMap);
+                return properties.concat(this.getCachedProperties(typeUrl, 20));
             }
-        })).toPromise();
+        });
     }
-    getSchema(typeUrl) {
+    updateProps(typeUrl, recurse = 30) {
+        return __awaiter(this, arguments, void 0, function* () {
+            console.error('[updateProps] called', arguments);
+            if (recurse < 1) {
+                throw new Error('[getProperties] max recursion depth exceeded');
+            }
+            const schema = yield this.getSchema(typeUrl);
+        });
+    }
+    getDefaultProperties(typeUrl, max = -1) {
         /*
-         * Fetch the schema for a given type
+         * Description: Retrieve a list of default properties, for a given type
+         *              e.g., for a Person, we'd want name, address, company, etc
          *
-         * Example:
-         *  getSchema('http://schema.org/Person')
+         *              Note: Some classes (e.g. schema:Restaurant) have no direct
+         *              properties, and require traversal to a parent (such as
+         *              schema:FoodEstablishment)
+         * Arguments:
+         *              typeUrl: the URL of the Type/Class to lookup
+         *              max: maximum number of properties to return; -1 for all
+         */
+        // console.log('[getDefaultProperties] args', arguments, new Error().stack);
+        if (typeUrl.match('NoteDigitalDocument')) {
+            const noteProps = []; // this.getRDFSClass(typeUrl);
+            noteProps.push({
+                id: 'https://schema.org/dateCreated',
+                label: 'Date Created',
+                comment: 'Date whent the note was originally authored.'
+            });
+            noteProps.push({
+                id: 'https://schema.org/text',
+                label: 'Note text',
+                comment: 'Textual content of the note.'
+            });
+            console.log('[getDefaultProperties] returning', noteProps);
+            return noteProps;
+        }
+        else {
+            return null;
+        }
+    }
+    getSchemaJson(typeUrl) {
+        /*
+         * Fetch an item, either from cache, or via HTTP, and then return it as
+         * a JSON-LD object
+         *
+         * implementation notes:
+         *  - should be expanded?
          */
         const httpOptions = {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
                 'Accept': 'application/ld+json',
             })
         };
-        // const resp = this.http.get<any>(typeUrl, httpOptions);
         // FIXME: schema.org sends 303 See Other, which results in us not caching
         // the response. Hack it by just requesting the JSON directly
         // See Other: https://stackoverflow.com/questions/47019571
-        // console.log('[getSchema]', typeUrl);
         if (!typeUrl.startsWith('http')) {
             throw new Error('invalid URL: ' + typeUrl);
         }
         if (typeUrl.match(/schema.org/)) {
-            return this.http.get(typeUrl + '.jsonld', httpOptions);
+            return this.http.get(typeUrl + '.jsonld', httpOptions).toPromise();
         }
         else {
-            return this.http.get(typeUrl, httpOptions);
+            return this.http.get(typeUrl, httpOptions).toPromise();
         }
+    }
+    normalizeJson(jld) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /*
+             * Normalize an input schema in JSON-LD format, to an object of
+             *
+             *  export interface IRDFSClass {
+             *    id: string;
+             *    label?: string;
+             *    comment?: string;
+             *    subClasses: Array<IRDFSClass>;
+             *    superClasses: Array<IRDFSClass>;
+             *  }
+             *
+             */
+            // console.log('[normalizeJson] args', arguments);
+            let inSchema;
+            if (typeof (jld) === 'string') {
+                inSchema = JSON.parse(jld);
+            }
+            else {
+                inSchema = jld;
+            }
+            const expanded = yield _assets_js_jsonld_js__WEBPACK_IMPORTED_MODULE_2__["expand"](inSchema);
+            if (expanded.length === 0) {
+                throw new Error('JSON-LD processor returned an empty list. Input: '
+                    + JSON.stringify(inSchema));
+            }
+            else if (expanded.length > 1) {
+                /*
+                console.error('traceback', new Error().stack);
+                throw new Error('Expected a SINGLE object back from JSON-LD processor.'
+                  + ` Got ${expanded.length}. Input: ` + JSON.stringify(inSchema));
+                 */
+                // Multiple objects back are okay, but we only return the one matching
+                // the ID we want
+            }
+            const outSchemas = [];
+            let rdfType;
+            for (const o of expanded) {
+                if (o) {
+                    // console.log('[normalizeJson] expanded o', o);
+                    rdfType = this.getValue(o['@type']);
+                    if (!rdfType) {
+                        /*
+                         * Guess the type. If @type is missing, but
+                         * subPropertyOf is set, then it's a property
+                         * otherwise: fail.
+                         */
+                        if (this.getValue(o[`${RDFS}subPropertyOf`])) {
+                            rdfType = `${RDFS}Property`;
+                        }
+                        else {
+                            // console.warn('[normalizeJson] invald type', o['@type'], rdfType);
+                            // throw new Error('All items must be of the same type');
+                        }
+                    }
+                    if (rdfType === `${RDFS}Class`) {
+                        /*
+                         * RDFS Class
+                         */
+                        outSchemas.push(yield this._normalizeJsonClass(o));
+                    }
+                    else if (rdfType === `${RDF}Property`) {
+                        /*
+                         * RDFS Property
+                         */
+                        outSchemas.push(yield this._normalizeJsonProperty(o));
+                    }
+                    else {
+                        // console.warn('[normalizeJson] ignoring unknown', o);
+                        // throw new Error('normalizeJson: Invalid type: ' + rdfType);
+                    }
+                }
+            }
+            return outSchemas;
+        });
+    }
+    _normalizeJsonClass(jlo, recurse = 20) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /*
+             * recurse: used when walking the class hierarchy
+             * e.g. 3 = follow 3 levels subClassOf entries
+             */
+            // console.log('[normalizeJsonClass] args', arguments);
+            // Set initial properties
+            const outSchema = {
+                id: jlo['@id'],
+                label: this.getValue(jlo[`${RDFS}label`]),
+                comment: this.getValue(jlo[`${RDFS}comment`]),
+                subClasses: null,
+                superClasses: null
+            };
+            /*
+             * Populate superClasses
+             */
+            outSchema.superClasses = [].concat(jlo[`${RDFS}subClassOf`]).map(superClass => {
+                const url = this.getValue(superClass);
+                if (url) {
+                    if (!this.classHierarchy[outSchema.id]) {
+                        this.classHierarchy[outSchema.id] = {};
+                        this.classHierarchy[outSchema.id].parents = [];
+                        this.classHierarchy[outSchema.id].children = [];
+                    }
+                    if (!this.classHierarchy[outSchema.id]
+                        .parents.includes(url)) {
+                        this.classHierarchy[outSchema.id].parents.push(url);
+                    }
+                    this.getSchema(url);
+                    return url;
+                }
+            });
+            // console.log('[normalizeJsonClass] returning', outSchema);
+            return outSchema;
+        });
+    }
+    _normalizeJsonProperty(jlo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Set initial properties
+            const outSchema = {
+                id: jlo['@id'],
+                label: this.getValue(jlo[`${RDFS}label`]),
+                comment: this.getValue(jlo[`${RDFS}comment`]),
+                domainIncludes: null
+            };
+            outSchema.domainIncludes = jlo[`${SCHEMA}domainIncludes`].map(domain => {
+                const url = this.getValue(domain);
+                if (!this.schemaMap[url]) {
+                    this.schemaMap[url] = [outSchema.id];
+                }
+                else {
+                    if (!this.schemaMap[url].includes(outSchema.id)) {
+                        this.schemaMap[url].push(outSchema.id);
+                    }
+                }
+                return this.getValue(domain);
+            });
+            // console.log('[normalizeJsonProperty] returning', outSchema, jlo);
+            this.propertyCache[outSchema.id] = outSchema;
+            return outSchema;
+        });
+    }
+    getValue(input) {
+        /*
+         * Input any of:
+         *   'something'
+         *   {'@value': 'something' }
+         *   {'@id': 'something' }
+         *   ['something']
+         *
+         * Output:
+         *  'something'
+         */
+        if (input) {
+            if (typeof (input) === 'string') {
+                return input;
+            }
+            else if (Array.isArray(input)) {
+                return this.getValue(input[0]);
+            }
+            else {
+                if (input['@value']) {
+                    return input['@value'];
+                }
+                else if (input['@id']) {
+                    return input['@id'];
+                }
+                else {
+                    throw new Error('no @value or @id found in object');
+                }
+            }
+        }
+        else {
+            return input;
+        }
+    }
+    getSchema(typeUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /*
+             * Fetch the schema for a given type
+             *
+             * Example:
+             *  getSchema('http://schema.org/Person')
+             */
+            if (!typeUrl.startsWith('http')) {
+                throw new Error('Invalid URL: ' + typeUrl);
+            }
+            /*
+             * First lookup in cache
+             */
+            let schema = this.getCachedSchema(typeUrl);
+            if (schema) {
+                return schema;
+            }
+            else {
+                /*
+                 * Make HTTP request to fetch schema
+                 * NOTE: This /may/ return a graph of multiple items, if the
+                 *       item has sub-properties, ex: schema:dateCreated has
+                 *       schema:legislationDate which has a subPropertyOf
+                 *       referring to dateCreated
+                 */
+                const schemas = yield this.getSchemaJson(typeUrl).then(s => {
+                    // console.log('[getSchema] JSON-LD: ', s);
+                    return this.normalizeJson(s);
+                });
+                // cast
+                const _schemas = schemas;
+                // Store all schemas in cache
+                _schemas.map(s => this.schemaCache[s.id] = s);
+                // return the single schema matching our typeUrl
+                schema = _schemas
+                    .find(t => {
+                    return t.id.replace('https', 'http') ===
+                        typeUrl.replace('https', 'http');
+                });
+                return schema;
+            }
+        });
     }
 };
 SchemaService = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
         providedIn: 'root'
     }),
-    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
+    __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
 ], SchemaService);
 
 
