@@ -341,7 +341,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
   doPropertySearch(term) {
 
-    const typeUrl = this.currentItem.data['@type'];
+    const typeUrl = this.schema.getValue(this.expandedJson[0]['@type']);
     if (!typeUrl.startsWith('http')) {
       console.error(`Invalid type: ${typeUrl}. Expected http...`);
       return of(['Invalid type']);
@@ -349,9 +349,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
 
     this.propertySearchResults$ = from(this.schema.getProperties(typeUrl));
 
-    this.propertySearchResults$.subscribe(
-      results => console.log('xxxx propertySearchResults', results));
-
+    // create a subscriber, so that we can use the structured objects
+    // in the addProperty() onBlur() handler
+    this.propertySearchResults$.subscribe();
 
     return this.propertySearchResults$.pipe(
       map(properties =>

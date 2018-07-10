@@ -140,7 +140,12 @@ export class SchemaService {
       // console.log('[getProperties] from cache: ', properties);
 
       if (properties.length > 0) {
-        return new Promise(resolve => resolve(properties));
+        // just promisify our cached props
+        const p: Promise<IRDFSProperty[]> = new Promise(resolve => {
+          resolve(properties);
+        });
+        return p;
+
       } else {
         // Update our own type first
         await this.updateProps(typeUrl);
