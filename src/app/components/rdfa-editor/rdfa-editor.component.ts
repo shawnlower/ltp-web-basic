@@ -343,17 +343,29 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
     this.propertySearchResults$.subscribe();
 
     return this.propertySearchResults$.pipe(
-      map(properties =>
-         properties
-          .filter(property => property && 'label' in property)
-          .map(property =>
-             property.label
-          )
-          .filter(label =>
-            label.toLowerCase()
-              .indexOf(term.toLowerCase()) > -1)
-      )
+      map(properties => properties
+        .filter(property => property && 'label' in property)
+        .map(property => this.formatPropertyLabel(property, term))
+        .filter(label =>
+          label.toLowerCase()
+          .indexOf(term.toLowerCase()) > -1)
+        .sort()),
+      map(labels => {
+        const maxResults = 10;
+        if (labels.length > maxResults) {
+          return labels.slice(0, maxResults).concat(
+            [ ` ... ${labels.length - maxResults} more` ]);
+        } else {
+          return labels;
+        }
+      })
+
     );
+  }
+
+  formatPropertyLabel(property: IRDFSProperty, term: string): string {
+    return property.label[0].toUpperCase() +
+           property.label.substring(1) + ':  ' + property.comment;
   }
 
   search = (text$: Observable<string>) =>
