@@ -28,6 +28,18 @@ export function reducer(state: State = initialState, action) {
       return { ...state, data };
     }
 
+    case actions.UPDATE_ITEM: {
+      const updated: Item = action.payload;
+      const existing: Item =
+        state.data.find(i => i.uri === updated.uri);
+
+      state.data.splice(
+        state.data.indexOf(existing), 1, updated);
+
+      console.log(action, action.payload);
+      return state;
+    }
+
     case actions.SELECT_ITEM:
       return {...state, selectedItem: action.payload};
 

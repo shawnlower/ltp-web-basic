@@ -137,7 +137,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
       case 'current':
         index = cardIdx;
-        console.log('Reselecting current item', index);
         break;
 
       default:

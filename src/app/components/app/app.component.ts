@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
            * Show help dialog
            */
 
-          console.log( 'Handler [app-component][ 0 ]: ', event);
+          // console.log( 'Handler [app-component][ 0 ]: ', event);
           this.store.dispatch(new appActions.ToggleUsage());
           event.preventDefault();
 
@@ -113,7 +113,7 @@ export class AppComponent implements OnInit {
            * Show empty editor modal
            */
 
-          console.log( 'Handler [app-component][ 0 ]: ', event);
+          // console.log( 'Handler [app-component][ 0 ]: ', event);
 
           const searchHasFocus = document.activeElement ===
             document.getElementsByName('search')[0];

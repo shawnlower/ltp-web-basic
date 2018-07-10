@@ -19,7 +19,7 @@
           if (url.startsWith('http:') && includedUrls.filter(u => url.match(u)).length > 0) {
             var newUrl = url.replace('http:', 'https:');
             arguments[1] = newUrl;
-            console.log('Rewriting', url, 'to', newUrl);
+            // console.log('Rewriting', url, 'to', newUrl);
           }
           super.open(...arguments);
         }

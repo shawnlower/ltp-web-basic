@@ -193,7 +193,6 @@ export class SchemaService {
      */
 
     // console.log('[getDefaultProperties] args', arguments, new Error().stack);
-    console.log('[getDefaultProperties] args', arguments);
 
     if ( typeUrl.match('NoteDigitalDocument')) {
       const noteProps = []; // this.getRDFSClass(typeUrl);
@@ -448,7 +447,6 @@ export class SchemaService {
        *       schema:legislationDate which has a subPropertyOf
        *       referring to dateCreated
        */
-      console.log('[getSchema] fetching via HTTP: ', typeUrl);
       const schemas = await this.getSchemaJson(typeUrl).then(
         s => {
           // console.log('[getSchema] JSON-LD: ', s);

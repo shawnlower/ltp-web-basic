@@ -100,13 +100,6 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       'http://schema.org/Thing',
     ]);
 
-    this.form.controls['typeUrl'].valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged())
-      .subscribe(v => {
-        console.log('typeUrl updated to', v);
-    });
-
     this.form.controls['json'].valueChanges.pipe(
       debounceTime(200),
       distinctUntilChanged())
@@ -184,7 +177,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
      * :-(
      */
     this.currentItem$.subscribe(item => {
-      console.log('[ngOnInit: editor.item]', item);
+      // console.log('[ngOnInit: editor.item]', item);
       this.currentItem = item;
     });
   }
@@ -227,6 +220,7 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
      * form controls to be populated.
      *
      */
+    // console.log('[handleTypeChange] args', arguments);
 
     if (this.currentItem === null) {
       this.loadDefaultItem(typeUrl);
