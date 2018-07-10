@@ -98,6 +98,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
          */
 
         console.log( 'Handler [ 100 ]: ', event);
+        this.saveChanges();
         event.preventDefault();
 
       },
@@ -168,11 +169,10 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
     this.store.select(state => state.editor.item).pipe(
       take(1),
       map(item => {
-        this.store.dispatch(new itemActions.ItemLoaded(item));
-      })).subscribe(item => {
-        console.log('[saveChanges]', this.item);
+        this.store.dispatch(new itemActions.UpdateItem(item));
         this.toggleEditor();
-      });
+        return item;
+      })).subscribe(item => console.log('[saveChanges] data', item));
   }
 
   toggleEditor() {

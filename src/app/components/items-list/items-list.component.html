@@ -2,8 +2,7 @@
     <div class="card"
          *ngFor="let item of items$ | async; let i=index">
       <app-card [item]="item"
-                [selected]="isSelected(item)"
-                (click)='selectItem(item)'
+                [id]="i"
       ></app-card>
     </div>
   </div>

@@ -1,13 +1,15 @@
   <div class="card-body"
-      id="elCard"
-      (click)="selectItem()"
+       id="{{ 'card' + id }}"
+       data-toggle="tooltip"
+       title="{{ item.uri }}"
       [class.bg-secondary]="selected"
+      (click)="selectItem()"
       [class.active]="selected"
       [attr.about]="item.data['@type']">
-    <h5 class="card-title">Card number</h5>
+    <h5 class="card-title">Card {{ id }}</h5>
     <p class="card-text">{{ item.data['@type'] }}</p>
     <a href="#" class="btn btn-primary"
-                (click)="editItem()"
+                (click)="selectItem(); editItem(); false"
     >Edit</a>
     <a href="#" class="btn btn-primary"
                 (click)="!!removeItem()"

@@ -39,8 +39,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   items$: Observable<Item[]>;
   currentItem: Item;
 
-  visible$: Observable<boolean>;
-
   @ViewChildren(CardComponent) cards: QueryList<CardComponent>;
 
   constructor(private itemService: ItemService,
@@ -62,7 +60,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
 
     this.getItems();
     this.items$ = store.select(state => state.item.data);
-    this.visible$ = store.select(state => state.app.showEditor);
   }
 
   ngAfterViewInit() {
@@ -76,11 +73,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     console.log(`Loaded ${items.length.toString()} items.`);
   }
 
-
-
   selectItem(item: Item): void {
     // Sets focused property on an item
-    console.log('[selectItem]', item);
+    console.log('[selectItem] args', arguments);
+    console.log('[selectItem] this', this);
 
     // Get the currently selected card (returned as array)
     const cards = this.cards.filter(card => card.selected);
@@ -166,7 +162,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   isSelected(item: Item): boolean {
     // Return whether an item is the currently focused item
     if (this.currentItem) {
-      return this.currentItem.data['@type'] === item['@type'];
+      return this.currentItem.uri === item.uri;
     } else {
       return false;
     }
