@@ -14,29 +14,37 @@ const RDFS = 'http://www.w3.org/2000/01/rdf-schema#';
 const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 const SCHEMA = 'http://schema.org/';
 
+interface SchemaCache {
+  [key: string]: IRDFSClass;
+}
+
+interface PropertyCache {
+  [key: string]: IRDFSProperty;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class SchemaService {
 
-  schemaMap: {};           // Holds type -> property mappings
+  propertyCache: PropertyCache;
+  schemaCache: SchemaCache;
+  schemaMap: {};           // map of URL -> Array<IRDFSProperty>
   classHierarchy: {};      // Linked list of class<->subclasses
 
-
-
   constructor(private http: HttpClient) {
+    // Init caches
+    this.schemaCache = {};
+    this.propertyCache = {};
     this.schemaMap = {};
     this.classHierarchy = {};
   }
 
   public getLabelForType(typeUrl: string): Promise<string>|null {
-    console.log('[getLabelForType] args', arguments);
+    // console.log('[getLabelForType] args', arguments);
     /*
      * - Fetch schema as IRDFSClass
      * - return schema.label
-    return new Promise((resolve, reject) => {
-      resolve('label test');
-    });
      */
     return this.getSchema(typeUrl)
       .then(schema => schema.label)
@@ -46,207 +54,123 @@ export class SchemaService {
       });
   }
 
-  addProperty(typeUrl: string, property: string) {
-    // console.log('[addProperty] ', property, typeUrl, this.schemaMap);
+  addProperty(property: IRDFSProperty) {
+    // console.log('[addProperty] ', property, this.propertyCache);
 
-    if (! Object.keys(this.schemaMap).includes(typeUrl)) {
-      this.schemaMap[typeUrl] = [];
-    }
-
-    if (property === '' || property === null) {
-      return;
-    }
-
-    this.schemaMap[typeUrl].push(property);
+    this.propertyCache[property.id] = property;
   }
 
-  propertyExists(typeUrl, property): boolean {
-    if (! Object.keys(this.schemaMap).includes(typeUrl)) {
-      return false;
+  getCachedSchema(typeUrl: string): IRDFSClass {
+    // console.log('[getCached] args', arguments);
+    const schema = this.schemaCache[typeUrl];
+    if (schema) {
+      return schema;
+    } else {
+      return null;
     }
-
-    return this.schemaMap[typeUrl].includes(property);
   }
 
-  getCachedProperties(typeUrl: string, recurse = 20): Array<any> {
-    if (recurse === -1 ) {
-      // Recursion disabled
-      return this.schemaMap[typeUrl];
-    } else if (recurse < 1) {
+  getCachedProperties(typeUrl: string, recurse = -1): Array<IRDFSProperty> {
+    /*
+     * Returns the properties for a given type from the cache
+     * Returns:
+     * null: No item found in cache
+     * []  : No properties for item
+     * [ IRDFSProperty, ...]
+     */
+    if (recurse === 0 ) {
       throw new Error('Maximum recursion depth exceeded');
     }
 
-    if (!this.schemaMap[typeUrl]) {
-      return null;
-    }
+    // get all cached properties
+    const props = [].concat(this.schemaMap[typeUrl])
+      .map(prop => this.propertyCache[prop])
 
-    const props: Array<string> = this.schemaMap[typeUrl];
-
-    console.log('[getCachedProperties] classHierarchy ', typeUrl, this.classHierarchy);
-    console.log('[getCachedProperties] schemaMap', this.schemaMap);
+    /*
+     * classHierarchy:
+     * child = classHierarchy[typeUrl];
+     * parent = child.parents[0];
+     */
     if (this.classHierarchy[typeUrl] && this.classHierarchy[typeUrl].parents) {
+      // found a superClass
       for (const parentUrl of this.classHierarchy[typeUrl].parents) {
         if (parentUrl) {
+          // recursively append any cachedProperties here
           return props.concat(this.getCachedProperties(parentUrl, --recurse));
         }
       }
     }
+
+    // console.log(`[getCachedProperties] ${typeUrl}: ${props.length} properties`);
     return props;
-
   }
 
-  async getProperty(propInfo: string, recurse = 10): Promise<IRDFSProperty> {
+  async getProperties(typeInfo: string|IRDFSClass, recurse = 10):
+    Promise<IRDFSProperty[]> {
     /*
-     * Return a single property object
+     * Return: The RDF properties that are valid for a given type
+     *   The promise of an array of IRDFSProperty objects
+     *
+     * Arguments:
+     *   typeInfo: can be either
+     *     - a URL
+     *     - an RDF schema class object (IRDFSClass)
+     *
+     * Stack looks roughly like:
+     *   getProperties
+     *       getCachedProperties
+     *           updateProps
+     *               getSchema
+     *                   normalizeJson
+     *                       normalizeJsonProperty
+     *                         or
+     *                       normalizeJsonClass
      */
-    console.log('[getProperty] args', arguments);
-    return null;
 
-    /*
-    const property: IRDFSProperty = {
-      id: string;
-      label: string;
-      comment: string;
-      domainIncludes: Array<IRDFSClass>;
+      let typeUrl: string;
+      if (typeof(typeInfo) === 'string') {
+        typeUrl = typeInfo;
+      } else {
+        typeUrl = typeInfo.id;
+      }
+
+      const properties: IRDFSProperty[] = [].concat(
+        this.getCachedProperties(typeUrl, 20));
+
+      // console.log('[getProperties] from cache: ', properties);
+
+      if (properties.length > 0) {
+        return new Promise(resolve => resolve(properties));
+      } else {
+        // Update our own type first
+        await this.updateProps(typeUrl);
+        //  .then(() => {
+
+        if (this.classHierarchy[typeUrl] &&
+            this.classHierarchy[typeUrl].parents) {
+          // found a superClass
+          for (const parentUrl of this.classHierarchy[typeUrl].parents) {
+            if (parentUrl) {
+              // recursively append any cachedProperties here
+              await this.updateProps(parentUrl, --recurse);
+            }
+          }
+        }
+
+        console.error('[getProperties]', this.schemaCache, this.propertyCache,
+          this.schemaMap);
+        return properties.concat(this.getCachedProperties(typeUrl, 20));
+      }
     }
-     */
 
-
-
-
-
-  }
-  async getProperties(typeInfo: string|IRDFSClass, recurse = 10): Promise<any> {
-    /*
-     * Return all properties for a given type
-     */
-    let typeUrl: string;
-    if (typeof(typeInfo) === 'string') {
-      typeUrl = typeInfo;
-    } else {
-      typeUrl = typeInfo.id;
-    }
-
-    await this.updateProps(typeUrl);
-
-    return new Promise((resolve, reject) => {
-      resolve(this.getCachedProperties(typeUrl));
-    });
-
-  }
-
-  updateProps(typeUrl: string, recurse = 30) {
-    console.log('[updateProps] args', arguments);
-
+  async updateProps(typeUrl: string, recurse = 30): Promise<any> {
+    console.error('[updateProps] called', arguments);
 
     if (recurse < 1) {
       throw new Error('[getProperties] max recursion depth exceeded');
     }
 
-    return this.getSchema(typeUrl).pipe(
-
-      mergeMap(json => from(jsonld.expand(json))),
-
-      map(_schema => {
-        // console.log('[updateProps] schema', schema);
-
-        /*
-         * Add any direct properties to the DB
-         */
-
-        const schema: Array<any> = _schema;
-        for (const node of schema) {
-          if (node) {
-            // console.log('[updateProps] node', node);
-            if (node['@type'] && node['@type'][0] === `${RDF}Property`) {
-              /*
-               * This is a PROPERTY. Now we want:
-               * - Domains (the types that this property is valid for)
-               * - Comment
-               * - Label
-               */
-              let property: string;
-              if (node['@id']) {
-                property = node['@id'];
-              } else {
-                property = typeUrl;
-              }
-
-              // TODO: Use RDFS as well as schema for domainIncludes, etc
-              const domainIncludes = node[`${SCHEMA}domainIncludes`];
-              if (domainIncludes) {
-                for (const domain of domainIncludes) {
-                  this.addProperty(domain['@id'], property);
-                }
-              }
-            } else if (node['@type'] &&
-              node['@type'][0] === `${RDFS}Class` ) {
-              /*
-               * This is a CLASS. Now we want:
-               * - Ensure the schema has an entry
-               * - Look up any sameAs entries (http v https, etc)
-               * - Ensure we have the subclass information in our class hierarchy structure
-               * - Walk the class hierarchy back, to get all properties
-               */
-
-              // Add empty property for now
-              this.addProperty(typeUrl, '');
-
-              /*
-               * Recurse into any 'sameAs' properties
-               */
-              const refs = node['http://schema.org/sameAs'];
-              if (refs) {
-                for (const ref of refs) {
-                  const refUrl = ref['@id'];
-                  if (!this.getCachedProperties(refUrl, -1)) {
-                    console.log('[updateProps] recursing', refUrl, recurse);
-                    this.updateProps(refUrl, --recurse);
-                  }
-                }
-              }
-
-              /*
-               * Retrieve the entire tree back to the root
-               */
-              if (! this.classHierarchy[typeUrl]) {
-                this.classHierarchy[typeUrl] = {};
-                this.classHierarchy[typeUrl].parents = [];
-                this.classHierarchy[typeUrl].children = [];
-              }
-
-              const superClasses = node[`${RDFS}subClassOf`];
-              if (superClasses) {
-                /*
-                 * First update the hierarchy tree
-                 */
-
-                for (const s of superClasses) {
-                  const s_typeUrl = s['@id'];
-                  if (! this.classHierarchy[typeUrl].parents.includes(s_typeUrl) && s_typeUrl !== typeUrl) {
-                    this.classHierarchy[typeUrl].parents.push(s_typeUrl);
-                  }
-
-                  if (! this.classHierarchy[s_typeUrl]) {
-                    this.classHierarchy[s_typeUrl] = {};
-                    this.classHierarchy[s_typeUrl].parents = [];
-                    this.classHierarchy[s_typeUrl].children = [];
-                  }
-                  if (! this.classHierarchy[s_typeUrl].children.includes(typeUrl) && s_typeUrl !== typeUrl) {
-                    this.classHierarchy[s_typeUrl].children.push(typeUrl);
-                  }
-
-                  if (!this.getCachedProperties(s_typeUrl, -1)) {
-                    console.log('[updateProps] adding superclass', s_typeUrl);
-                    this.updateProps(s_typeUrl, --recurse);
-                  }
-                }
-              }
-            }
-          }
-        }
-      })
-    ).toPromise();
+    const schema = await this.getSchema(typeUrl);
   }
 
   getDefaultProperties(typeUrl: string, max: number = -1): IRDFSProperty[] {
@@ -283,17 +207,6 @@ export class SchemaService {
     } else {
       return null;
     }
-  }
-
-  getRDFSClass(typeUrl: string): IRDFSClass {
-    /* lookup cached first */
-    const rdfClass: IRDFSClass = {
-      id: typeUrl,
-      subClasses: [],
-      superClasses: [],
-    };
-    // rdfClass.properties = this.getCachedProperties(typeUrl);
-    return rdfClass;
   }
 
   getSchemaJson(typeUrl: string): Promise<object> {
@@ -335,7 +248,6 @@ export class SchemaService {
      *    comment?: string;
      *    subClasses: Array<IRDFSClass>;
      *    superClasses: Array<IRDFSClass>;
-     *    // properties: Array<IRDFSProperty>;
      *  }
      *
      */
@@ -365,10 +277,11 @@ export class SchemaService {
 
     const outSchemas = [];
 
-    let rdfType: string; // = this.getValue(expanded.find(i => i['@type']));
+    let rdfType: string;
 
     for (const o of expanded) {
       if (o) {
+        // console.log('[normalizeJson] expanded o', o);
         rdfType = this.getValue(o['@type']);
         if (!rdfType) {
           /*
@@ -384,8 +297,14 @@ export class SchemaService {
           }
         }
         if (rdfType === `${RDFS}Class`) {
+          /*
+           * RDFS Class
+           */
           outSchemas.push(await this._normalizeJsonClass(o));
         } else if (rdfType === `${RDF}Property`) {
+          /*
+           * RDFS Property
+           */
           outSchemas.push(await this._normalizeJsonProperty(o));
         } else {
           // console.warn('[normalizeJson] ignoring unknown', o);
@@ -397,7 +316,12 @@ export class SchemaService {
   }
 
 
-  private async _normalizeJsonClass (jlo: object): Promise<IRDFSClass> {
+  private async _normalizeJsonClass (jlo: object, recurse = 20): Promise<IRDFSClass> {
+    /*
+     * recurse: used when walking the class hierarchy
+     * e.g. 3 = follow 3 levels subClassOf entries
+     */
+    // console.log('[normalizeJsonClass] args', arguments);
 
     // Set initial properties
     const outSchema = {
@@ -409,14 +333,26 @@ export class SchemaService {
     };
 
     /*
-     * Populate subClasses
-     */
-
-    /*
      * Populate superClasses
      */
-    const subClassNames = [`${RDFS}subClassOf`];
-    // this.getValue(o
+     outSchema.superClasses = [].concat(jlo[`${RDFS}subClassOf`]).map(
+       superClass => {
+         const url = this.getValue(superClass);
+         if (url) {
+           if (! this.classHierarchy[outSchema.id]) {
+             this.classHierarchy[outSchema.id] = {};
+             this.classHierarchy[outSchema.id].parents = [];
+             this.classHierarchy[outSchema.id].children = [];
+           }
+             if (!this.classHierarchy[outSchema.id]
+               .parents.includes(url)) {
+               this.classHierarchy[outSchema.id].parents.push(url);
+           }
+
+           this.getSchema(url);
+           return url;
+         }
+       });
 
     // console.log('[normalizeJsonClass] returning', outSchema);
     return outSchema;
@@ -433,9 +369,22 @@ export class SchemaService {
       domainIncludes: null
     };
 
-    // console.log('[normalizeJsonProperty] returning', outSchema);
-    return outSchema;
+    outSchema.domainIncludes = jlo[`${SCHEMA}domainIncludes`].map(
+      domain => {
+        const url = this.getValue(domain);
+        if (!this.schemaMap[url]) {
+          this.schemaMap[url] = [outSchema.id];
+        } else {
+          if (!this.schemaMap[url].includes(outSchema.id)) {
+            this.schemaMap[url].push(outSchema.id);
+          }
+        }
+        return this.getValue(domain);
+      });
 
+    // console.log('[normalizeJsonProperty] returning', outSchema, jlo);
+    this.propertyCache[outSchema.id] = outSchema;
+    return outSchema;
   }
 
   getValue(input: any): string {
@@ -475,14 +424,16 @@ export class SchemaService {
      * Example:
      *  getSchema('http://schema.org/Person')
      */
-
+    if (!typeUrl.startsWith('http')) {
+      throw new Error('Invalid URL: ' + typeUrl);
+    }
 
     /*
      * First lookup in cache
      */
-    console.log('[getSchema] unimplemented cache', typeUrl);
-    if (false) {
-      // meh
+    let schema = this.getCachedSchema(typeUrl);
+    if (schema) {
+      return schema;
     } else {
 
       /*
@@ -494,28 +445,25 @@ export class SchemaService {
        */
       console.log('[getSchema] fetching via HTTP: ', typeUrl);
       const schemas = await this.getSchemaJson(typeUrl).then(
-        s => this.normalizeJson(s));
+        s => {
+          // console.log('[getSchema] JSON-LD: ', s);
+          return this.normalizeJson(s);
+        });
 
-      const schema = schemas.find(t =>
-        t.id.replace('https', 'http') === typeUrl.replace('https', 'http'));
+      // cast
+      const _schemas: Array<any>  = schemas;
 
-      // console.log('[getSchema] normalized: ', schemas, schema);
+      // Store all schemas in cache
+      _schemas.map(s => this.schemaCache[s.id] = s);
+
+      // return the single schema matching our typeUrl
+      schema = _schemas
+        .find(t => {
+          return t.id.replace('https', 'http') ===
+              typeUrl.replace('https', 'http');
+        });
+
       return schema;
-      /*
-      if (schema) {
-        console.log('[getSchema] now got ', schema);
-        if (Object.keys(schema).includes('subClassOf')) {
-          console.log('[getSchema] class', schema);
-          return schema;
-        } else {
-          console.log('[getSchema] property', schema);
-          return schema;
-        }
-      } else {
-        console.error('[getSchema] not found', schemas, typeUrl);
-      }
-      return schemas$;
-      */
 
     }
   }
