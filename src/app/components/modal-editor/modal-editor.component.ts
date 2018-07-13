@@ -19,7 +19,7 @@ import * as itemActions from '../../actions/item.actions';
 
 import { SchemaService } from '../../services/schema.service';
 
-import { Item, getTypeUrl } from '../../models/item.model';
+import { Item } from '../../models/item.model';
 
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 import { Unlisten } from '../../services/keyboard-shortcuts.service';
@@ -78,7 +78,8 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
       return new Promise(() => '<new item>');
     }
 
-    const typeUrl = getTypeUrl(item.data);
+    const typeUrl = item.typeUrl;
+    console.log('[getModalTitle] typeUrl', item);
 
     return this.schema.getLabelForType(typeUrl).then(label => {
       return `${label}`;
@@ -98,7 +99,7 @@ export class ModalEditorComponent implements OnInit, OnDestroy {
          */
 
         console.log( 'Handler [ 100 ]: ', event);
-        this.saveChanges();
+        // this.saveChanges();
         event.preventDefault();
 
       },

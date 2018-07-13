@@ -109,22 +109,17 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
            * Create 'item' from JSON
            */
 
-          /*
-           *
-           * Disabled for now.
-           *
-           *
-
           const json = JSON.parse(v);
 
           const item    = new Item(json);
+          /*
           item.observed = new Date(Date.now()).toUTCString();
           item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
+          item.data = json;
+          */
 
           // No type key found. See below for potential reasons
-          if ('@type' in item.data) {
-            this.store.dispatch(new editorActions.LoadItem(item));
-          }
+          this.store.dispatch(new editorActions.LoadItem(item));
 
           /*
           *{
@@ -196,9 +191,9 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       this.store.dispatch(new editorActions.LoadItem(item));
       // Set expandedJson which is used by the item-section component,
       // then update the type field
-      const expanded = await jsonld.expand(item.data);
+      const expanded = await jsonld.expand(item.properties);
       this.expandedJson = expanded;
-      const typeUrl = expanded[0]['@type'][0];
+      const typeUrl = item.typeUrl;
 
       // Set readable label for Item type
       this.schema.getLabelForType(typeUrl).then(label =>
@@ -247,12 +242,8 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       }
     }
 
-    const item    = new Item(data);
-    /*
-    item.observed = new Date(Date.now()).toUTCString();
-    item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
-    */
-    this.loadItem(item, false);
+    const item    = new Item(typeUrl);
+    item.load(data).then(() => this.loadItem(item, false));
   }
 
   initEditor(editorState) {
@@ -384,6 +375,12 @@ export class RdfaEditorComponent implements AfterViewInit, OnInit {
       )
     )
 
+  toggleEditor() {
+    console.log('[rdfa toggleEditor]');
+  }
+  saveChanges() {
+    console.log('[rdfa saveChanges]', this.form);
+  }
 
 }
 

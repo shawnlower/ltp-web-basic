@@ -391,7 +391,7 @@ export class SchemaService {
     return outSchema;
   }
 
-  getValue(input: any): string {
+  public getValue(input: any): string {
     /*
      * Input any of:
      *   'something'

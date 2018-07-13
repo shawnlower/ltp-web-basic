@@ -13,14 +13,14 @@ export const JLOs = [
      'text': 'This is a simple note',
      'dateCreated': '2015-01-25T12:34:56Z'
   },
-  {  '@type': 'Person',
+ {  '@type': 'http://schema.org/Person',
      '@context': 'https://schema.org/',
      'name': 'Jane Doe',
      'jobTitle': 'Professor',
      'telephone': '(425) 123-4567',
      'url': 'https://www.janedoe.com'
   },
-  {  '@type': 'Event',
+  {  '@type': 'http://schema.org/Event',
      '@context': 'https://schema.org',
      'eventStatus': 'https://schema.org/EventCancelled',
      'location': {
@@ -64,14 +64,5 @@ export const JLOs = [
      'url': 'nba-miami-philidelphia-game3.html'
   }
 ];
-
-for (const item of JLOs) {
-  ITEMS.push({
-    uri: 'https://ltp.shawnlower.net/i/' + uuid.v1(),
-    sameAs: 'https://ltp.shawnlower.net/o/' + uuid.v1(),
-    data: item,
-    observed: new Date(Date.now())
-  });
-}
 
 

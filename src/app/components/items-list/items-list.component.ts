@@ -68,9 +68,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   getItems() {
     // Fetch all items from the service
 
-    const items = this.itemService.getItems();
-    items.map(item => this.store.dispatch(new itemActions.ItemLoaded(item)));
-    console.log(`Loaded ${items.length.toString()} items.`);
+    this.itemService.getItems().then(items => {
+      items.map(item => this.store.dispatch(new itemActions.ItemLoaded(item)));
+      console.log(`Loaded ${items.length.toString()} items.`);
+    });
   }
 
   selectItem(item: Item): void {

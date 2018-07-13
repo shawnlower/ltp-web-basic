@@ -5,9 +5,9 @@
       [class.bg-secondary]="selected"
       (click)="selectItem()"
       [class.active]="selected"
-      [attr.about]="item.data['@type']">
+      [attr.about]="item.typeUrl">
     <h5 class="card-title">Card {{ id }}</h5>
-    <p class="card-text">{{ item.data['@type'] }}</p>
+    <p class="card-text">{{ item.typeUrl }}</p>
     <a href="#" class="btn btn-primary"
                 (click)="selectItem(); editItem(); false"
     >Edit</a>

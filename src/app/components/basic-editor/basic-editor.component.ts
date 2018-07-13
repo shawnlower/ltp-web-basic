@@ -153,15 +153,13 @@ export class BasicEditorComponent implements OnInit {
        *
        */
 
+      const typeUrl = 'http://schema.org/NoteDigitalDocument';
       const data = {
-          '@type': 'NoteDigitalDocument',
-          '@context': 'https://schema.org/',
+          '@type': typeUrl,
           'text': '',
       };
-      const item    = new Item(data);
-      item.observed = new Date(Date.now()).toUTCString();
-      item.sameAs   = 'http://shawnlower.net/o/' + uuid.v1();
-      this.loadItem(item, false);
+      const item    = new Item(data[typeUrl]);
+      item.load(data);
   }
 
 }

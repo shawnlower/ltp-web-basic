@@ -31,7 +31,7 @@
     </div>
 
     <app-item-section
-      [data]="this.expandedJson[0]"
+      [item$]="this.currentItem$"
       [showHeader]="false"
       *ngIf="this.expandedJson">
     </app-item-section>
@@ -65,6 +65,15 @@
       <button type="button" class="btn btn-primary"
        (click)="showRawInputBox = !showRawInputBox">Show raw JSON-LD</button>
     </div>
+      <div class="modal-footer">
+        <button type="button" (click)="this.toggleEditor()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button"
+          class="btn btn-primary"
+          (click)="saveChanges()"
+          [disabled]="false && !!this.currentItem$"
+          
+          >Save changes</button>
+      </div>
 
   </form>
 </div>
