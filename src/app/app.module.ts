@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-
 import { HttpClientModule } from '@angular/common/http';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -10,20 +9,18 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './components/app/app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { BasicEditorComponent } from './components/basic-editor/basic-editor.component';
 import { CardComponent } from './components/card/card.component';
 import { HomeComponent } from './components/home/home.component';
-import { ItemsListComponent } from './components/items-list/items-list.component';
+import { ItemDirective } from './directives/item.directive';
 import { ItemHeaderComponent } from './components/item-header/item-header.component';
 import { ItemSectionComponent } from './components/item-section/item-section.component';
+import { ItemsListComponent } from './components/items-list/items-list.component';
 import { ModalEditorComponent } from './components/modal-editor/modal-editor.component';
-import { RdfaEditorComponent } from './components/rdfa-editor/rdfa-editor.component';
 import { UsageComponent } from './components/usage/usage.component';
-
-import { ItemDirective } from './directives/item.directive';
-
 import { reducer } from './reducers';
 import { reducers } from './reducers';
 import { FormValidatorDirective } from './directives/form-validator.directive';
@@ -40,7 +37,6 @@ import { FormValidatorDirective } from './directives/form-validator.directive';
     ItemSectionComponent,
     ItemsListComponent,
     ModalEditorComponent,
-    RdfaEditorComponent,
     UsageComponent
   ],
   entryComponents: [

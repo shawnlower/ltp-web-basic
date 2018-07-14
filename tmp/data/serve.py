@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
-import http.server
 import os
 import re
+import socketserver
 import urllib
 
-from http.server import SimpleHTTPRequestHandler
 from http import HTTPStatus
+from http.server import SimpleHTTPRequestHandler
 
 PORT = 8000
 
@@ -118,10 +118,6 @@ class ModifiedHTTPRequestHandler(SimpleHTTPRequestHandler):
             raise
 
 
-import http.server
-import socketserver
-
-PORT = 8000
 
 Handler = ModifiedHTTPRequestHandler
 
