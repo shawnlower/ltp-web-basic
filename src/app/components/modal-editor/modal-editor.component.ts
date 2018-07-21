@@ -204,7 +204,7 @@ export class ModalEditorComponent implements
     }
 
     const typeUrl = item.typeUrl;
-    console.log('[getModalTitle] typeUrl', item);
+    // console.log('[getModalTitle] typeUrl', item);
 
     return this.schema.getLabelForType(typeUrl).then(label => {
       return `${label}`;
@@ -224,7 +224,7 @@ export class ModalEditorComponent implements
          */
 
         console.log( 'Handler [ 100 ]: ', event);
-        // this.saveChanges();
+        this.saveChanges();
         event.preventDefault();
 
       },
@@ -398,8 +398,8 @@ export class ModalEditorComponent implements
       this.loadItem(editorState.item);
     }
 
-    const DEFAULT_TYPE = 'http://schema.org/NoteDigitalDocument';
 
+    const DEFAULT_TYPE = 'http://schema.org/NoteDigitalDocument';
     this.form.controls['typeUrl'].setValue(DEFAULT_TYPE);
     this.typeUrl.nativeElement.focus();
     this.typeUrl.nativeElement.select();
@@ -462,13 +462,21 @@ export class ModalEditorComponent implements
 
   doPropertySearch(term) {
 
-    const typeUrl = this.schema.getValue(this.expandedJson[0]['@type']);
-    if (!typeUrl.startsWith('http')) {
-      console.error(`Invalid type: ${typeUrl}. Expected http...`);
-      return of(['Invalid type']);
+    try {
+
+      this.propertySearchResults$ = from(
+        this.schema.getProperties(this.currentItem.typeUrl));
+
+      if (!this.currentItem.typeUrl.startsWith('http')) {
+        console.error(
+          `Invalid type: ${this.currentItem.typeUrl}. Expected http...`);
+        return of(['Invalid type']);
+      }
+    } catch (e) {
+      console.error(`Failed on term ${term}`, e,
+        this.currentItem, this.expandedJson);
     }
 
-    this.propertySearchResults$ = from(this.schema.getProperties(typeUrl));
 
     // create a subscriber, so that we can use the structured objects
     // in the addProperty() onBlur() handler
@@ -515,7 +523,11 @@ export class ModalEditorComponent implements
       flatMap(i => this.doPropertySearch(i)
       )
     )
+
   saveChanges(): void {
+    // for (const ctl of this.form.controls) {
+      console.log('[saveChanges]: Saving Control!', this.form.controls);
+    // }
 
     this.store.select(state => state.editor.item).pipe(
       take(1),

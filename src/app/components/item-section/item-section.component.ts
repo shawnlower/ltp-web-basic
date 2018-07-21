@@ -7,6 +7,11 @@ import {
          OnInit,
        } from '@angular/core';
 
+import {
+         FormControl,
+       } from '@angular/forms';
+
+
 import { Subject, Observable, of, from } from 'rxjs';
 import { debounceTime, distinctUntilChanged, merge, concat,
          flatMap, mergeMap, filter, last, map, switchMap,
@@ -73,8 +78,8 @@ import { SchemaService } from '../../services/schema.service';
                    [attr.about]="subitem.subject"
                    [attr.property]="subitem.property"
                    [attr.value]="subitem.value"
-                   id="{{ subitem.label }}-{{ this.sectionPrefix }}"
-                   (blur)="updateProperty(this)"
+                   id="{{ subitem.id }}"
+                   (blur)="updateProperty(subitem)"
                    class="form-control">
             </div>
           </div>
@@ -95,10 +100,9 @@ import { SchemaService } from '../../services/schema.service';
 
 export class ItemSectionComponent implements OnInit {
 
-  @Input() data;
+  @Input() form: any;
   @Input() item$: Observable<Item>;
-  @Input() showHeader = true;
-  @Input() headerSize;
+
   header: HeaderSectionData;
   subitems = [];
   values = [];
@@ -107,7 +111,6 @@ export class ItemSectionComponent implements OnInit {
   typeLabel: string;
 
   constructor(private schema: SchemaService) {
-    this.sectionPrefix = uuid.v4().substr(0, 8);
   }
 
   async initSection(item) {
@@ -150,44 +153,7 @@ export class ItemSectionComponent implements OnInit {
         });
       }
 
-      // Get properties with literal values
-      properties
-        .filter(property => {
-          return property.o.length === 1
-            && property.s === subject
-            && typeof(property.o[0]) !== 'string';
-        })
-        .map(property => {
-          this.schema.getLabelForType(property.p)
-            .then(label => {
-              if ('@id' in property.o[0]) {
-                const id = property.o[0]['@id'];
-                if (!item.subjects.includes(id)) {
-                  this.subitems.push({
-                    component: 'href',
-                    property: property.p,
-                    label: label,
-                    subject: property.s,
-                    value: id
-                  });
-                }
-              } else {
-                const value = property.o[0]['@value'];
-                this.subitems.push({
-                  component: 'value',
-                  property: property.p,
-                  label: label,
-                  subject: property.s,
-                  value: value
-                });
-              }
-            });
-        });
-    }
-
-
       /*
-       * Now, iterate through each property where the value isn't a raw value.
        * Example:
        *
        *  <ltp:100>    <a>                <Person>
@@ -206,118 +172,56 @@ export class ItemSectionComponent implements OnInit {
        *
        */
 
-    /*
-      .map(property => {
-        this.schema.getLabelForType(property.p)
-       .map(property => async function() {
-      console.log('[initSection] filter include', property);
-      const label = await this.schema.getLabelForType(property.p);
-      const value = property.p['@value'];
-      this.subitems.push({
-        component: 'value',
-        typeUrl: property.p,
-        label: label,
-        value: value
-      });
-    });
-    */
-
-  }
-
-  async _initSection() {
-    /*
-     * old initSection
-     */
-
-    if (this.data) {
-      // Get the type URL
-      const typeUrl = this.schema.getValue(this.data['@type']);
-      if (!typeUrl) {
-        throw new Error('missing @type');
-      }
-
-      // Setup the header
-      const label = await this.schema.getLabelForType(typeUrl);
-
-      this.header = {
-        label: label,
-        headerSize: this.headerSize
-      };
-
-      for (const key in this.data) {
-        if (key) {
+      // Get properties with literal values
+      properties
+        .filter(property => {
+          return property.o.length === 1
+            && property.s === subject
+            && typeof(property.o[0]) !== 'string';
+        })
+        .map(property => {
           /*
-           * The keys within the data object should be either URIs, or
-           * JSON-LD @type, etc;
-           * The values should be lists of either JSON-LD values (literals),
-           * or sub-items
-           */
-          if (key === '@type') {
-            continue;
-          } else if (key === '@value') {
-            this.subitems.push({
-              component: 'value',
-              typeUrl: typeUrl,
-              label: label,
-              value: this.data[key]
-            });
-            return;
-          }
-
-          /*
-           * Our node should be a list
-          /*
-           * ex:
-           * { 'schema:text': [
-           *       { '@value': 'example text' } ],
-           *   'schema:dateCreated': [
-           *       { '@type': 'schema:date',
-           *         '@value': 'example text' } ],
-           * }
-           */
-          // Fix data model to make lookups from DB explicitly;
-          // obviously these can't be XHRs
-          // const keyLabel = await this.schema.getLabelForType(key);
-          const keyLabel = await this.schema.getLabelForType(key);
-          // console.log('[initSection]', this.data, key);
-          for (const propertyData of this.data[key]) {
-            if (propertyData) {
-              if (propertyData['@type']) {
-                /* Lookup our property, so that we can get things like
-                 * - label
-                 * - default value
-                 */
-                const propTypeUrl = propertyData['@type'];
-                this.subitems.push({
-                  data: propertyData,
-                  component: 'item'
-                });
-              } else if ('@value' in propertyData) {
-                this.subitems.push({
-                  typeUrl: key,
-                  label: keyLabel,
-                  value: propertyData['@value'],
-                  component: 'value'
-                });
-              } else if ('@id' in propertyData) {
-                const propLabel = await this.schema.getLabelForType(key);
-                this.subitems.push({
-                  typeUrl: key,
-                  label: keyLabel,
-                  value: propertyData['@id'],
-                  component: 'value'
-                });
+           * First, generate a unique ID that we can use to lookup
+           * this element.
+          */
+          const elementId = 'ctl_' + uuid.v4().substr(0, 8);
+          this.schema.getLabelForType(property.p)
+            .then(label => {
+              if ('@id' in property.o[0]) {
+                const id = property.o[0]['@id'];
+                if (!item.subjects.includes(id)) {
+                  this.subitems.push({
+                    component: 'href',
+                    property: property.p,
+                    label: label,
+                    subject: property.s,
+                    value: id
+                  });
+                }
               } else {
-                throw new Error('[initSection] invalid property data: '
-                  + JSON.stringify(propertyData));
+                const value = property.o[0]['@value'];
+                this.subitems.push({
+                  component: 'value',
+                  id: elementId,
+                  property: property.p,
+                  label: label,
+                  subject: property.s,
+                  value: value
+                });
               }
-            }
-          }
-        }
-      }
+            });
+        });
     }
+
+
   }
 
+  addPropertyToForm(id) {
+    const ctl = new FormControl('', []);
+    this.form.addControl(id, ctl);
+    console.log('[addPropertyToForm]', this.form, ctl);
+
+  }
   updateProperty(ctl) {
     console.log('[updateProperty] args', arguments);
   }
@@ -333,7 +237,4 @@ export class ItemSectionComponent implements OnInit {
     ).subscribe() : console.log('no item$');
   }
 
-  getHeaderSize() {
-    return this.headerSize <= 5 ? this.headerSize++ : 5;
-  }
 }

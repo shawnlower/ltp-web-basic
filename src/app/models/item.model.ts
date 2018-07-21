@@ -175,7 +175,6 @@ export class Item {
     if (properties.length === 0) {
       console.warn('item.model properties empty: ', this._data, properties);
     }
-    console.log('item.model properties: ', properties);
     return properties;
   }
 

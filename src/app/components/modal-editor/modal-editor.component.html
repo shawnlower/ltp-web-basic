@@ -38,8 +38,7 @@
     <!-- Loader animation -->
     <div class="loader" *ngIf="!contentLoaded">Loading...</div>
 
-    <!-- Temporary text input box for pasting raw JSON -->
-    <!-- and ngModel issues :-/ -->
+    <!-- Text input box for displaying backing JSON-LD -->
     <div *ngIf="this.form.controls.json?.invalid && (this.form.controls.json?.dirty || this.form.controls.json?.touched)"
      class="alert alert-danger">
       Invalid JSON document:
@@ -47,7 +46,7 @@
 
     <app-item-section
       [item$]="this.currentItem$"
-      [showHeader]="false"
+      [form]="this.form"
       *ngIf="this.expandedJson">
     </app-item-section>
 
@@ -70,7 +69,7 @@
         class="container"
         rows=10
         autofocus
-        value="{{ this.expandedJson | json }}"
+        value="Test value: {{ this.currentItem | json }}"
         #rawInput
         formControlName="json"
         ></textarea>
